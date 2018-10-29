@@ -1,0 +1,10 @@
+version: '3.5'
+services:
+  front-end:
+    build: . # chnge to image
+    container_name: smi-front
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/smi-fronts
+    command: npm run build # fix
