@@ -4,8 +4,9 @@ WORKDIR /smi-front
 
 COPY . /smi-front
 
-RUN npm i -g vue && npm install
+RUN yarn global add @vue/cli \
+  && yarn install --verbose
 
 EXPOSE 8080
 
-CMD npm run dev
+CMD yarn run dev

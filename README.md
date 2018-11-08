@@ -1,6 +1,6 @@
 # smi-front
 
-> Front-end for smi with pwa support
+> front-end for the SMI web application with PWA
 
 ## Build Setup
 
