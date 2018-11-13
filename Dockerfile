@@ -1,12 +1,9 @@
-FROM node:8.12
+FROM node:10-slim
 
-WORKDIR /smi-front
+RUN apt-get update -qq && \
+    apt-get install -y build-essential git
 
 COPY . /smi-front
+WORKDIR /smi-front
 
-RUN yarn global add @vue/cli \
-  && yarn install --verbose
-
-EXPOSE 8080
-
-CMD yarn run dev
+CMD ["sh", "start.sh"]

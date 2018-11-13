@@ -1,0 +1,20 @@
+version: '3.5'
+services:
+
+  smi-front:
+    container_name: smi-front
+    build: .
+    volumes:
+      - .:/smi-front
+      - /smi-front/node_modules:/smi-front/node_modules 
+    external_links:
+      - smi-net
+    networks: 
+      - smi-net
+    ports:
+      - 8080:8080
+
+networks:
+  smi-net:
+    name: smi-net
+    external: true
