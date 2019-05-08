@@ -7,3 +7,10 @@ services:
       - 8080:8080
     volumes:
       - .:/smi-fronts
+    networks:
+      - default
+      - smi-master
+
+networks:
+  smi-master:
+    external: true
