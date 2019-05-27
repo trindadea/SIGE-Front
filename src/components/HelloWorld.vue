@@ -151,7 +151,7 @@ export default {
           }
         },
         xaxis: {
-          categories: this.createDates(this.a),
+          categories: this.averageDataPerYear(this.a)[0],
           labels: {
             type: "datetime",
             show: false
@@ -172,13 +172,13 @@ export default {
     },
 
     series () {
-      return [{data: this.getData(this.a)}]
+      return [{data: this.averageDataPerYear(this.a)[1]}]
     }
   },
 
   methods: {
     updateChartAxis () {
-      let start = '2018-01-01'
+      let start = '2010-01-01'
       let end = '2019-01-01'
       let a = []
       let b = []
@@ -209,9 +209,35 @@ export default {
     },
     labelFormatter (value) {
       return value.toFixed(2)
+    },
+    averageDataPerYear (dataset) {
+      const keys = this.createDates(dataset)
+      let date_year = []
+      let rates_average = []
+      let mid = 0
+      let counter = 0
+
+      let actual = "";
+      keys.forEach((k, i) => {
+        mid += dataset[k].BRL
+        counter += 1
+        if(k.slice(0, 4) != actual){
+          if(actual === ""){
+            actual = k.slice(0, 4)
+          }else{
+            if(k.slice(0, 4) != actual){
+              date_year.push(actual)
+              rates_average.push(mid/counter)
+              actual = k.slice(0, 4)
+              mid = 0
+              counter = 0
+            }
+          }
+        }
+      })
+      return [date_year, rates_average]
     }
   },
-
   beforeMount () {
     this.updateChartAxis()
   },
