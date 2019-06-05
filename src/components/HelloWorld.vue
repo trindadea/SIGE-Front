@@ -8,9 +8,22 @@
           :series="series"/>
       </b-col>
     </b-row>
-    <!-- {{chartOptions.xaxis.categories}} -->
-    <hr>
-    <!-- {{series}} -->
+    <div class="actions">
+      <b-dropdown id="dropdown-1" text="Dados" class="m-md-2">
+        <b-dropdown-item @click="teste('voltage')">Voltage</b-dropdown-item>
+        <b-dropdown-item @click="teste('current')">Current</b-dropdown-item>
+        <b-dropdown-item @click="teste('active_power')">Active Power</b-dropdown-item>
+        <b-dropdown-item @click="teste('apparent_power')">Apparent Power</b-dropdown-item>
+        <b-dropdown-item @click="teste('dht_current')">DHT Current</b-dropdown-item>
+        <b-dropdown-item @click="teste('dht_voltage')">DHT Voltage</b-dropdown-item>
+        <b-dropdown-item @click="teste('power_factor')">Power Factor</b-dropdown-item>
+        <b-dropdown-item @click="teste('reactive_power')">Reactive Power</b-dropdown-item>
+        <b-dropdown-divider></b-dropdown-divider>
+      </b-dropdown>
+      <button @click="">DIA</button>
+      <button @click="">SEMANA</button>
+      <button @click="">MÊS</button>
+    </div>
   </b-container>
 </template>
 
@@ -19,163 +32,163 @@ import VueApexCharts from 'vue-apexcharts'
 import axios from 'axios'
 
 export default {
-  name: "HelloWorld",
+  name: 'HelloWorld',
   components: {
     apexcharts: VueApexCharts
   },
-  data() {
+  data () {
     return {
-      object: {}
+      ready: false,
+      api: {
+        categories: [],
+        dataset: []
+      },
+      object: {},
+      arguments: {
+        measurement_a: '',
+        measurement_b: '',
+        measurement_c: ''
+      },
+      values: {
+        min: 99999,
+        max: 0
+      },
+      dataSet: {
+        measurement_a: {
+          values: [],
+          labels: []
+        },
+        measurement_b: {
+          values: [],
+          labels: []
+        },
+        measurement_c: {
+          values: [],
+          labels: []
+        }
+      }
     }
   },
   computed: {
-    chartOptions() {
+    chartOptions () {
       return {
         chart: {
           stacked: false
         },
         stroke: {
           width: [2, 2, 2],
-          curve: "smooth"
+          curve: 'smooth'
         },
         plotOptions: {
           bar: {
-            columnWidth: "50%"
+            columnWidth: '50%'
           }
         },
         fill: {
           opacity: [0.85, 0.25, 1],
           gradient: {
             inverseColors: false,
-            shade: "light",
-            type: "vertical",
+            shade: 'light',
+            type: 'vertical',
             opacityFrom: 0.85,
             opacityTo: 0.55,
             stops: [0, 100, 100, 100]
           }
         },
-        labels: this.createGraphData(this.object, "BRL")[0],
+        labels: this.dataSet.measurement_a.labels,
         markers: {
           size: 0
         },
         xaxis: {
-          type: "datetime",
+          type: 'datetime',
           show: false
         },
         yaxis: {
           title: {
-            text: "Voltage"
+            text: 'Voltage'
           },
-          min: 1,
-          max: 4.5,
-          tickAmount: 6,
+          min: this.values.min,
+          max: this.values.max,
+          tickAmount: 5,
           labels: {
             formatter: this.labelFormatter
-          },
-          min: 0
+          }
         }
       }
     },
-    series() {
+    series () {
       return [
         {
-          name: "BRL",
-          type: "line",
-          data: this.createGraphData(this.object, "BRL")[1],
-          labels: []
+          name: this.arguments.measurement_a,
+          type: 'line',
+          data: this.dataSet.measurement_a.values,
         },
         {
-          name: "MYR",
-          type: "line",
-          data: this.createGraphData(this.object, "MYR")[1],
-          labels: []
+          name: this.arguments.measurement_b,
+          type: 'line',
+          data: this.dataSet.measurement_b.values,
         },
         {
-          name: "SGD",
-          type: "line",
-          data: this.createGraphData(this.object, "SGD")[1],
-          labels: []
+          name: this.arguments.measurement_c,
+          type: 'line',
+          data: this.dataSet.measurement_c.values,
         }
       ]
     }
   },
   methods: {
     updateChartAxis () {
-      let start = '2018-01-01'
-      let end = '2019-01-01'
-      let a = []
-      let b = []
       axios
-        .get(`https://api.exchangeratesapi.io/history?start_at=${start}&end_at=${end}&base=USD`)
+        .get(`http://localhost:8000/minutely_measurements/`)
         .then((res) => {
-          this.object = res.data.rates
+          this.object = res.data
+          console.log(this.object)
         })
     },
-    createDates (dataset) {
-      let keys = []
-      for (let k in dataset) keys.push(k)
+    formattedDate (date) {
+      let result = date.split('T')
+      let dateValue, timeValue
+      dateValue = result[0].split('-')
+      dateValue = dateValue[1] + '/' + dateValue[2] + '/' + dateValue[0]
+      timeValue = result[1]
 
-      keys.sort((a,b) => {
-        a = a.split("-").join("")
-        b = b.split("-").join("")
-        return a.localeCompare(b)
-      })
-
-      return keys
+      return dateValue + ' ' + timeValue
     },
-    createGraphData (dataset, coin) {
-      let unformatted_keys = this.createDates(dataset)
-      let formatted_keys = []
-      let value
-
-      // console.log(unformatted_keys)
-
-      for(let k = 0; k < unformatted_keys.length; k++) {
-        value = unformatted_keys[k].split("-")
-        value = value[1] + "/" + value[2] + "/" + value[0]
-        formatted_keys.push(value)
-      }
-
-      console.log(formatted_keys)
-
+    createGraphData (dataset, dataType, measurementType) {
+      let formattedDates = []
       let values = []
+      let date, value
 
-      unformatted_keys.forEach((k, i) => {
-        values.push(dataset[k][coin])
-      })
+      for (let i = 0; i < dataset.length; i++) {
+        date = dataset[i]['collection_date']
+        date = this.formattedDate(date)
+        value = dataset[i][dataType]
 
-      return [formatted_keys, values]
+        if (i !== 259 && i !== 461) {
+          formattedDates.push(date)
+          values.push(value)
+        }
+      }
+      this.values.min = Math.min(this.values.min, ...values)
+      // console.log(this.values.min)
+      this.values.max = Math.max(this.values.max, ...values)
+      // console.log(this.values.max)
+
+      this.dataSet[measurementType].values = values
+      this.dataSet[measurementType].labels = formattedDates
     },
     labelFormatter (value) {
       return value.toFixed(2)
     },
-    averageDataPerYear (dataset) {
-      const keys = this.createDates(dataset)
-      let date_year = []
-      let rates_average = []
-      let mid = 0
-      let counter = 0
-
-      let actual = "";
-      keys.forEach((k, i) => {
-        mid += dataset[k].BRL
-        counter += 1
-        if(k.slice(0, 4) != actual){
-          if(actual === ""){
-            actual = k.slice(0, 4)
-          }else{
-            if(k.slice(0, 4) != actual){
-              date_year.push(actual)
-              rates_average.push(mid/counter)
-              actual = k.slice(0, 4)
-              mid = 0
-              counter = 0
-            }
-          }
-        }
-      })
-
-    return [date_year, rates_average]
+    teste (measurement) {
+      this.values.min = 99999
+      this.values.max = 0
+      this.arguments.measurement_a = measurement + '_a'
+      this.createGraphData(this.object, this.arguments.measurement_a, 'measurement_a')
+      this.arguments.measurement_b = measurement + '_b'
+      this.createGraphData(this.object, this.arguments.measurement_b, 'measurement_b')
+      this.arguments.measurement_c = measurement + '_c'
+      this.createGraphData(this.object, this.arguments.measurement_c, 'measurement_c')
     }
   },
   beforeMount () {
