@@ -1,0 +1,20 @@
+version: '3.5'
+services:
+  front:
+    container_name: front
+    build: .
+    image: lappis/smi-front:0.9
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/smi-front
+      - yarn_cache:/smi-front/node_modules
+    networks:
+      - smi-network
+
+networks:
+  smi-network:
+    external: true
+
+volumes:
+  yarn_cache:

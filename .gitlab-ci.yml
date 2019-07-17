@@ -1,0 +1,59 @@
+image: node:8.12
+
+stages:
+  - test
+  - build
+  - quality
+
+cache:
+  untracked: true
+  key: "$CI_BUILD_REF_NAME"
+  paths:
+    - node_modules/
+
+unit:
+  stage: test
+  before_script:
+    - apt-get install -y libfontconfig
+    - npm install
+  script:
+    - npm run unit
+
+#end2end:
+#  stage: test
+#  before_script:
+#    - npm install
+#  script:
+#    - npm run e2e
+
+lint:
+  stage: quality
+  before_script:
+    - npm install
+  script: npm run lint
+
+build:
+  stage: build
+  before_script:
+    - npm install
+  script:
+    - npm run build
+
+code_quality:
+  stage: quality
+  image: docker:stable
+  variables:
+    DOCKER_DRIVER: overlay2
+  allow_failure: true
+  services:
+    - docker:stable-dind
+  script:
+    - export SP_VERSION=$(echo "$CI_SERVER_VERSION" | sed 's/^\([0-9]*\)\.\([0-9]*\).*/\1-\2-stable/')
+    - docker run
+        --env SOURCE_CODE="$PWD"
+        --volume "$PWD":/code
+        --volume /var/run/docker.sock:/var/run/docker.sock
+        "registry.gitlab.com/gitlab-org/security-products/codequality:$SP_VERSION" /code
+  artifacts:
+    paths: [gl-code-quality-report.json]
+
