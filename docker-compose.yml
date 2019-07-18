@@ -2,7 +2,6 @@ version: '3.5'
 services:
   front:
     container_name: front
-    build: .
     image: lappis/smi-front:0.9
     ports:
       - 8080:8080
