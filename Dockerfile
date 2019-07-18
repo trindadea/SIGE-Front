@@ -4,7 +4,9 @@ WORKDIR /smi-front
 
 COPY . /smi-front
 
-RUN yarn global add @vue/cli && \
-    yarn install --verbose
+RUN yarn global add @quasar/cli && \
+    yarn install
 
-CMD ["sh", "script/start.sh"]
+RUN chmod +x ./scripts/start.sh
+
+CMD ["sh", "./scripts/start.sh"]

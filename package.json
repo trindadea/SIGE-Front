@@ -1,16 +1,21 @@
 {
   "name": "smi-front",
   "version": "0.0.1",
-  "description": "Front-end for smi project",
-  "productName": "SMI App",
+  "description": "A Quasar Framework app",
+  "productName": "SMI app",
   "cordovaId": "org.cordova.quasar.app",
-  "author": "LAPPIS",
+  "author": "",
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue src",
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0",
+    "start-alax": "node build/dev-server.js",
+    "start": "quasar dev"
   },
   "dependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-stage-2": "^7.0.0",
+    "@babel/runtime-corejs2": "^7.0.0",
     "@quasar/extras": "^1.0.0",
     "axios": "^0.18.1",
     "quasar": "^1.0.0"

@@ -1,6 +1,6 @@
-# SMI App (smi-front)
+# SMI app (smi-front)
 
-Front-end for smi project
+A Quasar Framework app
 
 ## Install the dependencies
 ```bash

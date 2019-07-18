@@ -96,9 +96,9 @@ module.exports = function (ctx) {
       // workboxPluginMode: 'InjectManifest',
       // workboxOptions: {}, // only for NON InjectManifest
       manifest: {
-        // name: 'SMI App',
-        // short_name: 'SMI App',
-        // description: 'Front-end for smi project',
+        // name: 'SMI app',
+        // short_name: 'SMI app',
+        // description: 'A Quasar Framework app',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
