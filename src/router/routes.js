@@ -9,38 +9,98 @@ const routes = [
   },
   {
     path: '/transductors',
-    component: () => import('components/transductors/Transductors.vue'),
+    component: () => import('components/transductors/TransductorsBase.vue'),
     children: [
-      { path: '/:id', component: () => import('components/transductors/Show.vue'), props: true },
-      { path: '/:id/edit', component: () => import('components/transductors/Form.vue'), props: true },
-      { path: '/new', component: () => import('components/transductors/Form.vue') }
+      {
+        path: '',
+        component: () => import('components/transductors/Transductors.vue')
+      },
+      {
+        path: 'new',
+        component: () => import('components/transductors/Form.vue')
+      },
+      {
+        path: ':id',
+        component: () => import('components/transductors/Show.vue'),
+        props: true
+      },
+      {
+        path: ':id/edit',
+        component: () => import('components/transductors/Form.vue'),
+        props: true
+      }
     ]
   },
   {
     path: '/servers',
-    component: () => import('components/slaves/Slaves.vue'),
+    component: () => import('components/slaves/SlavesBase.vue'),
     children: [
-      { path: '/:id', component: () => import('components/slaves/Show.vue'), props: true },
-      { path: '/:id/edit', component: () => import('components/slaves/Form.vue'), props: true },
-      { path: '/new', component: () => import('components/slaves/Form.vue') }
+      {
+        path: '',
+        component: () => import('components/slaves/Slaves.vue')
+      },
+      {
+        path: 'new',
+        component: () => import('components/slaves/Form.vue')
+      },
+      {
+        path: ':id',
+        component: () => import('components/slaves/Show.vue'),
+        props: true
+      },
+      {
+        path: ':id/edit',
+        component: () => import('components/slaves/Form.vue'),
+        props: true
+      }
     ]
   },
   {
     path: '/buildings',
-    component: () => import('components/buildings/Buildings.vue'),
+    component: () => import('components/buildings/BuildingsBase.vue'),
     children: [
-      { path: '/:id', component: () => import('components/buildings/Show.vue'), props: true },
-      { path: '/:id/edit', component: () => import('components/buildings/Form.vue'), props: true },
-      { path: '/new', component: () => import('components/buildings/Form.vue') }
+      {
+        path: '',
+        component: () => import('components/buildings/Buildings.vue')
+      },
+      {
+        path: 'new',
+        component: () => import('components/buildings/Form.vue')
+      },
+      {
+        path: ':id',
+        component: () => import('components/buildings/Show.vue'),
+        props: true
+      },
+      {
+        path: ':id/edit',
+        component: () => import('components/buildings/Form.vue'),
+        props: true
+      }
     ]
   },
   {
     path: '/campi',
-    component: () => import('components/campi/Campi.vue'),
+    component: () => import('components/campi/CampiBase.vue'),
     children: [
-      { path: '/:id', component: () => import('components/campi/Show.vue'), props: true },
-      { path: '/:id/edit', component: () => import('components/campi/Form.vue'), props: true },
-      { path: '/new', component: () => import('components/campi/Form.vue') }
+      {
+        path: '',
+        component: () => import('components/campi/Campi.vue')
+      },
+      {
+        path: 'new',
+        component: () => import('components/campi/Form.vue')
+      },
+      {
+        path: ':id',
+        component: () => import('components/campi/Show.vue'),
+        props: true
+      },
+      {
+        path: ':id/edit',
+        component: () => import('components/campi/Form.vue'),
+        props: true
+      }
     ]
   },
   {
