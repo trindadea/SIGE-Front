@@ -5,24 +5,23 @@
         <q-input
           filled
           type = "number"
-          v-model="name"
+          v-model="serial_number"
           label="Serial Number"
           hint="type the transductor serial number"
           lazy-rules
-          :rules="[ val => val && val.length > 0 || 'Please type the transductor serial number']"
+          :rules="[ val => val && val.length > 7 || 'Please type the transductor serial number']"
         />
         <q-input
           filled
-          type = "number"
-          v-model="name"
+          v-model="ip_address"
           label="IP address"
           hint="type the transductor ip address"
           lazy-rules
-          :rules="[ val => val && val.length > 0 || 'Please type the transductor ip address']"
+          :rules="[  val => val && val.match('^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$') || 'Please type the transductor ip address']"
         />
         <q-input
           filled
-          v-model="name"
+          v-model="location"
           label="Location"
           hint="type the transductor location"
           lazy-rules
@@ -31,7 +30,7 @@
         <q-input
           filled
           type = "number"
-          v-model="name"
+          v-model="latitude"
           label="Latitude"
           hint="type the transductor Latitude"
           lazy-rules
@@ -40,7 +39,7 @@
         <q-input
           filled
           type = "number"
-          v-model="name"
+          v-model="longitude"
           label="Longitude"
           hint="type the transductor Longitude"
           lazy-rules
@@ -49,8 +48,7 @@
         <q-toggle v-model="active" label="Active" />
       </q-form>
       <div class="row justify-center">
-        <q-btn label="Submit" type="submit" color="primary"/>
-        <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+        <q-btn label="Create" type="submit" color="primary" v-on:click="addTransductor()"/>
       </div>
     </div>
   </div>
@@ -60,12 +58,27 @@
 export default {
   data () {
     return {
+      serial_number: '',
+      ip_address: '',
+      location: '',
+      latitude: '',
+      longitude: '',
       active: true,
       framework: {
         components: [
           'QForm'
         ]
       }
+    }
+  },
+  methods: {
+    addTransductor () {
+      console.log(this.serial_number)
+      console.log(this.ip_address)
+      console.log(this.location)
+      console.log(this.latitude)
+      console.log(this.longitude)
+      console.log(this.active)
     }
   }
 }
