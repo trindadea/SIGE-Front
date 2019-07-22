@@ -84,11 +84,11 @@ const routes = [
     component: () => import('components/campi/CampiBase.vue'),
     children: [
       {
-        path: '',
+        path: 'asfd',
         component: () => import('components/campi/Campi.vue')
       },
       {
-        path: 'new',
+        path: '',
         component: () => import('components/campi/Form.vue')
       },
       {
@@ -99,6 +99,30 @@ const routes = [
       {
         path: ':id/edit',
         component: () => import('components/campi/Form.vue'),
+        props: true
+      }
+    ]
+  },
+  {
+    path: '/transductor_models',
+    component: () => import('components/transductorModel/TransductorModelBase.vue'),
+    children: [
+      {
+        path: '',
+        component: () => import('components/transductorModel/TransductorModels.vue')
+      },
+      {
+        path: 'new',
+        component: () => import('components/transductorModel/Form.vue')
+      },
+      {
+        path: ':id',
+        component: () => import('components/transductorModel/Show.vue'),
+        props: true
+      },
+      {
+        path: ':id/edit',
+        component: () => import('components/transductorModel/Form.vue'),
         props: true
       }
     ]
