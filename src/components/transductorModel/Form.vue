@@ -25,17 +25,20 @@
           outlined
           name="model_name"
           v-model="trans_model_name"
-          label="Nome do modelo"/>
+          label="Nome do modelo"
+          :rules="[ val => val && val.lenght > 0 && val.lenght <=50 || 'Esse campo deve conter entre 1 e 50 caracteres' ]"/>
         <q-input
           outlined
           name="model_name"
           v-model="trans_model_serial"
-          label="Protocolo serial"/>
+          label="Protocolo serial"
+          :rules="[ val => val && val.lenght > 0 && val.lenght <=50 || 'Esse campo deve conter entre 1 e 50 caracteres' ]"/>
         <q-input
           outlined
           name="model_name"
           v-model="trans_model_transport"
-          label="Protocolo de transporte"/>
+          label="Protocolo de transporte"
+          :rules="[ val => val && val.lenght > 0 && val.lenght <=50 || 'Esse campo deve conter entre 1 e 50 caracteres' ]"/>
         <q-btn
           size="1rem"
           label="Enviar"
@@ -58,18 +61,6 @@ import axios from 'axios'
 export default {
   data () {
     return {
-      // serial_options: [
-      //   { label: 'teste1', value: 'sadf2' },
-      //   { label: 'teste2', value: 'sadf3' },
-      //   { label: 'teste3', value: 'sadf4' }
-      // ],
-
-      // transport_options: [
-      //   { label: 'teste1', value: 'sadf5' },
-      //   { label: 'teste2', value: 'sadf3' },
-      //   { label: 'teste3', value: 'sadf59' }
-      // ],
-
       trans_model_name: '',
       trans_model_serial: '',
       trans_model_transport: '',

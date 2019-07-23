@@ -84,11 +84,11 @@ const routes = [
     component: () => import('components/campi/CampiBase.vue'),
     children: [
       {
-        path: 'asfd',
+        path: '',
         component: () => import('components/campi/Campi.vue')
       },
       {
-        path: '',
+        path: 'new',
         component: () => import('components/campi/Form.vue')
       },
       {
