@@ -3,47 +3,40 @@
     <div class="col-md-4 col-lg-5 q-pa-md">
       <q-form
         class="q-gutter-md"
-        @submit="send">
+        @submit="send"
+        @validation-success="send">
         <h3 class="text-secondary">
           Novo modelo de transdutor
         </h3>
-        <!-- <span
+        <span
           v-if="response"
-          :class="'bg-' + messageType">
+          :class="'text-capitalize text-' + messageType">
           {{ message }}
         </span>
-        <span
-          class="justify-center text-center"
-          v-if="loading">
-          <q-circular-progress
-            size="25px"
-            :thickness="0.22"
-            color="purple"
-            track-color="grey-3"/>
-        </span> -->
         <q-input
           outlined
           name="model_name"
           v-model="trans_model_name"
           label="Nome do modelo"
-          :rules="[ val => val && val.lenght > 0 && val.lenght <=50 || 'Esse campo deve conter entre 1 e 50 caracteres' ]"/>
+          :rules="[ val => val.length > 0 && val.length <= 50 || 'Esse campo deve conter entre 1 e 50 caracteres' ]"/>
         <q-input
           outlined
           name="model_name"
           v-model="trans_model_serial"
           label="Protocolo serial"
-          :rules="[ val => val && val.lenght > 0 && val.lenght <=50 || 'Esse campo deve conter entre 1 e 50 caracteres' ]"/>
+          :rules="[ val => val.length > 0 && val.length <= 50 || 'Esse campo deve conter entre 1 e 50 caracteres' ]"/>
         <q-input
           outlined
           name="model_name"
           v-model="trans_model_transport"
           label="Protocolo de transporte"
-          :rules="[ val => val && val.lenght > 0 && val.lenght <=50 || 'Esse campo deve conter entre 1 e 50 caracteres' ]"/>
+          :rules="[ val => val.length > 0 && val.length <= 50 || 'Esse campo deve conter entre 1 e 50 caracteres' ]"/>
         <q-btn
           size="1rem"
           label="Enviar"
           color="primary"
-          type="submit"/>
+          type="submit"
+          :loading="loading"/>
         <q-btn
           size="1rem"
           @click="reset_fields()"

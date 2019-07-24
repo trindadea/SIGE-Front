@@ -3,10 +3,16 @@
     <div class="col-md-4 col-lg-5 q-pa-md">
       <q-form
         class="q-gutter-md"
-        @submit="send">
+        @submit="send"
+        @validation-success="send">
         <h3 class="text-secondary">
           Novo servidor
         </h3>
+        <span
+          :class="'text-capitalize text- text-' + messageType"
+          v-if="message !== ''">
+          {{ message }}
+        </span>
         <q-input
           outlined
           name="slaveIp"
@@ -30,7 +36,8 @@
             size="1rem"
             label="Enviar"
             color="primary"
-            type="submit"/>
+            type="submit"
+            :loading="loading"/>
         </div>
         <!-- <q-btn
           size="1rem"
