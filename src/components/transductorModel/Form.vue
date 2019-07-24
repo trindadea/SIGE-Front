@@ -66,7 +66,7 @@ export default {
 
   methods: {
     send () {
-      let endpointMaster = 'http://192.168.100.241:8001'
+      const masterAddress = 'http://192.168.100.24:8001' || process.env.MASTER_URL
       const data = {
         name: this.trans_model_name,
         serial_protocol: this.trans_model_serial,
@@ -77,7 +77,7 @@ export default {
       this.loading = true
 
       axios
-        .post(`${endpointMaster}/transductor_models/`, data)
+        .post(`${masterAddress}/transductor_models/`, data)
         .then((res) => {
           this.loading = false
           console.log(res)

@@ -78,7 +78,7 @@ export default {
 
   methods: {
     send () {
-      let endpointMaster = 'http://192.168.100.241:8001'
+      const masterAddress = 'http://192.168.100.24:8001' || process.env.MASTER_URL
       const data = {
         name: this.buildingName,
         acronym: this.buildingAcronym,
@@ -90,7 +90,7 @@ export default {
       this.loading = true
 
       axios
-        .post(`${endpointMaster}/buildings/`, data)
+        .post(`${masterAddress}/buildings/`, data)
         .then((res) => {
           this.loading = false
           console.log(res)
