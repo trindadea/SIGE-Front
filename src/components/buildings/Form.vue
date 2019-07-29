@@ -36,6 +36,7 @@
           outlined
           v-model="campi"
           :options="availableCampi"
+          option-label="name"
           label="Campus"
           :rules="[ val => val != '' || 'Esse campo deve ser preenchido!' ]"/>
 
@@ -66,7 +67,7 @@ export default {
       buildingAcronym: '',
       buildingPhone: '',
       campi: '',
-      availableCampi: '',
+      availableCampi: [],
 
       message: '',
       messageType: '',
@@ -111,11 +112,11 @@ export default {
   },
 
   beforeCreate () {
-    const masterUrl = ''
+    const masterUrl = '' || process.env.MASTER_URL
     axios
       .get(`${masterUrl}/campi/`)
       .then((res) => {
-        console.log(res.data)
+        // console.log(res.data)
         this.availableCampi = res.data
         console.log(this.availableCampi)
       })
