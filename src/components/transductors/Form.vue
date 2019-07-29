@@ -17,7 +17,7 @@
           label="IP address"
           hint="type the transductor ip address"
           lazy-rules
-          :rules="[  val => val && val.match('^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$') || 'Please type the transductor ip address']"
+          :rules="[  val => val && val.match('^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$') && val.length > 0 || 'Please type the transductor ip address']"
         />
         <q-input
           filled
@@ -45,9 +45,18 @@
           lazy-rules
           :rules="[ val => val && val.length > 0 || 'Please type the transductor Longitude']"
         />
-        <q-toggle v-model="active" label="Active" />
+        <!-- <div class="row justify-center"> -->
+          <q-toggle v-model="active" label="Active" />
+          <q-select
+          outlind
+          label="TransductorModel"
+          v-model="selectedTransductorModel"
+          :options="transductorModels"
+          option-label="name"
+          >
+          </q-select>
       </q-form>
-      <div class="row justify-center">
+      <div class="row justify-center q-py-lg">
         <q-btn label="Create" type="submit" color="primary" v-on:click="addTransductor()"/>
       </div>
     </div>
@@ -55,6 +64,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data () {
     return {
@@ -64,22 +74,53 @@ export default {
       latitude: '',
       longitude: '',
       active: true,
+      transductorModels: [],
       framework: {
         components: [
-          'QForm'
+          'QForm',
+          'QBtnDropdown'
         ]
       }
     }
   },
   methods: {
     addTransductor () {
-      console.log(this.serial_number)
-      console.log(this.ip_address)
-      console.log(this.location)
-      console.log(this.latitude)
-      console.log(this.longitude)
-      console.log(this.active)
+      const masterUrl = 'http://localhost:8001'
+      axios
+        .post(`${masterUrl}/energy_transductors/`, {
+          serial_number: this.serial_number,
+          ip_address: this.ip_address,
+          location: this.location,
+          latitude: this.latitude,
+          longitude: this.longitude,
+          active: this.active,
+          model: this.transductorModels[this.transductorModelsIndex].url,
+          measurements_minutelymeasurement: [],
+          measurements_quarterlymeasurement: [],
+          measurements_monthlymeasurement: []
+        })
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    getTransductorModels () {
+      const masterUrl = 'http://localhost:8001'
+      axios
+        .get(`${masterUrl}/transductor_models/`)
+        .then((res) => {
+          this.transductorModels = res.data
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
+  },
+  beforeMount () {
+    this.getTransductorModels()
   }
 }
 </script>
