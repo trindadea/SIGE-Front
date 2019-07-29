@@ -48,7 +48,11 @@
         <q-toggle v-model="active" label="Active" />
       </q-form>
       <div class="row justify-center">
-        <q-btn label="Create" type="submit" color="primary" v-on:click="addTransductor()"/>
+        <q-btn
+          label="Create"
+          type="submit"
+          color="primary"
+          @click="addTransductor()"/>
       </div>
     </div>
   </div>

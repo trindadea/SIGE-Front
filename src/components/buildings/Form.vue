@@ -3,7 +3,6 @@
     <div class="col-md-4 col-lg-5 q-pa-md">
       <q-form
         class="q-gutter-md"
-        @submit="send"
         @validation-success="send">
         <h3 class="text-secondary">
           Novo edifício

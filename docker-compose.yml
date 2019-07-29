@@ -11,6 +11,8 @@ services:
       - yarn_cache:/smi-front/node_modules
     networks:
       - smi-network
+    environment:
+      - MASTER_URL=http://192.168.100.241:8001
 
 networks:
   smi-network:
