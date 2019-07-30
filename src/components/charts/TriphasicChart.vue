@@ -1,5 +1,6 @@
 <template>
   <apexcharts
+    type="line"
     width="100%"
     :options="chartOptions"
     :series="chartSeries"/>
@@ -19,26 +20,18 @@ export default {
     'xaxis',
     'yaxis',
     'yannotations',
-    'xannotations'
+    'xannotations',
+    'title'
   ],
 
   data () {
     return {
-      chartSeries: [
-        {
-          name: 'High - 2013',
-          data: [28, 29, 33, 36, 32, 32, 33]
-        },
-        {
-          name: 'Mid - 2013',
-          data: [20, 26, 22, 29, 22, 23, 30]
-        },
-        {
-          name: 'Low - 2013',
-          data: [12, 11, 14, 18, 17, 13, 13]
-        }
-      ],
+      chartSeries: [],
       chartOptions: {
+        annotations: {
+          xaxis: [],
+          yaxis: []
+        },
         chart: {
           shadow: {
             enabled: true,
@@ -52,7 +45,7 @@ export default {
             show: false
           }
         },
-        colors: ['#77B6EA', '#545454', '#ee33ee'],
+        colors: ['#3333ee', '#33ee33', '#ee3333'],
         dataLabels: {
           enabled: true
         },
@@ -71,30 +64,17 @@ export default {
           }
         },
         markers: {
-
-          size: 6
+          size: 5
         },
-        xaxis: {
-          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-          title: {
-            text: 'Month'
-          }
-        },
-        yaxis: {
-          title: {
-            text: 'Temperature'
-          },
-          min: 5,
-          max: 40
-        },
+        xaxis: {},
+        yaxis: {},
         legend: {
           position: 'top',
           horizontalAlign: 'right',
           floating: true,
           offsetY: -25,
           offsetX: -5
-        },
-        annotations: {}
+        }
       }
     }
   },
@@ -106,6 +86,7 @@ export default {
     this.chartOptions.xaxis = this.xaxis
     this.chartOptions.annotations.xaxis = this.xannotations
     this.chartOptions.annotations.yaxis = this.yannotations
+    this.chartOptions.title.text = this.title
   }
 }
 </script>
