@@ -1,68 +1,71 @@
 <template>
-  <div class="row justify-center q-py-lg">
-    <div class="col-8 q-mx-lg">
-      <q-form>
+  <div class="row justify-center">
+    <div class="col-md-4 col-lg-5 q-pa-md">
+      <q-form
+        class="q-gutter-md"
+        @validation-success="addTransductor()">
+        <h3 class="text-secondary">
+          Novo transdutor
+        </h3>
         <q-input
-          filled
-          type = "number"
+          outlined
           v-model="serial_number"
-          label="Serial Number"
-          hint="type the transductor serial number"
+          label="Número serial"
+          mask="#######"
           lazy-rules
-          :rules="[ val => val && val.length > 7 || 'Please type the transductor serial number']"
-        />
+          :rules="[ val => val && val.length > 7 || 'Insira um número serial válido.']"/>
         <q-input
-          filled
+          outlined
           v-model="ip_address"
-          label="IP address"
-          hint="type the transductor ip address"
+          label="Endereço IP"
           lazy-rules
-          :rules="[  val => val && val.match('^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$') && val.length > 0 || 'Please type the transductor ip address']"
-        />
+          :rules="[  val => val && val.match('^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$') && val.length > 0 || 'Insira um endereço IP válido.']"/>
         <q-input
-          filled
+          outlined
           v-model="location"
-          label="Location"
-          hint="type the transductor location"
+          label="Localização física do transdutor"
+          hint="Ex.: Sala do orientador de estágio"
           lazy-rules
-          :rules="[ val => val && val.length > 0 || 'Please type the transductor location']"
-        />
+          :rules="[ val => val && val.length > 0 || 'Insira uma localização.']"/>
         <q-input
-          filled
+          outlined
           type = "number"
           v-model="latitude"
           label="Latitude"
-          hint="type the transductor Latitude"
           lazy-rules
-          :rules="[ val => val && val.length > 0 || 'Please type the transductor Latitude']"
-        />
+          :rules="[ val => val && val.length > 0 || 'Insira uma latitude válida.']"/>
         <q-input
-          filled
+          outlined
           type = "number"
           v-model="longitude"
           label="Longitude"
-          hint="type the transductor Longitude"
           lazy-rules
-          :rules="[ val => val && val.length > 0 || 'Please type the transductor Longitude']"
-        />
+          :rules="[ val => val && val.length > 0 || 'insira uma longitude válida.']"/>
         <!-- <div class="row justify-center"> -->
-          <q-toggle v-model="active" label="Active" />
+          <q-toggle
+            v-model="active"
+            :label="active ? 'Transdutor se encontra: ativado' : 'Transdutor se encontra: desativado'" />
           <q-select
-          outlind
-          label="TransductorModel"
+          outlined
+          label="Modelo do transdutor"
           v-model="selectedTransductorModel"
           :options="transductorModels"
-          option-label="name"
-          >
+          option-label="name">
           </q-select>
-      </q-form>
-      <div class="row justify-center">
         <q-btn
-          label="Create"
+        size="1rem"
+          label="Enviar"
           type="submit"
-          color="primary"
-          @click="addTransductor()"/>
-      </div>
+          color="primary"/>
+        <q-btn
+          size="1rem"
+          @click="reset_fields()"
+          label="Cancelar"
+          color="negative"
+          type="reset"/>
+      <!-- <div class="row justify-center"> -->
+      <!-- </div> -->
+      </q-form>
     </div>
   </div>
 </template>
@@ -121,7 +124,13 @@ export default {
         .catch((err) => {
           console.log(err)
         })
+    },
+    reset_fields () {
+      this.trans_model_name = ''
+      this.trans_model_serial = ''
+      this.trans_model_transport = ''
     }
+
   },
   beforeMount () {
     this.getTransductorModels()

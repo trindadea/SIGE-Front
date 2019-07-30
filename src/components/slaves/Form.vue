@@ -17,8 +17,7 @@
           name="slaveIp"
           v-model="slaveIp"
           label="Endereço do servidor"
-          mask="###.###.###.###"
-          :rules="[ val => val.length === 15 || 'Esse campo deve conter um endereço ip válido' ]"/>
+          :rules="[ val => val.length === 15 && val.match('^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$') || 'Esse campo deve conter um endereço ip válido' ]"/>
         <q-input
           outlined
           name="location"
