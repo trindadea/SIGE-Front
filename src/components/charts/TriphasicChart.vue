@@ -1,12 +1,12 @@
 <template>
   <apexcharts
     type="line"
-    width="100%"
     :options="chartOptions"
     :series="chartSeries"/>
 </template>
 
 <script>
+// width="50%"
 import VueApexCharts from 'vue-apexcharts'
 
 export default {
@@ -53,7 +53,7 @@ export default {
           curve: 'smooth'
         },
         title: {
-          text: 'Average High & Low Temperature',
+          text: '',
           align: 'left'
         },
         grid: {
@@ -84,9 +84,9 @@ export default {
     // this.chartOptions = this.options
     this.chartOptions.yaxis = this.yaxis
     this.chartOptions.xaxis = this.xaxis
+    this.chartOptions.title.text = this.title
     this.chartOptions.annotations.xaxis = this.xannotations
     this.chartOptions.annotations.yaxis = this.yannotations
-    this.chartOptions.title.text = this.title
   }
 }
 </script>
