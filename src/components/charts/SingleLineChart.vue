@@ -1,5 +1,6 @@
 <template>
   <apexcharts
+    id="chart"
     type="line"
     :options="chartOptions"
     :series="chartSeries"/>
@@ -45,7 +46,7 @@ export default {
             show: false
           }
         },
-        colors: ['#3333ee', '#33ee33', '#ee3333'],
+        colors: [],
         dataLabels: {
           enabled: true
         },
@@ -80,10 +81,11 @@ export default {
   },
 
   beforeMount () {
-    this.chartSeries = this.series
     // this.chartOptions = this.options
+    this.chartSeries = this.series
     this.chartOptions.yaxis = this.yaxis
     this.chartOptions.xaxis = this.xaxis
+    this.chartOptions.colors = this.colors
     this.chartOptions.title.text = this.title
     this.chartOptions.annotations.xaxis = this.xannotations
     this.chartOptions.annotations.yaxis = this.yannotations
@@ -91,6 +93,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+  #chart {
+    padding: .5rem
+  }
 </style>

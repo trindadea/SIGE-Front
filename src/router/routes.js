@@ -131,10 +131,10 @@ const routes = [
     path: '/dashboard',
     component: () => import('components/dashboard/Dashboard.vue'),
     children: [
-      {
-        path: '',
-        component: () => import('components/charts/TriphasicChart.vue')
-      }
+      // {
+      //   path: '',
+      //   component: () => import('components/charts/TriphasicChart.vue')
+      // }
     ]
   }
 ]
