@@ -12,11 +12,11 @@
       :series="[{name: 'High - 2013',data: [28, 29, 33, 36, 32, 32, 33]}]"
       :xaxis="{categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],title: {text: 'Month'}}"
       :yaxis="{title: {text: 'Temperature'}, min: 20, max: 40}"
-      :colors="['#eeeeee']"
+      :colors="['#676473']"
       title="Something linear"/>
     <area-chart
       class="col"
-      :series="[{name: 'High - 2013',data: [28, 29, 33, 36, 32, 32, 33]},{name: 'Mid - 2013',data: [20, 26, 22, 29, 22, 23, 30]},{name: 'Low - 2013',data: [12, 11, 14, 18, 17, 13, 13]}]"
+      :series="something"
       :xaxis="{categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],title: {text: 'Month'}}"
       :yaxis="{title: {text: 'Temperature'}, min: 5, max: 40}"
       :colors="['#9999ee','#9999ee','#9999ee']"
@@ -36,7 +36,13 @@ export default {
   },
 
   data () {
-    return {}
+    return {
+      something: [
+        { name: 'Low - 2013', data: [12, 11, 14, 18, 17, 13, 13] },
+        { name: 'Mid - 2013', data: [20, 26, 22, 29, 22, 23, 30] },
+        { name: 'High - 2013', data: [28, 29, 33, 36, 32, 32, 33] }
+      ]
+    }
   }
 }
 </script>
