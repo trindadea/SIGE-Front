@@ -25,6 +25,7 @@
         :yaxis="{title: {text: 'Temperature'}, min: 20, max: 40}"
         :colors="['#676473']"
         title="Something linear"/>
+
       <area-chart
         class="col-12"
         :series="[{data: [28, 29, 33, 36, 32, 32, 33]}, {data: [22, 11, 14, 23, 11, 32, 23]}]"

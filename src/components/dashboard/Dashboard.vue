@@ -33,12 +33,12 @@
           class="menu-list">
           <div
             v-for="menuItem in menuItems"
-            :key="menuItem.id"
-            :to="menuItem.to">
+            :key="menuItem.id">
             <q-item
               clickable
               v-ripple
-              bordered>
+              bordered
+              :to="menuItem.to">
               <q-item-section
                 avatar
                 v-if="menuItem.icon">
@@ -70,8 +70,9 @@ export default {
       left: true,
 
       menuItems: [
-        { name: 'Voltage Charts', icon: 'bolt', to: '/transductors/new' },
-        { name: 'Current Charts', icon: 'power', to: '/transductors/new' }
+        { name: 'Tensão', icon: 'bolt', to: '/dashboard/tension' },
+        { name: 'Corrente', icon: 'power', to: '/dashboard/current' },
+        { name: 'Frequência', icon: 'swap_calls', to: '/dashboard/frequency' }
       ],
 
       something: [
