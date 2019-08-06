@@ -5,8 +5,9 @@
           class="col-4 q-ma-sm"
           label="Transdutor"
           outlined
-          :options="transductorList"
-          v-model="selectedTransductor"/>
+          :options="this.transductorList"
+          v-model="selectedTransductor"
+          :after="this.updateChart()"/>
         <q-select
           class="col-4 q-pa-sm"
           label="Período"
@@ -47,14 +48,44 @@ export default {
     LineChart,
     AreaChart
   },
-
+  data () {
+    return {
+      selectedTransductor: 'None',
+      transductorList: [],
+      selectedPeriod: 'Hoje'
+    }
+  },
+  methods: {
+    updateChart () {
+      axios
+        .get(`http://localhost:8000/graph/minutely_voltage/?serial_number=${this.selectedTransductor}`)
+        .then((res) => {
+          console.log('Selected Transductor: ')
+          console.log(res.data)
+        })
+        .catch((err) => console.log(err))
+    }
+  },
   beforeMount () {
     axios
-      .get(`http://192.168.100.241:8000/graph/minutely_voltage/`)
+      .get(`http://localhost:8000/graph/minutely_voltage/`)
       .then((res) => {
         console.log(res.data)
       })
       .catch((err) => console.log(err))
+
+    axios
+      .get(`http://localhost:8000/energy_transductors/`)
+      .then((res) => {
+        console.log('Energy Transductors')
+        let transductors = res.data.results, transductorsList = []
+
+        for (let transductor of transductors) {
+          transductorsList.push(transductor['serial_number'])
+        }
+        console.log(transductorsList)
+        this.transductorList = transductorsList
+      })
   }
 
 }

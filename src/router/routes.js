@@ -134,6 +134,10 @@ const routes = [
       {
         path: '',
         component: () => import('components/dashboard/TensionDashboard.vue')
+      },
+      {
+        path: 'tension',
+        component: () => import('components/dashboard/TensionDashboard.vue')
       }
     ]
   }
