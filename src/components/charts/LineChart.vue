@@ -17,7 +17,6 @@ export default {
 
   props: [
     'series',
-    // 'options',
     'xaxis',
     'yaxis',
     'yannotations',

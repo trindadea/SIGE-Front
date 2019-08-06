@@ -1,51 +1,109 @@
 <template>
-  <div class="row">
-    <line-chart
-      class="col"
-      :series="[{name: 'High - 2013',data: [28, 29, 33, 36, 32, 32, 33]},{name: 'Mid - 2013',data: [20, 26, 22, 29, 22, 23, 30]},{name: 'Low - 2013',data: [12, 11, 14, 18, 17, 13, 13]}]"
-      :xaxis="{categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],title: {text: 'Month'}}"
-      :yaxis="{title: {text: 'Temperature'}, min: 5, max: 40}"
-      :yannotations="[{y: 37, y0: null, borderColor: '#ee9999', label: {text: 'Maximum'}},{y: 10, y0: null, borderColor: '#9999ee', label: {text: 'Minimum'}}]"
-      title="Something triphasic"/>
-    <line-chart
-      class="col"
-      :series="[{name: 'High - 2013',data: [28, 29, 33, 36, 32, 32, 33]}]"
-      :xaxis="{categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],title: {text: 'Month'}}"
-      :yaxis="{title: {text: 'Temperature'}, min: 20, max: 40}"
-      :colors="['#676473']"
-      title="Something linear"/>
-    <area-chart
-      class="col"
-      :series="something"
-      :xaxis="{categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],title: {text: 'Month'}}"
-      :yaxis="{title: {text: 'Temperature'}, min: 5, max: 40}"
-      :colors="['#9999ee','#9999ee','#9999ee']"
-      title="Something triphasic"/>
-    <!-- <router-view></router-view> -->
-  </div>
+  <q-layout
+    view="hHh LpR fFf">
+
+    <q-header
+      class="bg-grey-10 text-white">
+      <q-toolbar>
+        <q-btn
+          dense
+          flat
+          round
+          :icon="!left ? 'menu' : 'close'"
+          @click="left = !left"/>
+
+        <q-toolbar-title>
+          <!-- <q-avatar>
+            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
+          </q-avatar> -->
+          SMI
+        </q-toolbar-title>
+      </q-toolbar>
+    </q-header>
+
+    <q-drawer
+      v-model="left"
+      side="left"
+      behavior="desktop"
+      bordered>
+      <q-scroll-area
+        class="fit bg-grey-9 text-white">
+        <q-list
+          padding
+          class="menu-list">
+          <div
+            v-for="menuItem in menuItems"
+            :key="menuItem.id"
+            :to="menuItem.to">
+            <q-item
+              clickable
+              v-ripple
+              bordered>
+              <q-item-section
+                avatar
+                v-if="menuItem.icon">
+                <q-icon :name="menuItem.icon"/>
+              </q-item-section>
+              <q-item-section>
+                {{ menuItem.name }}
+              </q-item-section>
+            </q-item>
+          </div>
+        </q-list>
+      </q-scroll-area>
+    </q-drawer>
+
+    <q-page-container>
+      <transition>
+        <router-view />
+      </transition>
+    </q-page-container>
+
+  </q-layout>
 </template>
 
 <script>
-import AreaChart from 'components/charts/AreaChart.vue'
-import LineChart from 'components/charts/LineChart.vue'
-
+// import LineChart from 'components/charts/LineChart.vue'
 export default {
-  components: {
-    LineChart,
-    AreaChart
-  },
-
   data () {
     return {
+      left: true,
+
+      menuItems: [
+        { name: 'Voltage Charts', icon: 'bolt', to: '/transductors/new' },
+        { name: 'Current Charts', icon: 'power', to: '/transductors/new' }
+      ],
+
       something: [
         { name: 'Low - 2013', data: [12, 11, 14, 18, 17, 13, 13] },
         { name: 'Mid - 2013', data: [20, 26, 22, 29, 22, 23, 30] },
         { name: 'High - 2013', data: [28, 29, 33, 36, 32, 32, 33] }
+      ],
+
+      data: {
+        categories: [],
+        title: {
+          text: 'placeholder'
+        }
+      },
+
+      series: [
+        {
+          name: 'Placeholder',
+          data: []
+        }
       ]
     }
+  },
+
+  components: {
+  },
+
+  computed: {
   }
 }
 </script>
+    <!-- <router-view></router-view> -->
 
 <style>
 </style>
