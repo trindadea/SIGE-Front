@@ -63,9 +63,7 @@ export default {
           console.log('Selected Transductor: ' + this.selectedTransductor)
           console.log(res.data)
         })
-        .catch((err) => {
-          console.log(err)
-        })
+        .catch((err) => console.log(err))
     }
   },
   beforeMount () {
