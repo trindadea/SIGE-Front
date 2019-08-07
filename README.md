@@ -1,26 +1,10 @@
-# SMI app (smi-front)
+# Sistema de Monitoramento de Insumos da Universidade de Brasília - S.M.I.
+The Sistema de Monitoramento de Insumos of the Universidade de Brasília (SMI-UnB), is a web application developed to assist in the monitoring and management of Universidade de Brasília's power consumption and distribution.
 
-A Quasar Framework app
+The idea is to monitor, collect and display data of each campus power supply, allowing a much better comprehension of the usage patterns and energy quality received from the distribution station.
 
-## Install the dependencies
-```bash
-yarn
-```
+The system is divided into three main layers:
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
-```bash
-quasar dev
-```
-
-### Lint the files
-```bash
-yarn run lint
-```
-
-### Build the app for production
-```bash
-quasar build
-```
-
-### Customize the configuration
-See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
+- the presentation layer, which holds the front-end of the application, including the dashboard for researchers.
+- the master layer, which is responsible for all the data management, data processing, and database redundancy.
+- the slave layer is responsible for the communication with energy transductors and data collection.
