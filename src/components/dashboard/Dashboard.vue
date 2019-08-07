@@ -33,13 +33,18 @@
         <q-list
           padding
           class="menu-list">
+          <q-item-label
+            header
+            class="text-grey-5">
+            Menu do dashboard
+          </q-item-label>
+          <!-- <q-separator spaced dark/> -->
           <div
             v-for="menuItem in menuItems"
             :key="menuItem.id">
             <q-item
               clickable
               v-ripple
-              bordered
               class="item-link"
               :to="menuItem.to">
               <q-item-section
@@ -51,6 +56,7 @@
                 {{ menuItem.name }}
               </q-item-section>
             </q-item>
+            <!-- <q-separator spaced dark/> -->
           </div>
         </q-list>
       </q-scroll-area>

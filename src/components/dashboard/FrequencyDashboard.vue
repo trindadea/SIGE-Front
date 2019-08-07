@@ -2,18 +2,26 @@
   <q-page>
     <div class="row q-pa-sm">
         <q-select
-          class="col-4 q-ma-sm"
+          class="col q-ma-sm"
+          label="Campus"
+          outlined
+          v-model="selectedTransductor"
+          :options="this.campusList"
+          :after="this.updateChart()"/>
+        <q-select
+          class="col q-ma-sm"
           label="Transdutor"
           outlined
           :options="this.transductorList"
-          v-model="selectedTransductor"
-          :after="this.updateChart()"/>
+          :after="this.updateChart()"
+          v-model="selectedTransductor"/>
         <q-select
-          class="col-4 q-pa-sm"
+          class="col q-ma-sm"
           label="Período"
           outlined
+          v-model="selectedPeriod"
           :options="['Hoje', 'Últimos 7 dias', 'Últimos 30 dias']"
-          v-model="selectedPeriod"/>
+          :after="this.updateChart()"/>
     </div>
 
     <q-separator/>
@@ -27,6 +35,8 @@
         :colors="['#676473']"
         title="Something linear"/>
 
+        <q-separator class="col-12"/>
+
       <area-chart
         class="col-12"
         :series="[{data: [28, 29, 33, 36, 32, 32, 33]}, {data: [22, 11, 14, 23, 11, 32, 23]}]"
@@ -34,6 +44,8 @@
         :yaxis="{title: {text: 'Temperature'}, min: 5, max: 40}"
         :colors="['#9999ee','#9999ee','#9999ee']"
         title="Something triphasic"/>
+
+        <q-separator class="col-12"/>
     </div>
   </q-page>
 </template>
@@ -75,7 +87,7 @@ export default {
     //   .catch((err) => console.log(err))
 
     axios
-      .get(`http://localhost:8000/energy_transductors/`)
+      .get(`${process.env.MASTER_URL || 'localhost:8000'}`)
       .then((res) => {
         console.log('Energy Transductors')
         let transductors = res.data.results, transductorsList = []
