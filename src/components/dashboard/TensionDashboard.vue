@@ -7,7 +7,7 @@
           outlined
           :options="this.transductorList"
           v-model="selectedTransductor"
-          :after="this.updateChart()"/>
+          @input="updateChart"/>
         <q-select
           class="col-4 q-pa-sm"
           label="Período"
@@ -21,16 +21,17 @@
     <div class="row">
       <line-chart
         class="col-12"
-        :series="[{name: 'High - 2013',data: [28, 29, 33, 36, 32, 32, 33]}]"
-        :xaxis="{categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],title: {text: 'Month'}}"
-        :yaxis="{title: {text: 'Temperature'}, min: 20, max: 40}"
-        :colors="['#676473']"
-        title="Something linear"/>
+        :series="series"
+        :xaxis="{categories: this.dates}"
+        :yaxis="{title: {text: 'Voltage'}, min: this.min, max: this.max}"
+        :colors="['#9999ee','#9999ee','#9999ee']"
+        title="Gráfico de Tensão"
+        />
 
       <area-chart
         class="col-12"
-        :series="[{data: [28, 29, 33, 36, 32, 32, 33]}, {data: [22, 11, 14, 23, 11, 32, 23]}]"
-        :xaxis="{categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],title: {text: 'Month'}}"
+        :series="[{data: [28.3, 29, 33, 36, 32, 32, 33]}, {data: [22, 11, 14, 23, 11, 32, 23]}]"
+        :xaxis="{categories: this.dates,title: {text: 'Time'}}"
         :yaxis="{title: {text: 'Temperature'}, min: 5, max: 40}"
         :colors="['#9999ee','#9999ee','#9999ee']"
         title="Something triphasic"/>
@@ -50,44 +51,118 @@ export default {
   },
   data () {
     return {
-      selectedTransductor: 'None',
+      selectedTransductor: '',
       transductorList: [],
-      selectedPeriod: 'Hoje'
+      selectedPeriod: 'Hoje',
+      measurements: [],
+      voltage_a: [],
+      voltage_b: [],
+      voltage_c: [],
+      dates: [],
+      min: 0,
+      max: 300
+    }
+  },
+  computed: {
+    series () {
+      return [
+        {
+          name: 'Voltage A',
+          data: this.voltage_a
+        },
+        {
+          name: 'Voltage B',
+          data: this.voltage_b
+        },
+        {
+          name: 'Voltage C',
+          data: this.voltage_c
+        }
+      ]
     }
   },
   methods: {
     updateChart () {
+      var self = this
       axios
         .get(`http://localhost:8000/graph/minutely_voltage/?serial_number=${this.selectedTransductor}`)
         .then((res) => {
-          console.log('Selected Transductor: ')
-          console.log(res.data)
+          let measurements = res.data.results
+          self.buildGraphInformation(measurements)
+          // console.log(self.measurements)
         })
         .catch((err) => console.log(err))
+
+      console.log(this.dates)
+    },
+    formattedDate (date) {
+      let result = date.split('T')
+      let dateValue, timeValue
+
+      dateValue = result[0].split('-')
+      dateValue = dateValue[1] + '/' + dateValue[2] + '/' + dateValue[0]
+      timeValue = result[1]
+
+      return dateValue + ' ' + timeValue
+    },
+    buildGraphInformation (measurements) {
+      let date, formattedDates = []
+      let voltageA, voltageB, voltageC
+      let voltageAList = [], voltageBList = [], voltageCList = []
+
+      for (let measurement of measurements) {
+        date = measurement['collection_date']
+        date = this.formattedDate(date)
+        voltageA = measurement['voltage_a']
+        voltageB = measurement['voltage_b']
+        voltageC = measurement['voltage_c']
+
+        formattedDates.push(date)
+
+        voltageAList.push(voltageA)
+        voltageBList.push(voltageB)
+        voltageCList.push(voltageC)
+      }
+
+      this.setInformations(voltageAList, voltageBList, voltageCList, formattedDates)
+    },
+    setInformations (voltageAList, voltageBList, voltageCList, formattedDates) {
+      this.voltage_a = voltageAList
+      this.voltage_b = voltageBList
+      this.voltage_c = voltageCList
+      this.dates = formattedDates
+    },
+    setTransductorList (transductorList) {
+      this.transductorList = transductorList
+    },
+    setSelectedTransductor (selectedTransductor) {
+      this.selectedTransductor = selectedTransductor
     }
   },
   beforeMount () {
     axios
       .get(`http://localhost:8000/graph/minutely_voltage/`)
       .then((res) => {
-        console.log(res.data)
+        // console.log(res.data)
       })
       .catch((err) => console.log(err))
 
     axios
       .get(`http://localhost:8000/energy_transductors/`)
       .then((res) => {
-        console.log('Energy Transductors')
+        // console.log('Energy Transductors')
         let transductors = res.data.results, transductorsList = []
 
         for (let transductor of transductors) {
           transductorsList.push(transductor['serial_number'])
         }
-        console.log(transductorsList)
-        this.transductorList = transductorsList
+        // console.log(transductorsList)
+        this.setTransductorList(transductorsList)
+        this.setSelectedTransductor(transductorsList[0])
       })
-  }
 
+    this.updateChart()
+  }
 }
 </script>
 
