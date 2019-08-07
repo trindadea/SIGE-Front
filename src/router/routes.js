@@ -133,11 +133,19 @@ const routes = [
     children: [
       {
         path: '',
-        component: () => import('components/dashboard/TensionDashboard.vue')
+        component: () => import('components/dashboard/StatusDashboard.vue')
       },
       {
         path: 'tension',
         component: () => import('components/dashboard/TensionDashboard.vue')
+      },
+      {
+        path: 'current',
+        component: () => import('components/dashboard/CurrentDashboard.vue')
+      },
+      {
+        path: 'frequency',
+        component: () => import('components/dashboard/FrequencyDashboard.vue')
       }
     ]
   }

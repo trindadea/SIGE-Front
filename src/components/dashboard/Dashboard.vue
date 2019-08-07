@@ -16,7 +16,9 @@
           <!-- <q-avatar>
             <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
           </q-avatar> -->
-          SMI
+          <span>
+            Sistema de Monitoramento de Insumos
+          </span>
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
@@ -31,13 +33,19 @@
         <q-list
           padding
           class="menu-list">
+          <q-item-label
+            header
+            class="text-grey-5">
+            Menu do dashboard
+          </q-item-label>
+          <!-- <q-separator spaced dark/> -->
           <div
             v-for="menuItem in menuItems"
             :key="menuItem.id">
             <q-item
               clickable
               v-ripple
-              bordered
+              class="item-link"
               :to="menuItem.to">
               <q-item-section
                 avatar
@@ -48,6 +56,7 @@
                 {{ menuItem.name }}
               </q-item-section>
             </q-item>
+            <!-- <q-separator spaced dark/> -->
           </div>
         </q-list>
       </q-scroll-area>
@@ -63,13 +72,14 @@
 </template>
 
 <script>
-// import LineChart from 'components/charts/LineChart.vue'
 export default {
   data () {
     return {
       left: true,
 
       menuItems: [
+        // FIX: a aba de status do sistema está sempre ativa
+        { name: 'Estado do sistema', icon: 'healing', to: '/dashboard/' },
         { name: 'Tensão', icon: 'bolt', to: '/dashboard/tension' },
         { name: 'Corrente', icon: 'power', to: '/dashboard/current' },
         { name: 'Frequência', icon: 'swap_calls', to: '/dashboard/frequency' }
@@ -104,7 +114,10 @@ export default {
   }
 }
 </script>
-    <!-- <router-view></router-view> -->
 
-<style>
+<style lang="scss">
+  .q-item.q-router-link--active {
+    font-weight: bolder;
+    color: white !important;
+  }
 </style>
