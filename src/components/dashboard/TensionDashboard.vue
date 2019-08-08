@@ -48,36 +48,18 @@
       <q-separator class="col-12"/> -->
     </div>
 
-    <div
-      v-else
-      class="q-pa-md q-mx text-center text-grey-6 vertical-middle">
-      <div>
-        <span>
-          <q-icon
-            class="q-mx-2"
-            name="insert_chart_outlined"
-            size="8rem"
-            color="grey-5"/>
-          <h3>Nenhum dado selecionado!</h3>
-        </span>
-        <p>
-          Para visualizar os dados é necessária a seleção de um transdutor,
-          assim como um intervalo de dados.
-        </p>
-      </div>
-    </div>
+    <no-data-placeholder v-else/>
   </q-page>
 </template>
 
 <script>
 import axios from 'axios'
 import VueApexCharts from 'vue-apexcharts'
-// import AreaChart from 'components/charts/AreaChart.vue'
+import NoDataPlaceholder from 'components/dashboard/NoDataPlaceholder.vue'
 
 export default {
   components: {
-    // LineChart,
-    // AreaChart,
+    NoDataPlaceholder,
     apexcharts: VueApexCharts
   },
 
@@ -267,12 +249,12 @@ export default {
   },
 
   beforeMount () {
-    axios
-      .get(`http://0.0.0.0:8000/graph/minutely_voltage`)
-      .then((res) => {
-        console.log(res.data)
-      })
-      .catch((err) => console.log(err))
+    // axios
+    //   .get(`http://0.0.0.0:8000/graph/minutely_voltage`)
+    //   .then((res) => {
+    //     console.log(res.data)
+    //   })
+    //   .catch((err) => console.log(err))
 
     axios
       .get(`http://0.0.0.0:8000/energy_transductors`)
