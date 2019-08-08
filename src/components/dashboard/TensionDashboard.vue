@@ -26,14 +26,10 @@
     <q-separator/>
 
     <div class="row">
-      <line-chart
+      <apexcharts
         class="col-12"
-        :series="series"
-        :xaxis="{categories: this.dates}"
-        :yaxis="{title: {text: 'Voltage'}, min: Math.min(...series) + 5, max: Math.max(...series) + 5}"
-        :colors="['#9999ee','#9999ee','#9999ee']"
-        title="Gráfico de Tensão"
-        />
+        :options="chartOptions"
+        :series="series"/>
 
       <q-separator class="col-12"/>
 
@@ -52,12 +48,14 @@
 
 <script>
 import axios from 'axios'
-import LineChart from 'components/charts/LineChart.vue'
+// import LineChart from 'components/charts/LineChart.vue'
 import AreaChart from 'components/charts/AreaChart.vue'
+import VueApexCharts from 'vue-apexcharts'
 
 export default {
   components: {
-    LineChart,
+    // LineChart,
+    apexcharts: VueApexCharts,
     AreaChart
   },
   data () {
@@ -70,11 +68,57 @@ export default {
       voltage_b: [],
       voltage_c: [],
       dates: [],
-      min: 0,
-      max: 300
+      min: 180,
+      max: 240
     }
   },
   computed: {
+    chartOptions () {
+      return {
+        chart: {
+          stacked: false
+        },
+        stroke: {
+          width: [2, 2, 2],
+          curve: 'smooth'
+        },
+        plotOptions: {
+          bar: {
+            columnWidth: '50%'
+          }
+        },
+        fill: {
+          opacity: [0.85, 0.25, 1],
+          gradient: {
+            inverseColors: false,
+            shade: 'light',
+            type: 'vertical',
+            opacityFrom: 0.85,
+            opacityTo: 0.55,
+            stops: [0, 100, 100, 100]
+          }
+        },
+        labels: this.dates,
+        markers: {
+          size: 0
+        },
+        xaxis: {
+          type: 'datetime',
+          show: false
+        },
+        yaxis: {
+          title: {
+            text: 'Voltage'
+          },
+          min: this.min,
+          max: this.max,
+          tickAmount: 5,
+          labels: {
+            formatter: this.labelFormatter
+          }
+        }
+      }
+    },
     series () {
       return [
         {
@@ -114,6 +158,9 @@ export default {
       timeValue = result[1]
 
       return dateValue + ' ' + timeValue
+    },
+    labelFormatter (value) {
+      return value.toFixed(2)
     },
     buildGraphInformation (measurements) {
       let date, formattedDates = []
