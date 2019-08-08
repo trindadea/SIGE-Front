@@ -12,7 +12,7 @@ services:
     networks:
       - smi-network
     environment:
-      - MASTER_URL=http://192.168.100.241:8000
+      - MASTER_URL=http://0.0.0.0:8000
 
 networks:
   smi-network:
