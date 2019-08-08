@@ -6,26 +6,21 @@
           label="Campus"
           outlined
           v-model="selectedTransductor"
-<<<<<<< HEAD
-          @input="updateChart"/>
-=======
-          :options="this.campusList"
-          :after="this.updateChart()"/>
->>>>>>> 37fb179daf77b69f80a381c6dab097fe75d1ed53
+          @input="updateChart()"/>
         <q-select
           class="col q-ma-sm"
           label="Transdutor"
           outlined
           :options="this.transductorList"
-          :after="this.updateChart()"
-          v-model="selectedTransductor"/>
+          v-model="selectedTransductor"
+          @input="updateChart()"/>
         <q-select
           class="col q-ma-sm"
           label="Período"
           outlined
           v-model="selectedPeriod"
           :options="['Hoje', 'Últimos 7 dias', 'Últimos 30 dias']"
-          :after="this.updateChart()"/>
+          @input="updateChart()"/>
     </div>
 
     <q-separator/>
@@ -35,7 +30,7 @@
         class="col-12"
         :series="series"
         :xaxis="{categories: this.dates}"
-        :yaxis="{title: {text: 'Voltage'}, min: this.min, max: this.max}"
+        :yaxis="{title: {text: 'Voltage'}, min: Math.min(...series) + 5, max: Math.max(...series) + 5}"
         :colors="['#9999ee','#9999ee','#9999ee']"
         title="Gráfico de Tensão"
         />
@@ -67,7 +62,7 @@ export default {
   },
   data () {
     return {
-      selectedTransductor: '',
+      selectedTransductor: '12345',
       transductorList: [],
       selectedPeriod: 'Hoje',
       measurements: [],
@@ -99,12 +94,11 @@ export default {
   },
   methods: {
     updateChart () {
-      var self = this
       axios
-        .get(`http://localhost:8000/graph/minutely_voltage/?serial_number=${this.selectedTransductor}`)
+        .get(`https://c478a652.ngrok.io/graph/minutely_voltage/?serial_number=${this.selectedTransductor}`)
         .then((res) => {
           let measurements = res.data.results
-          self.buildGraphInformation(measurements)
+          this.buildGraphInformation(measurements)
           // console.log(self.measurements)
         })
         .catch((err) => console.log(err))
@@ -146,6 +140,10 @@ export default {
       this.voltage_a = voltageAList
       this.voltage_b = voltageBList
       this.voltage_c = voltageCList
+      // console.log(this.voltage_a)
+      // console.log(this.voltage_b)
+      // console.log(this.voltage_c)
+      // console.log(this.dates)
       this.dates = formattedDates
     },
     setTransductorList (transductorList) {
@@ -157,14 +155,14 @@ export default {
   },
   beforeMount () {
     axios
-      .get(`http://localhost:8000/graph/minutely_voltage/`)
+      .get(`https://c478a652.ngrok.io/graph/minutely_voltage/`)
       .then((res) => {
         // console.log(res.data)
       })
       .catch((err) => console.log(err))
 
     axios
-      .get(`${process.env.MASTER_URL || 'localhost:8000'}`)
+      .get(`https://c478a652.ngrok.io/energy_transductors`)
       .then((res) => {
         // console.log('Energy Transductors')
         let transductors = res.data.results, transductorsList = []
@@ -174,13 +172,11 @@ export default {
         }
         // console.log(transductorsList)
         this.setTransductorList(transductorsList)
-        this.setSelectedTransductor(transductorsList[0])
+        this.setSelectedTransductor(transductorsList[16])
       })
       .catch((err) => {
         console.log(err)
       })
-  }
-
     this.updateChart()
   }
 }

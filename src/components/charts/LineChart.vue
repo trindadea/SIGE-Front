@@ -80,10 +80,21 @@ export default {
     }
   },
 
+  computed: {
+    minBoundary () {
+      return Math.min(...this.series) + 5
+    },
+    maxBoundary () {
+      return Math.max(...this.series) + 5
+    }
+  },
+
   beforeMount () {
     // this.chartOptions = this.options
     this.chartSeries = this.series
     this.chartOptions.yaxis = this.yaxis
+    this.chartOptions.yaxis.min = this.minBoundary
+    this.chartOptions.yaxis.max = this.maxBoundary
     this.chartOptions.xaxis = this.xaxis
     this.chartOptions.colors = this.colors
     this.chartOptions.title.text = this.title
