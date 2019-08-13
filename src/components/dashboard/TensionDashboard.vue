@@ -76,13 +76,10 @@ export default {
       selectedCampus: '',
       selectedTransductor: '',
       selectedPeriod: 'Hoje',
-      options: {
-        hour12: false,
-        day: '2-digit',
-        year: 'numeric',
-        month: '2-digit'
-      },
-      periodsOptions: {}
+      periodsOptions: {
+        'Hoje': this.getTodayInterval(),
+        'Últimos 7 dias': this.getLastWeek()
+      }
     }
   },
 
@@ -158,6 +155,15 @@ export default {
       }
     },
 
+    intervalOptions () {
+      return {
+        hour12: false,
+        day: '2-digit',
+        year: 'numeric',
+        month: '2-digit'
+      }
+    },
+
     series () {
       return [
         {
@@ -183,21 +189,38 @@ export default {
       let periods = this.periodsOptions[this.selectedPeriod]
       let startDate = periods[0]
       let endDate = periods[1]
+      let limit = periods[2]
+
+      // console.log(periods[0])
+      // console.log(periods[1])
+      // console.log(periods[2])
 
       axios
-        .get(`http://0.0.0.0:8000/graph/minutely_voltage/?limit=1440&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
+        .get(`http://0.0.0.0:8000/graph/minutely_voltage/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
         .then((res) => {
           const measurements = res.data.results
 
           this.buildGraphInformation(measurements)
         })
         .catch((err) => console.log(err))
-
-      // console.log(this.dates)
     },
 
     getTodayInterval () {
-      let endDate = new Date().toLocaleTimeString('pt-BR', this.options).replace(/(\/)/g, '-').replace(/:[0-9]{2}$/g, '')
+      let endDate = this.endDate()
+      let startDate = this.startDate(0)
+
+      return [startDate, endDate, 1440]
+    },
+
+    getLastWeek () {
+      let endDate = this.endDate()
+      let startDate = this.startDate(7)
+
+      return [startDate, endDate, 10080]
+    },
+
+    endDate () {
+      let endDate = new Date().toLocaleTimeString('pt-BR', this.intervalOptions).replace(/(\/)/g, '-').replace(/:[0-9]{2}$/g, '')
 
       let endDateDay = endDate.substr(0, 2)
       let endDateMonth = endDate.substr(3, 2)
@@ -205,7 +228,15 @@ export default {
       let endDateTime = endDate.substr(10, endDate.length)
       endDate = endDateYear + '-' + endDateMonth + '-' + endDateDay + endDateTime
 
-      let startDate = new Date().toLocaleTimeString('pt-BR', this.options).replace(/(:*[0-9]{2}:*[0-9]{2}:*[0-9]{2})/g, '00:00').replace(/(\/)/g, '-')
+      return endDate
+    },
+
+    startDate (days) {
+      let startDate = new Date()
+      let day = startDate.getDay()
+      day = startDate.getDate() - days
+      startDate.setDate(day)
+      startDate = startDate.toLocaleTimeString('pt-BR', this.intervalOptions).replace(/(:*[0-9]{2}:*[0-9]{2}:*[0-9]{2})/g, '00:00').replace(/(\/)/g, '-')
 
       let startDateDay = startDate.substr(0, 2)
       let startDateMonth = startDate.substr(3, 2)
@@ -213,11 +244,7 @@ export default {
       let startDateTime = startDate.substr(10, startDate.length)
       startDate = startDateYear + '-' + startDateMonth + '-' + startDateDay + startDateTime
 
-      return [startDate, endDate]
-    },
-
-    getLastWeek () {
-
+      return startDate
     },
 
     formattedDate (date) {
@@ -303,6 +330,7 @@ export default {
       })
 
     this.periodsOptions['Hoje'] = this.getTodayInterval()
+    this.periodsOptions['Últimos 7 dias'] = this.getLastWeek()
 
     this.updateChart()
   }
