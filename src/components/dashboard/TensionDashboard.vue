@@ -76,10 +76,7 @@ export default {
       selectedCampus: '',
       selectedTransductor: '',
       selectedPeriod: 'Hoje',
-      periodsOptions: {
-        'Hoje': this.getTodayInterval(),
-        'Últimos 7 dias': this.getLastWeek()
-      }
+      periodsOptions: {}
     }
   },
 
@@ -219,6 +216,13 @@ export default {
       return [startDate, endDate, 10080]
     },
 
+    getLastMonth () {
+      let endDate = this.endDate()
+      let startDate = this.startDate(30)
+
+      return [startDate, endDate, 43200]
+    },
+
     endDate () {
       let endDate = new Date().toLocaleTimeString('pt-BR', this.intervalOptions).replace(/(\/)/g, '-').replace(/:[0-9]{2}$/g, '')
 
@@ -331,6 +335,7 @@ export default {
 
     this.periodsOptions['Hoje'] = this.getTodayInterval()
     this.periodsOptions['Últimos 7 dias'] = this.getLastWeek()
+    this.periodsOptions['Últimos 30 dias'] = this.getLastMonth()
 
     this.updateChart()
   }
