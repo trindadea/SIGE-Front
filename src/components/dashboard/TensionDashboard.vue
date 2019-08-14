@@ -72,6 +72,7 @@ export default {
       voltage_b: [],
       voltage_c: [],
       measurements: [],
+      informations: [],
       transductorList: [],
       selectedCampus: '',
       selectedTransductor: '',
@@ -127,7 +128,7 @@ export default {
 
         yaxis: {
           title: {
-            text: 'Voltage'
+            text: 'Tensão'
           },
           min: Math.min(...this.series[0].data) - 20,
           max: Math.max(...this.series[0].data) + 20,
@@ -143,12 +144,14 @@ export default {
             colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
             opacity: 0.5
           }
+        },
+
+        tooltip: {
+          x: {
+            format: 'dd MM yyyy hh:mm',
+            formatter: undefined
+          }
         }
-        // colors: [
-        //   // '#3333ee',
-        //   // '#33ee33',
-        //   // '#ee3333'
-        // ]
       }
     },
 
@@ -164,20 +167,29 @@ export default {
     series () {
       return [
         {
-          name: 'Voltage A',
+          name: 'Tensão A',
           data: this.voltage_a
         },
 
         {
-          name: 'Voltage B',
+          name: 'Tensão B',
           data: this.voltage_b
         },
 
         {
-          name: 'Voltage C',
+          name: 'Tensão C',
           data: this.voltage_c
         }
       ]
+    }
+  },
+
+  watched: {
+    transductorList: (val) => {
+      this.transductorList = val
+    },
+    selectedTransductor: (val) => {
+      this.selectedTransductor = val
     }
   },
 
@@ -188,18 +200,16 @@ export default {
       let endDate = periods[1]
       let limit = periods[2]
 
-      // console.log(periods[0])
-      // console.log(periods[1])
-      // console.log(periods[2])
+      if (this.selectedTransductor !== undefined) {
+        axios
+          .get(`http://127.0.0.1:8000/graph/minutely_voltage/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
+          .then((res) => {
+            const measurements = res.data.results
 
-      axios
-        .get(`http://0.0.0.0:8000/graph/minutely_voltage/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
-        .then((res) => {
-          const measurements = res.data.results
-
-          this.buildGraphInformation(measurements)
-        })
-        .catch((err) => console.log(err))
+            this.buildGraphInformation(measurements)
+          })
+          .catch((err) => console.log(err))
+      }
     },
 
     getTodayInterval () {
@@ -311,27 +321,31 @@ export default {
 
     setSelectedTransductor (selectedTransductor) {
       this.selectedTransductor = selectedTransductor
+    },
+
+    getTransductors () {
+      axios
+        .get(`http://127.0.0.1:8000/energy_transductors`)
+        .then((res) => {
+          const transductors = res.data.results
+          let transductorsList = []
+
+          for (let transductor of transductors) {
+            transductorsList.push(transductor['serial_number'])
+          }
+
+          transductorsList.sort()
+
+          this.setTransductorList(transductorsList)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   },
 
   beforeMount () {
-    axios
-      .get(`http://0.0.0.0:8000/energy_transductors`)
-      .then((res) => {
-        const transductors = res.data.results
-
-        let transductorsList = []
-
-        for (let transductor of transductors) {
-          transductorsList.push(transductor['serial_number'])
-        }
-
-        this.setTransductorList(transductorsList)
-        this.setSelectedTransductor(transductorsList[16])
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    this.getTransductors()
 
     this.periodsOptions['Hoje'] = this.getTodayInterval()
     this.periodsOptions['Últimos 7 dias'] = this.getLastWeek()
