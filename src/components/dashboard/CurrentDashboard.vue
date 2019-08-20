@@ -75,7 +75,8 @@ export default {
       transductorList: [],
       selectedCampus: '',
       selectedTransductor: '',
-      selectedPeriod: 'Hoje'
+      selectedPeriod: 'Hoje',
+      periodsOptions: {}
     }
   },
 
@@ -142,47 +143,121 @@ export default {
             colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
             opacity: 0.5
           }
+        },
+
+        tooltip: {
+          x: {
+            format: 'dd-MM-yyyy HH:mm',
+            formatter: undefined
+          }
         }
-        // colors: [
-        //   // '#3333ee',
-        //   // '#33ee33',
-        //   // '#ee3333'
-        // ]
+      }
+    },
+
+    intervalOptions () {
+      return {
+        hour12: false,
+        day: '2-digit',
+        year: 'numeric',
+        month: '2-digit'
       }
     },
 
     series () {
       return [
         {
-          name: 'current A',
+          name: 'Corrente A',
           data: this.current_a
         },
 
         {
-          name: 'current B',
+          name: 'Corrente B',
           data: this.current_b
         },
 
         {
-          name: 'current C',
+          name: 'Corrente C',
           data: this.current_c
         }
       ]
     }
   },
 
+  watched: {
+    transductorList: (val) => {
+      this.transductorList = val
+    },
+    selectedTransductor: (val) => {
+      this.selectedTransductor = val
+    }
+  },
+
   methods: {
     updateChart () {
-      axios
-        .get(`http://0.0.0.0:8000/graph/minutely_current/?serial_number=${this.selectedTransductor}`)
-        .then((res) => {
-          const measurements = res.data.results
+      let periods = this.periodsOptions[this.selectedPeriod]
+      let startDate = periods[0]
+      let endDate = periods[1]
+      let limit = periods[2]
 
-          this.buildGraphInformation(measurements)
-        })
-        .catch((err) => console.log(err))
+      if (this.selectedTransductor !== undefined) {
+        axios
+          .get(`http://127.0.0.1:8000/graph/minutely_current/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
+          .then((res) => {
+            const measurements = res.data.results
 
-      console.log(this.dates)
+            this.buildGraphInformation(measurements)
+          })
+          .catch((err) => console.log(err))
+      }
+    },
+
+    getTodayInterval () {
+      let endDate = this.endDate()
+      let startDate = this.startDate(0)
+
+      return [startDate, endDate, 1440]
+    },
+
+    getLastWeek () {
+      let endDate = this.endDate()
+      let startDate = this.startDate(7)
+
+      return [startDate, endDate, 10080]
+    },
+
+    getLastMonth () {
+      let endDate = this.endDate()
+      let startDate = this.startDate(30)
+
+      return [startDate, endDate, 43200]
+    },
+
+    endDate () {
+      let endDate = new Date().toLocaleTimeString('pt-BR', this.intervalOptions).replace(/(\/)/g, '-').replace(/:[0-9]{2}$/g, '')
+
+      let endDateDay = endDate.substr(0, 2)
+      let endDateMonth = endDate.substr(3, 2)
+      let endDateYear = endDate.substr(6, 4)
+      let endDateTime = endDate.substr(10, endDate.length)
+      endDate = endDateYear + '-' + endDateMonth + '-' + endDateDay + endDateTime
+
+      return endDate
+    },
+
+    startDate (days) {
+      let startDate = new Date()
+      let day = startDate.getDay()
+      day = startDate.getDate() - days
+      startDate.setDate(day)
+      startDate = startDate.toLocaleTimeString('pt-BR', this.intervalOptions).replace(/(:*[0-9]{2}:*[0-9]{2}:*[0-9]{2})/g, '00:00').replace(/(\/)/g, '-')
+
+      let startDateDay = startDate.substr(0, 2)
+      let startDateMonth = startDate.substr(3, 2)
+      let startDateYear = startDate.substr(6, 4)
+      let startDateTime = startDate.substr(10, startDate.length)
+      startDate = startDateYear + '-' + startDateMonth + '-' + startDateDay + startDateTime
+
+      return startDate
     },
 
     formattedDate (date) {
@@ -245,34 +320,35 @@ export default {
 
     setSelectedTransductor (selectedTransductor) {
       this.selectedTransductor = selectedTransductor
+    },
+
+    getTransductors () {
+      axios
+        .get(`http://127.0.0.1:8000/energy_transductors`)
+        .then((res) => {
+          const transductors = res.data.results
+          let transductorsList = []
+
+          for (let transductor of transductors) {
+            transductorsList.push(transductor['serial_number'])
+          }
+
+          transductorsList.sort()
+
+          this.setTransductorList(transductorsList)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   },
 
   beforeMount () {
-    // axios
-    //   .get(`http://0.0.0.0:8000/graph/minutely_current`)
-    //   .then((res) => {
-    //     console.log(res.data)
-    //   })
-    //   .catch((err) => console.log(err))
+    this.getTransductors()
 
-    axios
-      .get(`http://0.0.0.0:8000/energy_transductors`)
-      .then((res) => {
-        const transductors = res.data.results
-
-        let transductorsList = []
-
-        for (let transductor of transductors) {
-          transductorsList.push(transductor['serial_number'])
-        }
-
-        this.setTransductorList(transductorsList)
-        this.setSelectedTransductor(transductorsList[16])
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    this.periodsOptions['Hoje'] = this.getTodayInterval()
+    this.periodsOptions['Últimos 7 dias'] = this.getLastWeek()
+    this.periodsOptions['Últimos 30 dias'] = this.getLastMonth()
 
     this.updateChart()
   }
