@@ -12,16 +12,11 @@
         class="row">
         <d-status-card
           class="col-sm-6 col-md-3"
-          :maxValue="20"
-          :value="15"
-          title="Transdutores"/>
-        <!-- <q-banner
-          rounded
-          class=""
           v-for="item in items"
-          :key="item.id">
-          {{ item }}
-        </q-banner> -->
+          :key="item.id"
+          :maxValue="item.maxValue"
+          :value="item.value"
+          :title="item.name"/>
       </div>
     </section>
     <section id="transductor-status">
@@ -51,11 +46,88 @@
 </template>
 
 <script>
+import axios from 'axios'
 import DashboardSummaryStatusCard from 'components/dashboard/DashboardSummaryStatusCard.vue'
 
 export default {
+  name: 'StatusDashboard',
+
   components: {
     'd-status-card': DashboardSummaryStatusCard
+  },
+
+  data () {
+    return {
+      activeTransductors: {
+        count: 0,
+        results: []
+      },
+      slaves: [],
+      data_count: 0,
+      loading: false
+    }
+  },
+
+  computed: {
+    items () {
+      let result = []
+      let other = this.activeTransductors.results.filter(t => t.active)
+
+      result.push(
+        {
+          name: 'Transdutores',
+          maxValue: this.activeTransductors.count,
+          value: other.length
+        }
+      )
+
+      return result
+    }
+  },
+
+  watch: {
+    active () {
+      this.activeTransductors = this.active
+    }
+  },
+
+  methods: {
+    getTransductors () {
+      this.loading = true
+
+      axios
+        .get(`http://localhost:8000/active_transductors`)
+        .then((res) => {
+          this.loading = false
+          this.activeTransductors = res.data
+        })
+        .catch((err) => {
+          console.log(err)
+          this.loading = false
+          this.status = 'failed'
+        })
+    },
+
+    getSlaves () {
+      this.loading = true
+
+      axios
+        .get(`http://localhost:8000/slaves`)
+        .then((res) => {
+          console.log(res)
+          this.slaves = res.data.results
+          this.loading = false
+        })
+        .catch((err) => {
+          console.log(err)
+          this.loading = false
+          this.status = 'failed'
+        })
+    }
+  },
+
+  beforeMount () {
+    this.getTransductors()
   }
 
 }
