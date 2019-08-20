@@ -148,7 +148,7 @@ export default {
 
         tooltip: {
           x: {
-            format: 'dd MM yyyy hh:mm',
+            format: 'dd-MM-yyyy HH:mm',
             formatter: undefined
           }
         }
