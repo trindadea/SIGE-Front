@@ -326,9 +326,10 @@ export default {
 
     getTransductors () {
       axios
-        .get(`http://127.0.0.1:8000/energy_transductors`)
+        .get(`http://0.0.0.0:8000/energy_transductors`)
         .then((res) => {
           const transductors = res.data.results
+
           let transductorsList = []
 
           for (let transductor of transductors) {
@@ -353,6 +354,7 @@ export default {
     this.periodsOptions['Últimos 30 dias'] = this.getLastMonth()
 
     this.updateChart()
+    console.log()
   }
 }
 </script>
