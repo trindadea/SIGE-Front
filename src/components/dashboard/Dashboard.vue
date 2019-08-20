@@ -73,6 +73,8 @@
 
 <script>
 export default {
+  name: 'Dashboard',
+
   data () {
     return {
       left: true,

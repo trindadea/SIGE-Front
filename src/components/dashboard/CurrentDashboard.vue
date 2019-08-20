@@ -58,6 +58,8 @@ import VueApexCharts from 'vue-apexcharts'
 import NoDataPlaceholder from 'components/dashboard/NoDataPlaceholder.vue'
 
 export default {
+  name: 'CurrentDashboard',
+
   components: {
     NoDataPlaceholder,
     apexcharts: VueApexCharts
