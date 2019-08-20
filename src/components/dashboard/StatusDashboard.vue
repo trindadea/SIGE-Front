@@ -23,6 +23,17 @@
       <h4 class="text-grey-7 q-my-xs q-mx-md">
         Estado dos transdutores
       </h4>
+      <div class="row" id="table1">
+        <q-table
+          class="col q-ma-md"
+          :data="allTransductors"
+          :columns="transColumns"
+          row-key="name"
+          color="white"
+          dark
+        />
+      </div>
+
       <q-separator/>
       <div>
 
@@ -62,9 +73,23 @@ export default {
         count: 0,
         results: []
       },
+
       slaves: [],
+
       data_count: 0,
-      loading: false
+
+      loading: false,
+
+      allTransductors: [],
+
+      transColumns: [
+        { name: 'serial_number', required: true, label: 'Nº série', align: 'left', field: 'serial_number' },
+        { name: 'ip_address', required: true, label: 'IP', align: 'left', field: 'ip_address' },
+        { name: 'physical_location', label: 'Local', field: 'physical_location' },
+        { name: 'broken', label: 'Danificado', field: 'broken' },
+        { name: 'actiive', label: 'Ativo', field: 'actiive' }
+        // { name: 'installation_date', label: 'Data instalação', field: 'installation_date' }
+      ]
     }
   },
 
@@ -78,16 +103,15 @@ export default {
           name: 'Transdutores',
           maxValue: this.activeTransductors.count,
           value: other.length
+        },
+        {
+          name: 'Servidores',
+          maxValue: this.slaves.length,
+          value: this.slaves.length
         }
       )
 
       return result
-    }
-  },
-
-  watch: {
-    active () {
-      this.activeTransductors = this.active
     }
   },
 
@@ -111,23 +135,49 @@ export default {
     getSlaves () {
       this.loading = true
 
+      // axios
+      //   .get(`http://localhost:8000/slaves`)
+      //   .then((res) => {
+      //     console.log(res)
+      //     this.slaves = res.data.results
+      //     this.loading = false
+      //   })
+      //   .catch((err) => {
+      //     console.log(err)
+      //     this.loading = false
+      //     this.status = 'failed'
+      //   })
+
+      this.loading = false
+
+      this.slaves = [
+        { location: 'Locale 1', ip_address: '123.232.31.2', port: 80 },
+        { location: 'Locale 2', ip_address: '123.232.31.2', port: 80 },
+        { location: 'Locale 3', ip_address: '123.232.31.2', port: 80 },
+        { location: 'Locale 4', ip_address: '123.232.31.2', port: 80 },
+        { location: 'Locale 5', ip_address: '123.232.31.2', port: 80 },
+        { location: 'Locale 6', ip_address: '123.232.31.2', port: 80 },
+        { location: 'Locale 7', ip_address: '123.232.31.2', port: 80 }
+      ]
+    },
+
+    getAllTransductors () {
       axios
-        .get(`http://localhost:8000/slaves`)
-        .then((res) => {
-          console.log(res)
-          this.slaves = res.data.results
-          this.loading = false
+        .get(`http://localhost:8000/energy_transductors`)
+        .then(res => {
+          this.allTransductors = res.data.results
+          console.log(res.data)
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err)
-          this.loading = false
-          this.status = 'failed'
         })
     }
   },
 
   beforeMount () {
     this.getTransductors()
+    this.getSlaves()
+    this.getAllTransductors()
   }
 
 }
