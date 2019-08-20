@@ -45,7 +45,14 @@
       </h4>
       <q-separator/>
       <div>
-
+        <q-table
+          class="col q-ma-md"
+          :data="slaves"
+          :columns="slavesColumns"
+          row-key="name"
+          color="white"
+          dark
+        />
       </div>
     </section>
     <!-- <section id="database-status">
@@ -87,8 +94,15 @@ export default {
         { name: 'ip_address', required: true, label: 'IP', align: 'left', field: 'ip_address' },
         { name: 'physical_location', label: 'Local', field: 'physical_location' },
         { name: 'broken', label: 'Danificado', field: 'broken' },
-        { name: 'actiive', label: 'Ativo', field: 'actiive' }
+        { name: 'active', label: 'Ativo', field: 'active', format: (val, row) => { return val ? 'ONLINE' : 'OFFLINE' } }
         // { name: 'installation_date', label: 'Data instalação', field: 'installation_date' }
+      ],
+
+      slavesColumns: [
+        { name: 'location', required: true, label: 'Localização', align: 'left', field: 'location' },
+        { name: 'ip_address', required: true, label: 'IP', align: 'left', field: 'ip_address' },
+        { name: 'port', label: 'Porta', field: 'port' },
+        { name: 'status', label: 'Ativo', field: 'status', format: (val, row) => { return val ? 'ONLINE' : 'OFFLINE' } }
       ]
     }
   },
@@ -151,13 +165,13 @@ export default {
       this.loading = false
 
       this.slaves = [
-        { location: 'Locale 1', ip_address: '123.232.31.2', port: 80 },
-        { location: 'Locale 2', ip_address: '123.232.31.2', port: 80 },
-        { location: 'Locale 3', ip_address: '123.232.31.2', port: 80 },
-        { location: 'Locale 4', ip_address: '123.232.31.2', port: 80 },
-        { location: 'Locale 5', ip_address: '123.232.31.2', port: 80 },
-        { location: 'Locale 6', ip_address: '123.232.31.2', port: 80 },
-        { location: 'Locale 7', ip_address: '123.232.31.2', port: 80 }
+        { location: 'Locale 1', ip_address: '123.232.31.2', port: 80, status: true },
+        { location: 'Locale 2', ip_address: '123.232.31.2', port: 80, status: false },
+        { location: 'Locale 3', ip_address: '123.232.31.2', port: 80, status: true },
+        { location: 'Locale 4', ip_address: '123.232.31.2', port: 80, status: false },
+        { location: 'Locale 5', ip_address: '123.232.31.2', port: 80, status: true },
+        { location: 'Locale 6', ip_address: '123.232.31.2', port: 80, status: false },
+        { location: 'Locale 7', ip_address: '123.232.31.2', port: 80, status: true }
       ]
     },
 
