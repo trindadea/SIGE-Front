@@ -19,59 +19,89 @@
           :title="item.name"/>
       </div>
     </section>
-    <section id="transductor-status">
-      <h4 class="text-grey-7 q-my-xs q-mx-md">
+
+    <section
+      id="transductor-status"
+      class="text-grey-7 q-my-xs q-mx-md q-py-md">
+      <h4 class="q-my-xs">
         Estado dos transdutores
       </h4>
+      <q-separator/>
+      <h5 class="q-mb-sm">
+        Quadro resumo
+      </h5>
       <div class="row" id="table1">
         <q-table
+          dark
           class="col q-ma-md"
-          :data="allTransductors"
-          :columns="transColumns"
           row-key="name"
           color="white"
-          dark
+          :data="allTransductors"
+          :columns="transColumns"
+          :loading="allTransductors == []"
         />
       </div>
 
-      <q-separator/>
-      <div>
-
+      <h5 class="q-mb-sm">
+        Histórico de quedas
+      </h5>
+      <div class="row">
+        <div class="col-12">
+          <down-history-list
+            :data="allTransductors"
+          />
+        </div>
       </div>
     </section>
-    <section id="slave-status">
-      <h4 class="text-grey-7 q-my-xs q-mx-md">
+
+    <section
+      id="slave-status"
+      class="text-grey-7 q-my-xs q-mx-md q-py-md">
+      <h4 class="q-my-xs">
         Estado dos servidores escravos
       </h4>
       <q-separator/>
-      <div>
+      <h5 class="q-mb-sm">
+        Quadro resumo
+      </h5>
+      <div class="row" id="table2">
         <q-table
-          class="col q-ma-md"
-          :data="slaves"
-          :columns="slavesColumns"
+          dark
+          class="col"
           row-key="name"
           color="white"
-          dark
+          :data="slaves"
+          :columns="slavesColumns"
+          :loading="slaves == []"
         />
       </div>
-    </section>
-    <!-- <section id="database-status">
-      <div>
 
+      <h5 class="q-mb-sm">
+        Histórico de quedas
+      </h5>
+      <div class="row">
+        <div class="col-12">
+          <down-history-list
+            :data="allTransductors"
+          />
+        </div>
       </div>
-    </section> -->
+    </section>
+
   </q-page>
 </template>
 
 <script>
 import axios from 'axios'
 import DashboardSummaryStatusCard from 'components/dashboard/DashboardSummaryStatusCard.vue'
+import DownHistoryList from 'components/dashboard/DownHistoryList.vue'
 
 export default {
   name: 'StatusDashboard',
 
   components: {
-    'd-status-card': DashboardSummaryStatusCard
+    'd-status-card': DashboardSummaryStatusCard,
+    DownHistoryList
   },
 
   data () {
@@ -91,17 +121,17 @@ export default {
 
       transColumns: [
         { name: 'serial_number', required: true, label: 'Nº série', align: 'left', field: 'serial_number' },
-        { name: 'ip_address', required: true, label: 'IP', align: 'left', field: 'ip_address' },
-        { name: 'physical_location', label: 'Local', field: 'physical_location' },
-        { name: 'broken', label: 'Danificado', field: 'broken' },
+        { name: 'ip_address', required: true, label: 'IP', field: 'ip_address', align: 'center' },
+        { name: 'physical_location', label: 'Local', field: 'physical_location', align: 'center' },
+        { name: 'broken', label: 'Danificado', field: 'broken', align: 'center' },
         { name: 'active', label: 'Ativo', field: 'active', format: (val, row) => { return val ? 'ONLINE' : 'OFFLINE' } }
         // { name: 'installation_date', label: 'Data instalação', field: 'installation_date' }
       ],
 
       slavesColumns: [
         { name: 'location', required: true, label: 'Localização', align: 'left', field: 'location' },
-        { name: 'ip_address', required: true, label: 'IP', align: 'left', field: 'ip_address' },
-        { name: 'port', label: 'Porta', field: 'port' },
+        { name: 'ip_address', required: true, label: 'IP', field: 'ip_address', align: 'center' },
+        { name: 'port', label: 'Porta', field: 'port', align: 'center' },
         { name: 'status', label: 'Ativo', field: 'status', format: (val, row) => { return val ? 'ONLINE' : 'OFFLINE' } }
       ]
     }
