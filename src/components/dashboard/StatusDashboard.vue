@@ -9,7 +9,7 @@
       <q-separator/>
       <div
         id="cards"
-        class="row">
+        class="row q-pa-sm">
         <d-status-card
           class="col-xs-12 col-sm-5 col-md-3"
           v-for="item in items"
@@ -24,68 +24,71 @@
       id="transductor-status"
       class="text-grey-7 q-my-xs q-mx-md q-py-md">
       <h4 class="q-my-xs">
-        Estado dos transdutores
+        Transdutores
       </h4>
       <q-separator/>
-      <h5 class="q-mb-sm">
-        Quadro resumo
-      </h5>
-      <div class="row" id="table1">
-        <q-table
-          dark
-          class="col q-ma-md"
-          row-key="name"
-          color="white"
-          :data="allTransductors"
-          :columns="transColumns"
-          :loading="allTransductors == []"
-        />
-      </div>
-
-      <h5 class="q-mb-sm">
-        Histórico de quedas
-      </h5>
-      <div class="row">
-        <div class="col-12">
-          <down-history-list
+      <q-expansion-item
+        label="Quadro resumo"
+      >
+        <div class="row q-pa-sm" id="table1">
+          <q-table
+            dark
+            class="col"
+            row-key="name"
+            color="white"
             :data="allTransductors"
+            :columns="transColumns"
+            :loading="allTransductors == []"
           />
         </div>
-      </div>
+      </q-expansion-item>
+      <q-expansion-item
+        label="Histórico de quedas"
+      >
+        <div class="row q-pa-sm">
+          <div class="col-12">
+              <down-history-list
+                :data="allTransductors"
+              />
+          </div>
+        </div>
+      </q-expansion-item>
     </section>
 
     <section
       id="slave-status"
       class="text-grey-7 q-my-xs q-mx-md q-py-md">
       <h4 class="q-my-xs">
-        Estado dos servidores escravos
+        Servidores
       </h4>
       <q-separator/>
-      <h5 class="q-mb-sm">
-        Quadro resumo
-      </h5>
-      <div class="row" id="table2">
-        <q-table
-          dark
-          class="col"
-          row-key="name"
-          color="white"
-          :data="slaves"
-          :columns="slavesColumns"
-          :loading="slaves == []"
-        />
-      </div>
-
-      <h5 class="q-mb-sm">
-        Histórico de quedas
-      </h5>
-      <div class="row">
-        <div class="col-12">
-          <down-history-list
-            :data="allTransductors"
+      <q-expansion-item
+        label="Quadro resumo"
+      >
+        <div class="row q-pa-sm" id="table2">
+          <q-table
+            dark
+            class="col"
+            row-key="name"
+            color="white"
+            :data="slaves"
+            :columns="slavesColumns"
+            :loading="slaves == []"
           />
         </div>
-      </div>
+      </q-expansion-item>
+
+      <q-expansion-item
+        label="Histórico de quedas"
+      >
+          <div class="row q-pa-sm">
+            <div class="col-12">
+                <down-history-list
+                  :data="allTransductors"
+                />
+            </div>
+          </div>
+      </q-expansion-item>
     </section>
 
   </q-page>
