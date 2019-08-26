@@ -26,8 +26,7 @@
     <q-drawer
       v-model="left"
       side="left"
-      behavior="desktop"
-      bordered>
+      >
       <q-scroll-area
         class="fit bg-grey-9 text-white">
         <q-list
