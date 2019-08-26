@@ -11,7 +11,7 @@
         id="cards"
         class="row">
         <d-status-card
-          class="col-sm-6 col-md-3"
+          class="col-xs-12 col-sm-5 col-md-3"
           v-for="item in items"
           :key="item.id"
           :maxValue="item.maxValue"
