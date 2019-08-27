@@ -3,12 +3,6 @@
     <div class="row q-pa-sm">
         <q-select
           class="col q-ma-sm"
-          label="Campus"
-          outlined
-          v-model="selectedCampus"
-          @input="updateChart()"/>
-        <q-select
-          class="col q-ma-sm"
           label="Transdutor"
           outlined
           :options="this.transductorList"
@@ -34,18 +28,6 @@
         :series="series"/>
 
       <q-separator class="col-12"/>
-
-      <!-- <area-chart
-        class="col-12"
-        :series="[{data: [28.3, 29, 33, 36, 32, 32, 33]},
-         {data: [22, 11, 14, 23, 11, 32, 23]}]"
-        :xaxis="{categories: this.dates,title: {text: 'Time'}}"
-        :yaxis="{title: {text: 'Temperature'},
-         min: 5, max: 40}"
-        :colors="['#9999ee','#9999ee','#9999ee']"
-        title="Something triphasic"/>
-
-      <q-separator class="col-12"/> -->
     </div>
 
     <no-data-placeholder v-else/>
@@ -75,7 +57,8 @@ export default {
       transductorList: [],
       selectedCampus: '',
       selectedTransductor: '',
-      selectedPeriod: 'Hoje'
+      selectedPeriod: 'Hoje',
+      periodsOptions: {}
     }
   },
 
@@ -130,7 +113,7 @@ export default {
           },
           min: Math.min(...this.series[0].data) - 20,
           max: Math.max(...this.series[0].data) + 20,
-          tickAmount: this.series[0].data.length / 5,
+          tickAmount: 5,
           labels: {
             formatter: this.labelFormatter
           }
@@ -143,11 +126,15 @@ export default {
             opacity: 0.5
           }
         }
-        // colors: [
-        //   // '#3333ee',
-        //   // '#33ee33',
-        //   // '#ee3333'
-        // ]
+      }
+    },
+
+    intervalOptions () {
+      return {
+        hour12: false,
+        day: '2-digit',
+        year: 'numeric',
+        month: '2-digit'
       }
     },
 
@@ -161,18 +148,81 @@ export default {
     }
   },
 
+  watched: {
+    transductorList: (val) => {
+      this.transductorList = val
+    },
+    selectedTransductor: (val) => {
+      this.selectedTransductor = val
+    }
+  },
+
   methods: {
     updateChart () {
-      axios
-        .get(`http://0.0.0.0:8000/graph/minutely_frequency/?serial_number=${this.selectedTransductor}`)
-        .then((res) => {
-          const measurements = res.data.results
+      let periods = this.periodsOptions[this.selectedPeriod]
+      let startDate = periods[0]
+      let endDate = periods[1]
+      let limit = periods[2]
 
-          this.buildGraphInformation(measurements)
-        })
-        .catch((err) => console.log(err))
+      if (this.selectedTransductor !== undefined) {
+        axios
+          .get(`http://127.0.0.1:8000/graph/minutely_frequency/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
+          .then((res) => {
+            const measurements = res.data.results
 
-      console.log(this.dates)
+            this.buildGraphInformation(measurements)
+          })
+          .catch((err) => console.log(err))
+      }
+    },
+
+    getTodayInterval () {
+      let endDate = this.endDate()
+      let startDate = this.startDate(0)
+
+      return [startDate, endDate, 1440]
+    },
+
+    getLastWeek () {
+      let endDate = this.endDate()
+      let startDate = this.startDate(7)
+
+      return [startDate, endDate, 10080]
+    },
+
+    getLastMonth () {
+      let endDate = this.endDate()
+      let startDate = this.startDate(30)
+
+      return [startDate, endDate, 43200]
+    },
+
+    endDate () {
+      let endDate = new Date().toLocaleTimeString('pt-BR', this.intervalOptions).replace(/(\/)/g, '-').replace(/:[0-9]{2}$/g, '')
+
+      let endDateDay = endDate.substr(0, 2)
+      let endDateMonth = endDate.substr(3, 2)
+      let endDateYear = endDate.substr(6, 4)
+      let endDateTime = endDate.substr(10, endDate.length)
+      endDate = endDateYear + '-' + endDateMonth + '-' + endDateDay + endDateTime
+
+      return endDate
+    },
+
+    startDate (days) {
+      let startDate = new Date()
+      let day = startDate.getDay()
+      day = startDate.getDate() - days
+      startDate.setDate(day)
+      startDate = startDate.toLocaleTimeString('pt-BR', this.intervalOptions).replace(/(:*[0-9]{2}:*[0-9]{2}:*[0-9]{2})/g, '00:00').replace(/(\/)/g, '-')
+
+      let startDateDay = startDate.substr(0, 2)
+      let startDateMonth = startDate.substr(3, 2)
+      let startDateYear = startDate.substr(6, 4)
+      let startDateTime = startDate.substr(10, startDate.length)
+      startDate = startDateYear + '-' + startDateMonth + '-' + startDateDay + startDateTime
+
+      return startDate
     },
 
     formattedDate (date) {
@@ -193,22 +243,24 @@ export default {
 
     buildGraphInformation (measurements) {
       let date
-      let frequencyA
+
+      let frequency
+
       let formattedDates = []
-      let frequencyAList = []
+
+      let frequencyList = []
 
       for (let measurement of measurements) {
         date = measurement['collection_date']
         date = this.formattedDate(date)
 
-        frequencyA = measurement['frequency_a']
-
+        frequency = measurement['frequency_a']
         formattedDates.push(date)
 
-        frequencyAList.push(frequencyA)
+        frequencyList.push(frequency)
       }
 
-      this.setInformations(frequencyAList, formattedDates)
+      this.setInformations(frequencyList, formattedDates)
     },
 
     setInformations (frequencyAList, formattedDates) {
@@ -222,36 +274,39 @@ export default {
 
     setSelectedTransductor (selectedTransductor) {
       this.selectedTransductor = selectedTransductor
+    },
+
+    getTransductors () {
+      axios
+        .get(`http://0.0.0.0:8000/energy_transductors`)
+        .then((res) => {
+          const transductors = res.data.results
+
+          let transductorsList = []
+
+          for (let transductor of transductors) {
+            transductorsList.push(transductor['serial_number'])
+          }
+
+          transductorsList.sort()
+
+          this.setTransductorList(transductorsList)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   },
 
   beforeMount () {
-    // axios
-    //   .get(`http://0.0.0.0:8000/graph/minutely_frequency`)
-    //   .then((res) => {
-    //     console.log(res.data)
-    //   })
-    //   .catch((err) => console.log(err))
+    this.getTransductors()
 
-    axios
-      .get(`http://0.0.0.0:8000/energy_transductors`)
-      .then((res) => {
-        const transductors = res.data.results
-
-        let transductorsList = []
-
-        for (let transductor of transductors) {
-          transductorsList.push(transductor['serial_number'])
-        }
-
-        this.setTransductorList(transductorsList)
-        this.setSelectedTransductor(transductorsList[16])
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    this.periodsOptions['Hoje'] = this.getTodayInterval()
+    this.periodsOptions['Últimos 7 dias'] = this.getLastWeek()
+    this.periodsOptions['Últimos 30 dias'] = this.getLastMonth()
 
     this.updateChart()
+    console.log()
   }
 }
 </script>

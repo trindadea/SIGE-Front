@@ -3,12 +3,6 @@
     <div class="row q-pa-sm">
         <q-select
           class="col q-ma-sm"
-          label="Campus"
-          outlined
-          v-model="selectedCampus"
-          @input="updateChart()"/>
-        <q-select
-          class="col q-ma-sm"
           label="Transdutor"
           outlined
           :options="this.transductorList"
