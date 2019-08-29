@@ -1,12 +1,12 @@
-FROM node:8.12
+FROM node:10
 
 WORKDIR /smi-front
 
 COPY . /smi-front
 
-RUN yarn global add @vue/cli \
-  && yarn install --verbose
+RUN yarn global add @quasar/cli && \
+    yarn install
 
-EXPOSE 8080
+RUN chmod +x ./scripts/start.sh
 
-CMD yarn run dev
+CMD ["sh", "./scripts/start.sh"]
