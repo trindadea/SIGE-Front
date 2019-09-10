@@ -1,6 +1,5 @@
 <template>
   <div>
-    slaves base
     <router-view></router-view>
   </div>
 </template>

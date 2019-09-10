@@ -1,6 +1,5 @@
 <template>
   <div>
-    buildings base
     <router-view></router-view>
   </div>
 </template>

@@ -1,6 +1,5 @@
 <template>
   <div>
-    jdasojfsdf
     <router-view></router-view>
   </div>
 </template>

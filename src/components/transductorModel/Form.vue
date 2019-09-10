@@ -1,31 +1,49 @@
 <template>
-  <div class="q-pa-md">
-    <h2>stuff</h2>
-    <q-form
-      class="q-gutter-md"
-      @submit="send">
-      <q-input
-        name="model_name"
-        v-model="trans_model_name"
-        label="Nome"/>
-      <q-option-group
-        v-model="trans_model_serial"
-        :options="serial_options"
-        color="primary" />
-      <q-option-group
-        name="model_transport"
-        :options="transport_options"
-        v-model="trans_model_transport"
-        label="Transporte serial"
-        color="primary"/>
-      <q-btn
-        label="Enviar"
-        type="submit"/>
-      <q-btn
-        @click="reset_fields()"
-        label="Cancelar"
-        type="reset"/>
-    </q-form>
+  <div class="row justify-center">
+    <div class="col-md-4 col-lg-5 q-pa-md">
+      <q-form
+        class="q-gutter-md"
+        @validation-success="send">
+        <h3 class="text-secondary">
+          Novo modelo de transdutor
+        </h3>
+        <span
+          v-if="response"
+          :class="'text-capitalize text-' + messageType">
+          {{ message }}
+        </span>
+        <q-input
+          outlined
+          name="model_name"
+          v-model="trans_model_name"
+          label="Nome do modelo"
+          :rules="[ val => val.length > 0 && val.length <= 50 || 'Esse campo deve conter entre 1 e 50 caracteres' ]"/>
+        <q-input
+          outlined
+          name="model_name"
+          v-model="trans_model_serial"
+          label="Protocolo serial"
+          :rules="[ val => val.length > 0 && val.length <= 50 || 'Esse campo deve conter entre 1 e 50 caracteres' ]"/>
+        <q-input
+          outlined
+          name="model_name"
+          v-model="trans_model_transport"
+          label="Protocolo de transporte"
+          :rules="[ val => val.length > 0 && val.length <= 50 || 'Esse campo deve conter entre 1 e 50 caracteres' ]"/>
+        <q-btn
+          size="1rem"
+          label="Enviar"
+          color="primary"
+          type="submit"
+          :loading="loading"/>
+        <q-btn
+          size="1rem"
+          @click="reset_fields()"
+          label="Cancelar"
+          color="negative"
+          type="reset"/>
+      </q-form>
+    </div>
   </div>
 </template>
 
@@ -33,30 +51,21 @@
 import axios from 'axios'
 
 export default {
-  // name: 'ComponentName',
   data () {
     return {
-      serial_options: [
-        { label: 'teste1', value: 'sadf2' },
-        { label: 'teste2', value: 'sadf3' },
-        { label: 'teste3', value: 'sadf4' }
-      ],
-
-      transport_options: [
-        { label: 'teste1', value: 'sadf5' },
-        { label: 'teste2', value: 'sadf3' },
-        { label: 'teste3', value: 'sadf59' }
-      ],
-
       trans_model_name: '',
       trans_model_serial: '',
-      trans_model_transport: ''
+      trans_model_transport: '',
+      message: '',
+      messageType: '',
+      response: false,
+      loading: false
     }
   },
 
   methods: {
     send () {
-      let endpointMaster = 'http://192.168.100.241:8001'
+      const masterAddress = 'http://192.168.100.24:8001' || process.env.MASTER_URL
       const data = {
         name: this.trans_model_name,
         serial_protocol: this.trans_model_serial,
@@ -64,13 +73,22 @@ export default {
       }
 
       console.log(data)
+      this.loading = true
 
       axios
-        .post(`${endpointMaster}/transductor_models/`, data)
+        .post(`${masterAddress}/transductor_models/`, data)
         .then((res) => {
+          this.loading = false
           console.log(res)
+          this.messageType = 'success'
+          this.message = 'Criado com sucesso!'
         })
-        .catch((err) => { console.log(err) })
+        .catch((err) => {
+          this.loading = false
+          console.log(err)
+          this.messageType = 'negative'
+          this.message = err.message
+        })
     },
     reset_fields () {
       this.trans_model_name = ''

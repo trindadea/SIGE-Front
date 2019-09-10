@@ -1,6 +1,5 @@
 <template>
   <div>
-    campi base
     <router-view></router-view>
   </div>
 </template>

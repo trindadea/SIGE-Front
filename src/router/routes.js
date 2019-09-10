@@ -84,11 +84,11 @@ const routes = [
     component: () => import('components/campi/CampiBase.vue'),
     children: [
       {
-        path: 'asfd',
+        path: '',
         component: () => import('components/campi/Campi.vue')
       },
       {
-        path: '',
+        path: 'new',
         component: () => import('components/campi/Form.vue')
       },
       {
@@ -129,7 +129,25 @@ const routes = [
   },
   {
     path: '/dashboard',
-    component: () => import('components/dashboard/Dashboard.vue')
+    component: () => import('components/dashboard/Dashboard.vue'),
+    children: [
+      {
+        path: '',
+        component: () => import('components/dashboard/StatusDashboard.vue')
+      },
+      {
+        path: 'tension',
+        component: () => import('components/dashboard/TensionDashboard.vue')
+      },
+      {
+        path: 'current',
+        component: () => import('components/dashboard/CurrentDashboard.vue')
+      },
+      {
+        path: 'frequency',
+        component: () => import('components/dashboard/FrequencyDashboard.vue')
+      }
+    ]
   }
 ]
 

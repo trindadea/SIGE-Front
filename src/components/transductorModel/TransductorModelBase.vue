@@ -1,6 +1,5 @@
 <template>
   <div>
-    Transductor model base
     <router-view></router-view>
   </div>
 </template>
