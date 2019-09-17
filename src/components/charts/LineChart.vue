@@ -1,9 +1,13 @@
 <template>
-  <apexcharts
-    id="chart"
-    type="line"
-    :options="chartOptions"
-    :series="chartSeries"/>
+  <div
+      v-if="chartSeries[0].data !== []"
+  >
+    <apexcharts
+      id="chart"
+      type="line"
+      :options="chartOptions"
+      :series="chartSeries"/>
+  </div>
 </template>
 
 <script>
@@ -22,16 +26,32 @@ export default {
     'yannotations',
     'xannotations',
     'title',
-    'colors'
+    'colors',
+    'labels'
   ],
 
   data () {
     return {
-      chartSeries: [],
-      chartOptions: {
+
+    }
+  },
+
+  computed: {
+    chartSeries () {
+      console.log(this.series)
+      return this.series
+    },
+    chartOptions () {
+      return {
         annotations: {
           xaxis: [],
           yaxis: []
+        },
+        tooltip: {
+          x: {
+            format: 'dd-MM-yyyy HH:mm',
+            formatter: undefined
+          }
         },
         chart: {
           shadow: {
@@ -48,10 +68,7 @@ export default {
         },
         colors: ['#3333ee', '#33ee33', '#ee3333'],
         dataLabels: {
-          enabled: true
-        },
-        stroke: {
-          curve: 'smooth'
+          enabled: false
         },
         title: {
           text: '',
@@ -64,9 +81,25 @@ export default {
             opacity: 0.5
           }
         },
-        markers: {
-          size: 5
+        fill: {
+          opacity: [0.85, 0.25, 1],
+          gradient: {
+            inverseColors: false,
+            shade: 'light',
+            type: 'vertical',
+            opacityFrom: 0.85,
+            opacityTo: 0.55,
+            stops: [0, 100, 100, 100]
+          }
         },
+        stroke: {
+          width: [2, 2, 2],
+          curve: 'smooth'
+        },
+        markers: {
+          size: 0
+        },
+        labels: this.labels,
         xaxis: {},
         yaxis: {},
         legend: {
@@ -77,15 +110,6 @@ export default {
           offsetX: -5
         }
       }
-    }
-  },
-
-  computed: {
-    minBoundary () {
-      return Math.min(...this.series) + 5
-    },
-    maxBoundary () {
-      return Math.max(...this.series) + 5
     }
   },
 
