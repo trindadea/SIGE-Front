@@ -16,35 +16,38 @@
           :options="['Hoje', 'Últimos 7 dias', 'Últimos 30 dias']"
           @input="updateChart()"/>
     </div>
-
     <q-separator/>
-
     <div
       v-if="(selectedTransductor && selectedPeriod)"
       class="row">
-      <apexcharts
+      <!-- <apexcharts
         class="col-12"
         :options="chartOptions"
-        :series="series"/>
-
+        :series="series"/> -->
+      <linechart
+        class="col-12"
+        :xaxis="xAxis"
+        :yaxis="yAxis"
+        :title="title"
+        :series="series"
+        :labels="getDates"/>
       <q-separator class="col-12"/>
     </div>
-
     <no-data-placeholder v-else/>
   </q-page>
 </template>
 
 <script>
 import axios from 'axios'
-import VueApexCharts from 'vue-apexcharts'
 import NoDataPlaceholder from 'components/dashboard/NoDataPlaceholder.vue'
+import LineChart from 'components/charts/LineChart.vue'
 
 export default {
   name: 'FrequencyDashboard',
 
   components: {
     NoDataPlaceholder,
-    apexcharts: VueApexCharts
+    linechart: LineChart
   },
 
   data () {
@@ -63,6 +66,39 @@ export default {
   },
 
   computed: {
+    getDates () {
+      return this.dates
+    },
+    xAxis () {
+      return {
+        type: 'datetime',
+        show: false
+      }
+    },
+    yAxis () {
+      return {
+        min: Math.min(...this.series[0].data) - 20,
+        max: Math.max(...this.series[0].data) + 20,
+        tickAmount: 5,
+        labels: {
+          formatter: this.labelFormatter
+        }
+      }
+    },
+    title () {
+      return {
+        text: 'frequency'
+      }
+    },
+    colors () {
+      return {
+        borderColor: '#e7e7e7',
+        row: {
+          colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+          opacity: 0.5
+        }
+      }
+    },
     chartOptions () {
       return {
         chart: {
