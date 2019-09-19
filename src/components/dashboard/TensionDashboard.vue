@@ -22,11 +22,13 @@
     <div
       v-if="(selectedTransductor && selectedPeriod)"
       class="row">
-      <apexcharts
+     <linechart
         class="col-12"
-        :options="chartOptions"
-        :series="series"/>
-
+        :xaxis="xAxis"
+        :yaxis="yAxis"
+        :title="title"
+        :series="series"
+        :labels="getDates"/>
       <q-separator class="col-12"/>
 
       <!-- <area-chart
@@ -48,7 +50,7 @@
 
 <script>
 import axios from 'axios'
-import VueApexCharts from 'vue-apexcharts'
+import LineChart from 'components/charts/LineChart.vue'
 import NoDataPlaceholder from 'components/dashboard/NoDataPlaceholder.vue'
 
 export default {
@@ -56,7 +58,7 @@ export default {
 
   components: {
     NoDataPlaceholder,
-    apexcharts: VueApexCharts
+    linechart: LineChart
   },
 
   data () {
@@ -78,76 +80,31 @@ export default {
   },
 
   computed: {
-    chartOptions () {
+    getDates () {
+      return this.dates
+    },
+
+    xAxis () {
       return {
-        chart: {
-          stacked: false
-        },
+        type: 'datetime',
+        show: false
+      }
+    },
 
-        stroke: {
-          width: [2, 2, 2],
-          curve: 'smooth'
-        },
-
-        plotOptions: {
-          bar: {
-            columnWidth: '50%'
-          }
-        },
-
-        fill: {
-          opacity: [0.85, 0.25, 1],
-          gradient: {
-            inverseColors: false,
-            shade: 'light',
-            type: 'vertical',
-            opacityFrom: 0.85,
-            opacityTo: 0.55,
-            stops: [0, 100, 100, 100]
-          }
-        },
-
-        labels: this.dates,
-
-        dataLabels: {
-          enabled: false
-        },
-
-        markers: {
-          size: 0
-        },
-
-        xaxis: {
-          type: 'datetime',
-          show: false
-        },
-
-        yaxis: {
-          title: {
-            text: 'Tensão'
-          },
-          min: Math.min(...this.series[0].data) - 20,
-          max: Math.max(...this.series[0].data) + 20,
-          tickAmount: 5,
-          labels: {
-            formatter: this.labelFormatter
-          }
-        },
-
-        grid: {
-          borderColor: '#e7e7e7',
-          row: {
-            colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-            opacity: 0.5
-          }
-        },
-
-        tooltip: {
-          x: {
-            format: 'dd-MM-yyyy HH:mm',
-            formatter: undefined
-          }
+    yAxis () {
+      return {
+        min: Math.min(...this.series[0].data) - 20,
+        max: Math.max(...this.series[0].data) + 20,
+        tickAmount: 5,
+        labels: {
+          formatter: this.labelFormatter
         }
+      }
+    },
+
+    title () {
+      return {
+        text: 'Tensão'
       }
     },
 
