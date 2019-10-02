@@ -221,7 +221,7 @@ export default {
           date = measurement['collection_date']
           date = this.formattedDate(date)
 
-          oneFaseMeasurement = measurement['frequency_a']
+          oneFaseMeasurement = measurement['measurement']
 
           formattedDates.push(date)
 
@@ -246,9 +246,9 @@ export default {
           date = measurement['collection_date']
           date = this.formattedDate(date)
 
-          faseA = measurement['voltage_a']
-          faseB = measurement['voltage_b']
-          faseC = measurement['voltage_c']
+          faseA = measurement['fase_a']
+          faseB = measurement['fase_b']
+          faseC = measurement['fase_c']
 
           formattedDates.push(date)
 
