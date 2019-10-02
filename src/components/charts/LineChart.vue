@@ -136,12 +136,9 @@ export default {
             colors: ['#f3f3f3', 'transparent'],
             opacity: 0.5
           }
-        },
-        markers: {
-          size: 0
         }
       }
-    },
+    }
   },
 
   methods: {
@@ -162,11 +159,11 @@ export default {
           .catch((err) => console.log(err))
       }
     },
-  
+
     getTodayInterval () {
       let now = new Date()
       let oneDayAgo = new Date()
-      
+
       oneDayAgo.setDate(oneDayAgo.getDate() - 1)
 
       let startDate = moment(oneDayAgo).format('YYYY-MM-DD h:mm')
@@ -174,7 +171,7 @@ export default {
 
       return [startDate, endDate, 1440]
     },
-  
+
     getLastWeek () {
       let now = new Date()
       let oneWeekAgo = new Date()
@@ -186,11 +183,11 @@ export default {
 
       return [startDate, endDate, 10080]
     },
-  
+
     getLastMonth () {
       let now = new Date()
       let oneMonthAgo = new Date()
-      
+
       oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1)
 
       let startDate = moment(oneMonthAgo).format('YYYY-MM-DD h:mm')
@@ -198,7 +195,7 @@ export default {
 
       return [startDate, endDate, 43200]
     },
-  
+
     formattedDate (date) {
       let dateValue
       let timeValue
@@ -212,30 +209,27 @@ export default {
     },
 
     buildGraphInformation (measurements) {
-      if(this.graphic_type === '1') {
-        
+      if (this.graphic_type === '1') {
         let date
-  
+
         let oneFaseMeasurement
         let formattedDates = []
-  
+
         let measurementList = []
-  
+
         for (let measurement of measurements) {
           date = measurement['collection_date']
           date = this.formattedDate(date)
-          
+
           oneFaseMeasurement = measurement['frequency_a']
-          
+
           formattedDates.push(date)
-  
+
           measurementList.push(oneFaseMeasurement)
         }
-  
+
         this.setOneFaseInformations(measurementList, formattedDates)
-      
-      }
-      else {
+      } else {
         let date
 
         let faseA
@@ -243,7 +237,7 @@ export default {
         let faseC
 
         let formattedDates = []
-        
+
         let faseAList = []
         let faseBList = []
         let faseCList = []
@@ -251,13 +245,13 @@ export default {
         for (let measurement of measurements) {
           date = measurement['collection_date']
           date = this.formattedDate(date)
-          
+
           faseA = measurement['voltage_a']
           faseB = measurement['voltage_b']
           faseC = measurement['voltage_c']
-          
+
           formattedDates.push(date)
-          
+
           faseAList.push(faseA)
           faseBList.push(faseB)
           faseCList.push(faseC)
@@ -266,7 +260,7 @@ export default {
         this.setThreeFaseInformations(faseAList, faseBList, faseCList, formattedDates)
       }
     },
-  
+
     setOneFaseInformations (measurementList, formattedDates) {
       this.fase_a = measurementList
       this.dates = formattedDates
@@ -282,7 +276,7 @@ export default {
     setTransductorList (transductorList) {
       this.transductorList = transductorList
     },
-  
+
     getTransductors () {
       axios
         .get(`http://0.0.0.0:8000/energy_transductors`)
@@ -304,7 +298,7 @@ export default {
         })
     }
   },
-  
+
   beforeMount () {
     this.getTransductors()
 
