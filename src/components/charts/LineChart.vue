@@ -18,7 +18,7 @@
     </div>
     <q-separator/>
       <div
-      v-if="series[0].data !== []" class="row">
+      v-if="series[0].data !== []">
       <apexcharts
       id="chart"
       type="line"
@@ -30,8 +30,9 @@
 </template>
 
 <script>
-// width="50%"
 import VueApexCharts from 'vue-apexcharts'
+import moment from 'moment'
+import axios from 'axios'
 
 export default {
   components: {
@@ -40,7 +41,6 @@ export default {
 
   props: [
     'title',
-    'labels',
     'url',
     'graphic_type'
   ],
@@ -48,7 +48,9 @@ export default {
   data () {
     return {
       dates: [],
-      frequency_a: [],
+      fase_a: [],
+      fase_b: [],
+      fase_c: [],
       measurements: [],
       transductorList: [],
       selectedCampus: '',
@@ -59,46 +61,39 @@ export default {
   },
 
   computed: {
+    series () {
+      return [
+        {
+          name: 'Fase A',
+          data: this.fase_a
+        },
+        {
+          name: 'Fase B',
+          data: this.fase_b
+        },
+        {
+          name: 'Fase C',
+          data: this.fase_c
+        }
+      ]
+    },
     chartOptions () {
       return {
-        annotations: {
-          xaxis: [],
-          yaxis: []
-        },
-        tooltip: {
-          x: {
-            format: 'dd-MM-yyyy HH:mm',
-            formatter: undefined
-          }
-        },
         chart: {
-          shadow: {
-            enabled: true,
-            color: '#000',
-            top: 18,
-            left: 7,
-            blur: 10,
-            opacity: 1
-          },
-          toolbar: {
-            show: false
+          stacked: false
+        },
+
+        stroke: {
+          width: [2, 2, 2],
+          curve: 'smooth'
+        },
+
+        plotOptions: {
+          bar: {
+            columnWidth: '50%'
           }
         },
-        colors: ['#3333ee', '#33ee33', '#ee3333'],
-        dataLabels: {
-          enabled: false
-        },
-        title: {
-          text: '',
-          align: 'left'
-        },
-        grid: {
-          borderColor: '#e7e7e7',
-          row: {
-            colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-            opacity: 0.5
-          }
-        },
+
         fill: {
           opacity: [0.85, 0.25, 1],
           gradient: {
@@ -110,239 +105,216 @@ export default {
             stops: [0, 100, 100, 100]
           }
         },
-        stroke: {
-          width: [2, 2, 2],
-          curve: 'smooth'
+
+        labels: this.dates,
+
+        dataLabels: {
+          enabled: false
         },
+
         markers: {
           size: 0
         },
-        labels: this.labels,
-        xAxis () {
-          return {
-            type: 'datetime',
-            show: false
+
+        xaxis: {
+          type: 'datetime',
+          show: false
+        },
+
+        yaxis: {
+          title: {
+            text: 'frequency'
+          },
+          min: Math.min(...this.series[0].data) - 20,
+          max: Math.max(...this.series[0].data) + 20,
+          tickAmount: 5
+        },
+
+        grid: {
+          borderColor: '#e7e7e7',
+          row: {
+            colors: ['#f3f3f3', 'transparent'],
+            opacity: 0.5
           }
         },
-        yAxis () {
-          return {
-            min: Math.min(...this.series[0].data) - 20,
-            max: Math.max(...this.series[0].data) + 20,
-            tickAmount: 5,
-            labels: {
-              formatter: this.labelFormatter
-            }
-          }
-        },
-        legend: {
-          position: 'top',
-          horizontalAlign: 'right',
-          floating: true,
-          offsetY: -25,
-          offsetX: -5
+        markers: {
+          size: 0
         }
       }
     },
   },
 
   methods: {
-      updateChart () {
-        let periods = this.periodsOptions[this.selectedPeriod]
-        let startDate = periods[0]
-        let endDate = periods[1]
-        let limit = periods[2]
-  
-        if (this.selectedTransductor !== undefined) {
-          axios
-            .get(`http://127.0.0.1:8000/graph/minutely_frequency/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
-            .then((res) => {
-              const measurements = res.data.results
-  
-              this.buildGraphInformation(measurements)
-            })
-            .catch((err) => console.log(err))
-        }
-      },
-  
-      getTodayInterval () {
-        let endDate = this.endDate()
-        let startDate = this.startDate(0)
-  
-        return [startDate, endDate, 1440]
-      },
-  
-      getLastWeek () {
-        let endDate = this.endDate()
-        let startDate = this.startDate(7)
-  
-        return [startDate, endDate, 10080]
-      },
-  
-      getLastMonth () {
-        let endDate = this.endDate()
-        let startDate = this.startDate(30)
-  
-        return [startDate, endDate, 43200]
-      },
-  
-      endDate () {
-        let endDate = new Date().toLocaleTimeString('pt-BR', this.intervalOptions).replace(/(\/)/g, '-').replace(/:[0-9]{2}$/g, '')
-  
-        let endDateDay = endDate.substr(0, 2)
-        let endDateMonth = endDate.substr(3, 2)
-        let endDateYear = endDate.substr(6, 4)
-        let endDateTime = endDate.substr(10, endDate.length)
-        endDate = endDateYear + '-' + endDateMonth + '-' + endDateDay + endDateTime
-  
-        return endDate
-      },
-  
-      startDate (days) {
-        let startDate = new Date()
-        let day = startDate.getDay()
-        day = startDate.getDate() - days
-        startDate.setDate(day)
-        startDate = startDate.toLocaleTimeString('pt-BR', this.intervalOptions).replace(/(:*[0-9]{2}:*[0-9]{2}:*[0-9]{2})/g, '00:00').replace(/(\/)/g, '-')
-  
-        let startDateDay = startDate.substr(0, 2)
-        let startDateMonth = startDate.substr(3, 2)
-        let startDateYear = startDate.substr(6, 4)
-        let startDateTime = startDate.substr(10, startDate.length)
-        startDate = startDateYear + '-' + startDateMonth + '-' + startDateDay + startDateTime
-  
-        return startDate
-      },
-  
-      formattedDate (date) {
-        let dateValue
-        let timeValue
-        let result = date.split('T')
-  
-        dateValue = result[0].split('-')
-        dateValue = dateValue[1] + '/' + dateValue[2] + '/' + dateValue[0]
-        timeValue = result[1]
-  
-        return dateValue + ' ' + timeValue
-      },
-  
-      labelFormatter (value) {
-        return value.toFixed(2)
-      },
-  
-      buildGraphInformation (measurements) {
-        if(graphic_type === 1) {
-          
-          let date
-    
-          let frequency
-    
-          let formattedDates = []
-    
-          let frequencyList = []
-    
-          for (let measurement of measurements) {
-            date = measurement['collection_date']
-            date = this.formattedDate(date)
-    
-            frequency = measurement['frequency_a']
-            formattedDates.push(date)
-    
-            frequencyList.push(frequency)
-          }
-    
-          this.setInformations(frequencyList, formattedDates)
-        
-        }
-        else {
-          let date
+    updateChart () {
+      let periods = this.periodsOptions[this.selectedPeriod]
+      let startDate = periods[0]
+      let endDate = periods[1]
+      let limit = periods[2]
 
-          let currentA
-          let currentB
-          let currentC
-
-          let formattedDates = []
-
-          let currentAList = []
-          let currentBList = []
-          let currentCList = []
-
-          for (let measurement of measurements) {
-            date = measurement['collection_date']
-            date = this.formattedDate(date)
-
-            currentA = measurement['current_a']
-            currentB = measurement['current_b']
-            currentC = measurement['current_c']
-
-            formattedDates.push(date)
-
-            currentAList.push(currentA)
-            currentBList.push(currentB)
-            currentCList.push(currentC)
-          }
-
-          this.setInformations(currentAList, currentBList, currentCList, formattedDates)
-        }
-      },
-  
-      setInformations (frequencyAList, formattedDates) {
-        this.frequency_a = frequencyAList
-        this.dates = formattedDates
-      },
-  
-      setTransductorList (transductorList) {
-        this.transductorList = transductorList
-      },
-  
-      setSelectedTransductor (selectedTransductor) {
-        this.selectedTransductor = selectedTransductor
-      },
-  
-      getTransductors () {
+      if (this.selectedTransductor !== undefined) {
         axios
-          .get(`http://0.0.0.0:8000/energy_transductors`)
+          .get(`http://127.0.0.1:8000/graph/minutely_${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
           .then((res) => {
-            const transductors = res.data.results
-  
-            let transductorsList = []
-  
-            for (let transductor of transductors) {
-              transductorsList.push(transductor['serial_number'])
-            }
-  
-            transductorsList.sort()
-  
-            this.setTransductorList(transductorsList)
+            const measurements = res.data.results
+            console.log(measurements)
+            this.buildGraphInformation(measurements)
           })
-          .catch((err) => {
-            console.log(err)
-          })
+          .catch((err) => console.log(err))
       }
     },
   
-    beforeMount () {
-      this.getTransductors()
-      console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa")
+    getTodayInterval () {
+      let now = new Date()
+      let oneDayAgo = new Date()
+      
+      oneDayAgo.setDate(oneDayAgo.getDate() - 1)
+
+      let startDate = moment(oneDayAgo).format('YYYY-MM-DD h:mm')
+      let endDate = moment(now).format('YYYY-MM-DD h:mm')
+
+      return [startDate, endDate, 1440]
+    },
   
-      this.periodsOptions['Hoje'] = this.getTodayInterval()
-      this.periodsOptions['Últimos 7 dias'] = this.getLastWeek()
-      this.periodsOptions['Últimos 30 dias'] = this.getLastMonth()
+    getLastWeek () {
+      let now = new Date()
+      let oneWeekAgo = new Date()
+
+      oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
+
+      let startDate = moment(oneWeekAgo).format('YYYY-MM-DD h:mm')
+      let endDate = moment(now).format('YYYY-MM-DD h:mm')
+
+      return [startDate, endDate, 10080]
+    },
   
-      this.updateChart()
-      console.log()
+    getLastMonth () {
+      let now = new Date()
+      let oneMonthAgo = new Date()
+      
+      oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1)
+
+      let startDate = moment(oneMonthAgo).format('YYYY-MM-DD h:mm')
+      let endDate = moment(now).format('YYYY-MM-DD h:mm')
+
+      return [startDate, endDate, 43200]
+    },
+  
+    formattedDate (date) {
+      let dateValue
+      let timeValue
+      let result = date.split('T')
+
+      dateValue = result[0].split('-')
+      dateValue = dateValue[1] + '/' + dateValue[2] + '/' + dateValue[0]
+      timeValue = result[1]
+
+      return dateValue + ' ' + timeValue
+    },
+
+    buildGraphInformation (measurements) {
+      if(this.graphic_type === '1') {
+        
+        let date
+  
+        let oneFaseMeasurement
+        let formattedDates = []
+  
+        let measurementList = []
+  
+        for (let measurement of measurements) {
+          date = measurement['collection_date']
+          date = this.formattedDate(date)
+          
+          oneFaseMeasurement = measurement['frequency_a']
+          
+          formattedDates.push(date)
+  
+          measurementList.push(oneFaseMeasurement)
+        }
+  
+        this.setOneFaseInformations(measurementList, formattedDates)
+      
+      }
+      else {
+        let date
+
+        let faseA
+        let faseB
+        let faseC
+
+        let formattedDates = []
+        
+        let faseAList = []
+        let faseBList = []
+        let faseCList = []
+
+        for (let measurement of measurements) {
+          date = measurement['collection_date']
+          date = this.formattedDate(date)
+          
+          faseA = measurement['voltage_a']
+          faseB = measurement['voltage_b']
+          faseC = measurement['voltage_c']
+          
+          formattedDates.push(date)
+          
+          faseAList.push(faseA)
+          faseBList.push(faseB)
+          faseCList.push(faseC)
+        }
+
+        this.setThreeFaseInformations(faseAList, faseBList, faseCList, formattedDates)
+      }
+    },
+  
+    setOneFaseInformations (measurementList, formattedDates) {
+      this.fase_a = measurementList
+      this.dates = formattedDates
+    },
+
+    setThreeFaseInformations (faseAList, faseBList, faseCList, formattedDates) {
+      this.fase_a = faseAList
+      this.fase_b = faseBList
+      this.fase_c = faseCList
+      this.dates = formattedDates
+    },
+
+    setTransductorList (transductorList) {
+      this.transductorList = transductorList
+    },
+  
+    getTransductors () {
+      axios
+        .get(`http://0.0.0.0:8000/energy_transductors`)
+        .then((res) => {
+          const transductors = res.data.results
+
+          let transductorsList = []
+
+          for (let transductor of transductors) {
+            transductorsList.push(transductor['serial_number'])
+          }
+
+          transductorsList.sort()
+
+          this.setTransductorList(transductorsList)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
-  // beforeMount () {
-  //   // this.chartOptions = this.options
-  //   this.chartSeries = this.series
-  //   this.chartOptions.yaxis = this.yaxis
-  //   this.chartOptions.yaxis.min = this.minBoundary
-  //   this.chartOptions.yaxis.max = this.maxBoundary
-  //   this.chartOptions.xaxis = this.xaxis
-  //   this.chartOptions.colors = this.colors
-  //   this.chartOptions.title.text = this.title
-  //   this.chartOptions.annotations.xaxis = this.xannotations
-  //   this.chartOptions.annotations.yaxis = this.yannotations
-  // }
+  },
+  
+  beforeMount () {
+    this.getTransductors()
+
+    this.periodsOptions['Hoje'] = this.getTodayInterval()
+    this.periodsOptions['Últimos 7 dias'] = this.getLastWeek()
+    this.periodsOptions['Últimos 30 dias'] = this.getLastMonth()
+
+    this.updateChart()
+    console.log()
+  }
 }
 </script>
 
