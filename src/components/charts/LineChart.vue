@@ -246,9 +246,9 @@ export default {
           date = measurement['collection_date']
           date = this.formattedDate(date)
 
-          faseA = measurement['fase_a']
-          faseB = measurement['fase_b']
-          faseC = measurement['fase_c']
+          faseA = measurement['phase_a']
+          faseB = measurement['phase_b']
+          faseC = measurement['phase_c']
 
           formattedDates.push(date)
 
