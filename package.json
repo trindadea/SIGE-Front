@@ -9,7 +9,6 @@
   "scripts": {
     "lint": "eslint --ext .js,.vue src",
     "test": "echo \"No test specified\" && exit 0",
-    "start-dev": "node build/dev-server.js",
     "start": "quasar dev",
     "build": "quasar build"
   },
