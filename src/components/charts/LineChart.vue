@@ -18,7 +18,7 @@
     </div>
     <q-separator/>
       <div
-      v-if="series[0].data !== []">
+      v-if="this.selectedTransductor !== ''">
       <apexcharts
       id="chart"
       type="line"
@@ -31,12 +31,14 @@
 
 <script>
 import VueApexCharts from 'vue-apexcharts'
+import NoDataPlaceholder from './NoDataPlaceholder.vue'
 import moment from 'moment'
 import axios from 'axios'
 
 export default {
   components: {
-    'apexcharts': VueApexCharts
+    'apexcharts': VueApexCharts,
+    'no-data-placeholder': NoDataPlaceholder
   },
 
   props: [
@@ -305,9 +307,6 @@ export default {
     this.periodsOptions['Hoje'] = this.getTodayInterval()
     this.periodsOptions['Últimos 7 dias'] = this.getLastWeek()
     this.periodsOptions['Últimos 30 dias'] = this.getLastMonth()
-
-    this.updateChart()
-    console.log()
   }
 }
 </script>
