@@ -186,7 +186,7 @@ export default {
       //   .get(`http://localhost:8001/slaves`)
       //   .then((res) => {
       //     console.log(res)
-      //     this.slaves = res.data.results
+      //     this.slaves = res.data
       //     this.loading = false
       //   })
       //   .catch((err) => {
@@ -212,7 +212,7 @@ export default {
       axios
         .get(`http://localhost:8001/energy_transductors`)
         .then(res => {
-          this.allTransductors = res.data.results
+          this.allTransductors = res.data
           console.log(res.data)
         })
         .catch(err => {

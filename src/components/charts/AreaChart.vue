@@ -153,9 +153,9 @@ export default {
 
       if (this.selectedTransductor !== undefined) {
         axios
-          .get(`http://127.0.0.1:8000/graph/minutely_${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
+          .get(`http://127.0.0.1:8001/graph/minutely_${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
           .then((res) => {
-            const measurements = res.data.results
+            const measurements = res.data
             console.log(measurements)
             this.buildGraphInformation(measurements)
           })
@@ -282,9 +282,9 @@ export default {
 
     getTransductors () {
       axios
-        .get(`http://0.0.0.0:8000/energy_transductors`)
+        .get(`http://0.0.0.0:8001/energy_transductors`)
         .then((res) => {
-          const transductors = res.data.results
+          const transductors = res.data
 
           let transductorsList = []
 

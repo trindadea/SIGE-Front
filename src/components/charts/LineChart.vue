@@ -18,10 +18,10 @@
     </div>
     <q-separator/>
       <div
-      v-if="this.selectedTransductor !== ''">
+      v-if="this.selectedTransductor !== ''" @click="asdf">
       <apexcharts
       id="chart"
-      type="line"
+      type="bar"
       :options="chartOptions"
       :series="series"/>
     </div>
@@ -50,9 +50,9 @@ export default {
   data () {
     return {
       dates: [],
-      fase_a: [],
-      fase_b: [],
-      fase_c: [],
+      phase_a: [],
+      phase_b: [],
+      phase_c: [],
       measurements: [],
       transductorList: [],
       selectedCampus: '',
@@ -67,15 +67,15 @@ export default {
       return [
         {
           name: 'Fase A',
-          data: this.fase_a
+          data: this.phase_a
         },
         {
           name: 'Fase B',
-          data: this.fase_b
+          data: this.phase_b
         },
         {
           name: 'Fase C',
-          data: this.fase_c
+          data: this.phase_c
         }
       ]
     },
@@ -108,7 +108,7 @@ export default {
           }
         },
 
-        labels: this.dates,
+        // labels: this.dates,
 
         dataLabels: {
           enabled: false
@@ -127,8 +127,8 @@ export default {
           title: {
             text: 'frequency'
           },
-          min: Math.min(...this.series[0].data) - 20,
-          max: Math.max(...this.series[0].data) + 20,
+          min: 50,
+          max: 70,
           tickAmount: 5
         },
 
@@ -138,12 +138,22 @@ export default {
             colors: ['#f3f3f3', 'transparent'],
             opacity: 0.5
           }
+        },
+
+        tooltip: {
+          x: {
+            format: 'dd-MM-yyyy HH:mm',
+            formatter: undefined
+          }
         }
       }
     }
   },
 
   methods: {
+    asdf () {
+      console.log(this.series)
+    },
     updateChart () {
       let periods = this.periodsOptions[this.selectedPeriod]
       let startDate = periods[0]
@@ -152,10 +162,9 @@ export default {
 
       if (this.selectedTransductor !== undefined) {
         axios
-          .get(`http://127.0.0.1:8000/graph/minutely_${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
+          .get(`http://127.0.0.1:8001/graph/minutely_${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
           .then((res) => {
             const measurements = res.data.results
-            console.log(measurements)
             this.buildGraphInformation(measurements)
           })
           .catch((err) => console.log(err))
@@ -168,8 +177,8 @@ export default {
 
       oneDayAgo.setDate(oneDayAgo.getDate() - 1)
 
-      let startDate = moment(oneDayAgo).format('YYYY-MM-DD h:mm')
-      let endDate = moment(now).format('YYYY-MM-DD h:mm')
+      let startDate = moment(oneDayAgo).format('YYYY-MM-DD HH:mm')
+      let endDate = moment(now).format('YYYY-MM-DD HH:mm')
 
       return [startDate, endDate, 1440]
     },
@@ -206,31 +215,33 @@ export default {
       dateValue = result[0].split('-')
       dateValue = dateValue[1] + '/' + dateValue[2] + '/' + dateValue[0]
       timeValue = result[1]
+      let a = dateValue + ' ' + timeValue
+      a = a.split('Z')[0]
 
-      return dateValue + ' ' + timeValue
+      return a
     },
 
     buildGraphInformation (measurements) {
+      measurements = measurements[0].measurement
       if (this.graphic_type === '1') {
         let date
 
         let oneFaseMeasurement
-        let formattedDates = []
 
         let measurementList = []
 
         for (let measurement of measurements) {
-          date = measurement['collection_date']
-          date = this.formattedDate(date)
-
-          oneFaseMeasurement = measurement['measurement']
-
-          formattedDates.push(date)
-
-          measurementList.push(oneFaseMeasurement)
+          console.log((measurement[1]))
+          date = this.formattedDate(measurement[1])
+          oneFaseMeasurement = measurement[0]
+          let object = {
+            'x': date,
+            'y': oneFaseMeasurement
+          }
+          measurementList.push(object)
         }
 
-        this.setOneFaseInformations(measurementList, formattedDates)
+        this.setOneFaseInformations(measurementList)
       } else {
         let date
 
@@ -246,6 +257,7 @@ export default {
 
         for (let measurement of measurements) {
           date = measurement['collection_date']
+
           date = this.formattedDate(date)
 
           faseA = measurement['phase_a']
@@ -263,15 +275,14 @@ export default {
       }
     },
 
-    setOneFaseInformations (measurementList, formattedDates) {
-      this.fase_a = measurementList
-      this.dates = formattedDates
+    setOneFaseInformations (measurementList) {
+      this.phase_a = measurementList
     },
 
     setThreeFaseInformations (faseAList, faseBList, faseCList, formattedDates) {
-      this.fase_a = faseAList
-      this.fase_b = faseBList
-      this.fase_c = faseCList
+      this.phase_a = faseAList
+      this.phase_b = faseBList
+      this.phase_c = faseCList
       this.dates = formattedDates
     },
 
@@ -281,9 +292,9 @@ export default {
 
     getTransductors () {
       axios
-        .get(`http://0.0.0.0:8000/energy_transductors`)
+        .get(`http://0.0.0.0:8001/energy_transductors`)
         .then((res) => {
-          const transductors = res.data.results
+          const transductors = res.data
 
           let transductorsList = []
 

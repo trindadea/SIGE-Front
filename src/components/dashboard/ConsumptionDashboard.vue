@@ -1,7 +1,7 @@
 <template>
   <bar-chart
     title="Frequency"
-    url="consumption"
+    url="current"
     graphic_type="1"/>
 </template>
 
