@@ -167,7 +167,7 @@ export default {
       this.loading = true
 
       axios
-        .get(`http://localhost:8000/active_transductors`)
+        .get(`http://localhost:8001/active_transductors`)
         .then((res) => {
           this.loading = false
           this.activeTransductors = res.data
@@ -183,7 +183,7 @@ export default {
       this.loading = true
 
       // axios
-      //   .get(`http://localhost:8000/slaves`)
+      //   .get(`http://localhost:8001/slaves`)
       //   .then((res) => {
       //     console.log(res)
       //     this.slaves = res.data.results
@@ -210,7 +210,7 @@ export default {
 
     getAllTransductors () {
       axios
-        .get(`http://localhost:8000/energy_transductors`)
+        .get(`http://localhost:8001/energy_transductors`)
         .then(res => {
           this.allTransductors = res.data.results
           console.log(res.data)

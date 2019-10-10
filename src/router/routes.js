@@ -146,6 +146,10 @@ const routes = [
       {
         path: 'frequency',
         component: () => import('components/dashboard/FrequencyDashboard.vue')
+      },
+      {
+        path: 'consumption',
+        component: () => import('components/dashboard/ConsumptionDashboard.vue')
       }
     ]
   }
