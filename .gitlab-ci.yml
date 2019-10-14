@@ -1,4 +1,4 @@
-image: node:8.12
+image: node:10
 
 stages:
   - test
@@ -11,33 +11,18 @@ cache:
   paths:
     - node_modules/
 
-unit:
-  stage: test
-  before_script:
-    - apt-get install -y libfontconfig
-    - npm install
-  script:
-    - npm run unit
-
-#end2end:
-#  stage: test
-#  before_script:
-#    - npm install
-#  script:
-#    - npm run e2e
-
 lint:
   stage: quality
   before_script:
-    - npm install
-  script: npm run lint
+    - yarn install
+  script: yarn lint
 
 build:
   stage: build
   before_script:
-    - npm install
+    - yarn install
   script:
-    - npm run build
+    - yarn build
 
 code_quality:
   stage: quality
@@ -56,4 +41,3 @@ code_quality:
         "registry.gitlab.com/gitlab-org/security-products/codequality:$SP_VERSION" /code
   artifacts:
     paths: [gl-code-quality-report.json]
-
