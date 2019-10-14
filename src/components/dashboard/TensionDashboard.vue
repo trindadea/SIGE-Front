@@ -1,7 +1,9 @@
 <template>
   <linechart
-    title="Frequency"
-    url="voltage"
+    title="Tension"
+    url="threephase_voltage"
+    y_min="200"
+    y_max="230"
     graphic_type="3"/>
 </template>
 

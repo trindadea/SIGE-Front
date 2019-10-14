@@ -21,7 +21,7 @@
       v-if="this.selectedTransductor !== ''" @click="asdf">
       <apexcharts
       id="chart"
-      type="bar"
+      type="line"
       :options="chartOptions"
       :series="series"/>
     </div>
@@ -44,12 +44,13 @@ export default {
   props: [
     'title',
     'url',
-    'graphic_type'
+    'graphic_type',
+    'y_min',
+    'y_max'
   ],
 
   data () {
     return {
-      dates: [],
       phase_a: [],
       phase_b: [],
       phase_c: [],
@@ -108,8 +109,6 @@ export default {
           }
         },
 
-        // labels: this.dates,
-
         dataLabels: {
           enabled: false
         },
@@ -127,8 +126,8 @@ export default {
           title: {
             text: 'frequency'
           },
-          min: 50,
-          max: 70,
+          min: parseInt(this.y_min, 10),
+          max: parseInt(this.y_max, 10),
           tickAmount: 5
         },
 
@@ -222,8 +221,8 @@ export default {
     },
 
     buildGraphInformation (measurements) {
-      measurements = measurements[0].measurement
       if (this.graphic_type === '1') {
+        measurements = measurements[0].measurement
         let date
 
         let oneFaseMeasurement
@@ -243,35 +242,48 @@ export default {
 
         this.setOneFaseInformations(measurementList)
       } else {
+        measurements = measurements[0]
         let date
 
-        let faseA
-        let faseB
-        let faseC
+        let phaseAList = measurements['phase_a']
+        let phaseBList = measurements['phase_b']
+        let phaseCList = measurements['phase_c']
 
-        let formattedDates = []
+        let measurementListA = []
+        let measurementListB = []
+        let measurementListC = []
 
-        let faseAList = []
-        let faseBList = []
-        let faseCList = []
-
-        for (let measurement of measurements) {
-          date = measurement['collection_date']
-
-          date = this.formattedDate(date)
-
-          faseA = measurement['phase_a']
-          faseB = measurement['phase_b']
-          faseC = measurement['phase_c']
-
-          formattedDates.push(date)
-
-          faseAList.push(faseA)
-          faseBList.push(faseB)
-          faseCList.push(faseC)
+        for (let measurement of phaseAList) {
+          date = this.formattedDate(measurement[1])
+          let phaseAMeasurement = measurement[0]
+          let object = {
+            'x': date,
+            'y': phaseAMeasurement
+          }
+          measurementListA.push(object)
         }
 
-        this.setThreeFaseInformations(faseAList, faseBList, faseCList, formattedDates)
+        for (let measurement of phaseBList) {
+          date = this.formattedDate(measurement[1])
+          let phaseBMeasurement = measurement[0]
+          let object = {
+            'x': date,
+            'y': phaseBMeasurement
+          }
+          measurementListB.push(object)
+        }
+
+        for (let measurement of phaseCList) {
+          date = this.formattedDate(measurement[1])
+          let phaseCMeasurement = measurement[0]
+          let object = {
+            'x': date,
+            'y': phaseCMeasurement
+          }
+          measurementListC.push(object)
+        }
+
+        this.setThreeFaseInformations(measurementListA, measurementListB, measurementListC)
       }
     },
 
@@ -279,11 +291,10 @@ export default {
       this.phase_a = measurementList
     },
 
-    setThreeFaseInformations (faseAList, faseBList, faseCList, formattedDates) {
-      this.phase_a = faseAList
-      this.phase_b = faseBList
-      this.phase_c = faseCList
-      this.dates = formattedDates
+    setThreeFaseInformations (measurementListA, measurementListB, measurementListC) {
+      this.phase_a = measurementListA
+      this.phase_b = measurementListB
+      this.phase_c = measurementListC
     },
 
     setTransductorList (transductorList) {
