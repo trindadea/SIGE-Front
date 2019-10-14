@@ -18,7 +18,7 @@
     </div>
     <q-separator/>
       <div
-      v-if="this.selectedTransductor !== ''" @click="asdf">
+      v-if="this.selectedTransductor !== ''">
       <apexcharts
       id="chart"
       type="bar"
@@ -271,7 +271,7 @@ export default {
           faseCList.push(faseC)
         }
 
-        this.setThreeFaseInformations(faseAList, faseBList, faseCList, formattedDates)
+        this.setThreePhaseInformations(faseAList, faseBList, faseCList, formattedDates)
       }
     },
 
