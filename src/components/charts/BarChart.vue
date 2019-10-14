@@ -129,7 +129,8 @@ export default {
           },
           min: 50,
           max: 70,
-          tickAmount: 5
+          tickAmount: 5,
+          decimalsInFloat: 2
         },
 
         grid: {
