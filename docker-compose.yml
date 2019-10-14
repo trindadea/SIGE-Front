@@ -2,10 +2,10 @@ version: '3.5'
 services:
   front:
     container_name: front
-    # image: lappis/smi-front:latest
     build: .
     ports:
       - 8080:8080
+    entrypoint: ["sh", "./scripts/start.sh"]
     volumes:
       - .:/smi-front
       - yarn_cache:/smi-front/node_modules

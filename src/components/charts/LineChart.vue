@@ -18,7 +18,7 @@
     </div>
     <q-separator/>
       <div
-      v-if="this.selectedTransductor !== ''" @click="asdf">
+      v-if="this.selectedTransductor !== ''">
       <apexcharts
       id="chart"
       type="line"
