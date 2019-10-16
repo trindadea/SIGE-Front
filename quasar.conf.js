@@ -29,7 +29,7 @@ module.exports = function (ctx) {
       // iconSet: 'ionicons-v4',
       // lang: 'de', // Quasar language
 
-      // all: true, // --- includes everything; for dev only!
+      all: true, // --- includes everything; for dev only!
 
       components: [
         'QLayout',
@@ -83,26 +83,27 @@ module.exports = function (ctx) {
     devServer: {
       // https: true,
       // port: 8080,
-      open: true // opens browser window automatically
+      open: false // opens browser window automatically
     },
 
     // animations: 'all', // --- includes all animations
     animations: [],
 
     ssr: {
-      pwa: false
+      pwa: true
     },
 
     pwa: {
       // workboxPluginMode: 'InjectManifest',
       // workboxOptions: {}, // only for NON InjectManifest
       manifest: {
-        // name: 'SMI app',
-        // short_name: 'SMI app',
-        // description: 'A Quasar Framework app',
+        name: 'Sistema de Monitoramento de Insumos',
+        short_name: 'SMI',
+        description: 'SPA app for SMI',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
+        lang: 'pt-br',
         theme_color: '#027be3',
         icons: [
           {

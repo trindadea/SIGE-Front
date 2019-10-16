@@ -5,7 +5,7 @@
         class="q-gutter-md"
         @validation-success="send">
         <h3 class="text-secondary">
-          Novo edifício
+          Novo modelo de transdutor
         </h3>
         <span
           v-if="response"
@@ -14,32 +14,22 @@
         </span>
         <q-input
           outlined
-          name="buildingName"
-          v-model="buildingName"
-          label="Nome do edifício"
+          name="model_name"
+          v-model="trans_model_name"
+          label="Nome do modelo"
           :rules="[ val => val.length > 0 && val.length <= 50 || 'Esse campo deve conter entre 1 e 50 caracteres' ]"/>
         <q-input
           outlined
-          name="buildingAcronym"
-          v-model="buildingAcronym"
-          label="Abreviação/sigla"
-          :rules="[ val =>  val.length <= 50 || 'Esse campo deve conter entre 1 e 50 caracteres' ]"/>
+          name="model_name"
+          v-model="trans_model_serial"
+          label="Protocolo serial"
+          :rules="[ val => val.length > 0 && val.length <= 50 || 'Esse campo deve conter entre 1 e 50 caracteres' ]"/>
         <q-input
           outlined
-          name="buildingPhone"
-          v-model="buildingPhone"
-          type="tel"
-          label="Telefone de contato"
-          mask="(##) ####-####"
-          :rules="[ val => val.length > 0 && val.length == 14 || 'Esse campo deve conter um telefone fixo válido!' ]"/>
-        <q-select
-          outlined
-          v-model="campi"
-          :options="availableCampi"
-          option-label="name"
-          label="Campus"
-          :rules="[ val => val != '' || 'Esse campo deve ser preenchido!' ]"/>
-
+          name="model_name"
+          v-model="trans_model_transport"
+          label="Protocolo de transporte"
+          :rules="[ val => val.length > 0 && val.length <= 50 || 'Esse campo deve conter entre 1 e 50 caracteres' ]"/>
         <q-btn
           size="1rem"
           label="Enviar"
@@ -63,12 +53,9 @@ import axios from 'axios'
 export default {
   data () {
     return {
-      buildingName: '',
-      buildingAcronym: '',
-      buildingPhone: '',
-      campi: '',
-      availableCampi: [],
-
+      trans_model_name: '',
+      trans_model_serial: '',
+      trans_model_transport: '',
       message: '',
       messageType: '',
       response: false,
@@ -80,17 +67,16 @@ export default {
     send () {
       const masterAddress = 'http://192.168.100.24:8001' || process.env.MASTER_URL
       const data = {
-        name: this.buildingName,
-        acronym: this.buildingAcronym,
-        phone: this.buildingPhone,
-        campus_id: this.campi
+        name: this.trans_model_name,
+        serial_protocol: this.trans_model_serial,
+        transport_protocol: this.trans_model_transport
       }
 
       console.log(data)
       this.loading = true
 
       axios
-        .post(`${masterAddress}/buildings/`, data)
+        .post(`${masterAddress}/transductor_models/`, data)
         .then((res) => {
           this.loading = false
           console.log(res)
@@ -105,24 +91,10 @@ export default {
         })
     },
     reset_fields () {
-      this.buildingName = ''
-      this.buildingAcronym = ''
-      this.buildingPhone = ''
+      this.trans_model_name = ''
+      this.trans_model_serial = ''
+      this.trans_model_transport = ''
     }
-  },
-
-  beforeCreate () {
-    const masterUrl = '' || process.env.MASTER_URL
-    axios
-      .get(`${masterUrl}/campi/`)
-      .then((res) => {
-        // console.log(res.data)
-        this.availableCampi = res.data
-        console.log(this.availableCampi)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
   }
 }
 </script>
