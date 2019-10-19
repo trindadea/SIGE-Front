@@ -8,10 +8,10 @@
         <router-view />
         <div class="container q-my-lg">
           <div class="row">
-            <div class="col-6 asdf">
-              <h4>
-                Geração
-              </h4>
+            <div class="col-6 col-lg-5">
+                <h5 class="text-left text-grey-7 q-ma-sm">
+                  Geração
+                </h5>
               <div class="flex justify-center">
                 <q-btn
                   class="q-ma-sm"
@@ -35,8 +35,9 @@
                 :options="chartOptions"
                 :series="series" />
             </div>
-            <div class="col-6 asdf">
+            <div class="col-6 col-lg-5 col-lg-offset-2 q-pa-md-lg">
               <l-map
+                class="rounded-borders"
                 :zoom="17"
                 :min-zoom="3.2"
                 :center="center"
@@ -60,10 +61,10 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-6 asdf">
-              <h4>
-                Consumo
-              </h4>
+            <div class="col-6 col-lg-5">
+                <h5 class="text-left text-grey-7 q-ma-sm">
+                  Consumo
+                </h5>
               <div class="flex justify-center">
                 <q-btn
                   class="q-ma-sm"
@@ -91,12 +92,16 @@
                 :series="series"
               />
             </div>
-            <div class="col-6 asdf">
-              <h6
+            <div class="col-6 col-lg-5 col-lg-offset-2 q-pa-sm">
+              <status-table
+                :data="[]"
+                :dark="false"
+              />
+              <!-- <h6
               v-for="transductor in transductors"
               :key="transductor.id">
                 O - {{transductor.name}}
-              </h6>
+              </h6> -->
             </div>
           </div>
         </div>
@@ -114,15 +119,17 @@ import { LMap, LTileLayer, LCircle, LPopup } from 'vue2-leaflet'
 import VueApexCharts from 'vue-apexcharts'
 import PresentationFooter from 'components/presentationDashboard/Footer.vue'
 import PresentationHeader from 'components/presentationDashboard/Header.vue'
+import StatusTable from 'components/presentationDashboard/StatusTable.vue'
 import 'leaflet/dist/leaflet.css'
 import axios from 'axios'
 
 export default {
   components: {
     // linechart: LineChart,
-    PresentationFooter,
-    PresentationHeader,
     apexcharts: VueApexCharts,
+    StatusTable,
+    PresentationHeader,
+    PresentationFooter,
     LMap,
     LTileLayer,
     LCircle,
@@ -255,14 +262,24 @@ export default {
     }
   },
   methods: {
-    get_generation () {
+    getPowerGenerationData () {
       axios
-        .get(`localhost:8001/graph/consumption`)
+        .get(`http://localhost:8001/graph/consumption/`)
         .then(res => {
           this.generation = res.data
           console.log(this.generation)
         })
         .catch(err => {
+          console.log(err)
+        })
+    },
+    getTransductorStatus () {
+      axios
+        .get(`http://localhost:8001/graph/`)
+        .then((res) => {
+
+        })
+        .catch((err) => {
           console.log(err)
         })
     }
@@ -271,7 +288,7 @@ export default {
 </script>
 
 <style lang="scss">
-  .asdf {
+  .black-test-border {
     border: 1em black solid;
   }
 
@@ -280,6 +297,11 @@ export default {
     @media (min-width: 1024px) {
       padding-right: 5%;
       padding-left: 5%;
+
+      h1, h2, h3, h4, h5, h6 {
+        margin-left: 0;
+        margin-right: 0;
+      }
     }
   }
 </style>
