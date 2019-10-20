@@ -14,18 +14,21 @@
                 </h5>
               <div class="flex justify-center">
                 <q-btn
-                  class="q-ma-sm"
-                  color="white"
+                  flat
+                  dense
+                  class="q-ma-sm q-px-md bg-grey-4 text-grey-10"
                   text-color="black"
                   label="Dia" />
                 <q-btn
-                  class="q-ma-sm"
-                  color="white"
+                  flat
+                  dense
+                  class="q-ma-sm q-px-md bg-grey-4 text-grey-10"
                   text-color="black"
                   label="Semana" />
                 <q-btn
-                  class="q-ma-sm"
-                  color="white"
+                  flat
+                  dense
+                  class="q-ma-sm q-px-md bg-grey-4 text-grey-10"
                   text-color="black"
                   label="Mês" />
               </div>
@@ -67,20 +70,23 @@
                 </h5>
               <div class="flex justify-center">
                 <q-btn
-                  class="q-ma-sm"
-                  color="white"
+                  flat
+                  dense
+                  class="q-ma-sm q-px-md bg-grey-4 text-grey-10"
                   text-color="black"
                   label="Dia"
                 />
                 <q-btn
-                  class="q-ma-sm"
-                  color="white"
+                  flat
+                  dense
+                  class="q-ma-sm q-px-md bg-grey-4 text-grey-10"
                   text-color="black"
                   label="Semana"
                 />
                 <q-btn
-                  class="q-ma-sm"
-                  color="white"
+                  flat
+                  dense
+                  class="q-ma-sm q-px-md bg-grey-4 text-grey-10"
                   text-color="black"
                   label="Mês"
                 />
