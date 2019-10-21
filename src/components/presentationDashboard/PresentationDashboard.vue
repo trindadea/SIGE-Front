@@ -4,13 +4,16 @@
 
       <presentation-header/>
 
-      <q-page-container>
+      <q-page-container class="bg-grey-2">
         <router-view />
-        <div class="container q-my-lg">
+        <div class="container q-py-lg bg-white">
+          <h1 class="text-center text-grey-10 main-tile text-capitalize">
+            faculdade de tecnologia
+          </h1>
           <div class="row">
-            <div class="col-6 col-lg-5">
-                <h5 class="text-left text-grey-7 q-ma-sm">
-                  Geração
+            <div class="col-6 col-lg-5 q-col-gutter-none">
+                <h5 class="text-left text-grey-9 q-ma-sm q-pa-lg">
+                  Gráfico de geração de energia
                 </h5>
               <div class="flex justify-center">
                 <q-btn
@@ -38,7 +41,7 @@
                 :options="chartOptions"
                 :series="series" />
             </div>
-            <div class="col-6 col-lg-5 col-lg-offset-2 q-pa-md-lg">
+            <div class="col-6 col-lg-6 offset-lg-1 q-pa-md-lg q-col-gutter-none q-pa-lg">
               <l-map
                 class="rounded-borders"
                 :zoom="17"
@@ -63,11 +66,14 @@
               </l-map>
             </div>
           </div>
+
+          <span class="q-ma-lg q-pa-lg"></span>
+
           <div class="row">
-            <div class="col-6 col-lg-5">
-                <h5 class="text-left text-grey-7 q-ma-sm">
-                  Consumo
-                </h5>
+            <div class="col-6 col-lg-5 q-col-gutter-none q-pa-lg">
+              <h5 class="text-left text-grey-9 q-ma-sm">
+                Gráfico de consumo de energia
+              </h5>
               <div class="flex justify-center">
                 <q-btn
                   flat
@@ -98,16 +104,16 @@
                 :series="series"
               />
             </div>
-            <div class="col-6 col-lg-5 col-lg-offset-2 q-pa-sm">
+            <div class="col-6 col-lg-6 offset-lg-1 q-pa-sm q-col-gutter-none q-pa-lg">
               <status-table
                 :data="[]"
                 :dark="false"
               />
-              <!-- <h6
+              <h6
               v-for="transductor in transductors"
               :key="transductor.id">
                 O - {{transductor.name}}
-              </h6> -->
+              </h6>
             </div>
           </div>
         </div>
@@ -143,12 +149,21 @@ export default {
   },
   data () {
     return {
+      colors: [
+        '#023E73',
+        '#F29F05',
+        '#088521'
+      ],
+
       generation: [],
 
       center: [-15.763636, -47.872534],
 
       // center: L.latLng(-15.763636, -47.872534),
-      mapOptions: { zoomControl: false },
+      mapOptions: {
+        zoomControl: false,
+        maxbounds: this.center
+      },
 
       url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
       attribution:
@@ -298,7 +313,7 @@ export default {
     border: 1em black solid;
   }
 
-  .container {
+  .container-header {
     // quasar breakpoints: https://quasar.dev/style/breakpoints
     @media (min-width: 1024px) {
       padding-right: 5%;
@@ -309,5 +324,26 @@ export default {
         margin-right: 0;
       }
     }
+  }
+  .container {
+        // quasar breakpoints: https://quasar.dev/style/breakpoints
+    @media (min-width: 1024px) {
+      margin-right: 5%;
+      margin-left: 5%;
+
+      h1, h2, h3, h4, h5, h6 {
+        margin-left: 0;
+        margin-right: 0;
+      }
+    }
+  }
+
+  .main-tile {
+    margin-top: 2.5em;
+    margin-bottom: 2.5em;
+  }
+
+  .unb-blue {
+    background-color: rgba(0, 64, 126, 100%);
   }
 </style>

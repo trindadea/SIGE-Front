@@ -1,5 +1,5 @@
 <template>
-  <q-header class="unb-blue text-white container">
+  <q-header class="unb-blue text-white container-header">
     <div class="row">
 
       <q-toolbar class="q-px-none col">
@@ -24,7 +24,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .unb-blue {
-    background-color: rgba(0, 64, 126, 100%);
-  }
+
 </style>
