@@ -56,12 +56,12 @@
                 <l-circle
                   v-for="transductor in transductors"
                   :key="transductor.id"
-                  :lat-lng="transductor.coordinates"
+                  :lat-lng="[transductor.latitude, transductor.longitude]"
                   :radius="7"
-                  :l-style="transductor.style"
+                  :l-style="collorFunction(transductor.broken)"
                   :hover="true"
                 >
-                  <l-popup :content="transductor.name" />
+                  <l-popup :content="transductor.location" />
                 </l-circle>
               </l-map>
             </div>
@@ -112,7 +112,7 @@
               <h6
               v-for="transductor in transductors"
               :key="transductor.id">
-                O - {{transductor.name}}
+                O - {{transductor.location}}
               </h6>
             </div>
           </div>
@@ -169,38 +169,7 @@ export default {
       attribution:
         '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
 
-      transductors: [
-        {
-          id: 1,
-          name: 'Transdutor FT I',
-          coordinates: [-15.7632, -47.8730366666666],
-          style: {
-            color: 'green',
-            fillColor: 'green',
-            fillOpacity: 1
-          }
-        },
-        {
-          id: 2,
-          name: 'Transdutor FT II',
-          coordinates: [-15.7642, -47.8726],
-          style: {
-            color: 'green',
-            fillColor: 'green',
-            fillOpacity: 1
-          }
-        },
-        {
-          id: 3,
-          name: 'Transdutor FT III',
-          coordinates: [-15.7638, -47.8719],
-          style: {
-            color: 'green',
-            fillColor: 'green',
-            fillOpacity: 1
-          }
-        }
-      ]
+      transductors: []
     }
   },
 
@@ -208,8 +177,12 @@ export default {
     series () {
       return [
         {
-          name: 'Fase A',
+          name: 'Geração',
           data: [[1, 2], [2, 3], [4, 5]]
+        },
+        {
+          name: 'Consumo',
+          data: [[1, 4], [2, 5], [4, 2]]
         }
       ]
     },
@@ -217,7 +190,7 @@ export default {
     chartOptions () {
       return {
         chart: {
-          stacked: false
+          stacked: true
         },
 
         stroke: {
@@ -260,8 +233,8 @@ export default {
           title: {
             text: 'Geração'
           },
-          min: parseInt(this.y_min, 10),
-          max: parseInt(this.y_max, 10),
+          min: 0,
+          max: 10,
           tickAmount: 5
         },
 
@@ -283,6 +256,22 @@ export default {
     }
   },
   methods: {
+    collorFunction (transductorStatus) {
+      if (transductorStatus) {
+        return {
+          color: 'red',
+          fillColor: 'red',
+          fillOpacity: 1
+        }
+      } else {
+        return {
+          color: 'green',
+          fillColor: 'green',
+          fillOpacity: 1
+        }
+      }
+    },
+
     getPowerGenerationData () {
       axios
         .get(`http://localhost:8001/graph/consumption/`)
@@ -303,7 +292,25 @@ export default {
         .catch((err) => {
           console.log(err)
         })
+    },
+    getTransductors () {
+      axios
+        .get(`http://0.0.0.0:8001/energy_transductors`)
+        .then((res) => {
+          const transductors = res.data
+
+          console.log(transductors)
+
+          this.transductors = transductors
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
+  },
+
+  beforeMount () {
+    this.getTransductors()
   }
 }
 </script>

@@ -205,20 +205,19 @@ export default {
 
       return [startDate, endDate, 43200]
     },
+    // formattedDate (date) {
+    //   let dateValue
+    //   let timeValue
+    //   let result = date.split('T')
 
-    formattedDate (date) {
-      let dateValue
-      let timeValue
-      let result = date.split('T')
+    //   dateValue = result[0].split('-')
+    //   dateValue = dateValue[1] + '/' + dateValue[2] + '/' + dateValue[0]
+    //   timeValue = result[1]
+    //   let a = dateValue + ' ' + timeValue
+    //   a = a.split('Z')[0]
 
-      dateValue = result[0].split('-')
-      dateValue = dateValue[1] + '/' + dateValue[2] + '/' + dateValue[0]
-      timeValue = result[1]
-      let a = dateValue + ' ' + timeValue
-      a = a.split('Z')[0]
-
-      return a
-    },
+    //   return a
+    // },
 
     buildGraphInformation (measurements) {
       if (this.graphic_type === '1') {
@@ -231,7 +230,7 @@ export default {
 
         for (let measurement of measurements) {
           console.log((measurement[1]))
-          date = this.formattedDate(measurement[1])
+          date = measurement[1]
           oneFaseMeasurement = measurement[0]
           let object = {
             'x': date,
@@ -254,7 +253,8 @@ export default {
         let measurementListC = []
 
         for (let measurement of phaseAList) {
-          date = this.formattedDate(measurement[1])
+          date = measurement[1]
+          console.log(measurement[1])
           let phaseAMeasurement = measurement[0]
           let object = {
             'x': date,
@@ -264,7 +264,7 @@ export default {
         }
 
         for (let measurement of phaseBList) {
-          date = this.formattedDate(measurement[1])
+          date = measurement[1]
           let phaseBMeasurement = measurement[0]
           let object = {
             'x': date,
@@ -274,7 +274,7 @@ export default {
         }
 
         for (let measurement of phaseCList) {
-          date = this.formattedDate(measurement[1])
+          date = measurement[1]
           let phaseCMeasurement = measurement[0]
           let object = {
             'x': date,
