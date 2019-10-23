@@ -13,35 +13,19 @@
           <div class="row">
             <div class="col-6 col-lg-5 q-col-gutter-none">
                 <h5 class="text-left text-grey-9 q-ma-sm q-pa-lg">
-                  Gráfico de geração de energia
+                  Transductor list
                 </h5>
-              <div class="flex justify-center">
-                <q-btn
-                  flat
-                  dense
-                  class="q-ma-sm q-px-md bg-grey-4 text-grey-10"
-                  text-color="black"
-                  label="Dia" />
-                <q-btn
-                  flat
-                  dense
-                  class="q-ma-sm q-px-md bg-grey-4 text-grey-10"
-                  text-color="black"
-                  label="Semana" />
-                <q-btn
-                  flat
-                  dense
-                  class="q-ma-sm q-px-md bg-grey-4 text-grey-10"
-                  text-color="black"
-                  label="Mês" />
-              </div>
-              <apexcharts
-                id="chart"
-                type="bar"
-                :options="chartOptions"
-                :series="series" />
+                <status-table
+                :data="[]"
+                :dark="false"
+                />
+                <h6
+                v-for="transductor in transductors"
+                :key="transductor.id">
+                  O - {{transductor.location}}
+                </h6>
             </div>
-            <div class="col-6 col-lg-6 offset-lg-1 q-pa-md-lg q-col-gutter-none q-pa-lg">
+            <div class="col-6 col-lg-6 offset-lg-1 q-pa-md-lg q-col-gutter-none q-pa-lg map-class">
               <l-map
                 class="rounded-borders"
                 :zoom="17"
@@ -70,10 +54,14 @@
           <span class="q-ma-lg q-pa-lg"></span>
 
           <div class="row">
-            <div class="col-6 col-lg-5 q-col-gutter-none q-pa-lg">
-              <h5 class="text-left text-grey-9 q-ma-sm">
-                Gráfico de consumo de energia
-              </h5>
+            <div class="col-2 col-lg-6 offset-lg-1 q-pa-sm q-col-gutter-none q-pa-lg">
+            </div>
+            <div class="col-8 col-lg-5 q-col-gutter-none q-pa-lg">
+              <div class="flex justify-center">
+                <h5 class="text-left text-grey-9 q-ma-sm">
+                  Gráfico de consumo de energia
+                </h5>
+              </div>
               <div class="flex justify-center">
                 <q-btn
                   flat
@@ -103,17 +91,6 @@
                 :options="chartOptions"
                 :series="series"
               />
-            </div>
-            <div class="col-6 col-lg-6 offset-lg-1 q-pa-sm q-col-gutter-none q-pa-lg">
-              <status-table
-                :data="[]"
-                :dark="false"
-              />
-              <h6
-              v-for="transductor in transductors"
-              :key="transductor.id">
-                O - {{transductor.location}}
-              </h6>
             </div>
           </div>
         </div>
@@ -157,12 +134,13 @@ export default {
 
       generation: [],
 
-      center: [-15.763636, -47.872534],
+      center: [-15.763609, -47.872596],
 
       // center: L.latLng(-15.763636, -47.872534),
       mapOptions: {
         zoomControl: false,
-        maxbounds: this.center
+        maxbounds: this.center,
+        attributionControl: false
       },
 
       url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
@@ -277,7 +255,6 @@ export default {
         .get(`http://localhost:8001/graph/consumption/`)
         .then(res => {
           this.generation = res.data
-          console.log(this.generation)
         })
         .catch(err => {
           console.log(err)
@@ -298,8 +275,6 @@ export default {
         .get(`http://0.0.0.0:8001/energy_transductors`)
         .then((res) => {
           const transductors = res.data
-
-          console.log(transductors)
 
           this.transductors = transductors
         })
@@ -352,5 +327,9 @@ export default {
 
   .unb-blue {
     background-color: rgba(0, 64, 126, 100%);
+  }
+
+  .map-class {
+    min-height: 30rem
   }
 </style>
