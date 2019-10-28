@@ -160,13 +160,18 @@ export default {
       let limit = periods[2]
 
       if (this.selectedTransductor !== undefined) {
+        let urlLoka = `http://127.0.0.1:8001/graph/minutely_${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`
+
         axios
-          .get(`http://127.0.0.1:8001/graph/minutely_${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
+          .get(urlLoka)
           .then((res) => {
             const measurements = res.data.results
             this.buildGraphInformation(measurements)
           })
-          .catch((err) => console.log(err))
+          .catch((err) => {
+            console.log(urlLoka)
+            console.log(err)
+          })
       }
     },
 

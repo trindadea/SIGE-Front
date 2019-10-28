@@ -158,6 +158,8 @@ export default {
         }
       )
 
+      console.log(result)
+
       return result
     }
   },
@@ -167,10 +169,11 @@ export default {
       this.loading = true
 
       axios
-        .get(`http://localhost:8001/active_transductors`)
+        .get(`http://localhost:8001/active_transductors/`)
         .then((res) => {
           this.loading = false
           this.activeTransductors = res.data
+          // console.log(res.data)
         })
         .catch((err) => {
           console.log(err)

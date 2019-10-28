@@ -80,7 +80,7 @@ export default {
       partners: [
         'https://www.infoescola.com/wp-content/uploads/2016/02/unb.png',
         'statics/ceb_rgb.png',
-        'https://3c1703fe8d.site.internapcdn.net/newman/csz/news/800/2016/anewscorpion.jpg',
+        // 'https://3c1703fe8d.site.internapcdn.net/newman/csz/news/800/2016/anewscorpion.jpg',
         'statics/transparents/logo_PED_vertical_com_sigla.png'
       ]
     }
