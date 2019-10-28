@@ -83,7 +83,8 @@ export default {
         { name: 'Estado do sistema', icon: 'healing', to: '/dashboard/' },
         { name: 'Tensão', icon: 'bolt', to: '/dashboard/tension' },
         { name: 'Corrente', icon: 'power', to: '/dashboard/current' },
-        { name: 'Frequência', icon: 'swap_calls', to: '/dashboard/frequency' }
+        { name: 'Frequência', icon: 'swap_calls', to: '/dashboard/frequency' },
+        { name: 'Potência Aparente Total', icon: 'power', to: '/dashboard/total_apparent_power' }
       ],
 
       something: [
