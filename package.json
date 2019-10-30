@@ -21,6 +21,7 @@
     "apexcharts": "^3.8.2",
     "auto-changelog": "^1.16.1",
     "axios": "^0.18.1",
+    "moment": "^2.24.0",
     "node-sass": "^4.12.0",
     "punycode": "^2.1.1",
     "quasar": "^1.0.0",

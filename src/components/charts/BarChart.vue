@@ -22,7 +22,7 @@
     >
       <apexcharts
       id="chart"
-      type="area"
+      type="bar"
       :options="chartOptions"
       :series="series"/>
     </div>
@@ -128,7 +128,7 @@ export default {
           title: {
             text: 'frequency'
           },
-          min: Math.min(...this.series[0].data) - 20,
+          // min: Math.min(...this.series[0].data) - 20,
           max: Math.max(...this.series[0].data) + 20,
           tickAmount: 5
         },
@@ -282,7 +282,7 @@ export default {
 
     getTransductors () {
       axios
-        .get(`http://0.0.0.0:8001/energy_transductors`)
+        .get(`http://0.0.0.0:8001/energy_transductors/`)
         .then((res) => {
           const transductors = res.data
 

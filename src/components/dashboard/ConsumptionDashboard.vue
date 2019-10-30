@@ -1,20 +1,24 @@
 <template>
-  <linechart
+  <bar-chart
     title="Frequency"
-    url="frequency"
-    y_min="30"
-    y_max="70"
+    url="current"
     graphic_type="1"/>
 </template>
 
 <script>
-import LineChart from 'components/charts/LineChart.vue'
+import BarChart from 'components/charts/BarChart.vue'
 
 export default {
   components: {
-    linechart: LineChart
+    BarChart
+  },
+
+  data () {
+    return {}
   }
+
 }
+
 </script>
 
 <style>
