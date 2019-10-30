@@ -2,6 +2,8 @@
   <linechart
     title="Frequency"
     url="frequency"
+    y_min="30"
+    y_max="70"
     graphic_type="1"/>
 </template>
 
