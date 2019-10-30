@@ -128,7 +128,8 @@ export default {
           },
           min: parseInt(this.y_min, 10),
           max: parseInt(this.y_max, 10),
-          tickAmount: 5
+          tickAmount: 5,
+          decimalsInFloat: 2
         },
 
         grid: {
