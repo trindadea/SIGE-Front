@@ -115,15 +115,13 @@
         />
       </div>
       <div class="col-6 col-lg-6 offset-lg-1 q-pa-sm q-col-gutter-none q-pa-lg">
+        <h5 class="text-left text-grey-9 q-ma-sm">
+          Lista de transdutores
+        </h5>
         <status-table
-          :data="[]"
+          :data="transductors"
           :dark="false"
         />
-        <h6
-        v-for="transductor in transductors"
-        :key="transductor.id">
-          O - {{transductor.name}}
-        </h6>
       </div>
     </div>
   </div>
@@ -208,18 +206,19 @@ export default {
     }
   },
 
-  watched: {
-    getSelectedPeriod: () => {
-      return this.selectedPeriod
-    }
-  },
+  // watched: {
+  //   getSelectedPeriod: () => {
+  //     return this.selectedPeriod
+  //   }
+  // },
 
   methods: {
     getTransductorStatus () {
       axios
-        .get(`http://localhost:8001/graph/`)
+        .get(`http://localhost:8001/energy_transductors/`)
         .then((res) => {
-
+          this.transductors = res.data
+          console.log(this.transductors)
         })
         .catch((err) => {
           console.log(err)
@@ -233,7 +232,8 @@ export default {
   },
 
   beforeMount () {
-    // this.getPowerGenerationData()
+    this.getPowerGeneratiFonData()
+    this.getTransductorStatus()
   }
 }
 

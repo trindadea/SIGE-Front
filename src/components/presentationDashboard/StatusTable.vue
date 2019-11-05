@@ -6,7 +6,8 @@
     <q-item
       v-ripple
       v-for="d in data"
-      :key="d.id">
+      :key="d.id"
+      :to="`${d.serial_number}/detail`">
 
       <q-item-section>
         <q-item-label>
@@ -18,8 +19,7 @@
       </q-item-section>
 
       <q-item-section class="side text-right">
-        <!-- <q-icon name=""></q-icon> -->
-        Última queda: <span class="text-negative">{{ d.date }} 31/02/2012</span>
+        Status: <span :class="d.active ? 'text-positive' : 'text-negative'">{{ d.active ? 'Ativo' : 'Desativado'}}</span>
       </q-item-section>
     </q-item>
   </q-list>
