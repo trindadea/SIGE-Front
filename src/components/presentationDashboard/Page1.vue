@@ -37,6 +37,8 @@
           title="bla"
           url="quarterly_generated_energy_off_peak"
           graphic_type="1"
+          stacked=true
+          :labels="['Geração']"
         />
       </div>
       <div class="col-6 col-lg-6 offset-lg-1 q-pa-md-lg q-col-gutter-none q-pa-lg">
@@ -79,6 +81,7 @@
             class="q-ma-sm q-px-md bg-grey-4 text-grey-10"
             text-color="black"
             label="Dia"
+            @click="setSelectedPeriod('DIA')"
           />
           <q-btn
             flat
@@ -86,6 +89,7 @@
             class="q-ma-sm q-px-md bg-grey-4 text-grey-10"
             text-color="black"
             label="Semana"
+            @click="setSelectedPeriod('SEMANA')"
           />
           <q-btn
             flat
@@ -93,15 +97,22 @@
             class="q-ma-sm q-px-md bg-grey-4 text-grey-10"
             text-color="black"
             label="Mês"
+            @click="setSelectedPeriod('MÊS')"
           />
         </div>
-        <apexcharts
+        <!-- <apexcharts
           id="chart"
           type="bar"
           :options="chartOptions2"
           :series="series"
+        /> -->
+        <barchart
+          title="Consumo"
+          url="quarterly_consumption_off_peak"
+          graphic_type="1"
+          :stacked="true"
+          :labels="['Consumo']"
         />
-
       </div>
       <div class="col-6 col-lg-6 offset-lg-1 q-pa-sm q-col-gutter-none q-pa-lg">
         <status-table
@@ -122,7 +133,7 @@
 <script>
 import { LMap, LTileLayer, LCircle, LPopup } from 'vue2-leaflet'
 // import LineChart from 'components/charts/LineChart.vue'
-import VueApexCharts from 'vue-apexcharts'
+// import VueApexCharts from 'vue-apexcharts'
 import StatusTable from 'components/presentationDashboard/StatusTable.vue'
 import 'leaflet/dist/leaflet.css'
 import axios from 'axios'
@@ -131,7 +142,7 @@ import BarChartVue from '../charts/BarChart.vue'
 export default {
   components: {
     barchart: BarChartVue,
-    apexcharts: VueApexCharts,
+    // apexcharts: VueApexCharts,
     StatusTable,
     LMap,
     LTileLayer,
@@ -191,181 +202,19 @@ export default {
             fillOpacity: 1
           }
         }
-      ]
+      ],
+
+      selectedPeriod: 'DIA'
     }
   },
 
-  computed: {
-    series () {
-      return [
-        // {
-        //   name: 'Fase A',
-        //   data: [[1, 2], [2, 2], [4, 5]]
-        // },
-        // {
-        //   name: 'Fase A',
-        //   data: [[1, 2], [2, 2], [4, 5]]
-        // }
-        {
-          name: 'sdaoij',
-          data: this.generation
-        }
-      ]
-    },
-
-    interval () {
-      return true
-    },
-
-    chartOptions1 () {
-      return {
-        chart: {
-          stacked: true
-        },
-
-        stroke: {
-          width: [2, 2, 2],
-          curve: 'smooth'
-        },
-
-        plotOptions: {
-          bar: {
-            columnWidth: '50%'
-          }
-        },
-
-        fill: {
-          opacity: [0.85, 0.25, 1],
-          gradient: {
-            inverseColors: false,
-            shade: 'light',
-            type: 'vertical',
-            opacityFrom: 0.85,
-            opacityTo: 0.55,
-            stops: [0, 100, 100, 100]
-          }
-        },
-
-        dataLabels: {
-          enabled: false
-        },
-
-        markers: {
-          size: 0
-        },
-
-        xaxis: {
-          type: 'datetime',
-          show: false
-        },
-
-        yaxis: {
-          title: {
-            text: 'Geração'
-          },
-          min: Math.max(),
-          max: parseInt(this.y_max, 10),
-          tickAmount: 5
-        },
-
-        grid: {
-          borderColor: '#e7e7e7',
-          row: {
-            colors: ['#f3f3f3', 'transparent'],
-            opacity: 0.5
-          }
-        },
-
-        tooltip: {
-          x: {
-            format: 'dd-MM-yyyy HH:mm',
-            formatter: undefined
-          }
-        }
-      }
-    },
-
-    chartOptions2 () {
-      return {
-        chart: {
-          stacked: true
-        },
-
-        stroke: {
-          width: [2, 2, 2],
-          curve: 'smooth'
-        },
-
-        plotOptions: {
-          bar: {
-            columnWidth: '50%'
-          }
-        },
-
-        fill: {
-          opacity: [0.85, 0.25, 1],
-          gradient: {
-            inverseColors: false,
-            shade: 'light',
-            type: 'vertical',
-            opacityFrom: 0.85,
-            opacityTo: 0.55,
-            stops: [0, 100, 100, 100]
-          }
-        },
-
-        dataLabels: {
-          enabled: false
-        },
-
-        markers: {
-          size: 0
-        },
-
-        xaxis: {
-          type: 'datetime',
-          show: false
-        },
-
-        yaxis: {
-          title: {
-            text: 'Geração'
-          },
-          min: parseInt(this.y_min, 10),
-          max: parseInt(this.y_max, 10),
-          tickAmount: 2
-        },
-
-        grid: {
-          borderColor: '#e7e7e7',
-          row: {
-            colors: ['#f3f3f3', 'transparent'],
-            opacity: 0.5
-          }
-        },
-
-        tooltip: {
-          x: {
-            format: 'dd-MM-yyyy HH:mm',
-            formatter: undefined
-          }
-        }
-      }
+  watched: {
+    getSelectedPeriod: () => {
+      return this.selectedPeriod
     }
   },
+
   methods: {
-    getPowerGenerationData () {
-      axios
-        // .get(`http://localhost:8001/graph/quarterly_consumption_peak/?serial_number=123312&start_date=2019-01-01%2000:00&end_date=2019-10-30%2020:00`)
-        .get(`http://localhost:8001/graph/quarterly_consumption_off_peak/?serial_number=123312&start_date=2019-01-01%2000:00&end_date=2019-10-30%2020:00`)
-        .then((res) => {
-          this.generation = res.data.results[0].measurements
-          console.log(this.generation)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
     getTransductorStatus () {
       axios
         .get(`http://localhost:8001/graph/`)
@@ -376,34 +225,15 @@ export default {
           console.log(err)
         })
     },
-    getGeneratedEnergy () {
-      let arr = []
-      axios
-        .get('http://127.0.0.1:8001/graph/quarterly_generated_energy_off_peak?serial_number=876387&start_date=2019-01-01%2000:00&end_date=2019-10-30%2020:00')
-        .then(res => {
-          for (let i = 0; i < res.data.results.length; i++) {
-            for (let j = 0; i < res.data.results.length; i++) {
-              let data = [res.data.results[i].measurements[j][1], res.data.results[i].measurements[j][0]]
-              arr.push(data)
-            }
-          }
-        })
-        .catch(err => {
-          console.log('de erro??', err)
-        })
-      console.log('deu bom?', arr)
-      return [{ name: 'bla', data: arr }]
-    },
-    getData () {
-      return [{
-        name: 'Fase A',
-        data: [[1, 5]]
-      }]
+
+    setSelectedPeriod (period) {
+      console.log('XX')
+      this.selectedPeriod = period
     }
   },
 
   beforeMount () {
-    this.getPowerGenerationData()
+    // this.getPowerGenerationData()
   }
 }
 
