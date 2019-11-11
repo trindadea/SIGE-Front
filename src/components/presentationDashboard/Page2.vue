@@ -29,28 +29,29 @@
         <div class="col-12 col-md-6">
           <bar-chart
             title="Consumo/geração de energia"
-            url="stacked_consumption_generation"
+            url="quarterly_stacked_consumption_generation"
             graphic_type="1"
+            :labels="[]"
           />
         </div>
         <div class="col-12 col-md-6">
           <line-chart
             title="Medida de frequência"
-            url="frequency"
+            url="minutely_frequency"
             graphic_type="1"
           />
         </div>
         <div class="col-12 col-md-6">
           <line-chart
             title="Medida de tensão"
-            url="tension"
+            url="minutely_threephase_voltage"
             graphic_type="3"
           />
         </div>
         <div class="col-12 col-md-6">
           <line-chart
             title="Medida de corrente"
-            url="current"
+            url="minutely_threephase_current"
             graphic_type="3"
           />
         </div>
