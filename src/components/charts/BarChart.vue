@@ -152,9 +152,6 @@ export default {
   },
 
   methods: {
-    asdf () {
-      console.log(this.series)
-    },
     updateChart () {
       let periods = this.periodsOptions[this.selectedPeriod]
       let startDate = periods[0]

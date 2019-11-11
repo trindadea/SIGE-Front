@@ -46,7 +46,8 @@ export default {
     'url',
     'graphic_type',
     'y_min',
-    'y_max'
+    'y_max',
+    'show_legend'
   ],
 
   data () {
@@ -65,25 +66,38 @@ export default {
 
   computed: {
     series () {
-      return [
-        {
-          name: 'Fase A',
-          data: this.phase_a
-        },
-        {
-          name: 'Fase B',
-          data: this.phase_b
-        },
-        {
-          name: 'Fase C',
-          data: this.phase_c
-        }
-      ]
+      if (this.graphic_type === '1') {
+        return [
+          {
+            name: this.title,
+            data: this.phase_a
+          }
+        ]
+      } else {
+        return [
+          {
+            name: 'Fase A',
+            data: this.phase_a
+          },
+          {
+            name: 'Fase B',
+            data: this.phase_b
+          },
+          {
+            name: 'Fase C',
+            data: this.phase_c
+          }
+        ]
+      }
     },
     chartOptions () {
       return {
         chart: {
           stacked: false
+        },
+
+        legend: {
+          show: this.show_legend
         },
 
         stroke: {
@@ -124,7 +138,7 @@ export default {
 
         yaxis: {
           title: {
-            text: 'frequency'
+            text: this.title
           },
           min: parseInt(this.y_min, 10),
           max: parseInt(this.y_max, 10),
@@ -151,9 +165,6 @@ export default {
   },
 
   methods: {
-    asdf () {
-      console.log(this.series)
-    },
     updateChart () {
       let periods = this.periodsOptions[this.selectedPeriod]
       let startDate = periods[0]
@@ -162,9 +173,8 @@ export default {
 
       if (this.selectedTransductor !== undefined) {
         axios
-          .get(`http://127.0.0.1:8001/graph/minutely_${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
+          .get(`http://127.0.0.1:8001/graph/${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
           .then((res) => {
-            // console.log(${this.url})
             const measurements = res.data.results[0]
             this.buildGraphInformation(measurements)
           })

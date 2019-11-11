@@ -1,10 +1,11 @@
 <template>
   <linechart
-    title="Tension"
-    url="total_apparent_power"
+    title="Potência aparente total"
+    url="minutely_total_apparent_power"
     y_min="300"
     y_max="600"
-    graphic_type="1"/>
+    graphic_type="1"
+    :show_legend="false"/>
 </template>
 
 <script>
