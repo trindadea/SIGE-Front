@@ -34,10 +34,10 @@
           :options="chartOptions"
           :series="getGeneratedEnergy()" /> -->
         <barchart
-          title="bla"
+          title="Geração"
           url="quarterly_generated_energy_off_peak"
           graphic_type="1"
-          stacked=true
+          :stacked="false"
           :labels="['Geração']"
         />
       </div>
@@ -74,32 +74,6 @@
         <h5 class="text-left text-grey-9 q-ma-sm">
           Gráfico de consumo de energia
         </h5>
-        <div class="flex justify-center">
-          <q-btn
-            flat
-            dense
-            class="q-ma-sm q-px-md bg-grey-4 text-grey-10"
-            text-color="black"
-            label="Dia"
-            @click="setSelectedPeriod('DIA')"
-          />
-          <q-btn
-            flat
-            dense
-            class="q-ma-sm q-px-md bg-grey-4 text-grey-10"
-            text-color="black"
-            label="Semana"
-            @click="setSelectedPeriod('SEMANA')"
-          />
-          <q-btn
-            flat
-            dense
-            class="q-ma-sm q-px-md bg-grey-4 text-grey-10"
-            text-color="black"
-            label="Mês"
-            @click="setSelectedPeriod('MÊS')"
-          />
-        </div>
         <!-- <apexcharts
           id="chart"
           type="bar"
@@ -110,7 +84,7 @@
           title="Consumo"
           url="quarterly_consumption_off_peak"
           graphic_type="1"
-          :stacked="true"
+          :stacked="false"
           :labels="['Consumo']"
         />
       </div>
@@ -206,12 +180,6 @@ export default {
     }
   },
 
-  // watched: {
-  //   getSelectedPeriod: () => {
-  //     return this.selectedPeriod
-  //   }
-  // },
-
   methods: {
     getTransductorStatus () {
       axios
@@ -223,16 +191,10 @@ export default {
         .catch((err) => {
           console.log(err)
         })
-    },
-
-    setSelectedPeriod (period) {
-      console.log('XX')
-      this.selectedPeriod = period
     }
   },
 
   beforeMount () {
-    this.getPowerGeneratiFonData()
     this.getTransductorStatus()
   }
 }

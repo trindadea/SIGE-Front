@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <div v-if="!this.stacked" class="row q-pa-sm">
+    <div v-if="this.stacked" class="row q-pa-sm">
         <q-select
           class="col q-ma-sm"
           label="Transdutor"
@@ -17,9 +17,8 @@
           @input="updateChart()"/>
     </div>
     <q-separator/>
-    <div
-      v-if="this.selectedTransductor !== '' || this.stacked"
-    >
+      <div
+      v-if="this.selectedTransductor !== '' || !this.stacked">
       <apexcharts
       id="chart"
       type="bar"
@@ -56,9 +55,9 @@ export default {
       min: 0,
       max: 5,
       dates: [],
-      fase_a: [],
-      fase_b: [],
-      fase_c: [],
+      phase_a: [],
+      phase_b: [],
+      phase_c: [],
       measurements: [],
       transductorList: [],
       selectedCampus: '',
@@ -73,22 +72,22 @@ export default {
         return [
           {
             name: this.labels[0],
-            data: this.fase_a
+            data: this.phase_a
           }
         ]
       } else {
         return [
           {
-            name: this.labels[0],
-            data: this.fase_a
+            name: 'Fase A',
+            data: this.phase_a
           },
           {
-            name: this.labels[1],
-            data: this.fase_b
+            name: 'Fase B',
+            data: this.phase_b
           },
           {
-            name: this.labels[2],
-            data: this.fase_c
+            name: 'Fase C',
+            data: this.phase_c
           }
         ]
       }
@@ -97,11 +96,6 @@ export default {
       return {
         chart: {
           stacked: false
-        },
-
-        stroke: {
-          width: [2, 2, 2],
-          curve: 'smooth'
         },
 
         plotOptions: {
@@ -139,12 +133,12 @@ export default {
           title: {
             text: this.title
           },
-          labels: {
-            formatter: this.labelFormatter
-          },
           min: 0,
           max: this.max + 20,
-          tickAmount: 5
+          tickAmount: 5,
+          labels: {
+            formatter: this.labelFormatter
+          }
         },
 
         grid: {
@@ -157,7 +151,7 @@ export default {
 
         tooltip: {
           x: {
-            format: 'dd/MM/yyyy HH:mm',
+            format: 'dd-MM-yyyy HH:mm',
             formatter: undefined
           }
         }
@@ -170,7 +164,7 @@ export default {
       let endDate
       let startDate
 
-      console.log('AAAA')
+      this.selectedPeriod = 'DIA'
 
       if (this.selectedPeriod === 'DIA') {
         endDate = moment().endOf('day').format('YYYY-MM-DD h:mm')
@@ -186,11 +180,11 @@ export default {
       if (this.selectedTransductor !== undefined) {
         let a = `http://127.0.0.1:8001/graph/${this.url}/?serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`
         a = `http://localhost:8001/graph/${this.url}/?start_date=2019-01-01 00:00&end_date=2019-10-30 20:00`
-        console.log(a)
         axios
           .get(a)
           .then((res) => {
             const data = res.data.results[0]
+            console.log(data)
             this.buildGraphInformation(data)
           })
           .catch((err) => console.log(err))
@@ -203,22 +197,20 @@ export default {
         this.max = data.max
         this.setOneFaseInformations(data.measurements)
       } else {
-        let faseAList = data.phase_a
-        let faseBList = data.phase_b
-        let faseCList = data.phase_c
-        this.setThreeFaseInformations(faseAList, faseBList, faseCList)
+        this.min = data.min
+        this.max = data.max
+        this.setThreeFaseInformations(data.phase_a, data.phase_b, data.phase_c)
       }
     },
 
     setOneFaseInformations (measurementList) {
-      this.fase_a = measurementList
-      // console.log(this.fase_a)
+      this.phase_a = measurementList
     },
 
     setThreeFaseInformations (faseAList, faseBList, faseCList) {
-      this.fase_a = faseAList
-      this.fase_b = faseBList
-      this.fase_c = faseCList
+      this.phase_a = faseAList
+      this.phase_b = faseBList
+      this.phase_c = faseCList
     },
 
     labelFormatter (value) {
@@ -231,7 +223,7 @@ export default {
 
     getTransductors () {
       axios
-        .get(`http://0.0.0.0:8001/energy_transductors/`)
+        .get(`http://0.0.0.0:8001/energy_transductors`)
         .then((res) => {
           const transductors = res.data
 
