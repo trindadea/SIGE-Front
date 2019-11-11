@@ -18,8 +18,6 @@
       {{ this.transductor.location }}
     </h2>
 
-    <!-- {{this.transductor}} -->
-
     <section
       appear
       enter-active-class="animated fadeIn"
@@ -27,7 +25,7 @@
     >
       <div class="row">
         <div class="col-12 col-md-6">
-          <bar-chart
+          <bar-chart-button
             title="Consumo/geração de energia"
             url="quarterly_stacked_consumption_generation"
             graphic_type="1"
@@ -35,24 +33,27 @@
           />
         </div>
         <div class="col-12 col-md-6">
-          <line-chart
+          <line-chart-button
             title="Medida de frequência"
             url="minutely_frequency"
             graphic_type="1"
+            :transductor_id="id"
           />
         </div>
         <div class="col-12 col-md-6">
-          <line-chart
+          <line-chart-button
             title="Medida de tensão"
             url="minutely_threephase_voltage"
             graphic_type="3"
+            :transductor_id="id"
           />
         </div>
         <div class="col-12 col-md-6">
-          <line-chart
+          <line-chart-button
             title="Medida de corrente"
             url="minutely_threephase_current"
             graphic_type="3"
+            :transductor_id="id"
           />
         </div>
       </div>
@@ -63,13 +64,13 @@
 
 <script>
 import axios from 'axios'
-import LineChart from 'components/charts/LineChart.vue'
-import BarChart from 'components/charts/BarChart.vue'
+import LineChartButton from 'components/charts/LineChartButton.vue'
+import BarChartButton from 'components/charts/BarChartButton.vue'
 
 export default {
   components: {
-    LineChart,
-    BarChart
+    LineChartButton,
+    BarChartButton
   },
 
   data () {
