@@ -67,6 +67,13 @@ module.exports = function (ctx) {
       // gzip: true,
       // analyze: true,
       // extractCSS: false,
+      env: ctx.dev
+        ? { // so on dev we'll have
+          MASTER_URL: JSON.stringify('http://0.0.0.0:8001/')
+        }
+        : { // and on build (production):
+          MASTER_URL: JSON.stringify('http:')
+        },
       extendWebpack (cfg) {
         cfg.module.rules.push({
           enforce: 'pre',
