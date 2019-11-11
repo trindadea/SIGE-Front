@@ -1,7 +1,7 @@
 <template>
   <linechart
     title="Tension"
-    url="threephase_voltage"
+    url="minutely_threephase_voltage"
     y_min="200"
     y_max="230"
     graphic_type="3"/>

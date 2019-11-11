@@ -1,9 +1,9 @@
 <template>
   <linechart
     title="Current"
-    url="threephase_current"
-    y_min="-1"
-    y_max="5"
+    url="minutely_threephase_current"
+    y_min="0"
+    y_max="250"
     graphic_type="3"/>
 </template>
 
