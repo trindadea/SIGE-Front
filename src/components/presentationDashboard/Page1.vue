@@ -2,6 +2,7 @@
   <div class="container q-py-lg bg-white">
     <h1 class="text-center text-grey-10 main-tile text-capitalize">
       faculdade de tecnologia
+      {{ url1  }}
     </h1>
     <div class="row">
       <div class="col-6 col-lg-5 q-col-gutter-none">
@@ -138,6 +139,8 @@ export default {
   },
   data () {
     return {
+      url1: process.env,
+
       colors: [
         '#023E73',
         '#F29F05',
@@ -354,7 +357,6 @@ export default {
   methods: {
     getPowerGenerationData () {
       axios
-        // .get(`http://localhost:8001/graph/quarterly_consumption_peak/?serial_number=123312&start_date=2019-01-01%2000:00&end_date=2019-10-30%2020:00`)
         .get(`http://localhost:8001/graph/quarterly_consumption_off_peak/?serial_number=123312&start_date=2019-01-01%2000:00&end_date=2019-10-30%2020:00`)
         .then((res) => {
           this.generation = res.data.results[0].measurements
