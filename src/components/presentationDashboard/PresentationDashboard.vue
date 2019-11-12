@@ -59,8 +59,10 @@ export default {
   }
 
   .main-tile {
-    margin-top: 2.5em;
-    margin-bottom: 2.5em;
+    // margin-top: 2.5em;
+    // margin-bottom: 2.5em;
+    margin-top: .5em;
+    margin-bottom: .5em;
   }
 
   .unb-blue {

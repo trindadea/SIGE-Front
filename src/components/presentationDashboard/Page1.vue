@@ -1,6 +1,6 @@
 <template>
-  <div class="container q-py-lg bg-white">
-    <h1 class="text-center text-grey-10 main-tile text-capitalize">
+  <div class="container q-py-sm bg-white">
+    <h1 class="text-left q-pl-sm text-grey-10 main-tile text-capitalize">
       faculdade de tecnologia
     </h1>
     <div class="row">
@@ -28,17 +28,13 @@
             text-color="black"
             label="Mês" />
         </div>
-        <!-- <apexcharts
-          id="chart"
-          type="bar"
-          :options="chartOptions"
-          :series="getGeneratedEnergy()" /> -->
         <barchart
           title="Geração"
           url="quarterly_generated_energy_off_peak"
           graphic_type="1"
           :stacked="false"
           :labels="['Geração']"
+          unit="kW"
         />
       </div>
       <div class="col-6 col-lg-6 offset-lg-1 q-pa-md-lg q-col-gutter-none q-pa-lg">
@@ -74,18 +70,13 @@
         <h5 class="text-left text-grey-9 q-ma-sm">
           Gráfico de consumo de energia
         </h5>
-        <!-- <apexcharts
-          id="chart"
-          type="bar"
-          :options="chartOptions2"
-          :series="series"
-        /> -->
         <barchart
           title="Consumo"
           url="quarterly_consumption_off_peak"
           graphic_type="1"
           :stacked="false"
           :labels="['Consumo']"
+          unit="kW"
         />
       </div>
       <div class="col-6 col-lg-6 offset-lg-1 q-pa-sm q-col-gutter-none q-pa-lg">

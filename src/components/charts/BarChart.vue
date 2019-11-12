@@ -47,7 +47,8 @@ export default {
     'graphic_type',
     'stacked',
     'labels',
-    'option'
+    'option',
+    'unit'
   ],
 
   data () {
@@ -153,6 +154,11 @@ export default {
           x: {
             format: 'dd-MM-yyyy HH:mm',
             formatter: undefined
+          },
+          y: {
+            formatter: (val) => {
+              return `${val.toFixed(3)} ${this.unit || ''}`
+            }
           }
         }
       }
@@ -179,7 +185,7 @@ export default {
 
       if (this.selectedTransductor !== undefined) {
         let a = `http://127.0.0.1:8001/graph/${this.url}/?serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`
-        a = `http://localhost:8001/graph/${this.url}/?start_date=2019-01-01 00:00&end_date=2019-10-30 20:00`
+        // a = `http://localhost:8001/graph/${this.url}/?start_date=2019-01-01 00:00&end_date=2019-10-30 20:00`
         axios
           .get(a)
           .then((res) => {

@@ -47,7 +47,8 @@ export default {
     'graphic_type',
     'y_min',
     'y_max',
-    'show_legend'
+    'show_legend',
+    'unit'
   ],
 
   data () {
@@ -158,6 +159,11 @@ export default {
           x: {
             format: 'dd-MM-yyyy HH:mm',
             formatter: undefined
+          },
+          y: {
+            formatter: (val) => {
+              return `${val.toFixed(3)} ${this.unit}`
+            }
           }
         }
       }

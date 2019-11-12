@@ -25,10 +25,11 @@
     >
       <div class="row">
         <div class="col-12 col-md-6">
-          <bar-chart-button
+          <bar-chart
             title="Consumo/geração de energia"
             url="quarterly_stacked_consumption_generation"
             graphic_type="1"
+            :stacked="true"
             :labels="[]"
           />
         </div>
@@ -47,7 +48,7 @@
             title="Medida de tensão"
             url="minutely_threephase_voltage"
             graphic_type="3"
-            y_min="200"
+            y_min="50"
             y_max="230"
             :transductor_id="id"
           />
@@ -58,7 +59,7 @@
             url="minutely_threephase_current"
             graphic_type="3"
             y_min="0"
-            y_max="250"
+            y_max="5"
             :transductor_id="id"
           />
         </div>
@@ -71,12 +72,12 @@
 <script>
 import axios from 'axios'
 import LineChart from 'components/charts/LineChart.vue'
-import BarChartButton from 'components/charts/BarChartButton.vue'
+import BarChart from 'components/charts/BarChart.vue'
 
 export default {
   components: {
     LineChart,
-    BarChartButton
+    BarChart
   },
 
   data () {
