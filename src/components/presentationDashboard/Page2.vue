@@ -33,26 +33,32 @@
           />
         </div>
         <div class="col-12 col-md-6">
-          <line-chart-button
+          <line-chart
             title="Medida de frequência"
             url="minutely_frequency"
             graphic_type="1"
+            y_min="30"
+            y_max="70"
             :transductor_id="id"
           />
         </div>
         <div class="col-12 col-md-6">
-          <line-chart-button
+          <line-chart
             title="Medida de tensão"
             url="minutely_threephase_voltage"
             graphic_type="3"
+            y_min="200"
+            y_max="230"
             :transductor_id="id"
           />
         </div>
         <div class="col-12 col-md-6">
-          <line-chart-button
+          <line-chart
             title="Medida de corrente"
             url="minutely_threephase_current"
             graphic_type="3"
+            y_min="0"
+            y_max="250"
             :transductor_id="id"
           />
         </div>
@@ -64,12 +70,12 @@
 
 <script>
 import axios from 'axios'
-import LineChartButton from 'components/charts/LineChartButton.vue'
+import LineChart from 'components/charts/LineChart.vue'
 import BarChartButton from 'components/charts/BarChartButton.vue'
 
 export default {
   components: {
-    LineChartButton,
+    LineChart,
     BarChartButton
   },
 

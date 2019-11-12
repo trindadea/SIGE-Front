@@ -1,28 +1,31 @@
 <template>
   <q-page>
     <div class="row q-pa-sm">
-      <q-select
-        class="col q-ma-sm"
-        label="Transdutor"
-        outlined
-        :options="this.transductorList"
-        v-model="selectedTransductor"
-        @input="updateChart()"
-      />
-      <q-select
-        class="col q-ma-sm"
-        label="Período"
-        outlined
-        v-model="selectedPeriod"
-        :options="['Hoje', 'Últimos 7 dias', 'Últimos 30 dias']"
-        @input="updateChart()"
-      />
+        <q-select
+          class="col q-ma-sm"
+          label="Transdutor"
+          outlined
+          :options="this.transductorList"
+          v-model="selectedTransductor"
+          @input="updateChart()"/>
+        <q-select
+          class="col q-ma-sm"
+          label="Período"
+          outlined
+          v-model="selectedPeriod"
+          :options="['Hoje', 'Últimos 7 dias', 'Últimos 30 dias']"
+          @input="updateChart()"/>
     </div>
-    <q-separator />
-    <div v-if="this.selectedTransductor !== ''">
-      <apexcharts id="chart" type="line" :options="chartOptions" :series="series" />
+    <q-separator/>
+      <div
+      v-if="this.selectedTransductor !== ''">
+      <apexcharts
+      id="chart"
+      type="line"
+      :options="chartOptions"
+      :series="series"/>
     </div>
-    <no-data-placeholder v-else />
+    <no-data-placeholder v-else/>
   </q-page>
 </template>
 
@@ -34,11 +37,18 @@ import axios from 'axios'
 
 export default {
   components: {
-    apexcharts: VueApexCharts,
+    'apexcharts': VueApexCharts,
     'no-data-placeholder': NoDataPlaceholder
   },
 
-  props: ['title', 'url', 'graphic_type', 'y_min', 'y_max', 'show_legend'],
+  props: [
+    'title',
+    'url',
+    'graphic_type',
+    'y_min',
+    'y_max',
+    'show_legend'
+  ],
 
   data () {
     return {
@@ -156,58 +166,67 @@ export default {
 
   methods: {
     updateChart () {
-      let endDate
-      let startDate
-
-      if (this.selectedPeriod === 'Hoje') {
-        endDate = moment()
-          .endOf('day')
-          .format('YYYY-MM-DD h:mm')
-        startDate = moment()
-          .startOf('day')
-          .format('YYYY-MM-DD h:mm')
-      } else if (this.selectedPeriod === 'Últimos 7 dias') {
-        endDate = moment()
-          .endOf('isoWeek')
-          .format('YYYY-MM-DD h:mm')
-        startDate = moment()
-          .startOf('isoWeek')
-          .format('YYYY-MM-DD h:mm')
-      } else if (this.selectedPeriod === 'Últimos 30 dias') {
-        endDate = moment()
-          .startOf('month')
-          .format('YYYY-MM-DD h:mm')
-        startDate = moment()
-          .startOf('month')
-          .format('YYYY-MM-DD h:mm')
-      }
+      let periods = this.periodsOptions[this.selectedPeriod]
+      let startDate = periods[0]
+      let endDate = periods[1]
+      let limit = periods[2]
 
       if (this.selectedTransductor !== undefined) {
-        let a = `http://127.0.0.1:8001/graph/${this.url}/?serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`
-        // a = `http://localhost:8001/graph/${this.url}/?start_date=2019-01-01 00:00&end_date=2019-10-30 20:00`
-
-        console.log(a)
-
         axios
-          .get(a)
-          .then(res => {
-            const data = res.data.results[0]
-            console.log(data)
-            this.buildGraphInformation(data)
+          .get(`http://127.0.0.1:8001/graph/${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
+          .then((res) => {
+            const measurements = res.data.results[0]
+            this.buildGraphInformation(measurements)
           })
-          .catch(err => console.log(err))
+          .catch((err) => console.log(err))
       }
+    },
+
+    getTodayInterval () {
+      let now = new Date()
+      let oneDayAgo = new Date()
+
+      oneDayAgo.setDate(oneDayAgo.getDate() - 1)
+
+      let startDate = moment(oneDayAgo).format('YYYY-MM-DD HH:mm')
+      let endDate = moment(now).format('YYYY-MM-DD HH:mm')
+
+      return [startDate, endDate, 1440]
+    },
+
+    getLastWeek () {
+      let now = new Date()
+      let oneWeekAgo = new Date()
+
+      oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
+
+      let startDate = moment(oneWeekAgo).format('YYYY-MM-DD h:mm')
+      let endDate = moment(now).format('YYYY-MM-DD h:mm')
+
+      return [startDate, endDate, 10080]
+    },
+
+    getLastMonth () {
+      let now = new Date()
+      let oneMonthAgo = new Date()
+
+      oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1)
+
+      let startDate = moment(oneMonthAgo).format('YYYY-MM-DD h:mm')
+      let endDate = moment(now).format('YYYY-MM-DD h:mm')
+
+      return [startDate, endDate, 43200]
     },
 
     buildGraphInformation (data) {
       if (this.graphic_type === '1') {
-        this.min = data.min
-        this.max = data.max
         this.setOneFaseInformations(data.measurements)
       } else {
-        this.min = data.min
-        this.max = data.max
-        this.setThreeFaseInformations(data.phase_a, data.phase_b, data.phase_c)
+        let phaseAList = data['phase_a']
+        let phaseBList = data['phase_b']
+        let phaseCList = data['phase_c']
+
+        this.setThreeFaseInformations(phaseAList, phaseBList, phaseCList)
       }
     },
 
@@ -215,14 +234,10 @@ export default {
       this.phase_a = measurementList
     },
 
-    setThreeFaseInformations (faseAList, faseBList, faseCList) {
-      this.phase_a = faseAList
-      this.phase_b = faseBList
-      this.phase_c = faseCList
-    },
-
-    labelFormatter (value) {
-      return value.toFixed(2)
+    setThreeFaseInformations (measurementListA, measurementListB, measurementListC) {
+      this.phase_a = measurementListA
+      this.phase_b = measurementListB
+      this.phase_c = measurementListC
     },
 
     setTransductorList (transductorList) {
@@ -232,7 +247,7 @@ export default {
     getTransductors () {
       axios
         .get(`http://0.0.0.0:8001/energy_transductors`)
-        .then(res => {
+        .then((res) => {
           const transductors = res.data
 
           let transductorsList = []
@@ -245,7 +260,7 @@ export default {
 
           this.setTransductorList(transductorsList)
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err)
         })
     }
@@ -253,13 +268,16 @@ export default {
 
   beforeMount () {
     this.getTransductors()
-    this.updateChart()
+
+    this.periodsOptions['Hoje'] = this.getTodayInterval()
+    this.periodsOptions['Últimos 7 dias'] = this.getLastWeek()
+    this.periodsOptions['Últimos 30 dias'] = this.getLastMonth()
   }
 }
 </script>
 
 <style scoped>
-#chart {
-  padding: 0.5rem
-}
+  #chart {
+    padding: .5rem
+  }
 </style>
