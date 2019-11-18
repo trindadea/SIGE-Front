@@ -34,6 +34,7 @@ import VueApexCharts from 'vue-apexcharts'
 import NoDataPlaceholder from './NoDataPlaceholder.vue'
 import moment from 'moment'
 import HTTP from '../../services/masterApi/http-common'
+import axios from 'axios'
 
 export default {
   components: {
@@ -46,7 +47,8 @@ export default {
     'url',
     'graphic_type',
     'y_min',
-    'y_max'
+    'y_max',
+    'show_legend'
   ],
 
   data () {
@@ -65,25 +67,38 @@ export default {
 
   computed: {
     series () {
-      return [
-        {
-          name: 'Fase A',
-          data: this.phase_a
-        },
-        {
-          name: 'Fase B',
-          data: this.phase_b
-        },
-        {
-          name: 'Fase C',
-          data: this.phase_c
-        }
-      ]
+      if (this.graphic_type === '1') {
+        return [
+          {
+            name: this.title,
+            data: this.phase_a
+          }
+        ]
+      } else {
+        return [
+          {
+            name: 'Fase A',
+            data: this.phase_a
+          },
+          {
+            name: 'Fase B',
+            data: this.phase_b
+          },
+          {
+            name: 'Fase C',
+            data: this.phase_c
+          }
+        ]
+      }
     },
     chartOptions () {
       return {
         chart: {
           stacked: false
+        },
+
+        legend: {
+          show: this.show_legend
         },
 
         stroke: {
@@ -124,7 +139,7 @@ export default {
 
         yaxis: {
           title: {
-            text: 'frequency'
+            text: this.title
           },
           min: parseInt(this.y_min, 10),
           max: parseInt(this.y_max, 10),
@@ -151,9 +166,6 @@ export default {
   },
 
   methods: {
-    asdf () {
-      console.log(this.series)
-    },
     updateChart () {
       let periods = this.periodsOptions[this.selectedPeriod]
       let startDate = periods[0]
@@ -161,10 +173,10 @@ export default {
       let limit = periods[2]
 
       if (this.selectedTransductor !== undefined) {
-        HTTP
+        axios
           .get(`graph/minutely_${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
           .then((res) => {
-            const measurements = res.data.results
+            const measurements = res.data.results[0]
             this.buildGraphInformation(measurements)
           })
           .catch((err) => console.log(err))
@@ -221,70 +233,15 @@ export default {
       return a
     },
 
-    buildGraphInformation (measurements) {
+    buildGraphInformation (data) {
       if (this.graphic_type === '1') {
-        measurements = measurements[0].measurement
-        let date
-
-        let oneFaseMeasurement
-
-        let measurementList = []
-
-        for (let measurement of measurements) {
-          console.log((measurement[1]))
-          date = this.formattedDate(measurement[1])
-          oneFaseMeasurement = measurement[0]
-          let object = {
-            'x': date,
-            'y': oneFaseMeasurement
-          }
-          measurementList.push(object)
-        }
-
-        this.setOneFaseInformations(measurementList)
+        this.setOneFaseInformations(data.measurements)
       } else {
-        measurements = measurements[0]
-        let date
+        let phaseAList = data['phase_a']
+        let phaseBList = data['phase_b']
+        let phaseCList = data['phase_c']
 
-        let phaseAList = measurements['phase_a']
-        let phaseBList = measurements['phase_b']
-        let phaseCList = measurements['phase_c']
-
-        let measurementListA = []
-        let measurementListB = []
-        let measurementListC = []
-
-        for (let measurement of phaseAList) {
-          date = this.formattedDate(measurement[1])
-          let phaseAMeasurement = measurement[0]
-          let object = {
-            'x': date,
-            'y': phaseAMeasurement
-          }
-          measurementListA.push(object)
-        }
-
-        for (let measurement of phaseBList) {
-          date = this.formattedDate(measurement[1])
-          let phaseBMeasurement = measurement[0]
-          let object = {
-            'x': date,
-            'y': phaseBMeasurement
-          }
-          measurementListB.push(object)
-        }
-
-        for (let measurement of phaseCList) {
-          date = this.formattedDate(measurement[1])
-          let phaseCMeasurement = measurement[0]
-          let object = {
-            'x': date,
-            'y': phaseCMeasurement
-          }
-          measurementListC.push(object)
-        }
-
-        this.setThreeFaseInformations(measurementListA, measurementListB, measurementListC)
+        this.setThreeFaseInformations(phaseAList, phaseBList, phaseCList)
       }
     },
 

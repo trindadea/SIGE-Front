@@ -84,6 +84,7 @@ export default {
         { name: 'Tensão', icon: 'bolt', to: '/dashboard/tension' },
         { name: 'Corrente', icon: 'power', to: '/dashboard/current' },
         { name: 'Frequência', icon: 'swap_calls', to: '/dashboard/frequency' },
+        { name: 'Potência Aparente Total', icon: 'power', to: '/dashboard/total_apparent_power' },
         { name: 'Consumo', icon: 'bar_chart', to: '/dashboard/consumption' }
       ],
 

@@ -1,10 +1,11 @@
 <template>
   <linechart
-    title="Frequency"
-    url="minutely_frequency"
-    y_min="30"
-    y_max="70"
-    graphic_type="1"/>
+    title="Potência aparente total"
+    url="minutely_total_apparent_power"
+    y_min="300"
+    y_max="600"
+    graphic_type="1"
+    :show_legend="false"/>
 </template>
 
 <script>
