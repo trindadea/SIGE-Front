@@ -10,11 +10,11 @@ stages:
 
 - name: Deploy Staging
   when:
-    branch: rancher-deploy
+    branch: development
   steps:
   - applyYamlConfig:
       path: ./deploy/staging/deployment-front.yaml
 
 branch:
-  include: [ master, development, rancher-deploy ]
+  include: [ master, development ]
 notification: {}
