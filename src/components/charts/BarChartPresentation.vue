@@ -1,22 +1,5 @@
 <template>
   <div>
-    <!-- <div v-if="this.stacked" class="row q-pa-sm">
-        <q-select
-          class="col q-ma-sm"
-          label="Transdutor"
-          outlined
-          :options="this.transductorList"
-          v-model="selectedTransductor"
-          @input="updateChart()"/>
-        <q-select
-          class="col q-ma-sm"
-          label="Período"
-          outlined
-          v-model="selectedPeriod"
-          :options="['Hoje', 'Últimos 7 dias', 'Últimos 30 dias']"
-          @input="updateChart()"/>
-    </div>
-    <q-separator/> -->
     <div
       v-if="this.selectedTransductor !== '' || !this.stacked"
     >
@@ -26,7 +9,6 @@
         :options="chartOptions"
         :series="mock"
       />
-        <!-- :series="series"/> -->
     </div>
     <no-data-placeholder v-else/>
   </div>
@@ -107,7 +89,10 @@ export default {
     chartOptions () {
       return {
         chart: {
-          stacked: true
+          stacked: true,
+          toolbar: {
+            show: false
+          }
         },
 
         plotOptions: {
@@ -118,7 +103,7 @@ export default {
               enabled: true,
               position: 'top',
               formatter: (val) => {
-                return `${val.toFixed(2)} ${this.unit}`
+                return `${val.toFixed(1)} ${this.unit}`
               }
             }
           }
@@ -129,7 +114,7 @@ export default {
             return `${val.toFixed(2)} ${this.unit}`
           },
           style: {
-            fontSize: '1.5em'
+            fontSize: '1.8em'
           },
           offsetY: 40
         },
@@ -144,7 +129,6 @@ export default {
             opacityTo: 0.55,
             stops: [0, 100, 100, 100]
           }
-          // colors: ['#3826ee']
         },
 
         markers: {
