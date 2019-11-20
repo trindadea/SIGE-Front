@@ -33,7 +33,7 @@
 import VueApexCharts from 'vue-apexcharts'
 import NoDataPlaceholder from './NoDataPlaceholder.vue'
 import moment from 'moment'
-import axios from 'axios'
+import HTTP from '../../services/masterApi/http-common'
 
 export default {
   components: {
@@ -159,8 +159,8 @@ export default {
       let limit = periods[2]
 
       if (this.selectedTransductor !== undefined) {
-        axios
-          .get(`http://127.0.0.1:8001/graph/minutely_${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
+        HTTP
+          .get(`graph/minutely_${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
           .then((res) => {
             const measurements = res.data.results
             this.buildGraphInformation(measurements)
@@ -289,8 +289,8 @@ export default {
     },
 
     getTransductors () {
-      axios
-        .get(`http://0.0.0.0:8001/energy_transductors`)
+      HTTP
+        .get('energy_transductors')
         .then((res) => {
           const transductors = res.data
 
