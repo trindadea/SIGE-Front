@@ -1,5 +1,6 @@
 <template>
-  <q-header class="unb-blue text-white container-header">
+  <q-header class="q-px-md unb-blue text-white">
+  <!-- <q-header class="unb-blue text-white container-header"> -->
     <div class="row">
 
       <q-toolbar class="q-px-none col">

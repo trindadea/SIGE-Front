@@ -1,13 +1,13 @@
 <template>
-  <div class="container q-py-sm bg-white">
+  <div class="q-py-sm bg-white">
     <h1 class="text-left q-pl-sm text-grey-10 main-tile text-capitalize">
       faculdade de tecnologia
     </h1>
     <div class="row">
       <div class="col-6 col-lg-5 q-col-gutter-none">
-          <h5 class="text-left text-grey-9 q-ma-sm q-pa-lg">
-            Gráfico de geração de energia
-          </h5>
+          <h2 class="text-left text-grey-9 q-ma-sm q-pa-lg text-capitalize">
+            geração de energia
+          </h2>
         <div class="flex justify-center">
           <q-btn
             flat
@@ -67,9 +67,9 @@
 
     <div class="row">
       <div class="col-6 col-lg-5 q-col-gutter-none q-pa-lg">
-        <h5 class="text-left text-grey-9 q-ma-sm">
-          Gráfico de consumo de energia
-        </h5>
+        <h2 class="text-left text-grey-9 q-ma-sm text-capitalize">
+          consumo de energia
+        </h2>
         <barchart
           title="Consumo"
           url="quarterly_consumption_off_peak"
@@ -80,9 +80,9 @@
         />
       </div>
       <div class="col-6 col-lg-6 offset-lg-1 q-pa-sm q-col-gutter-none q-pa-lg">
-        <h5 class="text-left text-grey-9 q-ma-sm">
+        <h2 class="text-left text-grey-9 q-ma-sm text-capitalize">
           Lista de transdutores
-        </h5>
+        </h2>
         <status-table
           :data="transductors"
           :dark="false"

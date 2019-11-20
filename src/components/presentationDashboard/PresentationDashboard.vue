@@ -8,22 +8,22 @@
         <router-view />
       </q-page-container>
 
-      <presentation-footer/>
+      <!-- <presentation-footer/> -->
 
     </q-layout>
   </div>
 </template>
 
 <script>
-import PresentationFooter from 'components/presentationDashboard/Footer.vue'
+// import PresentationFooter from 'components/presentationDashboard/Footer.vue'
 import PresentationHeader from 'components/presentationDashboard/Header.vue'
 
 export default {
   name: '',
 
   components: {
-    PresentationHeader,
-    PresentationFooter
+    // PresentationFooter,
+    PresentationHeader
   }
 }
 </script>
@@ -46,7 +46,7 @@ export default {
     }
   }
   .container {
-        // quasar breakpoints: https://quasar.dev/style/breakpoints
+    // quasar breakpoints: https://quasar.dev/style/breakpoints
     @media (min-width: 1024px) {
       margin-right: 5%;
       margin-left: 5%;
