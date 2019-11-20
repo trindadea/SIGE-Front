@@ -1,10 +1,13 @@
 <template>
-  <linechart
-    title="Current"
-    url="minutely_threephase_current"
-    y_min="0"
-    y_max="250"
-    graphic_type="3"/>
+  <q-page>
+      <linechart
+      title="Current"
+      url="minutely_threephase_current"
+      y_min="0"
+      y_max="250"
+      graphic_type="3"/>
+
+  </q-page>
 </template>
 
 <script>

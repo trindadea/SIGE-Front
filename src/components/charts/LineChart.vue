@@ -1,5 +1,5 @@
 <template>
-  <q-page>
+  <div>
     <div class="row q-pa-sm">
         <q-select
           class="col q-ma-sm"
@@ -26,7 +26,7 @@
       :series="series"/>
     </div>
     <no-data-placeholder v-else/>
-  </q-page>
+  </div>
 </template>
 
 <script>

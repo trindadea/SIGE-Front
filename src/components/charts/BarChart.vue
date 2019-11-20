@@ -1,5 +1,5 @@
 <template>
-  <q-page>
+  <div>
     <div v-if="this.stacked" class="row q-pa-sm">
         <q-select
           class="col q-ma-sm"
@@ -26,7 +26,7 @@
       :series="series"/>
     </div>
     <no-data-placeholder v-else/>
-  </q-page>
+  </div>
 </template>
 
 <script>
@@ -259,6 +259,6 @@ export default {
 
 <style scoped>
   #chart {
-    padding: .5rem
+    padding: .5rem;
   }
 </style>

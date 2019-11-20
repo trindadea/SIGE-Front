@@ -1,10 +1,13 @@
 <template>
-  <bar-chart
-    title="Consumo"
-    url="quarterly_consumption_off_peak"
-    y_min="0"
-    y_max="0"
-    graphic_type="1"/>
+  <q-page>
+    <bar-chart
+      title="Consumo"
+      url="quarterly_consumption_off_peak"
+      y_min="0"
+      y_max="0"
+      graphic_type="1"/>
+
+  </q-page>
 </template>
 
 <script>
