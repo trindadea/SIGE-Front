@@ -1,13 +1,13 @@
 <template>
   <div class="q-py-sm bg-white">
-    <h1 class="text-center q-pl-sm text-grey-10 main-tile text-capitalize">
+    <h1 class="text-center q-pl-sm text-grey-10 main-tile text-h3 text-capitalize">
       faculdade de tecnologia
     </h1>
     <div class="row">
-      <div class="col-4 q-col-gutter-none">
-          <h2 class="text-center text-grey-9 q-ma-sm q-pa-lg text-capitalize">
-            lorem ipsum dolor sit amet
-          </h2>
+      <div class="col-6 col-lg-5 q-col-gutter-none">
+        <h2 class="text-center text-grey-9 q-ma-sm q-pa-none text-h4 text-capitalize">
+          lorem ipsum dolor sit amet
+        </h2>
         <bar-chart-presentation
           title="Geração"
           url="quarterly_generated_energy_off_peak"
@@ -18,73 +18,15 @@
         />
       </div>
 
-      <div class="col-4 q-col-gutter-none">
-        <h2 class="text-center text-grey-9 q-ma-sm q-pa-lg text-capitalize">
-        <!-- <h2 class="text-left text-grey-9 q-ma-sm text-capitalize"> -->
-          lorem ipsum dolor sit amet
-        </h2>
-        <bar-chart-presentation
-          title="Consumo"
-          url="quarterly_consumption_off_peak"
-          graphic_type="1"
-          :stacked="false"
-          :labels="['Consumo']"
-          unit="kW"
-        />
-      </div>
-
-      <div class="col-4 q-col-gutter-none">
-          <h2 class="text-center text-grey-9 q-ma-sm q-pa-lg text-capitalize">
-            lorem ipsum dolor sit amet
-          </h2>
-        <bar-chart-presentation
-          title="Geração"
-          url="quarterly_generated_energy_off_peak"
-          graphic_type="1"
-          :stacked="false"
-          :labels="['Geração']"
-          unit="kW"
-        />
-      </div>
-
-      <div class="col-4 q-col-gutter-none">
-        <h2 class="text-center text-grey-9 q-ma-sm q-pa-lg text-capitalize">
-        <!-- <h2 class="text-left text-grey-9 q-ma-sm text-capitalize"> -->
-          lorem ipsum dolor sit amet
-        </h2>
-        <bar-chart-presentation
-          title="Consumo"
-          url="quarterly_consumption_off_peak"
-          graphic_type="1"
-          :stacked="false"
-          :labels="['Consumo']"
-          unit="kW"
-        />
-      </div>
-      <div class="col-4 q-col-gutter-none">
-        <h2 class="text-center text-grey-9 q-ma-sm q-pa-lg text-capitalize">
-        <!-- <h2 class="text-left text-grey-9 q-ma-sm text-capitalize"> -->
-          lorem ipsum dolor sit amet
-        </h2>
-        <bar-chart-presentation
-          title="Consumo"
-          url="quarterly_consumption_off_peak"
-          graphic_type="1"
-          :stacked="false"
-          :labels="['Consumo']"
-          unit="kW"
-        />
-      </div>
-
-      <div class="col-4 q-col-gutter-none">
-        <h2 class="text-center text-grey-9 q-ma-sm text-capitalize">
+      <div class="col-6 col-lg-6 offset-lg-1 q-pa-md-lg q-col-gutter-none q-pa-lg">
+        <h2 class="text-center text-h4 text-grey-9 q-ma-sm text-capitalize">
           Lista de transdutores
         </h2>
 
           <!-- style="height: 800px!important" -->
         <l-map
           class="rounded-borders"
-          style="height: 800px!important"
+          style="height: 550px!important"
           :zoom="18"
           :min-zoom="18"
           :max-zoom="18"
@@ -107,8 +49,26 @@
           </l-circle>
         </l-map>
       </div>
-      <div class="col-4 q-pa-sm q-col-gutter-none q-pa-lg" v-show="false">
-        <h2 class="text-center text-grey-9 q-ma-sm text-capitalize">
+    </div>
+
+    <!-- <span class="q-ma-sm q-pa-sm"></span> -->
+
+    <div class="row">
+      <div class="col-6 col-lg-5 q-col-gutter-none q-pa-lg">
+        <h2 class="text-center text-grey-9 q-ma-sm q-pa-none text-h4 text-capitalize">
+          lorem ipsum dolor sit amet
+        </h2>
+        <bar-chart-presentation
+          title="Consumo"
+          url="quarterly_consumption_off_peak"
+          graphic_type="1"
+          :stacked="false"
+          :labels="['Consumo']"
+          unit="kW"
+        />
+      </div>
+      <div class="col-6 col-lg-6 offset-lg-1 q-pa-sm q-col-gutter-none q-pa-lg">
+        <h2 class="text-center text-h4 text-grey-9 q-ma-sm text-capitalize">
           Lista de transdutores
         </h2>
         <status-table
@@ -118,15 +78,14 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
-import { LMap, LTileLayer, LCircle, LPopup } from 'vue2-leaflet'
 import StatusTable from 'components/presentationDashboard/StatusTable.vue'
+import BarChartPresentation from '../charts/BarChartPresentation.vue'
+import { LMap, LTileLayer, LCircle, LPopup } from 'vue2-leaflet'
 import 'leaflet/dist/leaflet.css'
 import axios from 'axios'
-import BarChartPresentation from '../charts/BarChartPresentation.vue'
 
 export default {
   components: {
@@ -140,6 +99,8 @@ export default {
   data () {
     return {
       url1: process.env,
+
+      transductors: [],
 
       colors: [
         '#023E73',
@@ -204,6 +165,7 @@ export default {
         .get(`http://localhost:8001/energy_transductors/`)
         .then((res) => {
           this.transductors = res.data
+          console.log('===============================================')
           console.log(this.transductors)
         })
         .catch((err) => {

@@ -103,7 +103,7 @@ export default {
               enabled: true,
               position: 'top',
               formatter: (val) => {
-                return `${val.toFixed(1)} ${this.unit}`
+                return `${val.toFixed(0)} ${this.unit}`
               }
             }
           }
@@ -111,12 +111,12 @@ export default {
 
         dataLabels: {
           formatter: (val) => {
-            return `${val.toFixed(2)} ${this.unit}`
+            return `${val.toFixed(0)} ${this.unit}`
           },
           style: {
-            fontSize: '1.8em'
+            fontSize: '1rem'
           },
-          offsetY: 40
+          offsetY: 20
         },
 
         fill: {
@@ -141,16 +141,16 @@ export default {
         },
 
         yaxis: {
-          title: {
-            text: this.title
-          },
           min: 0,
           max: this.max + 20,
           labels: {
-            formatter: this.labelFormatter
+            formatter: this.labelFormatter,
+            style: {
+              fontSize: '1rem'
+            }
           },
-          show: false,
-          tickAmount: 5
+          tickAmount: 10
+          // tickAmount: Math.round(this.max / this.min)
         },
 
         grid: {
@@ -231,7 +231,7 @@ export default {
     },
 
     labelFormatter (value) {
-      return value.toFixed(2)
+      return value.toFixed(0)
     },
 
     setTransductorList (transductorList) {

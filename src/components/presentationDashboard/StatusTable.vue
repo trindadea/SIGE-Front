@@ -2,7 +2,8 @@
   <q-list
     :dark="allowDarkness"
     bordered
-    separator>
+    separator
+    class="t-rsp q-mt-lg">
     <q-item
       v-ripple
       v-for="d in data"
@@ -10,11 +11,11 @@
       :to="`${d.serial_number}/detail`">
 
       <q-item-section>
-        <q-item-label>
-          <b>Nº série:</b> {{ d.serial_number }}
+        <q-item-label class="text-h4">
+          {{ d.location }}
         </q-item-label>
         <q-item-label caption>
-          <b>Localização:</b> {{ d.physical_location }}
+          <b>Nº série:</b> {{ d.serial_number }}
         </q-item-label>
       </q-item-section>
 
@@ -47,6 +48,10 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+
+  .t-rsp {
+    font-size: 1.4rem;
+  }
 
 </style>

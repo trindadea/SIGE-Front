@@ -177,12 +177,15 @@ export default {
       let endDate = periods[1]
       let limit = periods[2]
 
+      console.log(`http://127.0.0.1:8001/graph/${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
+
       if (this.selectedTransductor !== undefined) {
         axios
           .get(`http://127.0.0.1:8001/graph/${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
           .then((res) => {
             const measurements = res.data.results[0]
             this.buildGraphInformation(measurements)
+            console.log(measurements)
           })
           .catch((err) => console.log(err))
       }
