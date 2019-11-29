@@ -6,8 +6,8 @@
       <apexcharts
         id="chart"
         type="bar"
+        :series="series"
         :options="chartOptions"
-        :series="mock"
       />
     </div>
     <no-data-placeholder v-else/>
@@ -17,7 +17,6 @@
 <script>
 import VueApexCharts from 'vue-apexcharts'
 import NoDataPlaceholder from './NoDataPlaceholder.vue'
-import moment from 'moment'
 import axios from 'axios'
 
 export default {
@@ -46,6 +45,8 @@ export default {
       phase_a: [],
       phase_b: [],
       phase_c: [],
+      consumption: [],
+      generation: [],
       measurements: [],
       transductorList: [],
       selectedCampus: '',
@@ -53,8 +54,12 @@ export default {
       selectedPeriod: 'Hoje',
       mock: [
         {
-          name: 0,
-          data: [[1, 10.666], [2, 20.666], [3, 22.666], [1, 5.666], [2, 2.666], [3, 5.666]]
+          name: 'Consumo',
+          data: [['11/27/2019 00:00:00', 10.666], ['11/27/2019 01:00:00', 20.666], ['11/27/2019 02:00:00', 22.666]]
+        },
+        {
+          name: 'Geração',
+          data: [['11/27/2019 00:00:00', 5.666], ['11/27/2019 01:00:00', 7.666], ['11/27/2019 02:00:00', 5.666]]
         }
       ]
     }
@@ -65,8 +70,12 @@ export default {
       if (this.graphic_type === '1') {
         return [
           {
-            name: this.labels[0],
-            data: this.phase_a
+            name: 'Consumo',
+            data: this.consumption
+          },
+          {
+            name: 'Geração',
+            data: this.generation
           }
         ]
       } else {
@@ -88,16 +97,20 @@ export default {
     },
     chartOptions () {
       return {
+        // colors: ['#d02222', '#22d022'],
+        // colors: ['#487787', '#fa8901'],
+        // colors: ['#fa8901', '#487787'],
+        colors: ['#fa8901', '#3333d0'],
+
         chart: {
           stacked: true,
           toolbar: {
-            show: false
+            show: true
           }
         },
 
         plotOptions: {
           bar: {
-            // this needs to be dinamic
             columnWidth: '25%',
             dataLabels: {
               enabled: true,
@@ -110,6 +123,7 @@ export default {
         },
 
         dataLabels: {
+          enabled: false,
           formatter: (val) => {
             return `${val.toFixed(0)} ${this.unit}`
           },
@@ -119,20 +133,8 @@ export default {
           offsetY: 20
         },
 
-        fill: {
-          opacity: [0.85, 0.25, 1],
-          gradient: {
-            inverseColors: false,
-            shade: 'light',
-            type: 'vertical',
-            opacityFrom: 0.85,
-            opacityTo: 0.55,
-            stops: [0, 100, 100, 100]
-          }
-        },
-
         markers: {
-          size: 0
+          size: 1
         },
 
         xaxis: {
@@ -150,7 +152,6 @@ export default {
             }
           },
           tickAmount: 10
-          // tickAmount: Math.round(this.max / this.min)
         },
 
         grid: {
@@ -168,7 +169,7 @@ export default {
           },
           y: {
             formatter: (val) => {
-              return `${val.toFixed(3)} ${this.unit || ''}`
+              return `${val.toFixed(0)} ${this.unit || ''}`
             }
           }
         }
@@ -178,45 +179,66 @@ export default {
 
   methods: {
     updateChart () {
-      let endDate
-      let startDate
-
-      this.selectedPeriod = 'DIA'
-
-      if (this.selectedPeriod === 'DIA') {
-        endDate = moment().endOf('day').format('YYYY-MM-DD h:mm')
-        startDate = moment().startOf('day').format('YYYY-MM-DD h:mm')
-      } else if (this.selectedPeriod === 'SEMANA') {
-        endDate = moment().endOf('isoWeek').format('YYYY-MM-DD h:mm')
-        startDate = moment().startOf('isoWeek').format('YYYY-MM-DD h:mm')
-      } else if (this.selectedPeriod === 'MÊS') {
-        endDate = moment().startOf('month').format('YYYY-MM-DD h:mm')
-        startDate = moment().startOf('month').format('YYYY-MM-DD h:mm')
-      }
-
       if (this.selectedTransductor !== undefined) {
-        let a = `http://127.0.0.1:8001/graph/${this.url}/?serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`
-        // a = `http://localhost:8001/graph/${this.url}/?start_date=2019-01-01 00:00&end_date=2019-10-30 20:00`
-        axios
-          .get(a)
-          .then((res) => {
-            const data = res.data.results[0]
-            console.log(data)
-            this.buildGraphInformation(data)
+        const consumption = [
+          `http://localhost:8001/graph/quarterly_consumption_off_peak/?start_date=2019-10-01 00:00&end_date=2019-10-30 23:59`,
+          `http://localhost:8001/graph/quarterly_consumption_peak/?start_date=2019-10-01 00:00&end_date=2019-10-30 23:59`
+        ]
+        const generated = [
+          `http://localhost:8001/graph/quarterly_generated_energy_off_peak/?start_date=2019-10-01 00:00&end_date=2019-10-30 23:59`,
+          `http://localhost:8001/graph/quarterly_generated_energy_peak/?start_date=2019-10-01 00:00&end_date=2019-10-30 23:59`
+        ]
+
+        axios.all([
+          axios.get(consumption[0]),
+          axios.get(consumption[1]),
+          axios.get(generated[0]),
+          axios.get(generated[1])
+        ])
+          .then(axios.spread((consA, consB, genA, genB) => {
+            const consumptionData = [
+              consA.data.results[0],
+              consB.data.results[0]
+            ]
+            const generatedData = [
+              genA.data.results[0],
+              genB.data.results[0]
+            ]
+            let minsMaxs = [
+              generatedData[0].min,
+              generatedData[0].max,
+              consumptionData[0].min,
+              consumptionData[0].max,
+              generatedData[1].min,
+              generatedData[1].max,
+              consumptionData[1].min,
+              consumptionData[1].max
+            ]
+            this.buildGraphInformation(consumptionData, generatedData, minsMaxs)
+          }))
+          .catch(errArray => {
+            console.log(errArray)
           })
-          .catch((err) => console.log(err))
       }
     },
 
-    buildGraphInformation (data) {
+    buildGraphInformation (consumption, generation, minsMaxs) {
       if (this.graphic_type === '1') {
-        this.min = data.min
-        this.max = data.max
-        this.setOneFaseInformations(data.measurements)
-      } else {
-        this.min = data.min
-        this.max = data.max
-        this.setThreeFaseInformations(data.phase_a, data.phase_b, data.phase_c)
+        this.min = Math.min(...minsMaxs)
+        this.max = Math.max(...minsMaxs)
+
+        this.consumption = []
+        this.generation = []
+        this.consumption.push(
+          ...consumption[0].measurements,
+          ...consumption[1].measurements
+        )
+        this.generation.push(
+          ...generation[0].measurements,
+          ...generation[1].measurements
+        )
+        console.log(this.consumption)
+        console.log(this.generation)
       }
     },
 
