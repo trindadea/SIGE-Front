@@ -18,9 +18,9 @@
           <l-map
             class="rounded-borders"
             style="height: 625px!important"
-            :zoom="15"
-            :min-zoom="15"
-            :max-zoom="15"
+            :zoom="16"
+            :min-zoom="16"
+            :max-zoom="16"
             :center="center"
             :options="mapOptions"
             id="region-map">
@@ -32,7 +32,7 @@
               v-for="transductor in transductors_points"
               :key="transductor.id"
               :lat-lng="transductor.coordinates"
-              :radius="7"
+              :radius="15"
               :l-style="transductor.style"
               :hover="true"
             >
@@ -48,7 +48,7 @@
       <!-- col-lg-6 offset-lg-1 -->
       <div class="col-6  q-pa-md-lg q-col-gutter-none q-pa-lg">
         <h2 class="text-center text-grey-9 q-ma-sm q-pa-none text-h4 text-capitalize">
-          consumo mensal
+          Consumo mensal
         </h2>
         <bar-chart-presentation
           title="Geração"
@@ -58,15 +58,6 @@
           :labels="['Geração']"
           unit="kW"
         />
-        <!-- <status-table
-          class="text-h6"
-          :data="transductors"
-          :dark="false"
-        /> -->
-
-        <!-- <h2 class="text-center text-grey-9 q-ma-sm q-pa-none text-h5 text-capitalize">
-          Estado dos medidores
-        </h2> -->
 
         <div class="q-pa-md row items-start q-gutter-md">
 
@@ -143,41 +134,29 @@ export default {
       url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
       attribution:
         '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-
-      transductors_points: [
-        {
-          id: 1,
-          name: 'Transdutor FT I',
-          coordinates: [-15.7632, -47.8730366666666],
-          style: {
-            color: 'green',
-            fillColor: 'green',
-            fillOpacity: 1
-          }
-        },
-        {
-          id: 2,
-          name: 'Transdutor FT II',
-          coordinates: [-15.7642, -47.8726],
-          style: {
-            color: 'green',
-            fillColor: 'green',
-            fillOpacity: 1
-          }
-        },
-        {
-          id: 3,
-          name: 'Transdutor FT III',
-          coordinates: [-15.7638, -47.8719],
-          style: {
-            color: 'green',
-            fillColor: 'green',
-            fillOpacity: 1
-          }
-        }
-      ],
-
       selectedPeriod: 'DIA'
+    }
+  },
+
+  computed: {
+    transductors_points () {
+      let arr = []
+
+      this.transductors.forEach(transductor => {
+        arr.push(
+          {
+            id: transductor.id,
+            name: transductor.location,
+            coordinates: [transductor.latitude, transductor.longitude],
+            style: {
+              color: 'green',
+              fillColor: 'lime',
+              fillOpacity: 1
+            }
+          }
+        )
+      })
+      return arr
     }
   },
 

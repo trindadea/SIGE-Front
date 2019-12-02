@@ -82,7 +82,7 @@ export default {
 
         plotOptions: {
           bar: {
-            columnWidth: '20%',
+            columnWidth: '4%',
             dataLabels: {
               enabled: true,
               position: 'top',
@@ -165,12 +165,12 @@ export default {
     updateChart () {
       if (this.selectedTransductor !== undefined) {
         const consumption = [
-          `http://192.168.100.229:8001/graph/quarterly_consumption_off_peak/?start_date=2019-01-01 00:00&end_date=2019-10-30 23:59&is_filtered=True`,
-          `http://192.168.100.229:8001/graph/quarterly_consumption_peak/?start_date=2019-01-01 00:00&end_date=2019-10-30 23:59&is_filtered=True`
+          `http://192.168.100.229:8001/graph/quarterly_consumption_off_peak/?start_date=2019-06-06 00:00&end_date=2019-06-06 23:59`,
+          `http://192.168.100.229:8001/graph/quarterly_consumption_peak/?start_date=2019-06-06 00:00&end_date=2019-06-06 23:59`
         ]
         const generated = [
-          `http://192.168.100.229:8001/graph/quarterly_generated_energy_off_peak/?start_date=2019-01-01 00:00&end_date=2019-10-30 23:59&is_filtered=True`,
-          `http://192.168.100.229:8001/graph/quarterly_generated_energy_peak/?start_date=2019-01-01 00:00&end_date=2019-10-30 23:59&is_filtered=True`
+          `http://192.168.100.229:8001/graph/quarterly_generated_energy_off_peak/?start_date=2019-06-06 00:00&end_date=2019-06-06 23:59`,
+          `http://192.168.100.229:8001/graph/quarterly_generated_energy_peak/?start_date=2019-06-06 00:00&end_date=2019-06-06 23:59`
         ]
 
         axios.all([
