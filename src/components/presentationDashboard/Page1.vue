@@ -67,7 +67,9 @@
         <!-- <h2 class="text-center text-grey-9 q-ma-sm q-pa-none text-h5 text-capitalize">
           Estado dos medidores
         </h2> -->
+
         <div class="q-pa-md row items-start q-gutter-md">
+
           <router-link
             class="asdf"
             v-for="transductor in transductors"
@@ -89,8 +91,8 @@
                 </div>
               </q-card-section>
             </q-card>
-
           </router-link>
+
         </div>
       </div>
     </div>
@@ -182,7 +184,7 @@ export default {
   methods: {
     getTransductorStatus () {
       axios
-        .get(`http://localhost:8001/energy_transductors/`)
+        .get(`http://192.168.100.229:8001/energy_transductors/`)
         .then((res) => {
           this.transductors = res.data
         })

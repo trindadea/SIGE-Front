@@ -1,5 +1,6 @@
 <template>
-  <div class="container q-py-lg bg-white">
+  <div class="q-py-lg bg-white">
+  <!-- <div class="container q-py-lg bg-white"> -->
     <!-- inner loading not working properly -->
     <q-inner-loading :showing="loading">
       <q-circular-progress
@@ -25,43 +26,42 @@
     >
       <div class="row">
         <div class="col-12 col-md-6">
-          <bar-chart
-            title="Consumo/geração de energia"
-            url="quarterly_stacked_consumption_generation"
-            graphic_type="1"
-            :stacked="true"
-            :labels="[]"
-          />
-        </div>
-        <div class="col-12 col-md-6">
           <line-chart
-            title="Medida de frequência"
-            url="minutely_frequency"
-            graphic_type="1"
-            y_min="30"
-            y_max="70"
-            :transductor_id="id"
-          />
-        </div>
-        <div class="col-12 col-md-6">
-          <line-chart
-            title="Medida de tensão"
-            url="minutely_threephase_voltage"
-            graphic_type="3"
-            y_min="50"
-            y_max="230"
-            :transductor_id="id"
-          />
-        </div>
-        <div class="col-12 col-md-6">
-          <line-chart
-            title="Medida de corrente"
+            title="Corrente"
             url="minutely_threephase_current"
             graphic_type="3"
-            y_min="0"
-            y_max="5"
-            :transductor_id="id"
+            unit="A"
+            decimals="2"
+            :id="id"
           />
+        </div>
+        <div class="col-12 col-md-6">
+          <line-chart
+            title="Potência reativa"
+            url="minutely_reactive_power"
+            graphic_type="3"
+            unit="kW"
+            :id="id"
+          />
+        </div>
+        <div class="col-12 col-md-6">
+          <line-chart
+            title="Tensão"
+            url="minutely_threephase_voltage"
+            graphic_type="3"
+            unit="V"
+            :id="id"
+          />
+        </div>
+        <div class="col-12 col-md-6">
+            <line-chart
+              title="Potência ativa"
+              url="minutely_active_power"
+              graphic_type="3"
+              unit="kW"
+              decimals="2"
+              :id="id"
+            />
         </div>
       </div>
 
@@ -71,13 +71,13 @@
 
 <script>
 import axios from 'axios'
-import LineChart from 'components/charts/LineChart.vue'
-import BarChart from 'components/charts/BarChart.vue'
+import LineChart from 'components/charts/LineChartPresentation.vue'
+// import BarChart from 'components/charts/BarChartPresentation.vue'
 
 export default {
   components: {
-    LineChart,
-    BarChart
+    // BarChart,
+    LineChart
   },
 
   data () {
@@ -90,8 +90,9 @@ export default {
 
   beforeMount () {
     this.loading = true
+    console.log(this.id)
     axios
-      .get(`http://localhost:8001/energy_transductors/${this.id}`)
+      .get(`http://192.168.100.229:8001/energy_transductors/${this.id}`)
       .then((res) => {
         this.transductor = res.data
       })
