@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <div v-if="this.selectedTransductor !== ''"> -->
-    <div style="padding: 1em;">
+    <div style="padding: 1.5em;">
       <h2 class="text-left text-muted text-h4 q-pa-none q-ma-none q-px-lg q-mb-md">
         {{this.title}}
       </h2>
@@ -47,6 +47,8 @@ export default {
       transductor: '',
       selectedPeriod: 'Hoje',
       periodsOptions: {}
+
+      // id: 30000247
     }
   },
 
@@ -131,7 +133,7 @@ export default {
           show: true,
           labels: {
             style: {
-              fontSize: '1rem'
+              fontSize: '.8rem'
             }
           }
         },
@@ -176,7 +178,7 @@ export default {
 
   methods: {
     updateChart () {
-      const a = `http://192.168.100.229:8001/graph/${this.url}/?serial_number=${this.transductor.id}&start_date=2019-01-01 00:00&end_date=2019-10-30 23:59`
+      const a = `http://192.168.100.229:8001/graph/${this.url}/?serial_number=${this.transductor.id}&start_date=2019-06-01 00:00&end_date=2019-07-31 23:59`
 
       console.log(a)
 
@@ -230,7 +232,7 @@ export default {
   },
 
   beforeMount () {
-    const a = `http://192.168.100.229:8001/graph/${this.url}/?serial_number=${this.id}&start_date=2019-01-01 00:00&end_date=2019-12-30 23:59`
+    const a = `http://192.168.100.229:8001/graph/${this.url}/?serial_number=${this.id}&start_date=2019-06-01 00:00&end_date=2019-12-30 23:59&is_filtered=True`
 
     console.log(a)
 

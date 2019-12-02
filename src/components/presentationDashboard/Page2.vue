@@ -27,25 +27,6 @@
       <div class="row">
         <div class="col-12 col-md-6">
           <line-chart
-            title="Corrente"
-            url="minutely_threephase_current"
-            graphic_type="3"
-            unit="A"
-            decimals="2"
-            :id="id"
-          />
-        </div>
-        <div class="col-12 col-md-6">
-          <line-chart
-            title="Potência reativa"
-            url="minutely_reactive_power"
-            graphic_type="3"
-            unit="kW"
-            :id="id"
-          />
-        </div>
-        <div class="col-12 col-md-6">
-          <line-chart
             title="Tensão"
             url="minutely_threephase_voltage"
             graphic_type="3"
@@ -54,14 +35,34 @@
           />
         </div>
         <div class="col-12 col-md-6">
-            <line-chart
-              title="Potência ativa"
-              url="minutely_active_power"
-              graphic_type="3"
-              unit="kW"
-              decimals="2"
-              :id="id"
-            />
+          <line-chart
+            title="Corrente"
+            url="minutely_threephase_current"
+            graphic_type="3"
+            unit="A"
+            decimals="0"
+            :id="id"
+          />
+        </div>
+        <div class="col-12 col-md-6">
+          <line-chart
+            title="DHT tensão"
+            url="minutely_dht_voltage"
+            graphic_type="3"
+            unit="%"
+            decimals="1"
+            :id="id"
+          />
+        </div>
+        <div class="col-12 col-md-6">
+          <line-chart
+            title="Potência ativa"
+            url="minutely_active_power"
+            graphic_type="3"
+            unit="W"
+            decimals="0"
+            :id="id"
+          />
         </div>
       </div>
 
@@ -70,8 +71,8 @@
 </template>
 
 <script>
-import axios from 'axios'
 import LineChart from 'components/charts/LineChartPresentation.vue'
+import axios from 'axios'
 // import BarChart from 'components/charts/BarChartPresentation.vue'
 
 export default {
@@ -91,8 +92,12 @@ export default {
   beforeMount () {
     this.loading = true
     console.log(this.id)
+
+    const a = `http://192.168.100.229:8001/energy_transductors/${this.id}/`
+
+    console.log(a)
     axios
-      .get(`http://192.168.100.229:8001/energy_transductors/${this.id}`)
+      .get(a)
       .then((res) => {
         this.transductor = res.data
       })
