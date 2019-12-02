@@ -1,8 +1,9 @@
 <template>
   <div>
-    <div
+    <!-- <div
       v-if="this.selectedTransductor !== '' || !this.stacked"
-    >
+    > -->
+    <div>
       <apexcharts
         id="chart"
         type="bar"
@@ -10,21 +11,21 @@
         :options="chartOptions"
       />
     </div>
-    <no-data-placeholder v-else/>
+    <!-- <no-data-placeholder v-else/> -->
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import VueApexCharts from 'vue-apexcharts'
-import NoDataPlaceholder from './NoDataPlaceholder.vue'
+// import NoDataPlaceholder from './NoDataPlaceholder.vue'
 
 export default {
   name: 'BarChartPresentation',
 
   components: {
-    'apexcharts': VueApexCharts,
-    'no-data-placeholder': NoDataPlaceholder
+    // 'no-data-placeholder': NoDataPlaceholder,
+    'apexcharts': VueApexCharts
   },
 
   props: [
@@ -112,7 +113,7 @@ export default {
           show: true,
           labels: {
             style: {
-              fontSize: '1rem'
+              fontSize: '.8rem'
             }
           }
         },
@@ -147,21 +148,29 @@ export default {
               return `${val.toFixed(0)} ${this.unit || ''}`
             }
           }
+        },
+
+        legend: {
+          show: true,
+          fontSize: '16px',
+          onItemHover: {
+            highlightDataSeries: true
+          }
         }
       }
     }
   },
-
+  // 192.168.100.34
   methods: {
     updateChart () {
       if (this.selectedTransductor !== undefined) {
         const consumption = [
-          `http://localhost:8001/graph/quarterly_consumption_off_peak/?start_date=2019-10-01 00:00&end_date=2019-10-30 23:59`,
-          `http://localhost:8001/graph/quarterly_consumption_peak/?start_date=2019-10-01 00:00&end_date=2019-10-30 23:59`
+          `http://192.168.100.229:8001/graph/quarterly_consumption_off_peak/?start_date=2019-01-01 00:00&end_date=2019-10-30 23:59&is_filtered=True`,
+          `http://192.168.100.229:8001/graph/quarterly_consumption_peak/?start_date=2019-01-01 00:00&end_date=2019-10-30 23:59&is_filtered=True`
         ]
         const generated = [
-          `http://localhost:8001/graph/quarterly_generated_energy_off_peak/?start_date=2019-10-01 00:00&end_date=2019-10-30 23:59`,
-          `http://localhost:8001/graph/quarterly_generated_energy_peak/?start_date=2019-10-01 00:00&end_date=2019-10-30 23:59`
+          `http://192.168.100.229:8001/graph/quarterly_generated_energy_off_peak/?start_date=2019-01-01 00:00&end_date=2019-10-30 23:59&is_filtered=True`,
+          `http://192.168.100.229:8001/graph/quarterly_generated_energy_peak/?start_date=2019-01-01 00:00&end_date=2019-10-30 23:59&is_filtered=True`
         ]
 
         axios.all([
@@ -227,7 +236,7 @@ export default {
 
     getTransductors () {
       axios
-        .get(`http://0.0.0.0:8001/energy_transductors`)
+        .get(`http://192.168.100.229:8001/energy_transductors`)
         .then((res) => {
           const transductors = res.data
 
