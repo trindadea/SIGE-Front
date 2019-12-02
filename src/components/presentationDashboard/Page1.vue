@@ -1,25 +1,26 @@
 <template>
   <div class="q-py-sm bg-white">
     <div class="row">
-      <div class="col-6 col-lg-5 q-col-gutter-none q-pa-md-lg q-col-gutter-none q-pa-lg">
-        <h2 class="text-center text-h4 text-grey-9 q-ma-sm text-capitalize">
+      <!-- col-lg-5 q-col-gutter-none -->
+      <div class="col-6  q-pa-md-lg q-col-gutter-none q-pa-lg">
+        <!-- <h2 class="text-center text-h4 text-grey-9 q-ma-sm text-capitalize">
           Lista de medidores
-        </h2>
+        </h2> -->
 
         <div class="">
-          <status-table
+          <!-- <status-table
             class="text-h6"
             :data="transductors"
             :dark="false"
-          />
+          /> -->
 
           <!-- style="height: 800px!important" -->
           <l-map
             class="rounded-borders"
-            style="height: 300px!important"
-            :zoom="17"
-            :min-zoom="17"
-            :max-zoom="17"
+            style="height: 625px!important"
+            :zoom="15"
+            :min-zoom="15"
+            :max-zoom="15"
             :center="center"
             :options="mapOptions"
             id="region-map">
@@ -40,11 +41,12 @@
             />
             </l-circle>
           </l-map>
-          aqui vao ficar os parceiros
+          <vue-footer/>
         </div>
       </div>
 
-      <div class="col-6 col-lg-6 offset-lg-1 q-pa-md-lg q-col-gutter-none q-pa-lg">
+      <!-- col-lg-6 offset-lg-1 -->
+      <div class="col-6  q-pa-md-lg q-col-gutter-none q-pa-lg">
         <h2 class="text-center text-grey-9 q-ma-sm q-pa-none text-h4 text-capitalize">
           consumo mensal
         </h2>
@@ -56,14 +58,49 @@
           :labels="['Geração']"
           unit="kW"
         />
+        <!-- <status-table
+          class="text-h6"
+          :data="transductors"
+          :dark="false"
+        /> -->
+
+        <!-- <h2 class="text-center text-grey-9 q-ma-sm q-pa-none text-h5 text-capitalize">
+          Estado dos medidores
+        </h2> -->
+        <div class="q-pa-md row items-start q-gutter-md">
+          <router-link
+            class="asdf"
+            v-for="transductor in transductors"
+            :key="transductor.id"
+            :to="`${transductor.serial_number}/detail`"
+          >
+            <q-card
+              bordered
+              flat
+              class="my-card"
+
+            >
+              <q-card-section>
+                <div class="text-h6">
+                  {{ transductor.location }} <q-icon name="fas fa-circle" :class="getColorStatus(transductor.broken)"/>
+                </div>
+                <div class="text-subtitle2">
+                  Nº serial: {{ transductor.serial_number }}
+                </div>
+              </q-card-section>
+            </q-card>
+
+          </router-link>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import StatusTable from 'components/presentationDashboard/StatusTable.vue'
+// import StatusTable from 'components/presentationDashboard/StatusTable.vue'
 import BarChartPresentation from '../charts/BarChartPresentation.vue'
+import Footer from 'components/presentationDashboard/Footer.vue'
 import { LMap, LTileLayer, LCircle, LPopup } from 'vue2-leaflet'
 import 'leaflet/dist/leaflet.css'
 import axios from 'axios'
@@ -71,12 +108,14 @@ import axios from 'axios'
 export default {
   components: {
     BarChartPresentation,
-    StatusTable,
+    // StatusTable,
     LMap,
     LTileLayer,
     LCircle,
-    LPopup
+    LPopup,
+    'vue-footer': Footer
   },
+
   data () {
     return {
       url1: process.env,
@@ -91,9 +130,9 @@ export default {
 
       generation: [],
 
-      center: [-15.763636, -47.872534],
+      // center: [-15.763636, -47.872534],
+      center: [-15.7650, -47.8665],
 
-      // center: L.latLng(-15.763636, -47.872534),
       mapOptions: {
         zoomControl: false,
         maxbounds: this.center
@@ -150,6 +189,9 @@ export default {
         .catch((err) => {
           console.log(err)
         })
+    },
+    getColorStatus (isBroken) {
+      return isBroken ? 'text-red-9' : 'text-green-9'
     }
   },
 
@@ -160,6 +202,9 @@ export default {
 
 </script>
 
-<style>
-
+<style scoped>
+  .asdf {
+    text-decoration: none;
+    color: inherit;
+  }
 </style>

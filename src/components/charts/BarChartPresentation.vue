@@ -15,9 +15,9 @@
 </template>
 
 <script>
+import axios from 'axios'
 import VueApexCharts from 'vue-apexcharts'
 import NoDataPlaceholder from './NoDataPlaceholder.vue'
-import axios from 'axios'
 
 export default {
   name: 'BarChartPresentation',
@@ -42,58 +42,28 @@ export default {
       min: 0,
       max: 5,
       dates: [],
-      phase_a: [],
-      phase_b: [],
-      phase_c: [],
       consumption: [],
       generation: [],
       measurements: [],
       transductorList: [],
       selectedCampus: '',
       selectedTransductor: '',
-      selectedPeriod: 'Hoje',
-      mock: [
-        {
-          name: 'Consumo',
-          data: [['11/27/2019 00:00:00', 10.666], ['11/27/2019 01:00:00', 20.666], ['11/27/2019 02:00:00', 22.666]]
-        },
-        {
-          name: 'Geração',
-          data: [['11/27/2019 00:00:00', 5.666], ['11/27/2019 01:00:00', 7.666], ['11/27/2019 02:00:00', 5.666]]
-        }
-      ]
+      selectedPeriod: 'Hoje'
     }
   },
 
   computed: {
     series () {
-      if (this.graphic_type === '1') {
-        return [
-          {
-            name: 'Consumo',
-            data: this.consumption
-          },
-          {
-            name: 'Geração',
-            data: this.generation
-          }
-        ]
-      } else {
-        return [
-          {
-            name: 'Fase A',
-            data: this.phase_a
-          },
-          {
-            name: 'Fase B',
-            data: this.phase_b
-          },
-          {
-            name: 'Fase C',
-            data: this.phase_c
-          }
-        ]
-      }
+      return [
+        {
+          name: 'Consumo',
+          data: this.consumption
+        },
+        {
+          name: 'Geração',
+          data: this.generation
+        }
+      ]
     },
     chartOptions () {
       return {
@@ -105,13 +75,13 @@ export default {
         chart: {
           stacked: true,
           toolbar: {
-            show: true
+            show: false
           }
         },
 
         plotOptions: {
           bar: {
-            columnWidth: '25%',
+            columnWidth: '20%',
             dataLabels: {
               enabled: true,
               position: 'top',
@@ -139,7 +109,12 @@ export default {
 
         xaxis: {
           type: 'datetime',
-          show: true
+          show: true,
+          labels: {
+            style: {
+              fontSize: '1rem'
+            }
+          }
         },
 
         yaxis: {
@@ -242,18 +217,8 @@ export default {
       }
     },
 
-    setOneFaseInformations (measurementList) {
-      this.phase_a = measurementList
-    },
-
-    setThreeFaseInformations (faseAList, faseBList, faseCList) {
-      this.phase_a = faseAList
-      this.phase_b = faseBList
-      this.phase_c = faseCList
-    },
-
     labelFormatter (value) {
-      return value.toFixed(0)
+      return value.toFixed(0) + ' ' + this.unit
     },
 
     setTransductorList (transductorList) {
@@ -284,7 +249,6 @@ export default {
 
   beforeMount () {
     this.getTransductors()
-
     this.updateChart()
   }
 }
