@@ -1,9 +1,9 @@
 <template>
-  <q-footer
+  <span
     class="bg-grey-1 text-grey-9"
     bordered
   >
-    <section class="q-py-lg container-header">
+    <!-- <section class="q-py-lg container-header">
       <div class="row justify-between" id="about">
         <div class="col items-center">
           <p class="text-h6">
@@ -27,14 +27,14 @@
         </div>
       </div>
 
-      <hr class="text-grey-2">
-      <div class="">
+      <hr class="text-grey-2"> -->
+      <!-- <div class="">
         <h3 class="text-center">
           Parceiros
         </h3>
-      </div>
+      </div> -->
 
-      <div class="row q-mb-lg" id="partners">
+      <div class="q-pt-lg row q-mb-lg" id="partners">
         <div
           v-for="partner in partners" :key="partner.id"
           class="col">
@@ -45,9 +45,9 @@
           />
         </div>
       </div>
-    </section>
+    <!-- </section> -->
 
-    <div class="text-center bg-grey-10 text-grey-1" id="links">
+    <!-- <div class="text-center bg-grey-10 text-grey-1" id="links">
       <q-btn
         round
         flat
@@ -64,8 +64,8 @@
             LAPPIS
           </a>
       </p>
-    </div>
-  </q-footer>
+    </div> -->
+  </span>
 </template>
 
 <script>
@@ -79,8 +79,7 @@ export default {
 
       partners: [
         'https://www.infoescola.com/wp-content/uploads/2016/02/unb.png',
-        'statics/ceb_rgb.png',
-        // 'https://3c1703fe8d.site.internapcdn.net/newman/csz/news/800/2016/anewscorpion.jpg',
+        'statics/ceb_partner.jpg',
         'statics/transparents/logo_PED_vertical_com_sigla.png'
       ]
     }
@@ -93,19 +92,19 @@ export default {
   background-color: rgb(2, 105, 47);
 }
 
-section {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-}
+// section {
+//   padding-top: 3rem;
+//   padding-bottom: 3rem;
+// }
 
-#links {
-  p {
-    margin-bottom: 0;
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-  }
-}
+// #links {
+//   p {
+//     margin-bottom: 0;
+//     a {
+//       text-decoration: none;
+//       color: inherit;
+//     }
+//   }
+// }
 
 </style>
