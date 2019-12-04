@@ -249,7 +249,7 @@ export default {
     }
   },
 
-  beforeMount () {
+  created () {
     this.getTransductors()
 
     this.updateChart()

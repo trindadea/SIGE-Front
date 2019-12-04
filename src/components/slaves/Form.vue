@@ -105,7 +105,7 @@ export default {
     }
   },
 
-  beforeCreate () {
+  created () {
     const masterUrl = ''
     axios
       .get(`${masterUrl}/campi/`)

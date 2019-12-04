@@ -275,7 +275,7 @@ export default {
     }
   },
 
-  beforeMount () {
+  created () {
     this.getTransductors()
 
     this.periodsOptions['Hoje'] = this.getTodayInterval()

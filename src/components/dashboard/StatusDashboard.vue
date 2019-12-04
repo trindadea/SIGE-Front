@@ -224,7 +224,7 @@ export default {
     }
   },
 
-  beforeMount () {
+  created () {
     this.getTransductors()
     this.getSlaves()
     this.getAllTransductors()
