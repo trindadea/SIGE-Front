@@ -74,7 +74,7 @@ module.exports = function (ctx) {
         : { // and on build (production):
           MASTER_URL: JSON.stringify('http:')
         },
-      extendWebpack (cfg) {
+      extendWebpack(cfg, { isServer, isClient }) {
         cfg.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
@@ -97,50 +97,49 @@ module.exports = function (ctx) {
     animations: [],
 
     ssr: {
-      pwa: true
-    },
-
-    pwa: {
-      // workboxPluginMode: 'InjectManifest',
-      // workboxOptions: {}, // only for NON InjectManifest
-      manifest: {
-        name: 'Sistema de Monitoramento de Insumos',
-        short_name: 'SMI',
-        description: 'SPA app for SMI',
-        display: 'standalone',
-        orientation: 'portrait',
-        background_color: '#ffffff',
-        lang: 'pt-br',
-        theme_color: '#027be3',
-        icons: [
-          {
-            'src': 'statics/icons/icon-128x128.png',
-            'sizes': '128x128',
-            'type': 'image/png'
-          },
-          {
-            'src': 'statics/icons/icon-192x192.png',
-            'sizes': '192x192',
-            'type': 'image/png'
-          },
-          {
-            'src': 'statics/icons/icon-256x256.png',
-            'sizes': '256x256',
-            'type': 'image/png'
-          },
-          {
-            'src': 'statics/icons/icon-384x384.png',
-            'sizes': '384x384',
-            'type': 'image/png'
-          },
-          {
-            'src': 'statics/icons/icon-512x512.png',
-            'sizes': '512x512',
-            'type': 'image/png'
-          }
-        ]
+      pwa: {
+        // workboxPluginMode: 'InjectManifest',
+        // workboxOptions: {}, // only for NON InjectManifest
+        manifest: {
+          name: 'Sistema de Monitoramento de Insumos',
+          short_name: 'SMI',
+          description: 'SPA app for SMI',
+          display: 'standalone',
+          orientation: 'portrait',
+          background_color: '#ffffff',
+          lang: 'pt-br',
+          theme_color: '#027be3',
+          icons: [
+            {
+              'src': 'statics/icons/icon-128x128.png',
+              'sizes': '128x128',
+              'type': 'image/png'
+            },
+            {
+              'src': 'statics/icons/icon-192x192.png',
+              'sizes': '192x192',
+              'type': 'image/png'
+            },
+            {
+              'src': 'statics/icons/icon-256x256.png',
+              'sizes': '256x256',
+              'type': 'image/png'
+            },
+            {
+              'src': 'statics/icons/icon-384x384.png',
+              'sizes': '384x384',
+              'type': 'image/png'
+            },
+            {
+              'src': 'statics/icons/icon-512x512.png',
+              'sizes': '512x512',
+              'type': 'image/png'
+            }
+          ]
+        }
       }
     },
+
 
     cordova: {
       // id: 'org.cordova.quasar.app',
@@ -150,7 +149,7 @@ module.exports = function (ctx) {
     electron: {
       // bundler: 'builder', // or 'packager'
 
-      extendWebpack (cfg) {
+      extendWebpack(cfg, { isServer, isClient }) {
         // do something with Electron main process Webpack cfg
         // chainWebpack also available besides this extendWebpack
       },

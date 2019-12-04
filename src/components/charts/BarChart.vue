@@ -173,7 +173,6 @@ export default {
       let limit = periods[2]
 
       this.selectedPeriod = 'DIA'
-
       if (this.selectedPeriod === 'DIA') {
         endDate = moment().endOf('day').format('YYYY-MM-DD h:mm')
         startDate = moment().startOf('day').format('YYYY-MM-DD h:mm')
