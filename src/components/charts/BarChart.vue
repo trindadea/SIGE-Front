@@ -167,8 +167,10 @@ export default {
 
   methods: {
     updateChart () {
-      let endDate
-      let startDate
+      let periods = this.periodsOptions[this.selectedPeriod]
+      let startDate = periods[0]
+      let endDate = periods[1]
+      let limit = periods[2]
 
       this.selectedPeriod = 'DIA'
 
