@@ -33,7 +33,7 @@
 import VueApexCharts from 'vue-apexcharts'
 import NoDataPlaceholder from './NoDataPlaceholder.vue'
 import moment from 'moment'
-import axios from 'axios'
+import HTTP from '../../services/masterApi/http-common'
 
 export default {
   components: {
@@ -167,10 +167,13 @@ export default {
 
   methods: {
     updateChart () {
-      let endDate
-      let startDate
-
       this.selectedPeriod = 'DIA'
+
+      let periods = this.periodsOptions[this.selectedPeriod]
+      let startDate = periods[0]
+      let endDate = periods[1]
+      let limit = periods[2]
+
 
       if (this.selectedPeriod === 'DIA') {
         endDate = moment().endOf('day').format('YYYY-MM-DD h:mm')
@@ -184,10 +187,8 @@ export default {
       }
 
       if (this.selectedTransductor !== undefined) {
-        let a = `http://127.0.0.1:8001/graph/${this.url}/?serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`
-        // a = `http://localhost:8001/graph/${this.url}/?start_date=2019-06-01 00:00&end_date=2019-07-31 20:00`
-        axios
-          .get(a)
+        HTTP
+          .get(`graph/minutely_${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
           .then((res) => {
             const data = res.data.results[0]
             console.log(data)
@@ -228,8 +229,8 @@ export default {
     },
 
     getTransductors () {
-      axios
-        .get(`http://0.0.0.0:8001/energy_transductors`)
+      HTTP
+        .get('energy_transductors')
         .then((res) => {
           const transductors = res.data
 

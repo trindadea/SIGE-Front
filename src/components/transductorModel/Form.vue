@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import HTTP from '../../services/masterApi/http-common'
 
 export default {
   data () {
@@ -75,7 +75,7 @@ export default {
       console.log(data)
       this.loading = true
 
-      axios
+      HTTP
         .post(`${masterAddress}/transductor_models/`, data)
         .then((res) => {
           this.loading = false

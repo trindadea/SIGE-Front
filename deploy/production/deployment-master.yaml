@@ -1,0 +1,90 @@
+---
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  name: master-ingress
+  namespace: smi-master-production
+  labels:
+    app: smi-master-staging
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+spec:
+  rules:
+  - host: smi-master.lappis.rocks
+    http:
+      paths:
+      - backend:
+          serviceName: master-svc
+          servicePort: 80
+  tls:
+  - hosts:
+    - smi-master.lappis.rocks
+    secretName: smi-master-production-letsencrypt-prod-crt
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: master-svc
+  namespace: smi-master-production
+  labels:
+    app: smi-master-staging
+spec:
+  ports:
+  - port: 80
+    targetPort: 8000
+    protocol: TCP
+    name: http
+  selector:
+    app: smi-master-staging
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: master-deployment
+  namespace: smi-master-production
+  labels:
+    app: smi-master-staging
+spec:
+  selector:
+    matchLabels:
+      app: smi-master-staging
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: smi-master-staging
+    spec:
+      containers:
+      - name: smi-master-staging
+        image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
+        command: ["sh", "scripts/start.sh"]
+        ports:
+        - containerPort: 8000
+          protocol: TCP
+        env:
+        - name: master_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: "master-production-secrets"
+              key: "app-secret-key"
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: "master-production-secrets"
+              key: "db-user"
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: "master-production-secrets"
+              key: "db-user-pass"
+        - name: POSTGRES_PORT
+          value: "5432"
+        - name: POSTGRES_DB
+          value: "smi-master-dev"
+        - name: POSTGRES_HOST
+          value: postgres
+        - name: ENVIRONMENT
+          value: production
+        - name: ALLOWED_HOSTS
+          value: smi-master.lappis.rocks

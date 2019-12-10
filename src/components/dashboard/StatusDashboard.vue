@@ -95,7 +95,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import HTTP from '../../services/masterApi/http-common'
 import DashboardSummaryStatusCard from 'components/dashboard/DashboardSummaryStatusCard.vue'
 import DownHistoryList from 'components/dashboard/DownHistoryList.vue'
 
@@ -168,8 +168,8 @@ export default {
     getTransductors () {
       this.loading = true
 
-      axios
-        .get(`http://localhost:8001/active_transductors/`)
+      HTTP
+        .get('active_transductors')
         .then((res) => {
           this.loading = false
           this.activeTransductors = res.data
@@ -185,8 +185,8 @@ export default {
     getSlaves () {
       this.loading = true
 
-      // axios
-      //   .get(`http://localhost:8001/slaves`)
+      // HTTP
+      //   .get('slaves')
       //   .then((res) => {
       //     console.log(res)
       //     this.slaves = res.data
@@ -212,8 +212,8 @@ export default {
     },
 
     getAllTransductors () {
-      axios
-        .get(`http://localhost:8001/energy_transductors`)
+      HTTP
+        .get('energy_transductors')
         .then(res => {
           this.allTransductors = res.data
           console.log(res.data)

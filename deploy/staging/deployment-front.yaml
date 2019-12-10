@@ -1,0 +1,64 @@
+---
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  name: front-ingress
+  namespace: smi-front-staging
+  labels:
+    app: smi-front-staging
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+spec:
+  rules:
+  - host: smi-front.dev.lappis.rocks
+    http:
+      paths:
+      - backend:
+          serviceName: front-svc
+          servicePort: 80
+  tls:
+  - hosts:
+    - smi-front.dev.lappis.rocks
+    secretName: smi-front-staging-letsencrypt-prod-crt
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: front-svc
+  namespace: smi-front-staging
+  labels:
+    app: smi-front-staging
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: smi-front-staging
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: front-deployment
+  namespace: smi-front-staging
+  labels:
+    app: smi-front-staging
+spec:
+  selector:
+    matchLabels:
+      app: smi-front-staging
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: smi-front-staging
+    spec:
+      containers:
+      - name: smi-front-staging
+        image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
+        command: ["yarn", "start"]
+        ports:
+        - containerPort: 8080
+          protocol: TCP
