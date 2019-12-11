@@ -153,7 +153,7 @@ export default {
 
       if (this.selectedTransductor !== undefined) {
         axios
-          .get(`http://127.0.0.1:8001/graph/minutely_${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
+          .get(`http://127.0.0.1:8001/graph/${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
           .then((res) => {
             const measurements = res.data
             console.log(measurements)

@@ -181,7 +181,7 @@ export default {
 
       if (this.selectedTransductor !== undefined) {
         HTTP
-          .get(`graph/minutely_${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
+          .get(`graph/${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
           .then((res) => {
             const measurements = res.data.results[0]
             this.buildGraphInformation(measurements)

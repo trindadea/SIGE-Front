@@ -174,7 +174,6 @@ export default {
       let endDate = periods[1]
       let limit = periods[2]
 
-
       if (this.selectedPeriod === 'DIA') {
         endDate = moment().endOf('day').format('YYYY-MM-DD h:mm')
         startDate = moment().startOf('day').format('YYYY-MM-DD h:mm')
@@ -188,7 +187,7 @@ export default {
 
       if (this.selectedTransductor !== undefined) {
         HTTP
-          .get(`graph/minutely_${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
+          .get(`graph/${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
           .then((res) => {
             const data = res.data.results[0]
             console.log(data)
