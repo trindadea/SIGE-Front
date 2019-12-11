@@ -186,8 +186,15 @@ export default {
       }
 
       if (this.selectedTransductor !== undefined) {
+<<<<<<< HEAD
         HTTP
           .get(`graph/${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
+=======
+        let a = `http://127.0.0.1:8001/graph/${this.url}/?serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`
+        // a = `http://localhost:8001/graph/${this.url}/?start_date=2019-06-01 00:00&end_date=2019-07-31 20:00`
+        axios
+          .get(a)
+>>>>>>> 83b3597fba44b515954b65d86eb5958816ec26d0
           .then((res) => {
             const data = res.data.results[0]
             console.log(data)

@@ -165,12 +165,21 @@ export default {
     updateChart () {
       if (this.selectedTransductor !== undefined) {
         const consumption = [
+<<<<<<< HEAD
           `http://192.168.100.229:8001/graph/quarterly_consumption_off_peak/?start_date=2019-06-01 00:00&end_date=2019-06-30 23:59`,
           `http://192.168.100.229:8001/graph/quarterly_consumption_peak/?start_date=2019-06-01 00:00&end_date=2019-06-30 23:59`
         ]
         const generated = [
           `http://192.168.100.229:8001/graph/quarterly_generated_energy_off_peak/?start_date=2019-06-01 00:00&end_date=2019-06-30 23:59`,
           `http://192.168.100.229:8001/graph/quarterly_generated_energy_peak/?start_date=2019-06-01 00:00&end_date=2019-06-30 23:59`
+=======
+          `http://192.168.100.229:8001/graph/quarterly_consumption_off_peak/?start_date=2019-06-06 00:00&end_date=2019-06-06 23:59`,
+          `http://192.168.100.229:8001/graph/quarterly_consumption_peak/?start_date=2019-06-06 00:00&end_date=2019-06-06 23:59`
+        ]
+        const generated = [
+          `http://192.168.100.229:8001/graph/quarterly_generated_energy_off_peak/?start_date=2019-06-06 00:00&end_date=2019-06-06 23:59`,
+          `http://192.168.100.229:8001/graph/quarterly_generated_energy_peak/?start_date=2019-06-06 00:00&end_date=2019-06-06 23:59`
+>>>>>>> 83b3597fba44b515954b65d86eb5958816ec26d0
         ]
 
         axios.all([
