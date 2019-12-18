@@ -1306,10 +1306,10 @@ anymatch@~3.1.1:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
-apexcharts@^3.8.2:
-  version "3.10.1"
-  resolved "https://registry.yarnpkg.com/apexcharts/-/apexcharts-3.10.1.tgz#ac85b08796f0fef656ecc0458cf0362f75f63bad"
-  integrity sha512-gwxCvzQSNIVBhGHr31Ha+bmUsA3qWw6atMflVCIqZXBqcRvG1iMoxNV6GnhG975KpFErca5FFDg3xVHYQJRW/A==
+apexcharts@^3.11.0:
+  version "3.11.0"
+  resolved "https://registry.yarnpkg.com/apexcharts/-/apexcharts-3.11.0.tgz#9f3819287ff63a6f6353bfd3c8ccb93756844e59"
+  integrity sha512-1AzfC7MFQ6KQ0CEd9L9xe/f1UKOz4beR8T4BkUGWNDTBbm/Qmmtiy900thkbBNOrpz5UNLUiizvmZqZFejw9kg==
   dependencies:
     promise-polyfill "8.1.0"
     svg.draggable.js "^2.2.2"
@@ -8680,7 +8680,7 @@ vm-browserify@^1.0.1:
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-1.1.2.tgz#78641c488b8e6ca91a75f511e7a3b32a86e5dda0"
   integrity sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==
 
-vue-apexcharts@^1.4.0:
+vue-apexcharts@^1.5.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/vue-apexcharts/-/vue-apexcharts-1.5.1.tgz#f235d3c8047690f598864b70bd389081efff7576"
   integrity sha512-faMfIj7g4MEceWjh5Aux7NfEdJYiSvMK6ml6UA2oeQH444kU4z532zR8P6AvCj0x6LzV2fgv2POzt0poMaoIjg==
