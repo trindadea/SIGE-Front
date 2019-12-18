@@ -5,6 +5,15 @@ module.exports = function (ctx) {
   return {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
+
+    vendor: {
+      add: [{ path: 'src/plugins/apexcharts'}]
+    },
+
+    plugins: [
+      {path: 'apexcharts', server: false}
+    ],
+
     boot: [
       'axios'
     ],
