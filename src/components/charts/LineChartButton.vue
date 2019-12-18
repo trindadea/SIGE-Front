@@ -26,14 +26,12 @@
 </template>
 
 <script>
-import VueApexCharts from 'vue-apexcharts'
 import NoDataPlaceholder from './NoDataPlaceholder.vue'
 import moment from 'moment'
 import axios from 'axios'
 
 export default {
   components: {
-    apexcharts: VueApexCharts,
     'no-data-placeholder': NoDataPlaceholder
   },
 

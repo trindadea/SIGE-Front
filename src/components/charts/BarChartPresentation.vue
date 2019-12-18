@@ -17,7 +17,6 @@
 
 <script>
 import axios from 'axios'
-import VueApexCharts from 'vue-apexcharts'
 // import NoDataPlaceholder from './NoDataPlaceholder.vue'
 
 export default {
@@ -25,7 +24,6 @@ export default {
 
   components: {
     // 'no-data-placeholder': NoDataPlaceholder,
-    'apexcharts': VueApexCharts
   },
 
   props: [

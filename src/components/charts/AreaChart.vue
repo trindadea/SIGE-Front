@@ -31,14 +31,12 @@
 </template>
 
 <script>
-import VueApexCharts from 'vue-apexcharts'
 import NoDataPlaceholder from './NoDataPlaceholder.vue'
 import moment from 'moment'
 import HTTP from '../../services/masterApi/http-common'
 
 export default {
   components: {
-    'apexcharts': VueApexCharts,
     'no-data-placeholder': NoDataPlaceholder
   },
 

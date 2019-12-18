@@ -94,18 +94,18 @@
 // import StatusTable from 'components/presentationDashboard/StatusTable.vue'
 import BarChartPresentation from '../charts/BarChartPresentation.vue'
 import Footer from 'components/presentationDashboard/Footer.vue'
-import { LMap, LTileLayer, LCircle, LPopup } from 'vue2-leaflet'
 import 'leaflet/dist/leaflet.css'
 import axios from 'axios'
+import Vue2Leaflet from '../../services/ssr-import/leaflet'
 
 export default {
   components: {
     BarChartPresentation,
     // StatusTable,
-    LMap,
-    LTileLayer,
-    LCircle,
-    LPopup,
+    'l-map': Vue2Leaflet.LMap,
+    'l-tile-layer': Vue2Leaflet.LTileLayer,
+    'l-circle': Vue2Leaflet.LCircle,
+    'l-popup': Vue2Leaflet.LPopup,
     'vue-footer': Footer
   },
 
