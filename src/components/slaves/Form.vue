@@ -105,7 +105,7 @@ export default {
     }
   },
 
-  beforeCreate () {
+  created () {
     const masterUrl = ''
     HTTP
       .get(`${masterUrl}/campi/`)

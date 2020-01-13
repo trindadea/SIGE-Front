@@ -1,10 +1,13 @@
 <template>
-  <linechart
-    title="Frequency"
-    url="minutely_frequency"
-    y_min="30"
-    y_max="70"
-    graphic_type="1"/>
+<q-page>
+    <linechart
+      title="Frequency"
+      url="minutely_frequency"
+      y_min="30"
+      y_max="70"
+      graphic_type="1"/>
+
+</q-page>
 </template>
 
 <script>

@@ -26,7 +26,7 @@ export default {
 
   },
 
-  beforeMount () {
+  created () {
     this.fields = [
       { name: 'asdf', type: 'text', content: '' },
       { name: 'asdf2', type: 'text', content: '' },

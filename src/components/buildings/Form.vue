@@ -111,7 +111,7 @@ export default {
     }
   },
 
-  beforeCreate () {
+  created () {
     const masterUrl = '' || process.env.MASTER_URL
     HTTP
       .get(`${masterUrl}/campi/`)

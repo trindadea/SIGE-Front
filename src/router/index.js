@@ -1,14 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import VueApexCharts from 'vue-apexcharts'
-
 import routes from './routes'
 
 Vue.use(VueRouter)
-Vue.use(VueApexCharts)
 
-Vue.component('apexchart', VueApexCharts)
 /*
  * If not building with SSR mode, you can
  * directly export the Router instantiation

@@ -158,6 +158,8 @@ export default {
         }
       )
 
+      console.log(result)
+
       return result
     }
   },
@@ -171,6 +173,7 @@ export default {
         .then((res) => {
           this.loading = false
           this.activeTransductors = res.data
+          // console.log(res.data)
         })
         .catch((err) => {
           console.log(err)
@@ -221,7 +224,7 @@ export default {
     }
   },
 
-  beforeMount () {
+  created () {
     this.getTransductors()
     this.getSlaves()
     this.getAllTransductors()

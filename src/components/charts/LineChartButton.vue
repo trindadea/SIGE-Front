@@ -1,38 +1,34 @@
 <template>
-  <div>
-    <div v-if="this.stacked" class="row q-pa-sm">
-        <q-select
-          class="col q-ma-sm"
-          label="Transdutor"
-          outlined
-          :options="this.transductorList"
-          v-model="selectedTransductor"
-          @input="updateChart()"/>
-        <q-select
-          class="col q-ma-sm"
-          label="Período"
-          outlined
-          v-model="selectedPeriod"
-          :options="['Hoje', 'Últimos 7 dias', 'Últimos 30 dias']"
-          @input="updateChart()"/>
+  <q-page>
+    <div class="row q-pa-sm">
+      <q-btn
+        @input="setPeriod('today')"
+      >
+        aoifjioas
+      </q-btn>
+      <q-btn
+        @input="setPeriod('week')"
+      >
+        aoifjioas
+      </q-btn>
+      <q-btn
+        @input="setPeriod('month')"
+      >
+        aoifjioas
+      </q-btn>
     </div>
-    <q-separator/>
-      <div
-      v-if="this.selectedTransductor !== '' || !this.stacked">
-      <apexcharts
-      id="chart"
-      type="bar"
-      :options="chartOptions"
-      :series="series"/>
+    <q-separator />
+    <div v-if="this.selectedTransductor !== ''">
+      <apexcharts id="chart" type="line" :options="chartOptions" :series="series" />
     </div>
-    <no-data-placeholder v-else/>
-  </div>
+    <no-data-placeholder v-else />
+  </q-page>
 </template>
 
 <script>
 import NoDataPlaceholder from './NoDataPlaceholder.vue'
 import moment from 'moment'
-import HTTP from '../../services/masterApi/http-common'
+import axios from 'axios'
 
 export default {
   components: {
@@ -43,25 +39,23 @@ export default {
     'title',
     'url',
     'graphic_type',
-    'stacked',
-    'labels',
-    'option',
-    'unit'
+    'y_min',
+    'y_max',
+    'show_legend',
+    'transductor_id'
   ],
 
   data () {
     return {
-      min: 0,
-      max: 5,
-      dates: [],
       phase_a: [],
       phase_b: [],
       phase_c: [],
       measurements: [],
       transductorList: [],
       selectedCampus: '',
-      selectedTransductor: '',
-      selectedPeriod: 'Hoje'
+      selectedTransductor: this.transductor_id,
+      selectedPeriod: 'Hoje',
+      periodsOptions: {}
     }
   },
 
@@ -70,7 +64,7 @@ export default {
       if (this.graphic_type === '1') {
         return [
           {
-            name: this.labels[0],
+            name: this.title,
             data: this.phase_a
           }
         ]
@@ -95,6 +89,15 @@ export default {
       return {
         chart: {
           stacked: false
+        },
+
+        legend: {
+          show: this.show_legend
+        },
+
+        stroke: {
+          width: [2, 2, 2],
+          curve: 'smooth'
         },
 
         plotOptions: {
@@ -132,12 +135,10 @@ export default {
           title: {
             text: this.title
           },
-          min: 0,
-          max: this.max + 20,
+          min: parseInt(this.y_min, 10),
+          max: parseInt(this.y_max, 10),
           tickAmount: 5,
-          labels: {
-            formatter: this.labelFormatter
-          }
+          decimalsInFloat: 2
         },
 
         grid: {
@@ -152,11 +153,6 @@ export default {
           x: {
             format: 'dd-MM-yyyy HH:mm',
             formatter: undefined
-          },
-          y: {
-            formatter: (val) => {
-              return `${val.toFixed(3)} ${this.unit || ''}`
-            }
           }
         }
       }
@@ -164,33 +160,53 @@ export default {
   },
 
   methods: {
-    updateChart () {
-      let periods = this.periodsOptions[this.selectedPeriod]
-      let startDate = periods[0]
-      let endDate = periods[1]
-      let limit = periods[2]
+    setPeriod (value) {
+      this.selectedPeriod = value
+      console.log(this.selectedPeriod)
+      this.updateChart()
+    },
 
-      this.selectedPeriod = 'DIA'
-      if (this.selectedPeriod === 'DIA') {
-        endDate = moment().endOf('day').format('YYYY-MM-DD h:mm')
-        startDate = moment().startOf('day').format('YYYY-MM-DD h:mm')
-      } else if (this.selectedPeriod === 'SEMANA') {
-        endDate = moment().endOf('isoWeek').format('YYYY-MM-DD h:mm')
-        startDate = moment().startOf('isoWeek').format('YYYY-MM-DD h:mm')
-      } else if (this.selectedPeriod === 'MÊS') {
-        endDate = moment().startOf('month').format('YYYY-MM-DD h:mm')
-        startDate = moment().startOf('month').format('YYYY-MM-DD h:mm')
+    updateChart () {
+      let endDate
+      let startDate
+
+      if (this.selectedPeriod === 'today') {
+        endDate = moment()
+          .endOf('day')
+          .format('YYYY-MM-DD h:mm')
+        startDate = moment()
+          .startOf('day')
+          .format('YYYY-MM-DD h:mm')
+      } else if (this.selectedPeriod === 'week') {
+        endDate = moment()
+          .endOf('isoWeek')
+          .format('YYYY-MM-DD h:mm')
+        startDate = moment()
+          .startOf('isoWeek')
+          .format('YYYY-MM-DD h:mm')
+      } else if (this.selectedPeriod === 'month') {
+        endDate = moment()
+          .startOf('month')
+          .format('YYYY-MM-DD h:mm')
+        startDate = moment()
+          .startOf('month')
+          .format('YYYY-MM-DD h:mm')
       }
 
       if (this.selectedTransductor !== undefined) {
-        HTTP
-          .get(`graph/minutely_${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
-          .then((res) => {
+        let a = `http://127.0.0.1:8001/graph/${this.url}/?serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`
+        // a = `http://localhost:8001/graph/${this.url}/?start_date=2019-06-01 00:00&end_date=2019-07-31 20:00`
+
+        console.log(a)
+
+        axios
+          .get(a)
+          .then(res => {
             const data = res.data.results[0]
             console.log(data)
             this.buildGraphInformation(data)
           })
-          .catch((err) => console.log(err))
+          .catch(err => console.log(err))
       }
     },
 
@@ -225,9 +241,9 @@ export default {
     },
 
     getTransductors () {
-      HTTP
-        .get('energy_transductors')
-        .then((res) => {
+      axios
+        .get(`http://0.0.0.0:8001/energy_transductors`)
+        .then(res => {
           const transductors = res.data
 
           let transductorsList = []
@@ -240,7 +256,7 @@ export default {
 
           this.setTransductorList(transductorsList)
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err)
         })
     }
@@ -248,14 +264,13 @@ export default {
 
   created () {
     this.getTransductors()
-
     this.updateChart()
   }
 }
 </script>
 
 <style scoped>
-  #chart {
-    padding: .5rem;
-  }
+#chart {
+  padding: 0.5rem
+}
 </style>

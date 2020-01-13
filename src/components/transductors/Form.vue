@@ -130,7 +130,7 @@ export default {
     }
 
   },
-  beforeMount () {
+  created () {
     this.getTransductorModels()
   }
 }

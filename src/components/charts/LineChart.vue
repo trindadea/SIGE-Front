@@ -1,5 +1,5 @@
 <template>
-  <q-page>
+  <div>
     <div class="row q-pa-sm">
         <q-select
           class="col q-ma-sm"
@@ -26,18 +26,16 @@
       :series="series"/>
     </div>
     <no-data-placeholder v-else/>
-  </q-page>
+  </div>
 </template>
 
 <script>
-import VueApexCharts from 'vue-apexcharts'
 import NoDataPlaceholder from './NoDataPlaceholder.vue'
 import moment from 'moment'
 import HTTP from '../../services/masterApi/http-common'
 
 export default {
   components: {
-    'apexcharts': VueApexCharts,
     'no-data-placeholder': NoDataPlaceholder
   },
 
@@ -47,7 +45,8 @@ export default {
     'graphic_type',
     'y_min',
     'y_max',
-    'show_legend'
+    'show_legend',
+    'unit'
   ],
 
   data () {
@@ -158,6 +157,11 @@ export default {
           x: {
             format: 'dd-MM-yyyy HH:mm',
             formatter: undefined
+          },
+          y: {
+            formatter: (val) => {
+              return `${val.toFixed(3)} ${this.unit}`
+            }
           }
         }
       }
@@ -171,12 +175,15 @@ export default {
       let endDate = periods[1]
       let limit = periods[2]
 
+      console.log(`http://127.0.0.1:8001/graph/${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
+
       if (this.selectedTransductor !== undefined) {
         HTTP
           .get(`graph/minutely_${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
           .then((res) => {
             const measurements = res.data.results[0]
             this.buildGraphInformation(measurements)
+            console.log(measurements)
           })
           .catch((err) => console.log(err))
       }
@@ -216,20 +223,6 @@ export default {
       let endDate = moment(now).format('YYYY-MM-DD h:mm')
 
       return [startDate, endDate, 43200]
-    },
-
-    formattedDate (date) {
-      let dateValue
-      let timeValue
-      let result = date.split('T')
-
-      dateValue = result[0].split('-')
-      dateValue = dateValue[1] + '/' + dateValue[2] + '/' + dateValue[0]
-      timeValue = result[1]
-      let a = dateValue + ' ' + timeValue
-      a = a.split('Z')[0]
-
-      return a
     },
 
     buildGraphInformation (data) {
@@ -280,7 +273,7 @@ export default {
     }
   },
 
-  beforeMount () {
+  created () {
     this.getTransductors()
 
     this.periodsOptions['Hoje'] = this.getTodayInterval()

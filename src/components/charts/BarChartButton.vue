@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <q-page>
     <div v-if="this.stacked" class="row q-pa-sm">
         <q-select
           class="col q-ma-sm"
@@ -26,13 +26,13 @@
       :series="series"/>
     </div>
     <no-data-placeholder v-else/>
-  </div>
+  </q-page>
 </template>
 
 <script>
 import NoDataPlaceholder from './NoDataPlaceholder.vue'
 import moment from 'moment'
-import HTTP from '../../services/masterApi/http-common'
+import axios from 'axios'
 
 export default {
   components: {
@@ -45,8 +45,7 @@ export default {
     'graphic_type',
     'stacked',
     'labels',
-    'option',
-    'unit'
+    'option'
   ],
 
   data () {
@@ -152,11 +151,6 @@ export default {
           x: {
             format: 'dd-MM-yyyy HH:mm',
             formatter: undefined
-          },
-          y: {
-            formatter: (val) => {
-              return `${val.toFixed(3)} ${this.unit || ''}`
-            }
           }
         }
       }
@@ -165,12 +159,11 @@ export default {
 
   methods: {
     updateChart () {
-      let periods = this.periodsOptions[this.selectedPeriod]
-      let startDate = periods[0]
-      let endDate = periods[1]
-      let limit = periods[2]
+      let endDate
+      let startDate
 
       this.selectedPeriod = 'DIA'
+
       if (this.selectedPeriod === 'DIA') {
         endDate = moment().endOf('day').format('YYYY-MM-DD h:mm')
         startDate = moment().startOf('day').format('YYYY-MM-DD h:mm')
@@ -183,8 +176,10 @@ export default {
       }
 
       if (this.selectedTransductor !== undefined) {
-        HTTP
-          .get(`graph/minutely_${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
+        let a = `http://127.0.0.1:8001/graph/${this.url}/?serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`
+        a = `http://localhost:8001/graph/${this.url}/?start_date=2019-06-01 00:00&end_date=2019-07-31 20:00`
+        axios
+          .get(a)
           .then((res) => {
             const data = res.data.results[0]
             console.log(data)
@@ -225,8 +220,8 @@ export default {
     },
 
     getTransductors () {
-      HTTP
-        .get('energy_transductors')
+      axios
+        .get(`http://0.0.0.0:8001/energy_transductors`)
         .then((res) => {
           const transductors = res.data
 
@@ -256,6 +251,6 @@ export default {
 
 <style scoped>
   #chart {
-    padding: .5rem;
+    padding: .5rem
   }
 </style>
