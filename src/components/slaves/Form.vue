@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import HTTP from '../../services/masterApi/http-common'
 
 export default {
   data () {
@@ -83,7 +83,7 @@ export default {
       console.log(data)
       this.loading = true
 
-      axios
+      HTTP
         .post(`${masterAddress}/slaves/`, data)
         .then((res) => {
           this.loading = false
@@ -105,9 +105,9 @@ export default {
     }
   },
 
-  beforeCreate () {
+  created () {
     const masterUrl = ''
-    axios
+    HTTP
       .get(`${masterUrl}/campi/`)
       .then((res) => {
         console.log(res.data)

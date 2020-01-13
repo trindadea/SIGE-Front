@@ -2,9 +2,18 @@
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/MyLayout.vue'),
+    component: () => import('components/presentationDashboard/PresentationDashboard.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue') }
+      {
+        path: '',
+        component: () => import('components/presentationDashboard/Page1.vue')
+      },
+      {
+        name: 'presentation_detail',
+        path: ':transductor_id/detail',
+        props: true,
+        component: () => import('components/presentationDashboard/Page2.vue')
+      }
     ]
   },
   {
@@ -146,6 +155,14 @@ const routes = [
       {
         path: 'frequency',
         component: () => import('components/dashboard/FrequencyDashboard.vue')
+      },
+      {
+        path: 'total_apparent_power',
+        component: () => import('components/dashboard/TotalApparentPowerDashboard.vue')
+      },
+      {
+        path: 'consumption',
+        component: () => import('components/dashboard/ConsumptionDashboard.vue')
       }
     ]
   }

@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import HTTP from '../../services/masterApi/http-common'
 export default {
   data () {
     return {
@@ -92,9 +92,8 @@ export default {
   },
   methods: {
     addTransductor () {
-      const masterUrl = 'http://localhost:8001'
-      axios
-        .post(`${masterUrl}/energy_transductors/`, {
+      HTTP
+        .post('energy_transductors', {
           serial_number: this.serial_number,
           ip_address: this.ip_address,
           location: this.location,
@@ -114,9 +113,8 @@ export default {
         })
     },
     getTransductorModels () {
-      const masterUrl = 'http://localhost:8001'
-      axios
-        .get(`${masterUrl}/transductor_models/`)
+      HTTP
+        .get('transductor_models')
         .then((res) => {
           this.transductorModels = res.data
           console.log(res)
@@ -132,7 +130,7 @@ export default {
     }
 
   },
-  beforeMount () {
+  created () {
     this.getTransductorModels()
   }
 }

@@ -95,7 +95,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import HTTP from '../../services/masterApi/http-common'
 import DashboardSummaryStatusCard from 'components/dashboard/DashboardSummaryStatusCard.vue'
 import DownHistoryList from 'components/dashboard/DownHistoryList.vue'
 
@@ -158,6 +158,8 @@ export default {
         }
       )
 
+      console.log(result)
+
       return result
     }
   },
@@ -166,11 +168,12 @@ export default {
     getTransductors () {
       this.loading = true
 
-      axios
-        .get(`http://localhost:8000/active_transductors`)
+      HTTP
+        .get('active_transductors')
         .then((res) => {
           this.loading = false
           this.activeTransductors = res.data
+          // console.log(res.data)
         })
         .catch((err) => {
           console.log(err)
@@ -182,11 +185,11 @@ export default {
     getSlaves () {
       this.loading = true
 
-      // axios
-      //   .get(`http://localhost:8000/slaves`)
+      // HTTP
+      //   .get('slaves')
       //   .then((res) => {
       //     console.log(res)
-      //     this.slaves = res.data.results
+      //     this.slaves = res.data
       //     this.loading = false
       //   })
       //   .catch((err) => {
@@ -209,10 +212,10 @@ export default {
     },
 
     getAllTransductors () {
-      axios
-        .get(`http://localhost:8000/energy_transductors`)
+      HTTP
+        .get('energy_transductors')
         .then(res => {
-          this.allTransductors = res.data.results
+          this.allTransductors = res.data
           console.log(res.data)
         })
         .catch(err => {
@@ -221,7 +224,7 @@ export default {
     }
   },
 
-  beforeMount () {
+  created () {
     this.getTransductors()
     this.getSlaves()
     this.getAllTransductors()

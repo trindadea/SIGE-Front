@@ -5,6 +5,15 @@ module.exports = function (ctx) {
   return {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
+
+    vendor: {
+      add: [{ path: 'src/plugins/apexcharts'}]
+    },
+
+    plugins: [
+      {path: 'apexcharts', server: false}
+    ],
+
     boot: [
       'axios'
     ],
@@ -13,10 +22,12 @@ module.exports = function (ctx) {
       'app.styl'
     ],
 
+    preFetch: true,
+
     extras: [
       // 'ionicons-v4',
       // 'mdi-v3',
-      // 'fontawesome-v5',
+      'fontawesome-v5',
       // 'eva-icons',
       // 'themify',
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
@@ -67,7 +78,14 @@ module.exports = function (ctx) {
       // gzip: true,
       // analyze: true,
       // extractCSS: false,
-      extendWebpack (cfg) {
+      env: ctx.dev
+        ? { // so on dev we'll have
+          MASTER_URL: JSON.stringify('http://0.0.0.0:8001/')
+        }
+        : { // and on build (production):
+          MASTER_URL: JSON.stringify('http:')
+        },
+      extendWebpack(cfg, { isServer, isClient }) {
         cfg.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
@@ -89,6 +107,7 @@ module.exports = function (ctx) {
     // animations: 'all', // --- includes all animations
     animations: [],
 
+    // https://quasar.dev/quasar-cli/developing-ssr/configuring-ssr
     ssr: {
       pwa: true
     },
@@ -143,7 +162,7 @@ module.exports = function (ctx) {
     electron: {
       // bundler: 'builder', // or 'packager'
 
-      extendWebpack (cfg) {
+      extendWebpack(cfg, { isServer, isClient }) {
         // do something with Electron main process Webpack cfg
         // chainWebpack also available besides this extendWebpack
       },
