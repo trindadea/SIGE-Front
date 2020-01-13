@@ -6,6 +6,8 @@ COPY . /smi-front
 
 RUN mv src/services/masterApi/http-common-homolog-deploy.js src/services/masterApi/http-common.js && \
     yarn install && \
-    yarn build
+    yarn build:ssr
 
-ENTRYPOINT ["yarn", "start"]
+WORKDIR /smi-front/dist/ssr
+
+ENTRYPOINT ["yarn", "start:ssr"]
