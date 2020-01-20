@@ -58,7 +58,7 @@ spec:
       containers:
       - name: smi-front-production
         image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
-        command: ["yarn", "start"]
+        command: ["yarn", "start:ssr"]
         ports:
         - containerPort: 8080
           protocol: TCP
