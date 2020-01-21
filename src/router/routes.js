@@ -1,7 +1,7 @@
 
 const routes = [
   {
-    path: '/',
+    path: '/presentation',
     component: () => import('components/presentationDashboard/PresentationDashboard.vue'),
     children: [
       {
@@ -138,31 +138,31 @@ const routes = [
   },
   {
     path: '/dashboard',
-    component: () => import('components/dashboard/Dashboard.vue'),
+    component: () => import('components/oldDashboard/Dashboard.vue'),
     children: [
       {
         path: '',
-        component: () => import('components/dashboard/StatusDashboard.vue')
+        component: () => import('components/oldDashboard/StatusDashboard.vue')
       },
       {
         path: 'tension',
-        component: () => import('components/dashboard/TensionDashboard.vue')
+        component: () => import('components/oldDashboard/TensionDashboard.vue')
       },
       {
         path: 'current',
-        component: () => import('components/dashboard/CurrentDashboard.vue')
+        component: () => import('components/oldDashboard/CurrentDashboard.vue')
       },
       {
         path: 'frequency',
-        component: () => import('components/dashboard/FrequencyDashboard.vue')
+        component: () => import('components/oldDashboard/FrequencyDashboard.vue')
       },
       {
         path: 'total_apparent_power',
-        component: () => import('components/dashboard/TotalApparentPowerDashboard.vue')
+        component: () => import('components/oldDashboard/TotalApparentPowerDashboard.vue')
       },
       {
         path: 'consumption',
-        component: () => import('components/dashboard/ConsumptionDashboard.vue')
+        component: () => import('components/oldDashboard/ConsumptionDashboard.vue')
       }
     ]
   }
