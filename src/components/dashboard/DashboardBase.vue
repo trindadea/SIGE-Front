@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="odin">
     <dash-top-bar/>
     <dash-campus-bar/>
     <dash-general-event-bar/>
@@ -34,5 +34,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+  .odin {
+    background-color: #22222f;
+  }
 </style>
