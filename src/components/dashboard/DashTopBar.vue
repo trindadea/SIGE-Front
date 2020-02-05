@@ -34,8 +34,8 @@ export default {
 
 <style lang="scss" scoped>
   .q-bar {
-    background-color: #22222f;
-    color: #f3f3f3;
+    // background-color: #22222f;
+    // color: #f3f3f3;
   }
 
 </style>
