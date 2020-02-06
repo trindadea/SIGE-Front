@@ -1,30 +1,42 @@
 <template>
   <div
     class="campus-bar">
-    <template v-if="!campi.length == 0">
-      <q-skeleton type="rect"/>
+    <template v-if="campi.length == 0">
+      <div class="row q-py-md">
+        <q-skeleton type="rect" class="col q-mx-md q-py-sm"/>
+        <q-skeleton type="rect" class="col q-mx-md q-py-sm"/>
+        <q-skeleton type="rect" class="col q-mx-md q-py-sm"/>
+        <q-skeleton type="rect" class="col q-mx-md q-py-sm"/>
+        <q-skeleton type="rect" class="col q-mx-md q-py-sm"/>
+        <q-skeleton type="rect" class="col q-mx-md q-py-sm"/>
+      </div>
     </template>
     <template v-else>
       <q-tabs
-          active-color="primary"
-          indicator-color="transparent"
-          align="justify"
-          class="row q-py-sm">
+        v-model="activeTab"
+        active-color="primary"
+        indicator-color="transparent"
+        align="justify"
+        class="row q-py-sm">
         <q-tab
           dense
           no-caps
           v-for="campus in campi" :key="campus.id"
+          :name="campus.name"
           class="col-3 q-mx-sm iku text-capitalize">
-          <!-- <q-btn outline>{{ campus.name }}</q-btn> -->
-          {{ campus.name }}
+          {{ campus.name }} ({{ campus.acronym }})
         </q-tab>
       </q-tabs>
-      <!-- <div
-        v-for="campus in campi" :key="campus.id"
-        class="col q-py-sm">
-        {{ campus.name }}
-      </div> -->
-
+      <q-tab-panels
+        v-model="activeTab">
+        <q-tab-panel
+          animated
+          dense
+          v-for="campus in campi" :key="campus.id"
+          :name="campus.name">
+          {{ campus }}
+        </q-tab-panel>
+      </q-tab-panels>
     </template>
   </div>
 </template>
@@ -35,16 +47,12 @@ export default {
 
   data () {
     return {
-      campuses: [
-        { name: 'duidshuaifh' },
-        { name: 'duidshuaifh' },
-        { name: 'duidshuaifh' },
-        { name: 'duidshuaifh' },
-        { name: 'duidshuaifh' },
-        { name: 'duidshuaifh' },
-        { name: 'duidshuaifh' }
-      ]
+      activeTab: ''
     }
+  },
+
+  computed: {
+
   },
 
   props: {
@@ -52,6 +60,10 @@ export default {
       type: Array,
       default: () => { return [] }
     }
+  },
+
+  methods: {
+    autoChangeTabs () {}
   }
 
 }
