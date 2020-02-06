@@ -56,7 +56,8 @@ module.exports = function (ctx) {
         'QItem',
         'QItemSection',
         'QItemLabel',
-        'QForm'
+        'QForm',
+        'QSkeleton'
       ],
 
       directives: [
@@ -85,7 +86,7 @@ module.exports = function (ctx) {
         : { // and on build (production):
           MASTER_URL: JSON.stringify('http:')
         },
-      extendWebpack(cfg, { isServer, isClient }) {
+      extendWebpack (cfg, { isServer, isClient }) {
         cfg.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
@@ -162,7 +163,7 @@ module.exports = function (ctx) {
     electron: {
       // bundler: 'builder', // or 'packager'
 
-      extendWebpack(cfg, { isServer, isClient }) {
+      extendWebpack (cfg, { isServer, isClient }) {
         // do something with Electron main process Webpack cfg
         // chainWebpack also available besides this extendWebpack
       },

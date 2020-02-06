@@ -8685,6 +8685,11 @@ vue-apexcharts@^1.5.1:
   resolved "https://registry.yarnpkg.com/vue-apexcharts/-/vue-apexcharts-1.5.1.tgz#f235d3c8047690f598864b70bd389081efff7576"
   integrity sha512-faMfIj7g4MEceWjh5Aux7NfEdJYiSvMK6ml6UA2oeQH444kU4z532zR8P6AvCj0x6LzV2fgv2POzt0poMaoIjg==
 
+vue-crontab@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/vue-crontab/-/vue-crontab-0.0.4.tgz#af9e3bd426682ab929c930ab347ffaeb4246f3ba"
+  integrity sha512-p9hPSLW145ubMSqLbkFTOlAgkjLHQlyipaFO14aSZgnzpar+p3RpQ0g/E/ZjImnzuvVz8Niykopy5+NfKk1LFQ==
+
 vue-eslint-parser@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/vue-eslint-parser/-/vue-eslint-parser-5.0.0.tgz#00f4e4da94ec974b821a26ff0ed0f7a78402b8a1"
