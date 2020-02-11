@@ -1,42 +1,33 @@
 <template>
-  <l-map
-    class="rounded-borders"
-    style=""
-    :zoom="16"
-    :min-zoom="16"
-    :max-zoom="16"
-    :center="center"
-    :options="mapOptions"
-    id="region-map">
-    <l-tile-layer
-      :url="url"
-      :attribution="attribution"
-    />
-    <l-circle
-      v-for="transductor in transductors_points"
-      :key="transductor.id"
-      :lat-lng="transductor.coordinates"
-      :radius="15"
-      :l-style="transductor.style"
-      :hover="true"
-    >
-    <l-popup
-      :content="transductor.name"
-    />
-    </l-circle>
-  </l-map>
+  <div class="q-pr-sm q-ma-none">
+    <l-map
+      class="rounded-borders"
+      style="height: 300px!important"
+      :zoom="15"
+      :min-zoom="15"
+      :max-zoom="15"
+      :center="center"
+      :options="mapOptions"
+      id="region-map">
+      <l-tile-layer
+        :url="url"
+        :attribution="attribution"
+      />
+    </l-map>
+  </div>
 </template>
 
 <script>
-import 'leaflet/dist/leaflet.css'
 import Vue2Leaflet from '../../services/ssr-import/leaflet'
+import 'leaflet/dist/leaflet.css'
+// import HTTP from '../../services/masterApi/http-common'
 
 export default {
   components: {
     'l-map': Vue2Leaflet.LMap,
-    'l-tile-layer': Vue2Leaflet.LTileLayer,
-    'l-circle': Vue2Leaflet.LCircle,
-    'l-popup': Vue2Leaflet.LPopup
+    // 'l-circle': Vue2Leaflet.LCircle,
+    // 'l-popup': Vue2Leaflet.LPopup,
+    'l-tile-layer': Vue2Leaflet.LTileLayer
   },
 
   props: {
@@ -49,8 +40,6 @@ export default {
   data () {
     return {
       url1: process.env,
-
-      transductors: [],
 
       colors: [
         '#023E73',
@@ -68,7 +57,8 @@ export default {
         maxbounds: this.center
       },
 
-      url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+      // url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+      url: 'https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png',
       attribution:
         '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       selectedPeriod: 'DIA'
@@ -76,37 +66,35 @@ export default {
   },
 
   computed: {
-    transductors_points () {
-      let arr = []
+    // transductors_points () {
+    //   let arr = []
 
-      this.transductors.forEach(transductor => {
-        arr.push(
-          {
-            id: transductor.id,
-            name: transductor.location,
-            coordinates: [transductor.latitude, transductor.longitude],
-            style: {
-              color: 'green',
-              fillColor: 'lime',
-              fillOpacity: 1
-            }
-          }
-        )
-      })
-      return arr
-    }
+    //   this.transductors.forEach(transductor => {
+    //     arr.push(
+    //       {
+    //         id: transductor.id,
+    //         name: transductor.location,
+    //         coordinates: [transductor.latitude, transductor.longitude],
+    //         style: {
+    //           color: 'green',
+    //           fillColor: 'lime',
+    //           fillOpacity: 1
+    //         }
+    //       }
+    //     )
+    //   })
+    //   return arr
+    // }
   },
 
   methods: {
-    getTransductorStatus () {},
-
     getColorStatus (isBroken) {
       return isBroken ? 'text-red-9' : 'text-green-9'
     }
   },
 
   beforeMount () {
-    this.getTransductorStatus()
+    // this.getTransductorStatus()
   }
 }
 

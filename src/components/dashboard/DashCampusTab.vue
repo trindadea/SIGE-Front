@@ -29,25 +29,41 @@
       </q-tabs>
       <q-tab-panels
         v-model="activeTab">
+
         <q-tab-panel
           animated
-          dense
+          class="q-px-"
           v-for="campus in campi" :key="campus.id"
           :name="campus.name">
-          {{ campus }}
+          <div class="row">
+            <dash-map class="col-7"/>
+            <dash-campus-info class="col-5"/>
+          </div>
         </q-tab-panel>
       </q-tab-panels>
+      {{ transductors }}
     </template>
   </div>
 </template>
 
 <script>
+import DashMap from './DashMap'
+import DashCampusInfo from './DashCampusInfo'
+
+import HTTP from '../../services/masterApi/http-common'
+
 export default {
   name: 'DashCampusTab',
 
+  components: {
+    DashMap,
+    DashCampusInfo
+  },
+
   data () {
     return {
-      activeTab: ''
+      activeTab: '',
+      transductors: []
     }
   },
 
@@ -63,8 +79,59 @@ export default {
   },
 
   methods: {
-    autoChangeTabs () {}
+    getTransductors () {
+      HTTP
+        .get('energy-transductors/')
+        .then((res) => {
+          this.transductors = res.data
+        })
+        .catch((err) => {
+          console.err(err)
+        })
+    }
+    // changeTabJob () {
+    //   if (this.campi === []) {
+    //     console.log(`if (this.campi === []) {`)
+    //     this.activeTab = 'non'
+    //   } else if ((this.activeTab === 'non' || this.activeTab === '') && this.campi !== []) {
+    //     console.log(`} else if ((this.activeTab === 'non' || this.activeTab === '') && this.campi !== []) {`)
+    //     this.activeTab = this.campi[0].name
+    //   } else if (this.activeTab === this.campi[this.campi.length - 1]) {
+    //     console.log(`} else if (this.activeTab === this.campi[this.campi.length - 1]) {`)
+    //     this.activeTab = this.campi[0].name
+    //   } else {
+    //     console.log(`} else {`)
+    //     const pos = this.campi.findIndex(campus => campus.name === this.activeTab)
+    //     if (pos !== -1) {
+    //       this.activeTab = this.campi[pos + 1]
+    //     } else {
+    //       console.error({
+    //         msg: 'An error occurred',
+    //         pos: pos,
+    //         activeTab: this.activeTab,
+    //         campi: this.campi
+    //       })
+    //     }
+    //   }
+    // }
+
+  },
+
+  created () {
+    this.getTransductors()
   }
+
+  // created () {
+  //   let changeTab = this.$crontab.addJob({
+  //     name: 'activeTab',
+  //     interval: {
+  //       minutes: '/1'
+  //     },
+  //     job: this.changeTabJob
+  //   })
+  //   console.log(changeTab)
+  //   changeTab = this.campi[0]
+  // }
 
 }
 </script>
