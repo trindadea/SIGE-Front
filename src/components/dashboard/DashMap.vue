@@ -2,7 +2,7 @@
   <div class="q-pr-sm q-ma-none">
     <l-map
       class="rounded-borders"
-      style="height: 500px!important"
+      style="height: 570px!important"
       :zoom="15"
       :min-zoom="15"
       :max-zoom="15"
@@ -17,7 +17,7 @@
         v-for="transductor in transductors_points"
         :key="transductor.id"
         :lat-lng="transductor.coordinates"
-        :radius="15"
+        :radius="18"
         :l-style="transductor.style"
         :hover="true"
       />

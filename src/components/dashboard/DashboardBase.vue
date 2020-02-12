@@ -1,9 +1,10 @@
 <template>
   <div class="base" id="base">
     <div v-if="!requestsError">
-      <!-- <dash-top-bar/> -->
       <dash-campus-tab :campi="campiList"/>
       <dash-general-event-bar/>
+      {{ eventsInProgress }}
+      <!-- <dash-top-bar/> -->
     </div>
     <div v-else>
       WTF
