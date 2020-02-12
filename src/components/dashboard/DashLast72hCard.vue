@@ -2,7 +2,7 @@
 <div class="row q-pb-sm">
   <q-card
     flat
-    class="col card-base"
+    class="col card-base card-bg"
   >
     <q-card-section
       class="q-py-xs text-h6 text-center"

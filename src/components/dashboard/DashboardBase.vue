@@ -1,5 +1,5 @@
 <template>
-  <div class="base">
+  <div class="base" id="base">
     <div v-if="!requestsError">
       <!-- <dash-top-bar/> -->
       <dash-campus-tab :campi="campiList"/>
@@ -87,9 +87,17 @@ export default {
     }
   }
 
-  .card-base {
+  #base {
+    min-height: 100vh;
+    max-height: 100vh;
+  }
+
+  .card-bg {
     background-color: #00101f;
     color: white;
+  }
+
+  .card-base {
     min-height: 100%;
   }
 </style>

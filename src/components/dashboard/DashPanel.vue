@@ -1,7 +1,13 @@
 <template>
   <div class="row">
-    <dash-map class="col-7"/>
-    <dash-campus-info class="col-5"/>
+    <dash-map
+      class="col-7"
+      :transductors="transductors"
+    />
+    <dash-campus-info
+      class="col-5"
+      :transductors="transductors"
+    />
   </div>
 </template>
 

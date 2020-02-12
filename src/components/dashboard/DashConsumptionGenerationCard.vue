@@ -3,7 +3,7 @@
     <div class="col">
       <q-card
         flat
-        class="card-base"
+        class="card-base card-bg"
       >
         <q-card-section
           class="q-py-xs"
@@ -20,7 +20,7 @@
     <div class="col">
       <q-card
         flat
-        class="card-base"
+        class="card-base card-bg"
       >
         <q-card-section
           class="q-py-xs"
@@ -30,7 +30,7 @@
           </div>
         </q-card-section>
         <q-card-section>
-
+          dsfdfsfsd
         </q-card-section>
       </q-card>
     </div>
