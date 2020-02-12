@@ -1,10 +1,9 @@
 <template>
-  <div class="odin">
+  <div class="base">
     <div v-if="!requestsError">
       <!-- <dash-top-bar/> -->
       <dash-campus-tab :campi="campiList"/>
       <dash-general-event-bar/>
-
     </div>
     <div v-else>
       WTF
@@ -79,8 +78,18 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-  .odin {
-    // background-color: #22222f;
+<style lang="scss">
+  .base {
+    background-color: #00080f;
+    color: rgba($color: white, $alpha: .6);
+    .active {
+      color: white;
+    }
+  }
+
+  .card-base {
+    background-color: #00101f;
+    color: white;
+    min-height: 100%;
   }
 </style>

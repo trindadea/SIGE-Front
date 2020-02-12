@@ -1,5 +1,10 @@
 <template>
-  <div></div>
+  <q-card
+    flat
+    class="card-base"
+  >
+
+  </q-card>
 </template>
 
 <script>

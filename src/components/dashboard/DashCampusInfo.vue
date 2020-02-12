@@ -1,21 +1,18 @@
 <template>
-  <q-card
-    class="q-pa-sm q-ma-none"
+  <div
+    class="q-ma-none q-py-none q-pr-none"
   >
-    <div class="q-row">
-      <div class="q-col">
-        <dash-consumption-generation-card/>
+    <div class="row q-col-gutter-sm">
+      <div class="col-6">
+        <dash-consumption-generation-card style="min-height: 100%"/>
       </div>
-      <div class="q-col">
-        dfsdsfadf
-      </div>
-      <div class="q-col-6">
+      <div class="col-6">
         <dash-last-72h-card></dash-last-72h-card>
       </div>
     </div>
     <dash-charge-bar-card></dash-charge-bar-card>
     <dash-last-measurement-card></dash-last-measurement-card>
-  </q-card>
+  </div>
 </template>
 
 <script>

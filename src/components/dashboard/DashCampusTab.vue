@@ -1,6 +1,6 @@
 <template>
   <div
-    class="campus-bar">
+    class="campus-bar base">
     <template v-if="campi.length == 0">
       <div class="row q-py-md">
         <q-skeleton type="rect" class="col q-mx-md q-py-sm"/>
@@ -17,7 +17,7 @@
         active-color="primary"
         indicator-color="transparent"
         align="justify"
-        class="row q-py-sm">
+        class="row q-py-none q-mt-none">
         <q-tab
           dense
           no-caps
@@ -28,36 +28,30 @@
         </q-tab>
       </q-tabs>
       <q-tab-panels
-        v-model="activeTab">
-
+        v-model="activeTab"
+        class="q-pt-none"
+      >
         <q-tab-panel
           animated
-          class="q-px-"
+          class="base q-py-sm"
           v-for="campus in campi" :key="campus.id"
           :name="campus.name">
-          <div class="row">
-            <dash-map class="col-7"/>
-            <dash-campus-info class="col-5"/>
-          </div>
+          <dash-panel :transductors="transductors" :selectedCampus="campus.id"/>
         </q-tab-panel>
       </q-tab-panels>
-      {{ transductors }}
     </template>
   </div>
 </template>
 
 <script>
-import DashMap from './DashMap'
-import DashCampusInfo from './DashCampusInfo'
-
+import DashPanel from './DashPanel'
 import HTTP from '../../services/masterApi/http-common'
 
 export default {
   name: 'DashCampusTab',
 
   components: {
-    DashMap,
-    DashCampusInfo
+    DashPanel
   },
 
   data () {
@@ -139,12 +133,15 @@ export default {
 <style lang="scss" scoped>
 
   .iku {
-    border-radius: 5px;
-    border: #000 solid 1px;
+    border-radius: 0px 0px 5px 5px;
+    border: transparent solid 1px;
   }
 
   .campus-bar {
-    // background-color: #22222f;
+    .q-tab--active {
+      color: white !important;
+      background-color: #00101f;
+    }
   }
 
 </style>
