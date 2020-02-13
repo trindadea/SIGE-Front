@@ -1,7 +1,5 @@
 <template>
-  <q-bar
-    dense
-    class="q-py-none q-px-sm row">
+  <q-bar class="q-py-sm q-px-md row">
     <div
       class="col">
       <img src="statics/transparents/proj_trans_s.png" height="30px">
@@ -9,12 +7,12 @@
     <div
       id="alerts"
       class="col text-center">
-      {{ alerts !== [] ? alerts.length : 0 }} ocorrências em andamento
+      {{ alerts }} ocorrências em andamento
     </div>
     <div
       id="datetime"
       class="col text-right">
-      {{Date.now()}}
+      {{ date }}
     </div>
   </q-bar>
 </template>
@@ -25,7 +23,20 @@ export default {
 
   data () {
     return {
-      alerts: []
+    }
+  },
+
+  props: {
+    alerts: {
+      type: Number,
+      required: true
+    }
+  },
+
+  computed: {
+    date () {
+      let a = new Date()
+      return a.toLocaleDateString('pt-BR')
     }
   }
 
@@ -34,8 +45,8 @@ export default {
 
 <style lang="scss" scoped>
   .q-bar {
-    // background-color: #22222f;
-    // color: #f3f3f3;
+    background-color: #00080f;
+    color: white;
   }
 
 </style>
