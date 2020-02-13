@@ -165,6 +165,16 @@ const routes = [
         component: () => import('components/dashboard/ConsumptionDashboard.vue')
       }
     ]
+  },
+  {
+    path: '/transductor_list',
+    component: () => import('components/transductorList/TransductorListBase.vue'),
+    children: [
+      {
+        path: '',
+        component: () => import('components/transductorList/TransductorList.vue')
+      }
+    ]
   }
 ]
 
