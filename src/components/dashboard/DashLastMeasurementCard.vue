@@ -2,7 +2,13 @@
   <q-card
     flat
     class="card-bg"
-  ></q-card>
+  >
+    <q-card-section
+      class="text-center card-title"
+    >
+      hadsfihsdfa
+    </q-card-section>
+  </q-card>
 </template>
 
 <script>

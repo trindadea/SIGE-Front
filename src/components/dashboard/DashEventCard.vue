@@ -2,7 +2,11 @@
   <q-card
     flat
     class="card-bg"
-  ></q-card>
+  >
+    <q-card-section class="text-center card-title">
+      fasd
+    </q-card-section>
+  </q-card>
 </template>
 
 <script>

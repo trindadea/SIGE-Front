@@ -3,7 +3,7 @@
     flat
     class="card-bg"
   >
-    <q-card-section>
+    <q-card-section class="text-center card-title">
       jjklsdfjklsdf
     </q-card-section>
   </q-card>

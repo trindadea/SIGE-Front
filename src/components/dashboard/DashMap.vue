@@ -2,7 +2,7 @@
   <div class="q-pr-sm q-ma-none">
     <l-map
       class="rounded-borders"
-      style="height: 570px!important"
+      style="height: 600px!important"
       :zoom="15"
       :min-zoom="15"
       :max-zoom="15"

@@ -6,11 +6,9 @@
         class="card-base card-bg"
       >
         <q-card-section
-          class="q-py-xs"
+          class="q-py-xs text-center card-title"
         >
-          <div class="text-h6 text-center q-mt-none">
-            asdlfj
-          </div>
+          Consumo
         </q-card-section>
         <q-card-section>
 
@@ -23,12 +21,11 @@
         class="card-base card-bg"
       >
         <q-card-section
-          class="q-py-xs"
+          class="q-py-xs text-center card-title"
         >
-          <div class="text-h6 text-center q-mt-none">
-            asdlfj
-          </div>
+          Geração mês
         </q-card-section>
+
         <q-card-section>
           dsfdfsfsd
         </q-card-section>

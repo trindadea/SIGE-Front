@@ -5,7 +5,7 @@
     class="col card-base card-bg"
   >
     <q-card-section
-      class="q-py-xs text-h6 text-center"
+      class="q-py-xs card-title text-center"
     >
       sdfdh
     </q-card-section>

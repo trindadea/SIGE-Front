@@ -2,26 +2,25 @@
   <div class="base" id="base">
     <div v-if="!requestsError">
       <dash-campus-tab :campi="campiList"/>
-      <dash-general-event-bar/>
-      {{ eventsInProgress }}
-      <!-- <dash-top-bar/> -->
+      <dash-general-event-bar class="q-pb-sm" :events="eventsInProgress"/>
+      <dash-bottom-bar :alerts="eventsInProgress.count"/>
     </div>
     <div v-else>
-      WTF
+      CHECK YOUR API
     </div>
   </div>
 </template>
 
 <script>
 import HTTP from '../../services/masterApi/http-common'
-// import DashTopBar from 'components/dashboard/DashTopBar'
+import DashTopBar from 'components/dashboard/DashTopBar'
 import DashCampusTab from 'components/dashboard/DashCampusTab'
 import DashGeneralEventBar from 'components/dashboard/DashGeneralEventBar'
 
 export default {
   name: 'DashboardBase',
   components: {
-    // DashTopBar,
+    'dash-bottom-bar': DashTopBar,
     DashCampusTab,
     DashGeneralEventBar
   },
@@ -29,9 +28,12 @@ export default {
   data () {
     return {
       campiList: [1, 2, 3],
-      eventsInProgress: [1, 2, 3],
+      eventsInProgress: [],
       requestsError: false
     }
+  },
+
+  computed: {
   },
 
   methods: {
@@ -71,10 +73,6 @@ export default {
 
   mounted () {
     this.getAPIInfo()
-  },
-
-  computed: {
-
   }
 }
 </script>
@@ -100,5 +98,9 @@ export default {
 
   .card-base {
     min-height: 100%;
+  }
+
+  .card-title {
+    font-size: 24px;
   }
 </style>

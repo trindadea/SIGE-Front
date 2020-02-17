@@ -7,12 +7,16 @@
         <dash-consumption-generation-card style="min-height: 100%"/>
       </div>
       <div class="col-6">
-        <dash-last-72h-card></dash-last-72h-card>
+        <dash-last-72h-card/>
       </div>
     </div>
     <div>
-      <dash-charge-bar-card></dash-charge-bar-card>
-      <dash-last-measurement-card></dash-last-measurement-card>
+      <dash-charge-bar-card
+        class="q-mb-sm"
+      />
+      <dash-last-measurement-card
+        class="q-mb-none"
+      />
     </div>
   </div>
 </template>
