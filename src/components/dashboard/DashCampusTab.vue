@@ -23,7 +23,7 @@
           no-caps
           v-for="campus in campi" :key="campus.id"
           :name="campus.name"
-          class="col-3 q-mx-sm iku text-capitalize">
+          class="col-3 q-mx-md iku text-capitalize">
           {{ campus.name }} ({{ campus.acronym }})
         </q-tab>
       </q-tabs>
@@ -33,7 +33,7 @@
       >
         <q-tab-panel
           animated
-          class="base q-py-sm"
+          class="base q-py-md"
           v-for="campus in campi" :key="campus.id"
           :name="campus.name">
           <dash-panel :transductors="transductors" :selectedCampus="campus.id"/>
@@ -138,6 +138,7 @@ export default {
   }
 
   .campus-bar {
+    font-size: 1.45em;
     .q-tab--active {
       color: white !important;
       background-color: #00101f;

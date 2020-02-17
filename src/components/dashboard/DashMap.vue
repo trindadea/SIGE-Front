@@ -1,8 +1,8 @@
 <template>
-  <div class="q-pr-sm q-ma-none">
+  <div class="q-pr-md q-ma-none">
+    <!-- style="height: 55vh!important" -->
     <l-map
       class="rounded-borders"
-      style="height: 600px!important"
       :zoom="15"
       :min-zoom="15"
       :max-zoom="15"

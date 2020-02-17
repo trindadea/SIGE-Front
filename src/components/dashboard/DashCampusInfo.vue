@@ -2,20 +2,24 @@
   <div
     class="q-ma-none q-py-none q-pr-none"
   >
-    <div class="row q-col-gutter-sm">
+    <div class="row q-col-gutter-md">
       <div class="col-6">
-        <dash-consumption-generation-card style="min-height: 100%"/>
+        <dash-consumption-generation-card
+          class="height-conf"
+      />
       </div>
       <div class="col-6">
-        <dash-last-72h-card/>
+        <dash-last-72h-card
+          class="height-conf"
+        />
       </div>
     </div>
     <div>
       <dash-charge-bar-card
-        class="q-mb-sm"
+        class="q-mb-md height-conf"
       />
       <dash-last-measurement-card
-        class="q-mb-none"
+        class="q-mb-none height-conf"
       />
     </div>
   </div>
@@ -39,6 +43,9 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+  .height-conf {
+    min-height: 17.5vh;
+    max-height: 17.5vh;
+  }
 </style>

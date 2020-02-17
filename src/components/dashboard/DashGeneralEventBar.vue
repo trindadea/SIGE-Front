@@ -1,5 +1,5 @@
 <template>
-  <div class="row q-px-md q-col-gutter-sm base">
+  <div class="row q-px-md q-col-gutter-md base size">
     <div class="col">
       <q-card
         flat
@@ -18,8 +18,11 @@
         </q-card-section>
         <q-card-section
           v-else
+          class="absolute-center"
         >
-          <h6 class="text-center">
+          <h6
+            class="text-center"
+          >
             Nenhum ponto
           </h6>
         </q-card-section>
@@ -43,8 +46,11 @@
         </q-card-section>
         <q-card-section
           v-else
+          class="absolute-center"
         >
-          <h6 class="text-center">
+          <h6
+            class="text-center"
+          >
             Nenhum ponto
           </h6>
         </q-card-section>
@@ -68,8 +74,11 @@
         </q-card-section>
         <q-card-section
           v-else
+          class="absolute-center"
         >
-          <h6 class="text-center">
+          <h6
+            class="text-center"
+          >
             Nenhum ponto
           </h6>
         </q-card-section>
@@ -79,12 +88,12 @@
       <q-card
         flat
         class="card-base"
-        :class="comms_failed.length == 0 ? 'card-inactive' : 'card-active-critical'"
+        :class="comms_failed.length == 0 ? 'card-inactive' : 'card-active-warning'"
       >
         <q-card-section
           class="text-center card-title"
         >
-          Falha de comunicação
+          Falha de Comunicação
         </q-card-section>
         <q-card-section
           v-if="!comms_failed.length == 0"
@@ -93,8 +102,11 @@
         </q-card-section>
         <q-card-section
           v-else
+          class="absolute-center"
         >
-          <h6 class="text-center">
+          <h6
+            class="text-center"
+          >
             Nenhum ponto
           </h6>
         </q-card-section>
@@ -109,7 +121,7 @@
         <q-card-section
           class="text-center card-title"
         >
-          Máxima demanda
+          Máxima Demanda
         </q-card-section>
         <q-card-section
           v-if="!events.length == 0"
@@ -118,8 +130,11 @@
         </q-card-section>
         <q-card-section
           v-else
+          class="absolute-center"
         >
-          <h6 class="text-center">
+          <h6
+            class="text-center"
+          >
             Nenhum ponto
           </h6>
         </q-card-section>
@@ -159,12 +174,9 @@ export default {
 
 <style lang="scss" scoped>
   .card-inactive {
-    background-color: #00101f;
-    border-color: #001324;
+    background-color: #00080f;
+    border: 2px solid #001324;
     color: rgba(255, 255, 255, 0.2);
-    // .card-title {
-    //   color: ;
-    // }
   }
 
   .card-active-critical {
@@ -175,6 +187,14 @@ export default {
   .card-active-warning {
     background-color: #4d3e00;
     color: white;
+  }
+
+  .size {
+    // min-height: 34.8vh;
+    // max-height: 34.8vh;
+    min-height: 36.3vh;
+    max-height: 36.3vh;
+
   }
 
 </style>

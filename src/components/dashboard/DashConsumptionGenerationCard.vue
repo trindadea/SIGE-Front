@@ -1,5 +1,5 @@
 <template>
-  <div class="row q-col-gutter-sm">
+  <div class="row q-col-gutter-md">
     <div class="col">
       <q-card
         flat
@@ -11,7 +11,7 @@
           Consumo
         </q-card-section>
         <q-card-section>
-          isso pode mudar ainda
+          <dash-consumption-status-chart/>
         </q-card-section>
       </q-card>
     </div>
@@ -28,7 +28,7 @@
 
         <q-card-section>
           <p class="custom-h2 text-center">
-            {{ generated || 'XXX'}}kW
+            {{ generated || 'XXX'}} kW
           </p>
         </q-card-section>
       </q-card>
@@ -37,8 +37,12 @@
 </template>
 
 <script>
-export default {
+import DashConsumptionStatusChart from './DashConsumptionStatusChart'
 
+export default {
+  components: {
+    DashConsumptionStatusChart
+  }
 }
 </script>
 
