@@ -11,7 +11,7 @@
           Consumo
         </q-card-section>
         <q-card-section>
-
+          isso pode mudar ainda
         </q-card-section>
       </q-card>
     </div>
@@ -27,7 +27,9 @@
         </q-card-section>
 
         <q-card-section>
-          dsfdfsfsd
+          <p class="custom-h2 text-center">
+            {{ generated || 'XXX'}}kW
+          </p>
         </q-card-section>
       </q-card>
     </div>
@@ -40,6 +42,10 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="scss">
+  .custom-h2 {
+    font-size: 32px;
+    line-height: 40px;
+    letter-spacing: 0.24px;
+  }
 </style>

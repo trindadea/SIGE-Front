@@ -4,7 +4,7 @@
     class="card-bg"
   >
     <q-card-section class="text-center card-title">
-      jjklsdfjklsdf
+      Carga no campus hoje
     </q-card-section>
   </q-card>
 </template>
