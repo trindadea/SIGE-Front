@@ -56,19 +56,20 @@ export default {
 
   data () {
     return {
-      activeTab: '',
       transductors: []
     }
-  },
-
-  computed: {
-
   },
 
   props: {
     campi: {
       type: Array,
       default: () => { return [] }
+    }
+  },
+
+  computed: {
+    activeTab () {
+      return this.campi[0].name || ''
     }
   },
 
@@ -113,6 +114,7 @@ export default {
 
   created () {
     this.getTransductors()
+    this.activeTab = this.campi[0].name
   }
 
   // created () {

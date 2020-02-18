@@ -26,10 +26,13 @@
           Geração mês
         </q-card-section>
 
-        <q-card-section>
+        <q-card-section class="q-mt-sm q-pb-sm">
           <p class="custom-h2 text-center">
-            {{ generated || 'XXX'}} kW
+            {{ generated }} kW
           </p>
+          <div class="vertical-middle text-center">
+            sdafjsdfoi
+          </div>
         </q-card-section>
       </q-card>
     </div>
@@ -37,7 +40,7 @@
 </template>
 
 <script>
-import DashConsumptionStatusChart from './DashConsumptionStatusChart'
+import DashConsumptionStatusChart from '../DashConsumptionStatusChart'
 
 export default {
   components: {

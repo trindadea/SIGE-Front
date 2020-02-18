@@ -26,10 +26,10 @@
 </template>
 
 <script>
-import DashLast72hCard from './DashLast72hCard'
-import DashChargeBarCard from './DashChargeBarCard'
-import DashLastMeasurementCard from './DashLastMeasurementCard'
-import DashConsumptionGenerationCard from './DashConsumptionGenerationCard'
+import DashLast72hCard from './cards/DashLast72hCard'
+import DashChargeBarCard from './cards/DashChargeBarCard'
+import DashLastMeasurementCard from './cards/DashLastMeasurementCard'
+import DashConsumptionGenerationCard from './cards/DashConsumptionGenerationCard'
 
 export default {
   name: 'DashCampusInfo',

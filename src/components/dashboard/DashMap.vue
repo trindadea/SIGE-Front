@@ -2,7 +2,7 @@
   <div class="q-pr-md q-ma-none">
     <!-- style="height: 55vh!important" -->
     <l-map
-      class="rounded-borders"
+      class="rounded-borders cursor-not-allowed"
       :zoom="15"
       :min-zoom="15"
       :max-zoom="15"
@@ -65,7 +65,8 @@ export default {
       },
 
       // url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-      url: 'https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png',
+      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      // url: 'https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png',
       attribution:
         '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       selectedPeriod: 'DIA'
