@@ -2,7 +2,7 @@
   <q-bar class="q-py-sm q-px-md row">
     <div
       class="col">
-      <img src="statics/transparents/proj_trans_s.png" height="30px">
+      <img src="statics/icons/logo_smi.svg" style="height: 28px;"/>
     </div>
     <div
       id="alerts"
