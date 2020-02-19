@@ -1,0 +1,131 @@
+<template>
+  <div class="row justify-center q-pa-md">
+    <div class="col-9 col-lg-5 bg-white q-pa-lg shadow-1">
+      <q-form
+        class="q-gutter-md"
+        @validation-success="register()">
+        <h3 class="login-text">
+          Cadastro de usuário
+        </h3>
+        <q-input
+          outlined
+          v-model="fullname"
+          label="Nome completo"
+          lazy-rules
+          :rules="[  val => !!val || 'Insira seu nome completo.']"/>
+        <q-input
+          outlined
+          v-model="email"
+          label="Email"
+          lazy-rules
+          :rules="[  val => val.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) || 'Insira um email válido.']"/>
+        <q-input
+          outlined
+          v-model="password"
+          label="Senha"
+          lazy-rules
+          password
+          type="password"
+          :rules="[ val => val && val.length >= 8 || 'Insira uma senha com ao menos 8 caracteres.']"/>
+        <q-input
+          outlined
+          v-model="password_confirmation"
+          label="Confirme a senha"
+          lazy-rules
+          password
+          type="password"
+          :rules="[ val => val && val.length >= 8 || 'Insira uma senha com ao menos 8 caracteres.']"/>
+        <div class="text-center q-mt-lg">
+          <q-btn
+            size="1rem"
+            label="Cadastrar"
+            type="submit"
+            color="primary"/>
+        </div>
+      </q-form>
+    </div>
+    <div class="col-12 q-pa-md text-center" style="font-size: 1.3em">
+      Já tem uma conta?
+      <a href="/users/login/">Acesse agora</a>
+    </div>
+  </div>
+</template>
+
+<script>
+import HTTP from '../../services/masterApi/http-common'
+
+export default {
+  name: '',
+  data () {
+    return {
+      fullname: '',
+      email: '',
+      password: '',
+      password_confirmation: ''
+    }
+  },
+  methods: {
+    register () {
+      HTTP
+        .post('users/', {
+          email: this.email,
+          password: this.password,
+          name: this.fullname
+        })
+        .then(res => {
+          console.log(res)
+          HTTP
+            .post(`login/`, {
+              email: this.email,
+              password: this.password
+            })
+            .then(res => {
+              console.log(res)
+              this.$q.localStorage.set('userToken', res.data.token)
+              this.$q.localStorage.set('userID', res.data.user.id)
+              this.$router.push('/')
+              this.$q.notify({
+                type: 'positive',
+                message: `Sua conta foi criada com sucesso.`
+              })
+            })
+            .catch(err => {
+              console.log(err)
+              this.$router.push('/users/login/')
+              this.$q.notify({
+                type: 'positive',
+                message: `Acesse sua conta.`
+              })
+            })
+        })
+        .catch(err => {
+          console.log(err)
+          this.$q.notify({
+            type: 'negative',
+            message: `Falha ao criar sua conta. Tente novamente.`
+          })
+        })
+    }
+  }
+}
+</script>
+
+<style lang="scss">
+  .secondary-text {
+    font-size: 1.3em;
+  }
+  .primary-text {
+    // font-family: ?
+    font-size: 2em;
+  }
+  .driver-text {
+    color: rgba(0, 64, 126, 100%);
+    font-size: 2em;
+    text-align: center;
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+  .login-text {
+    color: rgba(100, 100, 100, 100%);
+  }
+</style>
