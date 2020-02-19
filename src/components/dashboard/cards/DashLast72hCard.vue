@@ -10,23 +10,21 @@
       Últimas 72h
     </q-card-section>
     <q-card-section
-      class="row q-col-gutter-none"
+      class="row q-col-gutter-none q-pt-lg"
     >
       <div class="col text-center">
-        <p class="counter">
+        <p class="counter q-mb-none">
           666
-          <q-icon name="cached" color="red"/>
-          <br/>
-          <small class="text-center text-grey">Graves</small>
+          <q-icon name="img:statics/icons/ic_ocorrencia_critica_color.svg"/>
         </p>
+        <small class="text-center">Graves</small>
       </div>
       <div class="col text-center">
-        <p class="counter">
+        <p class="counter q-mb-none">
           666
-          <q-icon name="cached" color="yellow"/>
-          <br/>
-          <small class="text-center text-grey">Leves</small>
+          <q-icon name="img:statics/icons/ic_ocorrencia_precaria_color.svg"/>
         </p>
+        <small class="text-center">Leves</small>
       </div>
     </q-card-section>
   </q-card>
@@ -35,16 +33,17 @@
 
 <script>
 export default {
+  name: 'Dash72hCard',
 
+  data () {
+    return {
+
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-  small {
-    font-size: 16px;
-    font-weight: normal;
-  }
-
   .counter {
     font-size: 42px;
     font-weight: bold;

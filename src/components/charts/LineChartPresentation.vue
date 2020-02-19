@@ -17,10 +17,12 @@
 
 <script>
 import axios from 'axios'
+import apexcharts from '../../services/ssr-import/apexcharts'
 // import NoDataPlaceholder from './NoDataPlaceholder.vue'
 
 export default {
   components: {
+    'apexcharts': apexcharts
     // 'no-data-placeholder': NoDataPlaceholder,
   },
 

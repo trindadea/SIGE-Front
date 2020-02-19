@@ -3,7 +3,7 @@
     <div v-if="!requestsError">
       <dash-campus-tab :campi="campiList"/>
       <dash-general-event-bar class="q-pb-sm" :events="eventsInProgress"/>
-      <dash-bottom-bar :alerts="eventsInProgress.count"/>
+      <dash-bottom-bar :alerts="alerts"/>
     </div>
     <div v-else>
       CHECK YOUR API
@@ -28,12 +28,15 @@ export default {
   data () {
     return {
       campiList: [1, 2, 3],
-      eventsInProgress: [],
+      eventsInProgress: {},
       requestsError: false
     }
   },
 
   computed: {
+    alerts () {
+      return this.eventsInProgress.count || 0
+    }
   },
 
   methods: {
@@ -71,7 +74,7 @@ export default {
     }
   },
 
-  mounted () {
+  created () {
     this.getAPIInfo()
   }
 }

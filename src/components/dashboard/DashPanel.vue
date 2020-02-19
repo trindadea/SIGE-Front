@@ -3,10 +3,12 @@
     <dash-map
       class="col-7"
       :transductors="transductors"
+      :campus_id="selectedCampus"
     />
     <dash-campus-info
       class="col-5"
       :transductors="transductors"
+      :campus_id="selectedCampus"
     />
   </div>
 </template>

@@ -1,17 +1,9 @@
 <template>
   <div>
-    <div
-      v-if="consumptionStatus"
-      id="chart1">
-    </div>
-    <div
-      v-else-if="consumptionStatus"
-      id="chart2">
-    </div>
-    <div
-      v-else-if="consumptionStatus"
-      id="chart3">
-    </div>
+    <!-- <apexcharts
+      :options="chartOptions"
+      :series="series"/> -->
+    fddsfsdf
   </div>
 </template>
 
@@ -21,8 +13,12 @@ import ApexCharts from 'apexcharts'
 export default {
   name: 'DashConsumptionStatusChart',
 
+  components: {},
+
   data () {
     return {
+      consumption: 0,
+
       chartOptions: {
         annotations: {
           yaxis: [
