@@ -2,11 +2,14 @@
   <div class="row q-col-gutter-md">
     <div class="col">
       <q-card flat class="card-base card-bg">
-        <q-card-section class="q-py-xs text-center card-title">
+        <q-card-section class="q-pt-xs q-pb-none text-center card-title">
           Consumo
         </q-card-section>
-        <q-card-section>
-          <triangular-consumption-chart/>
+        <q-card-section class="q-pt-none q-pb-xs q-px-sm text-center">
+            <triangular-consumption-chart class="fit q-pt-none q-pb-xs"/>
+            <small class="overflow-hidden">
+              acima do cont.- {{aboveSince}}min
+            </small>
         </q-card-section>
       </q-card>
     </div>
@@ -16,12 +19,13 @@
           Geração mês
         </q-card-section>
 
-        <q-card-section class="q-mt-sm q-pb-none">
-          <p class="custom-h2 text-center">{{ generated }} kW</p>
-          <div class="vertical-middle text-center q-pb-none">
-            <small>{{ transductor.name }}</small>
+        <q-card-section class="q-mt-sm q-pb-none" style="height:100%; margin-bottom: auto;">
+          <p class="custom-h2 text-center absolute-middle">{{ generated }} kW</p>
+          <div class="vertical-bottom text-center q-pb-xs q-mt-lg">
+            <small>{{ transductor.name || 'joisafd' }}</small>
           </div>
         </q-card-section>
+
       </q-card>
     </div>
   </div>
@@ -35,6 +39,12 @@ export default {
     TriangularConsumptionChart
   },
 
+  data () {
+    return {
+
+    }
+  },
+
   props: {
     transductor: {
       type: Object,
@@ -43,14 +53,21 @@ export default {
         return {}
       }
     }
+  },
+
+  computed: {
+    aboveSince () {
+      return 1
+    }
   }
 }
 </script>
 
 <style lang="scss">
-.custom-h2 {
-  font-size: 32px;
-  line-height: 40px;
-  letter-spacing: 0.24px;
-}
+  .custom-h2 {
+    font-size: 32px;
+    line-height: 40px;
+    letter-spacing: 0.24px;
+  }
+
 </style>

@@ -1,9 +1,15 @@
 <template>
-  <apexcharts
-    id='chart'
-    :series="series"
-    :options="chartOptions"
-    height="100%"/>
+  <div>
+    <apexcharts
+      id='chart'
+      :series="series"
+      :options="chartOptions"
+      class="q-pa-none"
+      height="75"/>
+    <!-- <p class="text-center vertical-top q-pa-none">
+      {{ 800 }} kW
+    </p> -->
+  </div>
 </template>
 
 <script>
@@ -59,7 +65,7 @@ export default {
                 textAnchor: 'center',
                 position: 'left',
                 offsetX: 0,
-                offsetY: 8,
+                offsetY: 0,
                 style: {
                   background: '#00101F',
                   color: '#ff0',
@@ -67,8 +73,8 @@ export default {
                   padding: {
                     left: 0,
                     right: 0,
-                    top: 4,
-                    bottom: 2
+                    top: 0,
+                    bottom: 0
                   }
                 }
               }
@@ -78,8 +84,8 @@ export default {
 
         chart: {
           type: 'area',
-          height: 96,
-          width: 174,
+          // height: 96,
+          // width: 174,
           background: '#00101F',
           toolbar: {
             show: false
@@ -172,5 +178,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  #chart {
+    padding: none;
+    margin: none;
+  }
 </style>

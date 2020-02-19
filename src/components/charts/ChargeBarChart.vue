@@ -4,7 +4,8 @@
     type="bar"
     :series="series"
     :options="chartOptions"
-    height="100%"/>
+    height="170px"
+    width="100%"/>
 </template>
 
 <script>
@@ -81,6 +82,19 @@ export default {
 
     chartOptions () {
       return {
+        title: {
+          text: 'Carga no campus hoje',
+          align: 'center',
+          margin: 0,
+          offsetX: 0,
+          offsetY: 0,
+          style: {
+            fontSize: '24px',
+            fontWeight: '',
+            fontFamily: 'Roboto',
+            color: '#ffffff'
+          }
+        },
         theme: {
           mode: 'dark'
         },

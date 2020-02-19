@@ -3,22 +3,21 @@
     flat
     class="card-bg"
   >
-    <q-card-section class="text-center card-title">
+    <q-card-section class="text-center card-title q-px-sm q-py-xs">
       Carga no campus hoje
+      <charge-bar-chart/>
     </q-card-section>
-    <charge-bar-chart/>
   </q-card>
 </template>
 
 <script>
-import ChargeBarChart from '../../charts/ChargeBarChart.vue'
+// import ChargeBarChart from '../../charts/ChargeBarChart.vue'
 export default {
   components: {
-    ChargeBarChart
+    // ChargeBarChart
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
 </style>

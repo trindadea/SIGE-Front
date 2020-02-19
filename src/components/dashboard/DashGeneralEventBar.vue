@@ -24,19 +24,19 @@ export default {
     return {
       eventTypes: [
         {
-          name: 'Tensão crítica',
+          name: 'Tensão Crítica',
           activeClass: 'card-active-critical',
           eventsList: this.otherEvents.critical_tension,
           icon: 'critica'
         },
         {
-          name: 'Queda de fase',
+          name: 'Queda de Fase',
           activeClass: 'card-active-critical',
           eventsList: this.otherEvents.phase_drop,
           icon: 'critica'
         },
         {
-          name: 'Tensão precária',
+          name: 'Tensão Precária',
           activeClass: 'card-active-warning',
           eventsList: this.otherEvents.precarious_tension,
           icon: 'precaria'
@@ -48,7 +48,7 @@ export default {
           icon: 'precaria'
         },
         {
-          name: 'Máxima Demanda',
+          name: 'Máximo Consumo',
           activeClass: 'card-active-warning',
           eventsList: [],
           icon: 'precaria'

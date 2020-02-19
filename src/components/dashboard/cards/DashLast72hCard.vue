@@ -14,14 +14,14 @@
     >
       <div class="col text-center">
         <p class="counter q-mb-none">
-          666
+          {{666}}
           <q-icon name="img:statics/icons/ic_ocorrencia_critica_color.svg"/>
         </p>
         <small class="text-center">Graves</small>
       </div>
       <div class="col text-center">
         <p class="counter q-mb-none">
-          666
+          {{666}}
           <q-icon name="img:statics/icons/ic_ocorrencia_precaria_color.svg"/>
         </p>
         <small class="text-center">Leves</small>
@@ -39,6 +39,10 @@ export default {
     return {
 
     }
+  },
+
+  props: {
+    // vuex pras coisas? to acessando de todo lado + tem q fazer o dataset se atualizar
   }
 }
 </script>
