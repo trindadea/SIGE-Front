@@ -6,7 +6,7 @@
           Consumo
         </q-card-section>
         <q-card-section>
-          <dash-consumption-status-chart />
+          <triangular-consumption-chart/>
         </q-card-section>
       </q-card>
     </div>
@@ -28,11 +28,11 @@
 </template>
 
 <script>
-import DashConsumptionStatusChart from '../DashConsumptionStatusChart'
+import TriangularConsumptionChart from '../../charts/TriangularConsumptionChart'
 
 export default {
   components: {
-    DashConsumptionStatusChart
+    TriangularConsumptionChart
   },
 
   props: {
