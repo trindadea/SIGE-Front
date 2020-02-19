@@ -4,8 +4,7 @@
     type="bar"
     :series="series"
     :options="chartOptions"
-    height="100%"
-  />
+    height="100%"/>
 </template>
 
 <script>
@@ -46,6 +45,7 @@ export default {
       //     data: this.consumption
       //   }
       // ]
+
       return [
         {
           name: 'Carga',
@@ -152,8 +152,8 @@ export default {
     updateChart () {
       if (this.selectedTransductor !== undefined) {
         const consumption = [
-          `/graph/quarterly_consumption_off_peak/?start_date=2019-06-01 00:00&end_date=2019-06-30 23:59`,
-          `/graph/quarterly_consumption_peak/?start_date=2019-06-01 00:00&end_date=2019-06-30 23:59`
+          `/graph/quarterly-consumption-off-peak/?start_date=2019-06-01 00:00&end_date=2019-06-30 23:59`,
+          `/graph/quarterly-consumption-peak/?start_date=2019-06-01 00:00&end_date=2019-06-30 23:59`
         ]
 
         axios.all([
@@ -161,7 +161,7 @@ export default {
           HTTP.get(consumption[1])
         ])
           .then(axios.spread((consA, consB) => {
-            console.log(consA, consB)
+            this.consumption = [...consA.data, ...consB.data]
           }))
           .catch(errArray => {
             console.log(errArray)
@@ -170,8 +170,8 @@ export default {
     }
   },
 
-  beforeMount () {
-    this.updateChart()
+  async beforeMount () {
+    await this.updateChart()
   }
 }
 </script>
