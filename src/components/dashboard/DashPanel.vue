@@ -7,15 +7,17 @@
     />
     <dash-campus-info
       class="col-5"
-      :transductors="transductors"
+      :selected-transductor="selectedTransductor"
       :campus_id="selectedCampus"
     />
+    {{ selectedTransductor }}
   </div>
 </template>
 
 <script>
 import DashMap from './DashMap'
 import DashCampusInfo from './DashCampusInfo'
+import HTTP from '../../services/masterApi/http-common'
 
 export default {
   name: 'DashPanel',
@@ -26,23 +28,42 @@ export default {
   },
 
   data () {
-    return {}
+    return {
+      transductors: [],
+      selectedCampus: 0,
+      selectedTransductor: {}
+    }
   },
 
-  props: {
-    selectedCampus: {
-      type: Number,
-      required: true
+  methods: {
+    getTransductors () {
+      HTTP
+        .get(`/energy-transductors?campi_id=${this.selectedCampus}`)
+        .then((res) => {
+          this.transductors = res.data
+        })
+        .catch((err) => { console.error(err) })
     },
-    transductors: {
-      type: Array,
-      required: true
-    }
-  }
 
+    selectTransductor () {
+      console.log(this.selectedTransductor)
+      const currentItem = this.selectedTransductor
+      if (this.selectedTransductor === {}) {
+        this.selectedTransductor = this.transductors[0]
+      } else {
+        this.selectedTransductor = (this.transductors.indexOf(currentItem) < this.transductors.length - 1) ? this.transductors[this.transductors.indexOf(currentItem) + 1] : this.transductors[0]
+      }
+    },
+
+    async getInfo () {
+      await this.getTransductors()
+      this.selectedTransductor = this.transductors[0]
+    }
+  },
+
+  created () {
+    this.getInfo()
+    setInterval(this.selectTransductor, 200)
+  }
 }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

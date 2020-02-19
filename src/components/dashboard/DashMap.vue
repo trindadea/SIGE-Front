@@ -1,6 +1,7 @@
 <template>
   <div class="q-pr-md q-ma-none">
     <!-- style="height: 55vh!important" -->
+    {{transductors_points}}
     <l-map
       class="rounded-borders cursor-not-allowed"
       :zoom="15"
@@ -16,7 +17,7 @@
       <l-circle
         v-for="transductor in transductors_points"
         :key="transductor.id"
-        :lat-lng="transductor.coordinates"
+        :lat-lng="transductor.coordinates || []"
         :radius="18"
         :l-style="transductor.style"
         :hover="true"
@@ -101,12 +102,12 @@ export default {
     },
 
     mapCenter () {
-      let arrOfTransductorPoints = this.transductors_points
+      let arrOfTransductorPoints = this.transductors_points || []
       return arrOfTransductorPoints[Math.floor(Math.random() * arrOfTransductorPoints.length)].coordinates
     }
   },
 
-  created () {
+  mounted () {
     this.new_center = this.mapCenter()
   }
 }

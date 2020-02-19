@@ -36,7 +36,7 @@
           class="base q-py-md"
           v-for="campus in campi" :key="campus.id"
           :name="campus.name">
-          <dash-panel :transductors="transductors" :selectedCampus="campus.id"/>
+          <dash-panel :selectedCampus="campus.id"/>
         </q-tab-panel>
       </q-tab-panels>
     </template>
@@ -45,7 +45,6 @@
 
 <script>
 import DashPanel from './DashPanel'
-import HTTP from '../../services/masterApi/http-common'
 
 export default {
   name: 'DashCampusTab',
@@ -56,8 +55,6 @@ export default {
 
   data () {
     return {
-      transductors: [],
-
       activeTab: ''
     }
   },
@@ -73,17 +70,6 @@ export default {
   },
 
   methods: {
-    getTransductors () {
-      HTTP
-        .get('energy-transductors/')
-        .then((res) => {
-          this.transductors = res.data
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
-
     async getData () {
       await this.getTransductors()
     },

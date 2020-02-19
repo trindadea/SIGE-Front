@@ -2,35 +2,35 @@
   <div
     class="q-ma-none q-py-none q-pr-none"
   >
+    {{selectedTransductor}}
     <div class="row q-col-gutter-md">
       <div class="col-6">
         <dash-consumption-generation-card
           class="height-conf"
-          :transductor="currentTransductor"
+          :transductor="selectedTransductor"
       />
       </div>
       <div class="col-6">
         <dash-last-72h-card
           class="height-conf"
-          :transductor="currentTransductor"
+          :transductor="selectedTransductor"
         />
       </div>
     </div>
     <div>
       <dash-charge-bar-card
         class="q-mb-md height-conf"
-        :transductor="currentTransductor"
+        :transductor="selectedTransductor"
       />
       <dash-last-measurement-card
         class="q-mb-none height-conf"
-        :transductor="currentTransductor"
+        :transductor="selectedTransductor"
       />
     </div>
   </div>
 </template>
 
 <script>
-import HTTP from '../../services/masterApi/http-common'
 import DashLast72hCard from './cards/DashLast72hCard'
 import DashChargeBarCard from './cards/DashChargeBarCard'
 import DashLastMeasurementCard from './cards/DashLastMeasurementCard'
@@ -48,7 +48,6 @@ export default {
 
   data () {
     return {
-      transductors: []
     }
   },
 
@@ -56,26 +55,8 @@ export default {
     campus_id: {
       type: Number,
       required: true
-    }
-  },
-
-  methods: {
-    getTransductorsForCampi () {
-      HTTP
-        .get(`/energy_transductors/?campi_id=${this.campus}`)
-        .then((res) => {
-          this.transductors = res.data
-        })
-        .catch((err) => { console.error(err) })
     },
-
-    async getInfo () {
-      await this.getTransductorsForCampi()
-    }
-  },
-
-  mounted () {
-    this.getInfo()
+    selectedTransductor: Object
   }
 }
 </script>
