@@ -1,8 +1,7 @@
 <template>
   <q-card
     flat
-    class="card-bg"
-  >
+    class="card-bg">
     <q-card-section class="text-center card-title q-px-sm q-py-xs">
       <charge-bar-chart/>
     </q-card-section>
@@ -11,6 +10,7 @@
 
 <script>
 import ChargeBarChart from '../../charts/ChargeBarChart.vue'
+
 export default {
   components: {
     ChargeBarChart

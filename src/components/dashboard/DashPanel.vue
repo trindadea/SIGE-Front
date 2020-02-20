@@ -1,16 +1,17 @@
 <template>
   <div class="row">
     <dash-map
+      v-if="transductors !== []"
       class="col-7"
       :transductors="transductors"
       :campus_id="selectedCampus"
     />
+    <div class="col-7" v-else>{{transductors}}</div>
     <dash-campus-info
       class="col-5"
       :selected-transductor="selectedTransductor"
       :campus_id="selectedCampus"
     />
-    {{ selectedTransductor }}
   </div>
 </template>
 
@@ -46,7 +47,7 @@ export default {
     },
 
     selectTransductor () {
-      console.log(this.selectedTransductor)
+      // console.log(this.selectedTransductor)
       const currentItem = this.selectedTransductor
       if (this.selectedTransductor === {}) {
         this.selectedTransductor = this.transductors[0]
@@ -57,13 +58,13 @@ export default {
 
     async getInfo () {
       await this.getTransductors()
-      this.selectedTransductor = this.transductors[0]
     }
   },
 
   created () {
     this.getInfo()
-    setInterval(this.selectTransductor, 200)
+    this.selectedTransductor = this.transductors[0]
+    setInterval(this.selectTransductor, 10000)
   }
 }
 </script>

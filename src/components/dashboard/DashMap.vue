@@ -1,13 +1,12 @@
 <template>
   <div class="q-pr-md q-ma-none">
     <!-- style="height: 55vh!important" -->
-    {{transductors_points}}
     <l-map
       class="rounded-borders cursor-not-allowed"
       :zoom="15"
       :min-zoom="15"
       :max-zoom="15"
-      :center="new_center"
+      :center="mapCenter"
       :options="mapOptions"
       id="region-map">
       <l-tile-layer
@@ -17,7 +16,7 @@
       <l-circle
         v-for="transductor in transductors_points"
         :key="transductor.id"
-        :lat-lng="transductor.coordinates || []"
+        :lat-lng="transductor.coordinates"
         :radius="18"
         :l-style="transductor.style"
         :hover="true"
@@ -40,7 +39,7 @@ export default {
   props: {
     transductors: {
       type: Array,
-      default: () => { return [] }
+      required: true
     }
   },
 
@@ -58,14 +57,13 @@ export default {
 
       // center: [-15.7650, -47.8665],
       center: [-15.7650, -47.8665],
-      new_center: [],
+      new_center: [0, 0],
 
       mapOptions: {
         zoomControl: false,
         maxbounds: this.center
       },
 
-      // url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       // url: 'https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png',
       attribution:
@@ -93,26 +91,27 @@ export default {
         )
       })
       return arr
+    },
+    mapCenter () {
+      const arrOfTransductorPoints = this.transductors_points
+
+      if (arrOfTransductorPoints.length !== 0) {
+        return arrOfTransductorPoints[Math.floor(Math.random() * arrOfTransductorPoints.length)].coordinates
+      }
+
+      return [0, 0]
     }
+
   },
 
   methods: {
     getColorStatus (isBroken) {
       return isBroken ? 'text-red-9' : 'text-green-9'
-    },
-
-    mapCenter () {
-      let arrOfTransductorPoints = this.transductors_points || []
-      return arrOfTransductorPoints[Math.floor(Math.random() * arrOfTransductorPoints.length)].coordinates
     }
-  },
-
-  mounted () {
-    this.new_center = this.mapCenter()
   }
 }
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 </style>
