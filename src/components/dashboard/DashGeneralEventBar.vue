@@ -13,6 +13,7 @@
 
 <script>
 import DashEventCard from './cards/DashEventCard'
+
 export default {
   name: 'DashGeneralEventBar',
 
@@ -58,19 +59,7 @@ export default {
   },
 
   props: {
-    otherEvents: {
-      type: Object,
-      default: () => {
-        return {
-          transductor_connection_fail: [],
-          critical_tension: [],
-          precarious_tension: [],
-          phase_drop: [],
-          slave_connection_fail: [],
-          count: 0
-        }
-      }
-    }
+    otherEvents: Object
   },
 
   computed: {

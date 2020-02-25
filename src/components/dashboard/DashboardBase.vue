@@ -8,7 +8,7 @@
       <dash-general-event-bar
         v-if="eventsInProgress"
         class="q-pb-sm"
-        :events="eventsInProgress"/>
+        :other-events="eventsInProgress"/>
 
       <dash-bottom-bar v-if="eventsInProgress" :alerts="alerts"/>
     </div>
@@ -20,6 +20,7 @@
 
 <script>
 import HTTP from '../../services/masterApi/http-common'
+
 import DashTopBar from 'components/dashboard/DashTopBar'
 import DashCampusTab from 'components/dashboard/DashCampusTab'
 import DashGeneralEventBar from 'components/dashboard/DashGeneralEventBar'
