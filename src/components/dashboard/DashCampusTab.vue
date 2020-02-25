@@ -20,13 +20,12 @@
         class="row q-py-none q-mt-none">
         <q-tab
           dense
-          no-caps
           v-for="campus in campi" :key="campus.id"
-          :name="campus.name"
           class="col-3 q-mx-md tabs text-capitalize">
-          {{ campus.name }} ({{ campus.acronym }})
+          {{ campus.name }}
         </q-tab>
       </q-tabs>
+
       <q-tab-panels
         v-model="activeTab"
         class="q-pt-none"
@@ -36,7 +35,7 @@
           class="base q-py-md"
           v-for="campus in campi" :key="campus.id"
           :name="campus.name">
-          <dash-panel :selectedCampus="campus.id"/>
+          <dash-panel v-if="currentCampus" :selectedCampus="currentCampus"/>
         </q-tab-panel>
       </q-tab-panels>
     </template>
@@ -55,7 +54,9 @@ export default {
 
   data () {
     return {
-      activeTab: ''
+      activeTab: '',
+      campiName: [],
+      currentCampus: undefined
     }
   },
 
@@ -70,42 +71,36 @@ export default {
   },
 
   methods: {
-    async getData () {
-      await this.getTransductors()
+    setNames () {
+      this.campi.forEach(campus => {
+        this.campiName.push(campus.name)
+      })
     },
+
     changeTabJob () {
-      console.log('added job')
+      let currentItem = this.activeTab
+
       if (this.activeTab === '') {
-        console.log(`} else if ((this.activeTab === 'non' || this.activeTab === '') && this.campi !== []) {`)
         this.activeTab = this.campi[0].name
-      } else if (this.activeTab === this.campi[this.campi.length - 1]) {
-        console.log(`} else if (this.activeTab === this.campi[this.campi.length - 1]) {`)
-        this.activeTab = this.campi[0].name
+        this.currentCampus = this.campi[0]
       } else {
-        console.log(`} else {`)
-        const pos = this.campi.findIndex(campus => campus.name === this.activeTab)
-        if (pos !== -1) {
-          this.activeTab = this.campi[pos + 1]
-        } else {
-          console.error({
-            msg: 'An error occurred',
-            pos: pos,
-            activeTab: this.activeTab,
-            campi: this.campi
-          })
-        }
+        console.log({
+          'current': currentItem,
+          'index in campiName': this.campiName.indexOf(currentItem),
+          'campi': this.campi,
+          'campiName': this.campiName
+        })
+
+        let a = this.campiName.indexOf(this.activeTab)
+        this.activeTab = (a < this.campi.length - 1) ? this.campiName[a + 1] : this.campiName[0]
+        this.currentCampus = (a < this.campi.length - 1) ? this.campi[a + 1] : this.campi[0]
       }
     }
-
   },
 
   created () {
-    this.getData()
-    this.changeTabJob()
-  },
-
-  beforeMount () {
-    this.activeTab = this.campi[0].name
+    this.setNames()
+    setInterval(this.changeTabJob, 5000)
   }
 }
 </script>

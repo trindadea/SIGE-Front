@@ -1,7 +1,7 @@
 <template>
   <div class="base" id="base">
     <div v-if="!requestsError">
-      <dash-campus-tab :campi="campiList"/>
+      <dash-campus-tab v-if="campiList" :campi="campiList"/>
       <dash-general-event-bar class="q-pb-sm" :events="eventsInProgress"/>
       <dash-bottom-bar :alerts="alerts"/>
     </div>
@@ -27,7 +27,7 @@ export default {
 
   data () {
     return {
-      campiList: [1, 2, 3],
+      campiList: undefined,
       eventsInProgress: {},
       requestsError: false
     }
