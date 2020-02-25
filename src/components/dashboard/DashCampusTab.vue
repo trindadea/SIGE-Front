@@ -100,7 +100,8 @@ export default {
 
   created () {
     this.setNames()
-    setInterval(this.changeTabJob, 5000)
+    this.activeTab = this.campiName[0]
+    setInterval(this.changeTabJob, 20000)
   }
 }
 </script>

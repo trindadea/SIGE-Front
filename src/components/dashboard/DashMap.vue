@@ -1,7 +1,8 @@
 <template>
   <div class="q-pr-md q-ma-none">
-    <!-- style="height: 55vh!important" -->
+    {{currentCampus.name}}
     <l-map
+      style="height: 55vh!important"
       class="rounded-borders cursor-not-allowed"
       :zoom="15"
       :min-zoom="15"
@@ -40,7 +41,8 @@ export default {
     transductors: {
       type: Array,
       required: true
-    }
+    },
+    currentCampus: Object
   },
 
   data () {

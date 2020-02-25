@@ -1,18 +1,22 @@
 <template>
   <div class="row q-col-gutter-md">
+
     <div class="col">
       <q-card flat class="card-base card-bg">
         <q-card-section class="q-pt-xs q-pb-none text-center card-title">
           Consumo
         </q-card-section>
+
         <q-card-section class="q-pt-none q-pb-xs q-px-sm text-center">
             <triangular-consumption-chart class="fit q-pt-none q-pb-xs"/>
+            <!-- TODO: esse componente deve ser revisado -->
             <small class="overflow-hidden">
               acima do cont.- {{aboveSince}}min
             </small>
         </q-card-section>
       </q-card>
     </div>
+
     <div class="col">
       <q-card flat class="card-base card-bg">
         <q-card-section class="q-py-xs text-center card-title">
@@ -20,7 +24,10 @@
         </q-card-section>
 
         <q-card-section class="q-mt-sm q-pb-none" style="height:100%; margin-bottom: auto;">
-          <p class="custom-h2 text-center absolute-middle">{{ generated }} kW</p>
+          <p class="custom-h2 text-center absolute-middle">
+            {{ generated }} kW
+          </p>
+
           <div class="vertical-bottom text-center q-pb-xs q-mt-lg">
             <small>{{ transductor.name || 'joisafd' }}</small>
           </div>
@@ -46,13 +53,7 @@ export default {
   },
 
   props: {
-    transductor: {
-      type: Object,
-      // required: true
-      default: () => {
-        return {}
-      }
-    }
+    transductor: Object
   },
 
   computed: {

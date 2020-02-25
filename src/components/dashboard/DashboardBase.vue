@@ -1,9 +1,16 @@
 <template>
   <div class="base" id="base">
     <div v-if="!requestsError">
-      <dash-campus-tab v-if="campiList" :campi="campiList"/>
-      <dash-general-event-bar class="q-pb-sm" :events="eventsInProgress"/>
-      <dash-bottom-bar :alerts="alerts"/>
+      <dash-campus-tab
+        v-if="campiList"
+        :campi="campiList"/>
+
+      <dash-general-event-bar
+        v-if="eventsInProgress"
+        class="q-pb-sm"
+        :events="eventsInProgress"/>
+
+      <dash-bottom-bar v-if="eventsInProgress" :alerts="alerts"/>
     </div>
     <div v-else>
       CHECK YOUR API
@@ -28,7 +35,7 @@ export default {
   data () {
     return {
       campiList: undefined,
-      eventsInProgress: {},
+      eventsInProgress: undefined,
       requestsError: false
     }
   },
