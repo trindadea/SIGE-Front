@@ -44,15 +44,17 @@ export default {
   methods: {
     getTransductors () {
       HTTP
-        .get(`/energy-transductors?campi_id=${this.selectedCampus}`)
+        .get(`/energy-transductors/?campi_id=${this.selectedCampus.id}`)
         .then((res) => {
           this.transductors = res.data
+          this.selectedTransductor = this.transductors[0]
         })
         .catch((err) => { console.error(err) })
     },
 
     selectTransductor () {
       const currentItem = this.selectedTransductor
+
       if (this.selectedTransductor === {}) {
         this.selectedTransductor = this.transductors[0]
       } else {
@@ -67,8 +69,11 @@ export default {
 
   created () {
     this.getInfo()
-    this.selectedTransductor = this.transductors[0]
-    setInterval(this.selectTransductor, 5000)
+  },
+
+  mounted () {
+    this.selectTransductor()
+    setInterval(this.selectTransductor, 10000)
   }
 }
 </script>

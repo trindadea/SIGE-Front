@@ -100,8 +100,16 @@ export default {
 
   created () {
     this.setNames()
-    this.activeTab = this.campiName[0]
-    setInterval(this.changeTabJob, 20000)
+    this.changeTabJob()
+    // eslint-disable-next-line no-unused-vars
+    // let tabCron = this.$crontab.addJob({
+    //   name: 'change tab job',
+    //   interval: {
+    //     seconds: '/30'
+    //   },
+    //   job: this.changeTabJob
+    // })
+    setInterval(this.changeTabJob, 30000)
   }
 }
 </script>

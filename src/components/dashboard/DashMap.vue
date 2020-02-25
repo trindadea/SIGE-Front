@@ -1,8 +1,7 @@
 <template>
   <div class="q-pr-md q-ma-none">
-    {{currentCampus.name}}
+      <!-- style="height: 55vh!important" -->
     <l-map
-      style="height: 55vh!important"
       class="rounded-borders cursor-not-allowed"
       :zoom="15"
       :min-zoom="15"
