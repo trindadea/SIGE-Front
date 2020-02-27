@@ -1,9 +1,9 @@
 <template>
   <div>
-    <q-layout view="hhh lpR fff">
+    <q-layout view="hhh lpR fff" style="background-color:#fafafa">
       <user-header/>
       <q-page-container>
-        <router-view />
+        <router-view/>
       </q-page-container>
     </q-layout>
   </div>
@@ -49,7 +49,9 @@ export default {
       }
     }
   }
-
+  .form-box {
+    background-color: white;
+  }
   .main-tile {
     // margin-top: 2.5em;
     // margin-bottom: 2.5em;

@@ -1,12 +1,12 @@
 <template>
-  <div class="row justify-center q-pa-md">
+  <div class="row justify-center q-pa-xl">
     <div class="col-9 col-lg-5 bg-white q-pa-lg shadow-1">
       <q-form
-        class="q-gutter-md"
+        class="q-gutter-md form-box"
         @validation-success="register()">
-        <h3 class="login-text">
-          Cadastro de usuário
-        </h3>
+        <div class="text-center helper-text">
+          Cadastro reservado para servidores e colaboradores da Universidade de Brasília
+        </div>
         <q-input
           outlined
           v-model="fullname"
@@ -44,7 +44,7 @@
         </div>
       </q-form>
     </div>
-    <div class="col-12 q-pa-md text-center" style="font-size: 1.3em">
+    <div class="col-12 q-pa-md text-center">
       Já tem uma conta?
       <a href="/users/login/">Acesse agora</a>
     </div>
@@ -127,5 +127,16 @@ export default {
   }
   .login-text {
     color: rgba(100, 100, 100, 100%);
+  }
+  .helper-text {
+    font-family: Roboto;
+    font-size: 20px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.25px;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.6);
   }
 </style>

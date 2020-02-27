@@ -1,6 +1,6 @@
 <template>
   <div class="row justify-center q-pa-md">
-    <div class="col-9 col-lg-5 q-pa-lg shadow-1">
+    <div class="col-9 col-lg-5 q-pa-lg shadow-1 form-box">
       <q-form
         class="q-gutter-md"
         @validation-success="putUserInfo()">
