@@ -1,13 +1,17 @@
 <template>
-  <div class="row q-px-md q-col-gutter-md base size">
-    <dash-event-card
-      class="col"
-      v-for="e in eventTypes"
-      :key="e.id"
-      :name="e.name"
-      :activeClass="e.activeClass"
-      :eventsList="e.eventsList"
-      :icon="e.icon"/>
+  <div class="base" v-if="eventTypes!==[]">
+    <div class="row q-px-md q-col-gutter-md base size" v-if="commsFailed !== []">
+      <dash-event-card
+        class="col"
+        v-for="ev in eventTypes"
+        :key="ev.id"
+        :name="ev.name"
+        :active-class="ev.activeClass"
+        :eventsList="ev.eventsList"
+        :icon="ev.icon"/>
+    </div>
+    {{eventTypes}}
+    {{commsFailed}}
   </div>
 </template>
 
@@ -45,7 +49,7 @@ export default {
         {
           name: 'Falha de Comunicação',
           activeClass: 'card-active-warning',
-          eventsList: this.comms_failed,
+          eventsList: this.commsFailed,
           icon: 'precaria'
         },
         {
@@ -63,11 +67,19 @@ export default {
   },
 
   computed: {
-    comms_failed () {
-      return [
-        ...this.otherEvents.slave_connection_fail,
-        ...this.otherEvents.transductor_connection_fail
-      ]
+    commsFailed () {
+      let arr = []
+      this.otherEvents.slave_connection_fail.forEach(element => {
+        arr.push(element)
+      })
+      this.otherEvents.transductor_connection_fail.forEach(element => {
+        arr.push(element)
+      })
+      return arr
+      // return [
+      //   ...this.otherEvents.slave_connection_fail,
+      //   ...this.otherEvents.transductor_connection_fail
+      // ]
     }
   }
 
