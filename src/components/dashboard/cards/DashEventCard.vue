@@ -3,19 +3,21 @@
     <q-card
       flat
       class="card-base"
-      :class="isPanelActive ? 'card-inactive' : activeClass">
+      :class="isActive ? activeClass : 'card-inactive'">
 
       <q-card-section
         class="text-center card-title">
-        <span v-if="!isPanelActive">
+        <span v-if="isActive">
           <q-icon :name="`img:statics/icons/ic_ocorrencia_${icon}_badge.svg`"/>
           <!-- <span style="padding-left: -30px">3</span> -->
         </span> {{name}}
       </q-card-section>
 
       <q-card-section
-        v-if="!isPanelActive">
-
+        v-if="isActive">
+        <p v-for="ev in eventsList" :key="ev.id">
+          {{ev}}
+        </p>
       </q-card-section>
 
       <q-card-section
@@ -34,20 +36,19 @@
 export default {
   name: 'DashEventCard',
 
+  data () {
+    return {
+      isActive: this.eventsList.length !== 0
+    }
+  },
+
   props: {
     name: String,
     activeClass: String,
-    eventsList: {
-      default: () => { return [] }
-    },
+    eventsList: Array,
     icon: String
-  },
-
-  computed: {
-    isPanelActive () {
-      return this.eventsList.length === 0
-    }
   }
+
 }
 </script>
 
