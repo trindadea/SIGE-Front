@@ -166,7 +166,7 @@ export default {
             this.consumption = [...consA.data, ...consB.data]
           }))
           .catch(errArray => {
-            console.log(errArray)
+            console.error(errArray)
           })
       }
     }

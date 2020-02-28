@@ -54,7 +54,7 @@ export default {
           this.campiList = res.data
         })
         .catch(err => {
-          console.log(err)
+          console.error(err)
           this.requestsError = true
         })
         .then(() => {
@@ -68,7 +68,7 @@ export default {
           this.eventsInProgress = res.data
         })
         .catch(err => {
-          console.log(err)
+          console.error(err)
           this.requestsError = true
         })
         .then(() => {

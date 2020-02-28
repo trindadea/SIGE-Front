@@ -157,7 +157,7 @@ export default {
             console.log(measurements)
             this.buildGraphInformation(measurements)
           })
-          .catch((err) => console.log(err))
+          .catch((err) => console.error(err))
       }
     },
 
@@ -295,7 +295,7 @@ export default {
           this.setTransductorList(transductorsList)
         })
         .catch((err) => {
-          console.log(err)
+          console.error(err)
         })
     }
   },

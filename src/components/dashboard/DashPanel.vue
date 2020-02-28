@@ -14,6 +14,7 @@
       :selected-transductor="selectedTransductor"
       :current-campus="selectedCampus"
     />
+
   </div>
 </template>
 

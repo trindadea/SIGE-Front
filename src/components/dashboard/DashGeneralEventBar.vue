@@ -1,17 +1,18 @@
 <template>
-  <div class="base" v-if="eventTypes!==[]">
+  <div class="base">
     <div class="row q-px-md q-col-gutter-md base size" v-if="commsFailed !== []">
-      <dash-event-card
-        class="col"
+      <div
         v-for="ev in eventTypes"
         :key="ev.id"
-        :name="ev.name"
-        :active-class="ev.activeClass"
-        :eventsList="ev.eventsList"
-        :icon="ev.icon"/>
+        class="col">
+        <dash-event-card
+          v-if="ev.eventsList !== undefined"
+          :name="ev.name"
+          :active-class="ev.activeClass"
+          :eventsList="ev.eventsList"
+          :icon="ev.icon"/>
+      </div>
     </div>
-    {{eventTypes}}
-    {{commsFailed}}
   </div>
 </template>
 
@@ -49,7 +50,7 @@ export default {
         {
           name: 'Falha de Comunicação',
           activeClass: 'card-active-warning',
-          eventsList: this.commsFailed,
+          eventsList: [...this.otherEvents.slave_connection_fail, ...this.otherEvents.transductor_connection_fail],
           icon: 'precaria'
         },
         {
@@ -64,25 +65,7 @@ export default {
 
   props: {
     otherEvents: Object
-  },
-
-  computed: {
-    commsFailed () {
-      let arr = []
-      this.otherEvents.slave_connection_fail.forEach(element => {
-        arr.push(element)
-      })
-      this.otherEvents.transductor_connection_fail.forEach(element => {
-        arr.push(element)
-      })
-      return arr
-      // return [
-      //   ...this.otherEvents.slave_connection_fail,
-      //   ...this.otherEvents.transductor_connection_fail
-      // ]
-    }
   }
-
 }
 </script>
 

@@ -2,7 +2,6 @@
   <div
     class="q-ma-none q-py-none q-pr-none"
   >
-    {{selectedTransductor}}
     <div class="row q-col-gutter-md">
       <div class="col-6">
         <dash-consumption-generation-card

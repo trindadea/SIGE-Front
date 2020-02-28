@@ -79,19 +79,10 @@ export default {
     },
 
     changeTabJob () {
-      let currentItem = this.activeTab
-
       if (this.activeTab === '') {
         this.activeTab = this.campi[0].name
         this.currentCampus = this.campi[0]
       } else {
-        console.log({
-          'current': currentItem,
-          'index in campiName': this.campiName.indexOf(currentItem),
-          'campi': this.campi,
-          'campiName': this.campiName
-        })
-
         let a = this.campiName.indexOf(this.activeTab)
         this.activeTab = (a < this.campi.length - 1) ? this.campiName[a + 1] : this.campiName[0]
         this.currentCampus = (a < this.campi.length - 1) ? this.campi[a + 1] : this.campi[0]
