@@ -1,5 +1,5 @@
 <template>
-  <q-bar class="q-py-sm q-px-md row bottom">
+  <q-bar class="q-py-sm q-px-md row">
     <div
       class="col">
       <img src="statics/icons/logo_smi.svg" style="height: 28px;"/>
