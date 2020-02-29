@@ -21,14 +21,14 @@
 <script>
 import HTTP from '../../services/masterApi/http-common'
 
-import DashTopBar from 'components/dashboard/DashTopBar'
+import DashBottomBar from 'components/dashboard/DashBottomBar'
 import DashCampusTab from 'components/dashboard/DashCampusTab'
 import DashGeneralEventBar from 'components/dashboard/DashGeneralEventBar'
 
 export default {
   name: 'DashboardBase',
   components: {
-    'dash-bottom-bar': DashTopBar,
+    'dash-bottom-bar': DashBottomBar,
     DashCampusTab,
     DashGeneralEventBar
   },
