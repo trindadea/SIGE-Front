@@ -109,6 +109,7 @@ export default {
 
   .card-base {
     min-height: 100%;
+    max-height: 100%;
   }
 
   .card-title {

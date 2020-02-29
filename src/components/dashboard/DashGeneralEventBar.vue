@@ -1,6 +1,6 @@
 <template>
   <div class="base">
-    <div class="row q-px-md q-col-gutter-md base size" v-if="commsFailed !== []">
+    <div class="row q-px-md q-col-gutter-md base" v-if="commsFailed !== []">
       <div
         v-for="ev in eventTypes"
         :key="ev.id"
@@ -32,19 +32,106 @@ export default {
         {
           name: 'Tensão Crítica',
           activeClass: 'card-active-critical',
-          eventsList: this.otherEvents.critical_tension,
+          eventsList: [
+            {
+              id: 1,
+              location: 'somewhere in the distance',
+              campus: '',
+              transductor: '',
+              data: '',
+              start_time: '',
+              end_time: ''
+            },
+            {
+              id: 1,
+              location: 'somewhere in the distance',
+              campus: '',
+              transductor: '',
+              data: '',
+              start_time: '',
+              end_time: ''
+            },
+            {
+              id: 1,
+              location: 'somewhere in the distance',
+              campus: '',
+              transductor: '',
+              data: '',
+              start_time: '',
+              end_time: ''
+            }
+          ],
+          // eventsList: this.otherEvents.critical_tension,
           icon: 'critica'
         },
         {
           name: 'Queda de Fase',
           activeClass: 'card-active-critical',
-          eventsList: this.otherEvents.phase_drop,
+          eventsList: [
+            {
+              id: 1,
+              location: 'somewhere in the distance',
+              campus: '',
+              transductor: '',
+              data: '',
+              start_time: '',
+              end_time: ''
+            },
+            {
+              id: 1,
+              location: 'somewhere in the distance',
+              campus: '',
+              transductor: '',
+              data: '',
+              start_time: '',
+              end_time: ''
+            },
+            {
+              id: 1,
+              location: 'somewhere in the distance',
+              campus: '',
+              transductor: '',
+              data: '',
+              start_time: '',
+              end_time: ''
+            }
+          ],
+          // eventsList: this.otherEvents.phase_drop,
           icon: 'critica'
         },
         {
           name: 'Tensão Precária',
           activeClass: 'card-active-warning',
-          eventsList: this.otherEvents.precarious_tension,
+          eventsList: [
+            {
+              id: 1,
+              location: 'somewhere in the distance',
+              campus: '',
+              transductor: '',
+              data: '',
+              start_time: '',
+              end_time: ''
+            },
+            {
+              id: 1,
+              location: 'somewhere in the distance',
+              campus: '',
+              transductor: '',
+              data: '',
+              start_time: '',
+              end_time: ''
+            },
+            {
+              id: 1,
+              location: 'somewhere in the distance',
+              campus: '',
+              transductor: '',
+              data: '',
+              start_time: '',
+              end_time: ''
+            }
+          ],
+          // eventsList: this.otherEvents.precarious_tension,
           icon: 'precaria'
         },
         {
@@ -69,14 +156,13 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 
-  .size {
+  .evt-card-size {
     // min-height: 34.8vh;
     // max-height: 34.8vh;
     min-height: 36.3vh;
     max-height: 36.3vh;
-
   }
 
 </style>
