@@ -17,7 +17,7 @@
         content-class="bg-grey-3"
       >
         <q-scroll-area class="fit">
-          <q-list padding style="min-height: 100%;">
+          <q-list padding>
             <div v-for="item in menuItems" :key="item">
               <a :href="item.link" style="text-decoration: none" class="text-grey-10">
                 <q-item clickable v-ripple>
