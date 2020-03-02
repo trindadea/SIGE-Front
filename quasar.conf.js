@@ -26,7 +26,7 @@ module.exports = function (ctx) {
 
     extras: [
       // 'ionicons-v4',
-      // 'mdi-v3',
+      'mdi-v3',
       'fontawesome-v5',
       // 'eva-icons',
       // 'themify',

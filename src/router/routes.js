@@ -165,6 +165,20 @@ const routes = [
         component: () => import('components/dashboard/ConsumptionDashboard.vue')
       }
     ]
+  },
+  {
+    path: '/home',
+    component: () => import('components/home/HomeBase.vue'),
+    children: [
+      {
+        path: '',
+        component: () => import('components/home/Home.vue')
+      },
+      {
+        path: 'report',
+        component: () => import('components/home/Report.vue')
+      }
+    ]
   }
 ]
 
