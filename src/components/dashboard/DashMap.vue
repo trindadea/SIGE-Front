@@ -9,10 +9,12 @@
       :center="mapCenter"
       :options="mapOptions"
       id="region-map">
+
       <l-tile-layer
         :url="url"
         :attribution="attribution"
       />
+
       <l-circle
         v-for="transductor in transductors_points"
         :key="transductor.id"
@@ -21,6 +23,7 @@
         :l-style="transductor.style"
         :hover="true"
       />
+
     </l-map>
   </div>
 </template>

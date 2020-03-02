@@ -1,5 +1,6 @@
 <template>
   <div class="row">
+  <!-- <div class="row" style="max-height: 55vh!important"> -->
 
     <dash-map
       v-if="transductors !== []"

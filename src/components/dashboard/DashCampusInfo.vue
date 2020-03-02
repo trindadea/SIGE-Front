@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="q-ma-none q-py-none q-pr-none"
-  >
+  <div class="q-ma-none q-py-none q-pr-none">
     <div class="row q-col-gutter-md">
       <div class="col-6">
         <dash-consumption-generation-card
