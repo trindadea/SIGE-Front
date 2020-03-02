@@ -12,7 +12,7 @@
         @mouseover="miniState = false"
         @mouseout="miniState = true"
         :width="250"
-        :breakpoint="500"
+        :breakpoint="0"
         bordered
         content-class="bg-grey-3"
       >
