@@ -29,7 +29,7 @@
           </p>
 
           <div class="vertical-bottom text-center q-pb-xs q-mt-lg">
-            <small>{{ transductor.name || 'joisafd' }}</small>
+            <small>{{ formatText(transductor) }}</small>
           </div>
         </q-card-section>
 
@@ -59,6 +59,17 @@ export default {
   computed: {
     aboveSince () {
       return 1
+    }
+  },
+
+  methods: {
+    formatText (transductorObj) {
+      if (transductorObj.name === '') {
+        return 'Sem nome'
+      }
+      const strBreakpoint = 25
+      // return transductorObj.name.length > strBreakpoint ? transductorObj.name.slice(0, strBreakpoint) + '...' + transductorObj.name.slice(-(strBreakpoint)) : transductorObj.name
+      return transductorObj.name.length > strBreakpoint ? transductorObj.name.slice(0, strBreakpoint) + '...' : transductorObj.name
     }
   }
 }
