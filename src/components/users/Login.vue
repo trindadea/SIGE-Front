@@ -12,7 +12,7 @@
       <div class="primary-text q-mb-lg">
         Eficiência energética em prédios públicos da Universidade de Brasília
       </div>
-      <div class="secondary-text q-mb-lg">
+      <div class="secondary-text">
         Sistema de monitoramento e gestão energética de edificações da Universidade de Brasília
         <br><br>
         Monitora, em tempo real, mais de 30 pontos da rede elétrica de UnB. Incluindo a produção de energia dos sistemas de geração fotovoltaica implantados na Universidade.
@@ -23,14 +23,14 @@
         class="bg-grey-1 text-grey-9"
         bordered
       >
-        <div class="q-pt-lg row q-mb-lg" id="partners">
+        <div class="row q-mb-lg q-pr-md" id="partners">
           <div
             v-for="partner in partners" :key="partner.id"
-            class="col">
+            class="col-6 col-md-3">
             <q-img
               contain
               :src="partner"
-              style="max-height: 300px; max-width: 100%; min-width: 60px"
+              style="height: 180px;"
             />
           </div>
         </div>
@@ -89,7 +89,8 @@ export default {
       partners: [
         'https://www.infoescola.com/wp-content/uploads/2016/02/unb.png',
         'statics/ceb_partner.jpg',
-        'statics/transparents/logo_PED_vertical_com_sigla.png'
+        'statics/transparents/logo_PED_vertical_com_sigla.png',
+        'statics/transparents/logo_finatec@3x.png'
       ],
       unbenergia: 'statics/transparents/proj_trans_l-1.png'
     }
