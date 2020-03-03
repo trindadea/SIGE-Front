@@ -53,7 +53,10 @@ export default {
   },
 
   props: {
-    transductor: Object
+    transductor: {
+      type: Object,
+      required: true
+    }
   },
 
   computed: {
@@ -64,11 +67,10 @@ export default {
 
   methods: {
     formatText (transductorObj) {
-      if (transductorObj.name === '') {
+      const strBreakpoint = 18
+      if (transductorObj === {} || transductorObj.name === '') {
         return 'Sem nome'
       }
-      const strBreakpoint = 25
-      // return transductorObj.name.length > strBreakpoint ? transductorObj.name.slice(0, strBreakpoint) + '...' + transductorObj.name.slice(-(strBreakpoint)) : transductorObj.name
       return transductorObj.name.length > strBreakpoint ? transductorObj.name.slice(0, strBreakpoint) + '...' : transductorObj.name
     }
   }

@@ -4,29 +4,22 @@
       <div class="col-6">
         <dash-consumption-generation-card
           class="height-conf"
-          v-if="selectedTransductor"
-          :transductor="selectedTransductor"
-      />
+          :transductor="selectedTransductor"/>
       </div>
       <div class="col-6">
         <dash-last-72h-card
           class="height-conf"
-          v-if="selectedTransductor"
-          :transductor="selectedTransductor"
-        />
+          :transductor="selectedTransductor"/>
       </div>
     </div>
     <div>
       <dash-charge-bar-card
         class="q-mb-md height-conf"
-        v-if="selectedTransductor"
-        :transductor="selectedTransductor"
-      />
+        :transductor="selectedTransductor"/>
+
       <dash-last-measurement-card
         class="q-mb-none height-conf"
-        v-if="selectedTransductor"
-        :transductor="selectedTransductor"
-      />
+        :transductor="selectedTransductor"/>
     </div>
   </div>
 </template>

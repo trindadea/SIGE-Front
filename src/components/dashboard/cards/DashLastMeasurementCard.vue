@@ -6,7 +6,7 @@
       {{ transductor.name[0].toUpperCase() + transductor.name.slice(1) }}
     </q-card-section>
 
-    <q-card-section class="q-py-xs">
+    <q-card-section v-if="rtm.length !== 0" class="q-pt-none q-pb-xs">
       <table class="readings">
         <tr class="row">
           <th class="col h4">
@@ -22,41 +22,52 @@
             Últimas 72h
           </th>
         </tr>
+
         <tr class="row">
-          <td class="col">A - {{ 123 }}V</td>
-          <td class="col">A - {{ 123 }}A</td>
-          <td class="col">A - {{ 123 }}W</td>
+          <td class="col">A - {{ rtm.tension_a }}V</td>
+          <td class="col">A - {{ rtm.current_a }}A</td>
+          <td class="col">A - {{ rtm.active_power_a }}W</td>
           <td class="col">
             {{ 0 }} <q-icon :style="{opacity: 0.5}" :name="'img:statics/icons/ic_ocorrencia_critica_mono.svg'"/>
           </td>
         </tr>
+
         <tr class="row">
-          <td class="col">B - {{ 123 }}V</td>
-          <td class="col">B - {{ 123 }}A</td>
-          <td class="col">R - {{ 123 }}kVAr</td>
+          <td class="col">B - {{ rtm.tension_b }}V</td>
+          <td class="col">B - {{ rtm.current_b }}A</td>
+          <td class="col">B - {{ rtm.active_power_b }}kVAr</td>
           <td class="col">
             {{ 0 }} <q-icon :style="{opacity: 0.5}" :name="'img:statics/icons/ic_ocorrencia_precaria_mono.svg'"/>
           </td>
-
         </tr>
+
         <tr class="row">
-          <td class="col">C - {{ 123 }}V</td>
-          <td class="col">C - {{ 123 }}A</td>
-          <td class="col">T - {{ 123 }}kVa</td>
+          <td class="col">C - {{ rtm.tension_c }}V</td>
+          <td class="col">C - {{ rtm.current_c }}A</td>
+          <td class="col">T - {{ rtm.active_power_c }}kVa</td>
           <td class="col"></td>
         </tr>
       </table>
+    </q-card-section>
+
+    <q-card-section class="q-pt-xs">
+      <h6 class="text-center" style="color: rgba(255, 255, 255, 0.6)">
+        Última medida não disponível
+      </h6>
     </q-card-section>
   </q-card>
 </template>
 
 <script>
+import HTTP from '../../../services/masterApi/http-common'
+
 export default {
   name: 'DashLastMeasurementCard',
 
   data () {
     return {
-
+      rtm: [],
+      transductor_occurences: {}
     }
   },
 
@@ -65,6 +76,38 @@ export default {
       type: Object,
       required: true
     }
+  },
+
+  methods: {
+    getLastMeasurement () {
+      HTTP
+        .get(`/realtime-measurements/?serial_number=${this.transductor.serial_number}`)
+        .then((res) => {
+          this.rtm = res.data
+        })
+        .catch((err) => {
+          console.error(err)
+        })
+    },
+    getTransductorsLast72h () {
+      HTTP
+        .get(`/occurences/?type=period&serial_number=${this.transductor.serial_number}`)
+        .then((res) => {
+          this.transductor_occurences = res.data
+        })
+        .catch((err) => {
+          console.error(err)
+        })
+    }
+  },
+
+  async mounted () {
+    await this.getLastMeasurement()
+    await this.getTransductorsLast72h()
+  },
+
+  async beforeUpdate () {
+    await this.getTransductorsLast72h()
   }
 }
 </script>
@@ -81,10 +124,6 @@ export default {
     line-height: 36px;
     size: 24px;
     text-transform: uppercase;
-  }
-
-  .title {
-
   }
 
   td {

@@ -6,15 +6,13 @@
       v-if="transductors !== []"
       class="col-7"
       :transductors="transductors"
-      :current-campus="selectedCampus"
-    />
+      :current-campus="selectedCampus"/>
 
     <dash-campus-info
       class="col-5"
       v-if="selectedTransductor !== {}"
       :selected-transductor="selectedTransductor"
-      :current-campus="selectedCampus"
-    />
+      :current-campus="selectedCampus"/>
 
   </div>
 </template>
@@ -75,7 +73,8 @@ export default {
 
   mounted () {
     this.selectTransductor()
-    setInterval(this.selectTransductor, 10000)
+    setInterval(this.selectTransductor, 1000)
+    // setInterval(this.selectTransductor, 10000)
   }
 }
 </script>

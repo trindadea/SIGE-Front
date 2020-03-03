@@ -70,7 +70,7 @@ export default {
         return 'Sem localização'
       }
 
-      const strBreakpoint = 8
+      const strBreakpoint = 100
       let splittedLocation = eventObj.location.length > strBreakpoint ? eventObj.location.slice(0, strBreakpoint) + '...' + eventObj.location.slice(-strBreakpoint) : eventObj.location
       let formattedStr = ''
 

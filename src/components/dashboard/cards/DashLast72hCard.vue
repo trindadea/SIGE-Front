@@ -9,7 +9,9 @@
     </q-card-section>
     <q-card-section
       class="row q-col-gutter-none q-pt-lg">
-      <div class="col text-center">
+      <div
+        class="col text-center"
+        :class="qtdMajorEvents === 0 ? 'inactive' : ''">
         <p class="counter q-mb-none">
           {{ qtdMajorEvents }}
           <q-icon :name="qtdMajorEvents > 0 ? 'img:statics/icons/ic_ocorrencia_critica_color.svg' : 'img:statics/icons/ic_ocorrencia_critica_mono.svg'"/>
@@ -18,7 +20,9 @@
           Graves
         </small>
       </div>
-      <div class="col text-center">
+      <div
+        class="col text-center"
+        :class="qtdMinorEvents === 0 ? 'inactive' : ''">
         <p class="counter q-mb-none">
           {{ qtdMinorEvents }}
           <q-icon :name="qtdMinorEvents > 0 ? 'img:statics/icons/ic_ocorrencia_precaria_color.svg' : 'img:statics/icons/ic_ocorrencia_precaria_mono.svg'"/>
@@ -55,6 +59,10 @@ export default {
     font-size: 42px;
     font-weight: bold;
     line-height: 3px;
+  }
+
+  .inactive {
+    opacity: .6;
   }
 
 </style>

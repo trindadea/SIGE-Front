@@ -1,7 +1,7 @@
 <template>
   <div class="q-pr-md q-ma-none">
-      <!-- style="height: 55vh!important" -->
     <l-map
+      style="height: 53.9vh!important"
       class="rounded-borders cursor-not-allowed"
       :zoom="15"
       :min-zoom="15"

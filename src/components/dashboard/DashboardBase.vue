@@ -1,6 +1,7 @@
 <template>
   <div class="base" id="base">
     <div v-if="!requestsError">
+
       <dash-campus-tab
         v-if="campiList"
         :campi="campiList"/>
@@ -10,8 +11,11 @@
         class="q-pb-sm"
         :other-events="eventsInProgress"/>
 
-      <dash-bottom-bar v-if="eventsInProgress" :alerts="alerts"/>
+      <dash-bottom-bar
+        v-if="eventsInProgress"
+        :alerts="alerts"/>
     </div>
+
     <div v-else>
       CHECK YOUR API
     </div>
@@ -84,11 +88,16 @@ export default {
 
   created () {
     this.getAPIInfo()
+    setInterval(this.getAPIInfo, 60000) // updates data every minute
   }
 }
 </script>
 
 <style lang="scss">
+  html {
+    background-color: #00080f;
+  }
+
   .base {
     background-color: #00080f;
     color: rgba($color: white, $alpha: .6);
