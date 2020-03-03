@@ -2,7 +2,12 @@
   <q-card
     flat
     class="card-bg">
-    <q-card-section class="q-pt-xs q-pb-none text-center card-title">
+
+    <q-inner-loading dark :showing="transductor === undefined">
+      <q-spinner-ios size="50px" color="primary" />
+    </q-inner-loading>
+
+    <q-card-section v-if="transductor" class="q-pt-xs q-pb-none text-center card-title">
       {{ transductor.name[0].toUpperCase() + transductor.name.slice(1) }}
     </q-card-section>
 
@@ -50,7 +55,7 @@
       </table>
     </q-card-section>
 
-    <q-card-section class="q-pt-xs">
+    <q-card-section v-if="transductor" class="q-pt-xs">
       <h6 class="text-center" style="color: rgba(255, 255, 255, 0.6)">
         Última medida não disponível
       </h6>

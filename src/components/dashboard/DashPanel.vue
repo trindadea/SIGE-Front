@@ -73,7 +73,7 @@ export default {
 
   mounted () {
     this.selectTransductor()
-    setInterval(this.selectTransductor, 1000)
+    setInterval(this.selectTransductor, 10000)
     // setInterval(this.selectTransductor, 10000)
   }
 }

@@ -101,7 +101,8 @@ export default {
     //   },
     //   job: this.changeTabJob
     // })
-    setInterval(this.changeTabJob, 30000)
+    setInterval(this.changeTabJob, 5000)
+    // setInterval(this.changeTabJob, 30000)
   }
 }
 </script>
