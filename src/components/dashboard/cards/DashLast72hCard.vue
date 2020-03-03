@@ -3,11 +3,18 @@
   <q-card
     flat
     class="col card-base card-bg">
+    <q-inner-loading dark :showing="last72hEvents === undefined">
+      <q-spinner-ios size="50px" color="grey-4" thickness="7"/>
+    </q-inner-loading>
+
     <q-card-section
+      v-if="last72hEvents"
       class="q-py-xs card-title text-center">
       Últimas 72h
     </q-card-section>
+
     <q-card-section
+      v-if="last72hEvents"
       class="row q-col-gutter-none q-pt-lg">
       <div
         class="col text-center"
@@ -32,6 +39,7 @@
         </small>
       </div>
     </q-card-section>
+
   </q-card>
 </div>
 </template>

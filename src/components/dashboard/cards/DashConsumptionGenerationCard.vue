@@ -4,7 +4,7 @@
     <div class="col">
       <q-card flat class="card-base card-bg">
         <q-inner-loading dark :showing="transductor === undefined">
-          <q-spinner-ios size="50px" color="primary" />
+          <q-spinner-ios size="50px" color="grey-4" thickness="7"/>
         </q-inner-loading>
 
         <q-card-section
@@ -28,7 +28,7 @@
     <div class="col">
       <q-card flat class="card-base card-bg">
         <q-inner-loading dark :showing="transductor === undefined">
-          <q-spinner-ios size="50px" color="primary" />
+          <q-spinner-ios size="50px" color="grey-4" thickness="7"/>
         </q-inner-loading>
 
         <q-card-section
