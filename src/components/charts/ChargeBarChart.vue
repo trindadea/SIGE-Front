@@ -21,8 +21,9 @@ export default {
     // 'no-data-placeholder': NoDataPlaceholder,
   },
 
-  props: [
-  ],
+  props: {
+    selectedTransductor: Object
+  },
 
   data () {
     return {
@@ -34,7 +35,6 @@ export default {
       measurements: [],
       transductorList: [],
       selectedCampus: '',
-      selectedTransductor: '',
       selectedPeriod: 'Hoje'
     }
   },

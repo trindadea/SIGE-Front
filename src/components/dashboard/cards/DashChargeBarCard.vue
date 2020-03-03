@@ -2,8 +2,14 @@
   <q-card
     flat
     class="card-bg">
-    <q-card-section class="text-center card-title q-px-sm q-py-xs">
-      <charge-bar-chart/>
+    <q-inner-loading dark :showing="transductor === undefined">
+      <q-spinner-ios size="50px" color="grey-4" thickness="7"/>
+    </q-inner-loading>
+
+    <q-card-section
+      v-if="transductor"
+      class="text-center card-title q-px-sm q-py-xs">
+      <charge-bar-chart selectedTransductor="transductor"/>
     </q-card-section>
   </q-card>
 </template>
@@ -14,6 +20,10 @@ import ChargeBarChart from '../../charts/ChargeBarChart.vue'
 export default {
   components: {
     ChargeBarChart
+  },
+
+  props: {
+    transductor: Object
   }
 }
 </script>
