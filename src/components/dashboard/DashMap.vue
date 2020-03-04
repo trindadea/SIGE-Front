@@ -3,9 +3,9 @@
     <l-map
       style="height: 53.9vh!important"
       class="rounded-borders cursor-not-allowed"
-      :zoom="15"
-      :min-zoom="15"
-      :max-zoom="15"
+      :zoom="16"
+      :min-zoom="16"
+      :max-zoom="16"
       :center="mapCenter"
       :options="mapOptions"
       id="region-map">
@@ -44,7 +44,8 @@ export default {
       type: Array,
       required: true
     },
-    currentCampus: Object
+    currentCampus: Object,
+    selectedTransductor: Object
   },
 
   data () {
@@ -80,6 +81,10 @@ export default {
     transductors_points () {
       let arr = []
 
+      if (this.transductors === 0) {
+        return []
+      }
+
       this.transductors.forEach(transductor => {
         arr.push(
           {
@@ -102,8 +107,13 @@ export default {
       if (arrOfTransductorPoints.length !== 0) {
         return arrOfTransductorPoints[Math.floor(Math.random() * arrOfTransductorPoints.length)].coordinates
       }
+      // let current = this.selectedTransductor
 
-      return [0, 0]
+      // if (current) {
+      //   return [current.geolocation_latitude, current.geolocation_longitude]
+      // }
+
+      return [-15.9895825, -48.0447814]
     }
 
   },
