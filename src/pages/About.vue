@@ -40,7 +40,7 @@ export default {
 .img {
   height: 100%;
   width: 25%;
-  margin-top: 1%;
+  margin-top: 3%;
 }
 .logo-unb {
   height: auto;
@@ -73,7 +73,7 @@ export default {
   line-height: 1.43;
   letter-spacing: 0.25px;
   color: rgba(0, 0, 0, 0.87);
-  margin-bottom: 1.5%;
+  margin-bottom: 1%;
 }
 .collaborators {
   width: 40vw;
@@ -81,10 +81,11 @@ export default {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  margin-top: 1%;
+  margin-top: 3%;
 }
 .created {
-  margin-top: 2%;
+  margin-top: 4%;
+  margin-bottom: 2%;
   display: flex;
   justify-content: center;
   flex-direction: column;
