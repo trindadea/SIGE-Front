@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import HTTP from '../../services/masterApi/http-common'
+import MASTER from '../../services/masterApi/http-common'
 
 export default {
   data () {
@@ -89,7 +89,7 @@ export default {
       console.log(data)
       this.loading = true
 
-      HTTP
+      MASTER
         .post(`${masterAddress}/buildings/`, data)
         .then((res) => {
           this.loading = false
@@ -113,7 +113,7 @@ export default {
 
   created () {
     const masterUrl = '' || process.env.MASTER_URL
-    HTTP
+    MASTER
       .get(`${masterUrl}/campi/`)
       .then((res) => {
         // console.log(res.data)

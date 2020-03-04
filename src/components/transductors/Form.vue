@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import HTTP from '../../services/masterApi/http-common'
+import MASTER from '../../services/masterApi/http-common'
 export default {
   data () {
     return {
@@ -92,7 +92,7 @@ export default {
   },
   methods: {
     addTransductor () {
-      HTTP
+      MASTER
         .post('energy_transductors', {
           serial_number: this.serial_number,
           ip_address: this.ip_address,
@@ -113,7 +113,7 @@ export default {
         })
     },
     getTransductorModels () {
-      HTTP
+      MASTER
         .get('transductor_models')
         .then((res) => {
           this.transductorModels = res.data

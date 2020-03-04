@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import HTTP from '../../services/masterApi/http-common'
+import MASTER from '../../services/masterApi/http-common'
 
 export default {
   data () {
@@ -75,7 +75,7 @@ export default {
       console.log(data)
       this.loading = true
 
-      HTTP
+      MASTER
         .post(`${masterAddress}/transductor_models/`, data)
         .then((res) => {
           this.loading = false

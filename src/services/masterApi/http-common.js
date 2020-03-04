@@ -16,8 +16,8 @@ if (typeof window === 'undefined') {
   }
 }
 
-const HTTP = axios.create({
+const MASTER = axios.create({
   baseURL: `http://${window.location.hostname}:8001/`
 })
 
-export default HTTP
+export default MASTER

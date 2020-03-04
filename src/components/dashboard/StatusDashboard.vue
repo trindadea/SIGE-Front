@@ -95,7 +95,7 @@
 </template>
 
 <script>
-import HTTP from '../../services/masterApi/http-common'
+import MASTER from '../../services/masterApi/http-common'
 import DashboardSummaryStatusCard from 'components/dashboard/DashboardSummaryStatusCard.vue'
 import DownHistoryList from 'components/dashboard/DownHistoryList.vue'
 
@@ -168,7 +168,7 @@ export default {
     getTransductors () {
       this.loading = true
 
-      HTTP
+      MASTER
         .get('active_transductors')
         .then((res) => {
           this.loading = false
@@ -185,7 +185,7 @@ export default {
     getSlaves () {
       this.loading = true
 
-      // HTTP
+      // MASTER
       //   .get('slaves')
       //   .then((res) => {
       //     console.log(res)
@@ -212,7 +212,7 @@ export default {
     },
 
     getAllTransductors () {
-      HTTP
+      MASTER
         .get('energy_transductors')
         .then(res => {
           this.allTransductors = res.data

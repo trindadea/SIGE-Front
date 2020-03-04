@@ -17,6 +17,10 @@ const routes = [
     ]
   },
   {
+    path: '/transductor/:id',
+    component: () => import('pages/Transductor.vue')
+  },
+  {
     path: '/transductors',
     component: () => import('components/transductors/TransductorsBase.vue'),
     children: [
