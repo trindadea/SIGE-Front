@@ -13,7 +13,7 @@ export default {
       type: 'positive',
       message: `Voce saiu da sua conta.`
     })
-    this.$router.push('/')
+    this.$router.push('/home/')
   }
 }
 </script>

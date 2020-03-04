@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import Header from 'components/home/Header.vue'
+import Header from 'components/Header.vue'
 const menuItems = [
   {
     name: 'Início',

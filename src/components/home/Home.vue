@@ -46,6 +46,9 @@ let graphData = [
   }
 ]
 export default {
+  created () {
+    this.$store.commit('changePage', 'Início')
+  },
   data () {
     return {
       graphData

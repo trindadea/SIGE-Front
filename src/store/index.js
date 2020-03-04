@@ -15,6 +15,14 @@ export default function (/* { ssrContext } */) {
     modules: {
       // example
     },
+    state: {
+      page: ''
+    },
+    mutations: {
+      changePage (state, page) {
+        state.page = page
+      }
+    },
 
     // enable strict mode (adds overhead!)
     // for dev mode only

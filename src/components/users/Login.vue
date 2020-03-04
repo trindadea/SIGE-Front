@@ -82,6 +82,9 @@
 import HTTP from '../../services/masterApi/http-common'
 
 export default {
+  created () {
+    this.$store.commit('changePage', 'Login')
+  },
   data () {
     return {
       email: '',
@@ -110,7 +113,7 @@ export default {
             type: 'positive',
             message: `Voce está autenticado.`
           })
-          this.$router.push('/')
+          this.$router.push('/home/')
         })
         .catch(err => {
           console.log(err)

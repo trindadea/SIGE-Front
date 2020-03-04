@@ -55,6 +55,9 @@
 import HTTP from '../../services/masterApi/http-common'
 
 export default {
+  created () {
+    this.$store.commit('changePage', 'Cadastro')
+  },
   name: '',
   data () {
     return {
@@ -83,7 +86,7 @@ export default {
               console.log(res)
               this.$q.localStorage.set('userToken', res.data.token)
               this.$q.localStorage.set('userID', res.data.user.id)
-              this.$router.push('/')
+              this.$router.push('/home/')
               this.$q.notify({
                 type: 'positive',
                 message: `Sua conta foi criada com sucesso.`

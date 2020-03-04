@@ -61,6 +61,7 @@ export default {
     }
   },
   created () {
+    this.$store.commit('changePage', 'Editar Dados')
     if (!this.$q.localStorage.getItem('userID') ||
         !this.$q.localStorage.getItem('userToken')) {
       this.$q.notify({
