@@ -57,7 +57,8 @@ export default {
     return {
       activeTab: '',
       campiName: [],
-      currentCampus: undefined
+      currentCampus: undefined,
+      timeout: ''
     }
   },
 
@@ -101,8 +102,14 @@ export default {
     //   },
     //   job: this.changeTabJob
     // })
-    setInterval(this.changeTabJob, 5000)
-    // setInterval(this.changeTabJob, 30000)
+    // setInterval(this.changeTabJob, 5000)
+    // setTimeout(this.changeTabJob, 30000)
+    this.timeout = setTimeout(this.changeTabJob, 3000)
+  },
+
+  updated () {
+    clearTimeout(this.timeout)
+    this.timeout = setTimeout(this.changeTabJob, 3000)
   }
 }
 </script>
