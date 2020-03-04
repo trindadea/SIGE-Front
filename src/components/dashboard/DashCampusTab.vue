@@ -94,6 +94,7 @@ export default {
   created () {
     this.setNames()
     this.changeTabJob()
+
     // eslint-disable-next-line no-unused-vars
     // let tabCron = this.$crontab.addJob({
     //   name: 'change tab job',
@@ -104,12 +105,17 @@ export default {
     // })
     // setInterval(this.changeTabJob, 5000)
     // setTimeout(this.changeTabJob, 30000)
-    this.timeout = setTimeout(this.changeTabJob, 3000)
+
+    this.timeout = setTimeout(this.changeTabJob, 1000)
   },
 
   updated () {
     clearTimeout(this.timeout)
-    this.timeout = setTimeout(this.changeTabJob, 3000)
+    this.timeout = setTimeout(this.changeTabJob, 1000)
+  },
+
+  beforeDestroy () {
+    clearInterval(this.timeout)
   }
 }
 </script>

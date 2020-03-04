@@ -34,7 +34,8 @@ export default {
   data () {
     return {
       transductors: [],
-      selectedTransductor: {}
+      selectedTransductor: {},
+      interval: undefined
     }
   },
 
@@ -74,8 +75,12 @@ export default {
 
   mounted () {
     this.selectTransductor()
-    setInterval(this.selectTransductor, 1000)
+    this.interval = setInterval(this.selectTransductor, 1000)
     // setInterval(this.selectTransductor, 10000)
+  },
+
+  beforeDestroy () {
+    clearInterval(this.interval)
   }
 }
 </script>

@@ -14,7 +14,7 @@
         </q-card-section>
 
         <q-card-section
-          v-if="transductor"
+          v-if="transductor && false"
           class="q-pt-none q-pb-xs q-px-sm text-center">
             <triangular-consumption-chart class="fit q-pt-none q-pb-xs"/>
             <!-- TODO: esse componente deve ser revisado -->
@@ -22,6 +22,14 @@
               acima do cont.- {{aboveSince}}min
             </small>
         </q-card-section>
+
+        <q-card-section
+          v-else
+          class="q-mt-sm q-pb-none text-center q-pt-lg"
+          style="height:100%; margin-bottom: auto;">
+          <small>Não disponível</small>
+        </q-card-section>
+
       </q-card>
     </div>
 
@@ -38,7 +46,7 @@
         </q-card-section>
 
         <q-card-section
-          v-if="transductor"
+          v-if="transductor && false"
           class="q-mt-sm q-pb-none" style="height:100%; margin-bottom: auto;">
           <p class="custom-h2 text-center absolute-middle">
             {{ generated }} kW
@@ -49,6 +57,12 @@
           </div>
         </q-card-section>
 
+        <q-card-section
+          v-else
+          class="q-mt-sm q-pb-none text-center q-pt-lg"
+          style="height:100%; margin-bottom: auto;">
+          <small>Não disponível</small>
+        </q-card-section>
       </q-card>
     </div>
   </div>
