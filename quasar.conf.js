@@ -19,7 +19,7 @@ module.exports = function (ctx) {
     ],
 
     css: [
-      'app.styl'
+      'app.sass'
     ],
 
     preFetch: true,
