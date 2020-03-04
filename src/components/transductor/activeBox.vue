@@ -1,7 +1,10 @@
 <template>
   <q-card class="status-card">
     <q-card-section :class="this.active? 'active': 'inactive'">
-      <div class="status-title">{{this.active?"Ativo" : "Inativo"}}</div>
+      <div class="status-title">
+        <q-icon :name="this.active? 'flash_on' : 'flash_off'" />
+        {{this.active?"Ativo" : "Inativo"}}
+      </div>
     </q-card-section>
     <div class="card-content">
       <p v-if="this.campusName !== ''">Campus {{this.campusName}}</p>
@@ -63,7 +66,7 @@ export default {
   padding: 10px;
 }
 .inactive {
-  background-color: #f00;
+  background-color: #f13209;
   text-align: center;
   padding: 10px;
 }

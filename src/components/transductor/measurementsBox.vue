@@ -100,8 +100,6 @@ export default {
   font-family: Roboto;
   font-size: 12px;
   font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
   line-height: 1.33;
   letter-spacing: 2px;
   color: #00417e;

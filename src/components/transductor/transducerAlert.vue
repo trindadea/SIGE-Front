@@ -51,14 +51,12 @@ export default {
 .occurrence {
   text-align: center;
   background-color: #f5f5f5;
-  margin: 10%;
-  margin-top: 0;
-  margin-bottom: 5%;
+  // margin-top: 0;
+  // margin-bottom: 5%;
 }
 .occurrence-img {
   color: #f5f5f5;
   text-align: center;
-  margin-top: 10px;
   width: 20%;
   height: auto;
   margin-bottom: -6.2%;
@@ -77,7 +75,6 @@ export default {
   text-align: right;
   color: #f5f5f5;
   padding-top: 2%;
-  padding-bottom: 7%;
 }
 .text-type {
   font-family: Roboto;
@@ -100,7 +97,7 @@ export default {
 }
 .caption {
   font-family: Roboto;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
@@ -111,7 +108,7 @@ export default {
 }
 .caption-light {
   font-family: Roboto;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.43;
   letter-spacing: 0.25px;
   color: rgba(0, 0, 0, 0.87);
