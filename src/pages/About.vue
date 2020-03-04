@@ -35,6 +35,7 @@ export default {
   flex-direction: column;
   background-color: #ffffff;
   margin-right: 0;
+  margin-left: 0;
 }
 .img {
   height: 100%;
