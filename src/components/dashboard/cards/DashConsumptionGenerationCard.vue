@@ -24,7 +24,7 @@
         </q-card-section>
 
         <q-card-section
-          v-else
+          v-else-if="transductor"
           class="q-mt-sm q-pb-none text-center q-pt-lg"
           style="height:100%; margin-bottom: auto;">
           <small>Não disponível</small>
@@ -58,7 +58,7 @@
         </q-card-section>
 
         <q-card-section
-          v-else
+          v-else-if="transductor"
           class="q-mt-sm q-pb-none text-center q-pt-lg"
           style="height:100%; margin-bottom: auto;">
           <small>Não disponível</small>

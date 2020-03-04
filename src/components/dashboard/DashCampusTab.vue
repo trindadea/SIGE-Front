@@ -106,12 +106,12 @@ export default {
     // setInterval(this.changeTabJob, 5000)
     // setTimeout(this.changeTabJob, 30000)
 
-    this.timeout = setTimeout(this.changeTabJob, 1000)
+    this.timeout = setTimeout(this.changeTabJob, 60000)
   },
 
   updated () {
     clearTimeout(this.timeout)
-    this.timeout = setTimeout(this.changeTabJob, 1000)
+    this.timeout = setTimeout(this.changeTabJob, 60000)
   },
 
   beforeDestroy () {
