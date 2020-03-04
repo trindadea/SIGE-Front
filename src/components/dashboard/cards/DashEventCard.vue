@@ -29,7 +29,7 @@
             {{ formatText(ev) }}
           </p>
           <p class="bottom q-mt-sm">
-            E mais {{ eventsList.length - 9 }} outros...
+            E mais {{ eventsList.length - 8 }} outro(s)
           </p>
         </div>
 

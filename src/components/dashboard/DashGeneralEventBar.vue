@@ -59,6 +59,60 @@ export default {
               data: '',
               start_time: '',
               end_time: ''
+            },
+            {
+              id: 1,
+              location: 'somewhere in the distance',
+              campus: '',
+              transductor: '',
+              data: '',
+              start_time: '',
+              end_time: ''
+            },
+            {
+              id: 1,
+              location: 'somewhere in the distance',
+              campus: '',
+              transductor: '',
+              data: '',
+              start_time: '',
+              end_time: ''
+            },
+            {
+              id: 1,
+              location: 'somewhere in the distance',
+              campus: '',
+              transductor: '',
+              data: '',
+              start_time: '',
+              end_time: ''
+            },
+            {
+              id: 1,
+              location: 'somewhere in the distance',
+              campus: '',
+              transductor: '',
+              data: '',
+              start_time: '',
+              end_time: ''
+            },
+            {
+              id: 1,
+              location: 'somewhere in the distance',
+              campus: '',
+              transductor: '',
+              data: '',
+              start_time: '',
+              end_time: ''
+            },
+            {
+              id: 1,
+              location: 'somewhere in the distance',
+              campus: '',
+              transductor: '',
+              data: '',
+              start_time: '',
+              end_time: ''
             }
           ],
           // eventsList: this.otherEvents.critical_tension,
