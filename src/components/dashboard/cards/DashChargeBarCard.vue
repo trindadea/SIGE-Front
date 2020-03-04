@@ -9,7 +9,7 @@
     <q-card-section
       v-if="transductor"
       class="text-center card-title q-px-sm q-py-xs">
-      <charge-bar-chart selectedTransductor="transductor"/>
+      <charge-bar-chart :selectedTransductor="transductor"/>
     </q-card-section>
   </q-card>
 </template>

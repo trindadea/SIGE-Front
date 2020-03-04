@@ -6,12 +6,14 @@
           class="height-conf"
           :transductor="selectedTransductor"/>
       </div>
+
       <div class="col-6">
         <dash-last-72h-card
           class="height-conf"
           :last72hEvents="last72hEvents"/>
       </div>
     </div>
+
     <div>
       <dash-charge-bar-card
         class="q-mb-md height-conf"

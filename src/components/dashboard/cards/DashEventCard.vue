@@ -8,7 +8,7 @@
       <q-card-section
         class="text-center card-title q-px-none">
         <span v-if="isActive">
-          <q-icon :name="`img:statics/icons/ic_ocorrencia_${icon}_badge.svg`"/>
+          <q-icon :name="`img:statics/icons/ic_ocorrencia_${icon}.svg`"/>
         </span> {{name}}
       </q-card-section>
 

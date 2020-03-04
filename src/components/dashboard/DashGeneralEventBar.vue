@@ -116,7 +116,7 @@ export default {
             }
           ],
           // eventsList: this.otherEvents.critical_tension,
-          icon: 'critica'
+          icon: 1
         },
         {
           name: 'Queda de Fase',
@@ -151,7 +151,7 @@ export default {
             }
           ],
           // eventsList: this.otherEvents.phase_drop,
-          icon: 'critica'
+          icon: 2
         },
         {
           name: 'Tensão Precária',
@@ -186,19 +186,19 @@ export default {
             }
           ],
           // eventsList: this.otherEvents.precarious_tension,
-          icon: 'precaria'
+          icon: 3
         },
         {
           name: 'Falha de Comunicação',
           activeClass: 'card-active-warning',
           eventsList: [...this.otherEvents.slave_connection_fail, ...this.otherEvents.transductor_connection_fail],
-          icon: 'precaria'
+          icon: 4
         },
         {
           name: 'Máximo Consumo',
           activeClass: 'card-active-warning',
           eventsList: [],
-          icon: 'precaria'
+          icon: 5
         }
       ]
     }
