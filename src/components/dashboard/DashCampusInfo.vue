@@ -55,7 +55,7 @@ export default {
   methods: {
     getLast72hEvents (campus) {
       HTTP
-        .get(`/occurences/?`)
+        .get(`/occurences/?type=period&campus=${campus.id}`)
         .then((res) => {
           this.last72hEvents = res.data
         })

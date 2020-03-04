@@ -18,10 +18,10 @@
       class="row q-col-gutter-none q-pt-lg">
       <div
         class="col text-center"
-        :class="qtdMajorEvents === 0 ? 'inactive' : ''">
+        :class="this.last72hEvents.critical_events_count === 0 ? 'inactive' : ''">
         <p class="counter q-mb-none">
-          {{ qtdMajorEvents }}
-          <q-icon :name="qtdMajorEvents > 0 ? 'img:statics/icons/ic_ocorrencia_critica_color.svg' : 'img:statics/icons/ic_ocorrencia_critica_mono.svg'"/>
+          {{ this.last72hEvents.critical_events_count }}
+          <q-icon :name="this.last72hEvents.critical_events_count > 0 ? 'img:statics/icons/ic_ocorrencia_critica_color.svg' : 'img:statics/icons/ic_ocorrencia_critica_mono.svg'"/>
         </p>
         <small class="text-center">
           Graves
@@ -29,10 +29,10 @@
       </div>
       <div
         class="col text-center"
-        :class="qtdMinorEvents === 0 ? 'inactive' : ''">
+        :class="this.last72hEvents.light_events_count === 0 ? 'inactive' : ''">
         <p class="counter q-mb-none">
-          {{ qtdMinorEvents }}
-          <q-icon :name="qtdMinorEvents > 0 ? 'img:statics/icons/ic_ocorrencia_precaria_color.svg' : 'img:statics/icons/ic_ocorrencia_precaria_mono.svg'"/>
+          {{ this.last72hEvents.light_events_count }}
+          <q-icon :name="this.last72hEvents.light_events_count > 0 ? 'img:statics/icons/ic_ocorrencia_precaria_color.svg' : 'img:statics/icons/ic_ocorrencia_precaria_mono.svg'"/>
         </p>
         <small class="text-center">
           Leves
@@ -50,8 +50,6 @@ export default {
 
   data () {
     return {
-      qtdMinorEvents: 0,
-      qtdMajorEvents: 0
     }
   },
 
