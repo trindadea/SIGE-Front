@@ -13,6 +13,9 @@ const routes = [
         path: ':transductor_id/detail',
         props: true,
         component: () => import('components/presentationDashboard/Page2.vue')
+      },
+      {
+        path: '/about', component: () => import('pages/About.vue')
       }
     ]
   },
