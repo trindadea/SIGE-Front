@@ -7,7 +7,7 @@
       <q-spinner-ios size="50px" color="grey-4" thickness="7"/>
     </q-inner-loading>
 
-    <q-card-section v-if="transductor" class="q-pt-xs q-pb-none text-center card-title">
+    <q-card-section v-if="transductor.name" class="q-pt-xs q-pb-none text-center card-title">
       {{ transductor.name[0].toUpperCase() + transductor.name.slice(1) }}
     </q-card-section>
 
@@ -78,7 +78,7 @@ export default {
 
   props: {
     transductor: {
-      type: Object,
+      // type: Object,
       required: true
     }
   },
@@ -103,16 +103,20 @@ export default {
         .catch((err) => {
           console.error(err)
         })
+    },
+
+    async getApiInfo () {
+      await this.getLastMeasurement()
+      await this.getTransductorsLast72h()
     }
   },
 
-  async mounted () {
-    await this.getLastMeasurement()
-    await this.getTransductorsLast72h()
+  mounted () {
+    this.getApiInfo()
   },
 
   async beforeUpdate () {
-    await this.getTransductorsLast72h()
+    this.getApiInfo()
   }
 }
 </script>

@@ -61,7 +61,7 @@ export default {
     name: String,
     activeClass: String,
     eventsList: Array,
-    icon: String
+    icon: Number
   },
 
   methods: {

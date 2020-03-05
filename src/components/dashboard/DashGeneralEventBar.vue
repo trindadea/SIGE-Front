@@ -1,9 +1,9 @@
 <template>
   <div class="base">
-    <div class="row q-px-md q-col-gutter-md base" v-if="commsFailed !== []">
+    <div class="row q-px-md q-col-gutter-md base">
       <div
         v-for="ev in eventTypes"
-        :key="ev.id"
+        :key="ev.name"
         class="col">
         <dash-event-card
           v-if="ev.eventsList !== undefined"
@@ -43,7 +43,7 @@ export default {
               end_time: ''
             },
             {
-              id: 1,
+              id: 12,
               location: 'somewhere in the distance',
               campus: '',
               transductor: '',
@@ -52,7 +52,7 @@ export default {
               end_time: ''
             },
             {
-              id: 1,
+              id: 13,
               location: 'somewhere in the distance',
               campus: '',
               transductor: '',
@@ -61,7 +61,7 @@ export default {
               end_time: ''
             },
             {
-              id: 1,
+              id: 14,
               location: 'somewhere in the distance',
               campus: '',
               transductor: '',
@@ -70,7 +70,7 @@ export default {
               end_time: ''
             },
             {
-              id: 1,
+              id: 15,
               location: 'somewhere in the distance',
               campus: '',
               transductor: '',
@@ -79,7 +79,7 @@ export default {
               end_time: ''
             },
             {
-              id: 1,
+              id: 16,
               location: 'somewhere in the distance',
               campus: '',
               transductor: '',
@@ -88,7 +88,7 @@ export default {
               end_time: ''
             },
             {
-              id: 1,
+              id: 17,
               location: 'somewhere in the distance',
               campus: '',
               transductor: '',
@@ -97,7 +97,7 @@ export default {
               end_time: ''
             },
             {
-              id: 1,
+              id: 18,
               location: 'somewhere in the distance',
               campus: '',
               transductor: '',
@@ -106,7 +106,7 @@ export default {
               end_time: ''
             },
             {
-              id: 1,
+              id: 19,
               location: 'somewhere in the distance',
               campus: '',
               transductor: '',
@@ -132,7 +132,7 @@ export default {
               end_time: ''
             },
             {
-              id: 1,
+              id: 1567,
               location: 'somewhere in the distance',
               campus: '',
               transductor: '',
@@ -141,7 +141,7 @@ export default {
               end_time: ''
             },
             {
-              id: 1,
+              id: 21567,
               location: 'somewhere in the distance',
               campus: '',
               transductor: '',
@@ -158,7 +158,7 @@ export default {
           activeClass: 'card-active-warning',
           eventsList: [
             {
-              id: 1,
+              id: 1567,
               location: 'somewhere in the distance',
               campus: '',
               transductor: '',
@@ -167,7 +167,7 @@ export default {
               end_time: ''
             },
             {
-              id: 1,
+              id: 1517,
               location: 'somewhere in the distance',
               campus: '',
               transductor: '',
@@ -176,7 +176,7 @@ export default {
               end_time: ''
             },
             {
-              id: 1,
+              id: 176,
               location: 'somewhere in the distance',
               campus: '',
               transductor: '',
