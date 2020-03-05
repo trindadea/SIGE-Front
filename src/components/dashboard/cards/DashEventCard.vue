@@ -77,7 +77,6 @@ export default {
       switch (this.name) {
         case 'Queda de Fase':
           formattedStr = `${splittedLocation[0].toUpperCase() + splittedLocation.slice(1)} (${eventObj.campus}) - ${Object.keys(eventObj.data)}`
-
           break
 
         case 'Falha de Comunicação':
