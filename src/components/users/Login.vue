@@ -95,7 +95,7 @@ export default {
         'statics/transparents/logo_PED_vertical_com_sigla.png',
         'statics/transparents/logo_finatec@3x.png'
       ],
-      unbenergia: 'statics/transparents/proj_trans_l-1.png'
+      unbenergia: 'statics/transparents/proj_trans_l.png'
     }
   },
   methods: {

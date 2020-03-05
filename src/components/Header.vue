@@ -14,17 +14,19 @@
             <div class="text-bold" style="font-size:1.3em">{{ username }}</div>
             <div>{{ useremail }}</div>
             <div class="q-pa-sm">
-              <q-btn @click="goToEdit">Alterar dados</q-btn>
-              <q-btn @click="goToLogout">Sair</q-btn>
+              <q-btn outline style="color: #0055aa;" @click="goToEdit">Alterar dados</q-btn>
+            </div>
+            <div class="q-pa-sm">
+              <q-btn outline style="color: #0055aa;" @click="goToLogout">Sair</q-btn>
             </div>
           </div>
           <div v-else class="col text-center">
             <div class="text-bold" style="font-size: 1.3em">Você não está autenticado</div>
             <div class="q-pa-sm">
-              <q-btn @click="goToLogin">Login</q-btn>
+              <q-btn outline style="color: #0055aa;" @click="goToLogin">Login</q-btn>
             </div>
             <div class="q-pa-sm">
-              <q-btn @click="goToRegister">Registro</q-btn>
+              <q-btn outline style="color: #0055aa;" @click="goToRegister">Registro</q-btn>
             </div>
           </div>
         </q-popup-edit>
