@@ -15,6 +15,18 @@
         :attribution="attribution"
       />
 
+      <!-- for custom icons -->
+      <!-- <l-marker
+        v-for="transductor in transductors_points"
+        :key="transductor.id"
+        :lat-lng="transductor.coordinates">
+        <l-icon
+          :icon-anchor="transductor.coordinates"
+          :icon-size="[120, 120]">
+          <img src="statics/icons/ic_ocorrencia_1.svg">
+        </l-icon>
+      </l-marker> -->
+
       <l-circle
         v-for="transductor in transductors_points"
         :key="transductor.id"
@@ -36,6 +48,8 @@ export default {
   components: {
     'l-map': Vue2Leaflet.LMap,
     'l-circle': Vue2Leaflet.LCircle,
+    // 'l-marker': Vue2Leaflet.LMarker,
+    // 'l-icon': Vue2Leaflet.LIcon,
     'l-tile-layer': Vue2Leaflet.LTileLayer
   },
 
@@ -85,15 +99,15 @@ export default {
         return []
       }
 
-      this.transductors.forEach(transductor => {
+      this.transductors.forEach(t => {
         arr.push(
           {
-            id: transductor.id,
-            name: transductor.name,
-            coordinates: [transductor.geolocation_latitude, transductor.geolocation_longitude],
+            id: t.id,
+            name: t.name,
+            coordinates: [t.geolocation_latitude, t.geolocation_longitude],
             style: {
-              color: 'green',
-              fillColor: 'lime',
+              color: t.broken ? 'green' : 'silver',
+              fillColor: t.broken ? 'lime' : 'red',
               fillOpacity: 1
             }
           }
