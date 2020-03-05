@@ -13,6 +13,9 @@ const routes = [
         path: ':transductor_id/detail',
         props: true,
         component: () => import('components/presentationDashboard/Page2.vue')
+      },
+      {
+        path: '/about', component: () => import('pages/About.vue')
       }
     ]
   },
@@ -173,6 +176,28 @@ const routes = [
       {
         path: '',
         component: () => import('components/transductorList/TransductorList.vue')
+      }
+    ]
+  },
+  {
+    path: '/users',
+    component: () => import('components/users/AuthBase.vue'),
+    children: [
+      {
+        path: 'login',
+        component: () => import('components/users/Login.vue')
+      },
+      {
+        path: 'register',
+        component: () => import('components/users/Register.vue')
+      },
+      {
+        path: 'edit',
+        component: () => import('components/users/UserUpdate.vue')
+      },
+      {
+        path: 'logout',
+        component: () => import('components/users/Logout.vue')
       }
     ]
   }
