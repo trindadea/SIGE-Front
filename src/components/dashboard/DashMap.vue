@@ -31,7 +31,7 @@
         v-for="transductor in transductors_points"
         :key="transductor.id"
         :lat-lng="transductor.coordinates"
-        :radius="18"
+        :radius="10"
         :l-style="transductor.style"
         :hover="true"
       />
@@ -46,10 +46,10 @@ import 'leaflet/dist/leaflet.css'
 
 export default {
   components: {
-    'l-map': Vue2Leaflet.LMap,
-    'l-circle': Vue2Leaflet.LCircle,
     // 'l-marker': Vue2Leaflet.LMarker,
     // 'l-icon': Vue2Leaflet.LIcon,
+    'l-map': Vue2Leaflet.LMap,
+    'l-circle': Vue2Leaflet.LCircle,
     'l-tile-layer': Vue2Leaflet.LTileLayer
   },
 

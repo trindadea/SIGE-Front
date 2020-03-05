@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 import HTTP from '../../services/masterApi/http-common'
 import Apexcharts from '../../services/ssr-import/apexcharts'
 
@@ -22,6 +22,7 @@ export default {
   },
 
   props: {
+    selectedCampus: Object,
     selectedTransductor: Object
   },
 
@@ -34,50 +35,50 @@ export default {
       generation: [],
       measurements: [],
       transductorList: [],
-      selectedCampus: '',
       selectedPeriod: 'Hoje'
     }
   },
 
   computed: {
     series () {
-      // return [
-      //   {
-      //     data: this.consumption
-      //   }
-      // ]
-
       return [
         {
           name: 'Carga',
-          data: [
-            32,
-            40,
-            42,
-            40,
-            240,
-            200,
-            420,
-            90,
-            10,
-            60,
-            400,
-            420,
-            350,
-            384,
-            70,
-            75,
-            90,
-            40,
-            70,
-            510,
-            112,
-            90,
-            35,
-            35
-          ]
+          data: this.consumption
         }
       ]
+
+    // return [
+    //   {
+    //     name: 'Carga',
+    //     data: [
+    //       32,
+    //       40,
+    //       42,
+    //       40,
+    //       240,
+    //       200,
+    //       420,
+    //       90,
+    //       10,
+    //       60,
+    //       400,
+    //       420,
+    //       350,
+    //       384,
+    //       70,
+    //       75,
+    //       90,
+    //       40,
+    //       70,
+    //       510,
+    //       112,
+    //       90,
+    //       35,
+    //       35
+    //     ]
+    //   }
+    // ]
     },
 
     chartOptions () {
@@ -152,6 +153,9 @@ export default {
             }
           },
           labels: {
+            formatter: (val) => {
+              return `${val.toFixed(0) / 1000}`
+            },
             style: {
               fontSize: '14px'
             }
@@ -164,29 +168,41 @@ export default {
 
   methods: {
     updateChart () {
-      if (this.selectedTransductor !== undefined) {
-        const consumption = [
-          `/graph/quarterly-consumption-off-peak/?start_date=2019-06-01 00:00&end_date=2019-06-30 23:59`,
-          `/graph/quarterly-consumption-peak/?start_date=2019-06-01 00:00&end_date=2019-06-30 23:59`
-        ]
+      // if (this.selectedTransductor !== undefined) {
+      //   const consumption = [
+      //     `/graph/quarterly-consumption-off-peak/?start_date=2019-06-01 00:00&end_date=2019-06-30 23:59`,
+      //     `/graph/quarterly-consumption-peak/?start_date=2019-06-01 00:00&end_date=2019-06-30 23:59`
+      //   ]
 
-        axios.all([
-          HTTP.get(consumption[0]),
-          HTTP.get(consumption[1])
-        ])
-          .then(axios.spread((consA, consB) => {
-            this.consumption = [...consA.data, ...consB.data]
-          }))
-          .catch(errArray => {
-            console.log(errArray)
-          })
-      }
+      //   axios.all([
+      //     HTTP.get(consumption[0]),
+      //     HTTP.get(consumption[1])
+      //   ])
+      //     .then(axios.spread((consA, consB) => {
+      //       this.consumption = [...consA.data, ...consB.data]
+      //     }))
+      //     .catch(errArray => {
+      //       console.log(errArray)
+      //     })
+      // }
+      HTTP
+        .get(`/graph/quarterly-daily-consumption/?campus=${this.selectedCampus.id}`)
+        // .get(`/graph/quartely-daily-consumption/?start_date=2020-03-05%2000:00:00&end_date=2020-03-05%2023:59:59&campus=2`)
+        .then((res) => {
+          this.consumption = res.data
+        })
+        .catch(err => { console.error(err) })
     }
   },
 
-  async beforeMount () {
-    await this.updateChart()
+  beforeMount () {
+    this.updateChart()
+  },
+
+  updated () {
+    this.updateChart()
   }
+
 }
 </script>
 

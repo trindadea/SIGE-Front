@@ -14,10 +14,12 @@
       </div>
     </div>
 
+        <!-- style="height: 100vh!important" -->
     <div>
       <dash-charge-bar-card
         class="q-mb-md height-conf"
-        :transductor="selectedTransductor"/>
+        :transductor="selectedTransductor"
+        :campus="currentCampus"/>
 
       <dash-last-measurement-card
         class="q-mb-none height-conf"
