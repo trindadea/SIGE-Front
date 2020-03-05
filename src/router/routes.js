@@ -2,7 +2,7 @@
 const routes = [
   {
     path: '/',
-    component: () => import('components/presentationDashboard/PresentationDashboard.vue'),
+    component: () => import('components/presentationDashboard/PresentationDashboard.vue')
   },
   {
     path: '/transductors',
