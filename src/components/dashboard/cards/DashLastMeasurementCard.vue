@@ -3,7 +3,7 @@
     flat
     class="card-bg">
 
-    <q-inner-loading dark :showing="transductor === undefined">
+    <q-inner-loading dark :showing="transductor.name === undefined">
       <q-spinner-ios size="50px" color="grey-4" thickness="7"/>
     </q-inner-loading>
 
@@ -55,7 +55,7 @@
       </table>
     </q-card-section>
 
-    <q-card-section v-if="transductor" class="q-pt-xs">
+    <q-card-section v-if="transductor.name" class="q-pt-xs">
       <h6 class="text-center" style="color: rgba(255, 255, 255, 0.6)">
         Última medida não disponível
       </h6>
