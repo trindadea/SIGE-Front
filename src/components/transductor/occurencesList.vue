@@ -71,7 +71,7 @@ export default {
   font-weight: 500;
   line-height: 1.33;
   letter-spacing: 2px;
-  color: #00417e;
+  color: $primary;
 }
 
 .text {
@@ -98,38 +98,6 @@ export default {
   letter-spacing: 0.4px;
   text-align: right;
   color: rgba(0, 0, 0, 0.87);
-}
-
-.container {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: stretch;
-  align-content: stretch;
-}
-
-.icon {
-  height: 10%;
-  width: 12%;
-}
-
-.title_container {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  background-color: #0F0;
-  margin-left: -1px;
-  padding-left: 2%;
-  width: 100%;
-  font-family: Roboto;
-  font-size: 7vw;
-  font-weight: 300;
-  font-style: italic;
-  color: #ffffff;
-}
-
-.light {
-  background-color: #F00;
 }
 
 .clear{width: 100%; clear: both; height: 0px; line-height:0px;}

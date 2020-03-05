@@ -84,7 +84,7 @@ export default {
 }
 
 .map-button {
-  color: #00417e;
+  color: $primary;
 }
 
 </style>

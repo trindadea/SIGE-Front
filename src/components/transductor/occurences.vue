@@ -126,7 +126,7 @@ export default {
   line-height: 1.5;
   letter-spacing: 0.15px;
   text-align: center;
-  color: #00417e;
+  color: $primary;
 }
 
 .card-content {
@@ -134,11 +134,11 @@ export default {
 }
 
 .map-button {
-  color: #00417e;
+  color: $primary;
 }
 
 .history {
-  color: #00417e;
+  color: $primary;
   font-family: Roboto;
   font-size: 16px;
   line-height: 1.5;

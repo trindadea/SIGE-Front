@@ -102,7 +102,7 @@ export default {
   font-weight: 500;
   line-height: 1.33;
   letter-spacing: 2px;
-  color: #00417e;
+  color: $primary;
 }
 
 .readings {
@@ -127,6 +127,6 @@ export default {
   line-height: normal;
   letter-spacing: normal;
   text-align: center;
-  color: #00417e;
+  color: $primary;
 }
 </style>

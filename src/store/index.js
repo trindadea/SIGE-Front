@@ -12,6 +12,25 @@ Vue.use(Vuex)
 
 export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
+    state: {
+      transductorFilter: {
+        dimension: '',
+        vision: '',
+        startDate: '',
+        endDate: ''
+      }
+    },
+    mutations: {
+      changeTransductorFilter (state, filter) {
+        console.log('changed ', filter)
+        state.transductorFilter = filter
+        console.log('state ', state.transductorFilter)
+      }
+    },
+    getters: {
+      transductorFilter: state => state.transductorFilter
+    },
+
     modules: {
       // example
     },
