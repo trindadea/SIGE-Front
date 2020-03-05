@@ -10,7 +10,7 @@
     "lint": "eslint --ext .js,.vue src",
     "test": "echo \"No test specified\" && exit 0",
     "cl": "auto-changelog",
-    "start": "quasar dev",
+    "start": "quasar dev -m ssr",
     "build": "quasar build",
     "build:ssr": "quasar build -m ssr",
     "start:ssr": "node index.js"
