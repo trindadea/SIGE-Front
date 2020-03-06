@@ -18,17 +18,20 @@ export default function (/* { ssrContext } */) {
         vision: '',
         startDate: '',
         endDate: ''
-      }
+      },
+      openMap: false
     },
     mutations: {
       changeTransductorFilter (state, filter) {
-        console.log('changed ', filter)
         state.transductorFilter = filter
-        console.log('state ', state.transductorFilter)
+      },
+      changeMapStatus (state) {
+        state.openMap = !state.openMap
       }
     },
     getters: {
-      transductorFilter: state => state.transductorFilter
+      transductorFilter: state => state.transductorFilter,
+      openMap: state => state.openMap
     },
 
     modules: {

@@ -10,8 +10,7 @@
         <h3>Nenhum dado selecionado!</h3>
       </span>
       <p>
-        Para visualizar os dados é necessária a seleção de um transdutor,
-        assim como um intervalo de dados.
+        {{info}}
       </p>
     </div>
   </div>
@@ -19,7 +18,9 @@
 
 <script>
 export default {
-
+  props: [
+    'info'
+  ]
 }
 </script>
 

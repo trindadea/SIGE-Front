@@ -1,29 +1,32 @@
 <template>
   <div>
-    <!-- <div v-if="this.selectedTransductor !== ''"> -->
-    <div style="padding: 1.5em;">
-      <h2 class="text-left text-muted text-h4 q-pa-none q-ma-none q-px-lg q-mb-md">
-        {{this.title}}
-      </h2>
+    <div style="padding: 1.5em;" v-if="hasAllData()">
       <apexcharts
+        v-if="mounted"
         id="chart"
         type="line"
         :options="chartOptions"
         :series="series"/>
     </div>
-    <!-- <no-data-placeholder v-else/> -->
+    <no-data-placeholder
+      style="padding: 1.5em;"
+      v-else
+      info="Para visualizar os dados é necessária a seleção de uma dimensão,
+        assim como um intervalo de dados."
+    />
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-// import NoDataPlaceholder from './NoDataPlaceholder.vue'
+import MASTER from '../../services/masterApi/http-common'
+import apexcharts from '../../services/ssr-import/apexcharts'
+import NoDataPlaceholder from './NoDataPlaceholder'
 
 export default {
   components: {
-    // 'no-data-placeholder': NoDataPlaceholder,
+    apexcharts: apexcharts,
+    NoDataPlaceholder: NoDataPlaceholder
   },
-
   props: [
     'title',
     'url',
@@ -33,7 +36,10 @@ export default {
     'id',
     'min',
     'decimals',
-    'max'
+    'max',
+    'transductorId',
+    'startDate',
+    'endDate'
   ],
 
   data () {
@@ -42,11 +48,7 @@ export default {
       phase_b: [],
       phase_c: [],
       measurements: [],
-      transductor: '',
-      selectedPeriod: 'Hoje',
-      periodsOptions: {}
-
-      // id: 30000247
+      mounted: false
     }
   },
 
@@ -78,7 +80,6 @@ export default {
     },
     chartOptions () {
       return {
-        // colors: ['', '', ''],
         colors: ['#46b5d1', '#007944', '#da2d2d'],
 
         chart: {
@@ -176,11 +177,9 @@ export default {
 
   methods: {
     updateChart () {
-      const a = `http://192.168.100.229:8001/graph/${this.url}/?serial_number=${this.transductor.id}&start_date=2019-06-01 00:00&end_date=2019-07-31 23:59`
+      const a = `/graph/${this.url}/?serial_number=${this.transductorId}&start_date=${this.startDate}&end_date=${this.startDate}`
 
-      console.log(a)
-
-      axios
+      MASTER
         .get(a)
         .then((res) => {
           const measurements = res.data.results[0]
@@ -218,23 +217,33 @@ export default {
     },
 
     getTransductors () {
-      axios
-        .get(`http://192.168.100.229:8001/energy_transductors/${this.id}/`)
+      MASTER
+        .get(`/energy_transductors/${this.id}/`)
         .then((res) => {
           this.transductor = res.data
         })
         .catch((err) => {
           console.log(err)
         })
+    },
+    hasAllData () {
+      if (this.url !== undefined &&
+        this.transductorId !== undefined &&
+        this.startDate !== undefined &&
+        this.endDate !== undefined) {
+        return true
+      } else {
+        return false
+      }
     }
   },
 
-  beforeMount () {
-    const a = `http://192.168.100.229:8001/graph/${this.url}/?serial_number=${this.id}&start_date=2019-06-01 00:00&end_date=2019-12-30 23:59&is_filtered=True`
+  mounted () {
+    console.log('--> ', this.url, this.transductorId, this.startDate, this.endDate)
+    this.mounted = true
+    const a = `/graph/${this.url}/?serial_number=${this.transductorId}&start_date=${this.startDate}&end_date=${this.endDate}&is_filtered=True`
 
-    console.log(a)
-
-    axios
+    MASTER
       .get(a)
       .then((res) => {
         const measurements = res.data.results[0]

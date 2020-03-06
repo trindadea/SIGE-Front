@@ -5,7 +5,7 @@
         <measurements-box class="col-8" :id="id"/>
         <active-box class="col-3" :id="id"/>
       </div>
-      <graph />
+      <graph :transductorId='id'/>
       <q-separator spaced inset/>
       <div class="row">
         <div class="transductor-info col-3">

@@ -8,23 +8,34 @@
     </q-card-section>
     <div class="card-content">
       <p v-if="this.campusName !== ''">Campus {{this.campusName}}</p>
-      <q-btn outline class="map-button" label="Ver no mapa" />
+      <q-btn
+        v-if="lat !== null && long !== null"
+        outline
+        class="map-button"
+        label="Ver no mapa"
+        @click="openMap()"
+      />
     </div>
+    <map-modal :center='[lat, long]'/>
   </q-card>
 </template>
 <script>
 import MASTER from '../../services/masterApi/http-common'
+import mapModal from './mapModal'
 
 export default {
   name: 'ActiveBox',
+  components: {
+    mapModal: mapModal
+  },
   props: [
     'id'
   ],
   data () {
     return {
       active: false,
-      lat: 0,
-      long: 0,
+      lat: null,
+      long: null,
       name: '',
       campusName: '',
       campusId: 0
@@ -36,7 +47,7 @@ export default {
       .then((res) => {
         this.active = res.data.active
         this.lat = res.data.geolocation_latitude
-        this.lat = res.data.geolocation_longitude
+        this.long = res.data.geolocation_longitude
         this.name = res.data.name
         this.campusId = parseInt(res.data.campus.split('/')[4], 10)
       })
@@ -51,6 +62,11 @@ export default {
       .catch(err => {
         console.log(err)
       })
+  },
+  methods: {
+    openMap () {
+      this.$store.commit('changeMapStatus')
+    }
   }
 }
 </script>
