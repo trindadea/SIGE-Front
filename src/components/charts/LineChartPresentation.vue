@@ -28,7 +28,6 @@ export default {
     NoDataPlaceholder: NoDataPlaceholder
   },
   props: [
-    'title',
     'url',
     'graphic_type',
     'show_legend',
@@ -176,19 +175,6 @@ export default {
   },
 
   methods: {
-    updateChart () {
-      const a = `/graph/${this.url}/?serial_number=${this.transductorId}&start_date=${this.startDate}&end_date=${this.startDate}`
-
-      MASTER
-        .get(a)
-        .then((res) => {
-          const measurements = res.data.results[0]
-          console.log(measurements)
-          this.buildGraphInformation(measurements)
-        })
-        .catch((err) => console.log(err))
-    },
-
     buildGraphInformation (data) {
       if (this.graphic_type === '1') {
         console.log(data.measurements)
@@ -202,30 +188,12 @@ export default {
       }
     },
 
-    setOneFaseInformations (measurementList) {
-      this.phase_a = measurementList
-    },
-
     setThreeFaseInformations (measurementListA, measurementListB, measurementListC) {
       this.phase_a = measurementListA
       this.phase_b = measurementListB
       this.phase_c = measurementListC
     },
 
-    setTransductorList (transductorList) {
-      this.transductorList = transductorList
-    },
-
-    getTransductors () {
-      MASTER
-        .get(`/energy_transductors/${this.id}/`)
-        .then((res) => {
-          this.transductor = res.data
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
     hasAllData () {
       if (this.url !== undefined &&
         this.transductorId !== undefined &&
@@ -239,15 +207,14 @@ export default {
   },
 
   mounted () {
-    console.log('--> ', this.url, this.transductorId, this.startDate, this.endDate)
     this.mounted = true
     const a = `/graph/${this.url}/?serial_number=${this.transductorId}&start_date=${this.startDate}&end_date=${this.endDate}&is_filtered=True`
+    console.log('ta montando?????')
 
     MASTER
       .get(a)
       .then((res) => {
-        const measurements = res.data.results[0]
-        console.log(measurements)
+        const measurements = res.data[0]
         this.buildGraphInformation(measurements)
       })
       .catch((err) => console.log(err))

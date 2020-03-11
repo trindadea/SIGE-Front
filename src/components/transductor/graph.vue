@@ -11,6 +11,7 @@
       :url='getUrl()'
       :startDate='getDate("startDate")'
       :endDate='getDate("endDate")'
+      :unit="getUnit()"
     />
     <no-data-placeholder
       v-else
@@ -24,6 +25,7 @@
 import chartFilter from './chartFilter.vue'
 import LineChart from '../charts/LineChartPresentation.vue'
 import noDataPlaceholder from '../charts/noDataPlaceholder.vue'
+
 export default {
   name: 'TransductorGraph',
   components: {
@@ -96,7 +98,7 @@ export default {
         case this.dimensions[2]:
           return ''
         case this.dimensions[3]:
-          return ''
+          return 'minutely-dht-current'
         case this.dimensions[4]:
           return 'minutely-dht-voltage'
         case this.dimensions[5]:
@@ -117,6 +119,12 @@ export default {
           return ''
         default:
           return ''
+      }
+    },
+    getUnit () {
+      let dimension = this.$store.state.transductorFilter.dimension
+      if (dimension === this.dimensions[4]) {
+        return 'V'
       }
     }
   }
