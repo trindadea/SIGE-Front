@@ -1,18 +1,13 @@
 <template>
   <div>
-    <!-- <div
-      v-if="this.selectedTransductor !== '' || !this.stacked"
-    > -->
     <div>
       <apexcharts
         v-if="mounted"
         id="chart"
         type="bar"
         :series="series"
-        :options="chartOptions"
-      />
+        :options="chartOptions"/>
     </div>
-    <!-- <no-data-placeholder v-else/> -->
   </div>
 </template>
 
@@ -60,9 +55,6 @@ export default {
     },
     chartOptions () {
       return {
-        // colors: ['#d02222', '#22d022'],
-        // colors: ['#487787', '#fa8901'],
-        // colors: ['#fa8901', '#487787'],
         colors: ['#fa8901', '#3333d0'],
 
         chart: {
@@ -74,12 +66,12 @@ export default {
 
         plotOptions: {
           bar: {
-            columnWidth: '4%',
+            columnWidth: (100 / (this.total_cost.length / 2)).toString() + '%',
             dataLabels: {
               enabled: true,
               position: 'top',
               formatter: (val) => {
-                return `${val.toFixed(0)} ${this.unit}`
+                return `${this.unit} ${(val / 1000).toFixed(2)}`
               }
             }
           }
@@ -88,7 +80,7 @@ export default {
         dataLabels: {
           enabled: false,
           formatter: (val) => {
-            return `${val.toFixed(0)} ${this.unit}`
+            return `${this.unit} ${(val / 1000).toFixed(2)}`
           },
           style: {
             fontSize: '1rem'
@@ -137,7 +129,7 @@ export default {
           },
           y: {
             formatter: (val) => {
-              return `${val.toFixed(0)} ${this.unit || ''}`
+              return `${this.unit} ${(val / 1000).toFixed(2)}`
             }
           }
         },
@@ -155,7 +147,7 @@ export default {
 
   methods: {
     labelFormatter (value) {
-      return value.toFixed(0) + ' ' + this.unit
+      return this.unit + ' ' + (value / 1000).toFixed(2)
     }
   },
 
@@ -172,7 +164,6 @@ export default {
       })
 
     this.mounted = true
-    // console.log()
   }
 }
 </script>

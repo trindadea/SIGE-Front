@@ -3,7 +3,8 @@
     <total-cost-filter />
     <bar-chart
       title="Consumo"
-      url="/graph/cost-consumption/?type=daily"/>
+      url="/graph/cost-consumption/?type=monthly"
+      unit="R$"/>
   </div>
 </template>
 
