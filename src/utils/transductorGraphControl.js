@@ -34,7 +34,6 @@ export async function getGraph (filter) {
       .get(url)
       .then((res) => {
         const measurements = res.data[0]
-        console.log('entrou no then', res)
         graph.phase_a = measurements['phase_a']
         graph.phase_b = measurements['phase_b']
         graph.phase_c = measurements['phase_c']
@@ -59,7 +58,6 @@ export function hasAllData (filter, options) {
 }
 
 export function getDate (date) {
-  console.log('date', date)
   if (date !== '') {
     let dateParts = date.split('/')
     let res = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0] + ' ' + '00:00:00'
