@@ -22,7 +22,7 @@
 import chartFilter from './chartFilter.vue'
 import LineChart from '../charts/LineChartPresentation.vue'
 import noDataPlaceholder from '../charts/noDataPlaceholder.vue'
-import { dimensions, graphType } from '../../utils/transductorGraphControl'
+import { dimensions } from '../../utils/transductorGraphControl'
 
 export default {
   name: 'TransductorGraph',
@@ -45,8 +45,9 @@ export default {
   },
   methods: {
     graphIsLinechart () {
-      let dimension = this.$store.state.chartOptions.dimension
-      return graphType(dimension) === 'linechart'
+      let type = this.$store.getters.chartOptions.graphType
+      console.log(type)
+      return type === 'linechart'
     }
   }
 }

@@ -20,7 +20,8 @@ export default function (/* { ssrContext } */) {
         phase_c: [],
         unit: '',
         dimension: '',
-        status: false
+        status: false,
+        graphType: ''
       }
     },
     mutations: {
@@ -34,6 +35,7 @@ export default function (/* { ssrContext } */) {
         state.chartOptions.unit = options.unit
         state.chartOptions.dimension = options.dimension
         state.chartOptions.status = options.status
+        state.chartOptions.graphType = options.graphType
       }
     },
     getters: {

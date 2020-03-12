@@ -26,7 +26,8 @@ export async function getGraph (filter) {
     phase_a: [],
     phase_b: [],
     phase_c: [],
-    status: false
+    status: false,
+    graphType: graphOptions.graphType
   }
   if (await hasAllData(filter, graphOptions)) {
     await MASTER
@@ -68,88 +69,92 @@ export function getDate (date) {
     return undefined
   }
 }
-export function graphType (dimension) {
-  if (dimension === dimensions[0] || dimension === dimensions[3] ||
-    dimension === dimensions[4] || dimension === dimensions[6] ||
-    dimension === dimensions[7] || dimension === dimensions[9] ||
-    dimension === dimensions[10] || dimension === dimensions[11] ||
-    dimension === dimensions[12]) {
-    return 'linechart'
-  } else {
-    return ''
-  }
-}
+
 export function getGraphOptions (dimension) {
   switch (dimension) {
-    case dimensions[0]:
+    case dimensions[0]: // Corrente
+      return {
+        url: 'minutely-threephase-current',
+        unit: 'A',
+        graphType: 'linechart'
+      }
+    case dimensions[1]: // Custo
+      return {
+        url: 'cost-consumption',
+        unit: 'R$',
+        graphType: 'linechart'
+      }
+    case dimensions[2]: // Consumo
       return {
         url: '',
-        unit: ''
+        unit: '',
+        graphType: ''
       }
-    case dimensions[1]:
-      return {
-        url: '',
-        unit: ''
-      }
-    case dimensions[2]:
-      return {
-        url: '',
-        unit: ''
-      }
-    case dimensions[3]:
+    case dimensions[3]: // DHT Corrente
       return {
         url: 'minutely-dht-current',
-        unit: 'A'
+        unit: 'A',
+        graphType: 'linechart'
       }
-    case dimensions[4]:
+    case dimensions[4]: // DHT Tensão
       return {
         url: 'minutely-dht-voltage',
-        unit: 'V'
+        unit: 'V',
+        graphType: 'linechart'
       }
-    case dimensions[5]:
+    case dimensions[5]: // Energia Captativa
       return {
         url: '',
-        unit: ''
+        unit: '',
+        graphType: ''
       }
-    case dimensions[6]:
+    case dimensions[6]: // Energia Indutiva
       return {
         url: '',
-        unit: ''
+        unit: '',
+        graphType: ''
       }
-    case dimensions[7]:
+    case dimensions[7]: // Fator de Potencia
+      return {
+        url: 'minutely-power-factor',
+        unit: ' ',
+        graphType: 'linechart'
+      }
+    case dimensions[8]: // Geração
       return {
         url: '',
-        unit: ''
+        unit: '',
+        graphType: ''
       }
-    case dimensions[8]:
-      return {
-        url: '',
-        unit: ''
-      }
-    case dimensions[9]:
+    case dimensions[9]: // Potencia Aparente
       return {
         url: 'minutely-apparent-power',
-        unit: 'kVA'
+        unit: 'kVA',
+        graphType: 'linechart'
       }
-    case dimensions[10]:
+    case dimensions[10]: // Potencia Ativa
       return {
         url: 'minutely-active-power',
-        unit: 'W'
+        unit: 'W',
+        graphType: 'linechart'
       }
-    case dimensions[11]:
+    case dimensions[11]: // Potencia Reativa
       return {
         url: 'minutely-reactive-power',
-        unit: 'kVAr'
+        unit: 'kVAr',
+        graphType: 'linechart'
       }
-    case dimensions[12]:
+    case dimensions[12]: // Tensão
       return {
-        url: '',
-        unit: ''
+        url: 'minutely-threephase-voltage',
+        unit: 'V',
+        graphType: 'linechart'
       }
     default:
       return {
         url: '',
-        unit: ''
+        unit: '',
+        graphType: ''
       }
   }
 }
