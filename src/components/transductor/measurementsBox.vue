@@ -10,20 +10,20 @@
         <th>GERAÇÃO</th>
       </tr>
       <tr>
-        <td>Fase A - {{tension.a}}V</td>
-        <td>Fase A - {{current.a}}A</td>
-        <td>Ativa - {{power.a}}W</td>
-        <td>{{generation}}kW</td>
+        <td>Fase A: {{tension.a}}V</td>
+        <td>Fase A: {{current.a}}A</td>
+        <td>Ativa: {{power.a}}W</td>
+        <td>{{generation}}</td>
       </tr>
       <tr>
-        <td>Fase B - {{tension.b}}V</td>
-        <td>Fase B - {{current.b}}A</td>
-        <td>Reativa - {{power.r}}kVAr</td>
+        <td>Fase B: {{tension.b}}V</td>
+        <td>Fase B: {{current.b}}A</td>
+        <td>Reativa: {{power.r}}kVAr</td>
       </tr>
       <tr>
-        <td>Fase C - {{tension.c}}V</td>
-        <td>Fase C - {{current.c}}A</td>
-        <td>Total - {{power.t}}kVa</td>
+        <td>Fase C: {{tension.c}}V</td>
+        <td>Fase C: {{current.c}}A</td>
+        <td>Total: {{power.t}}kVa</td>
       </tr>
     </table>
   </div>
@@ -44,7 +44,7 @@ export default {
       tension: {},
       current: {},
       power: {},
-      generation: 10,
+      generation: 'não disponível',
       hasMeasurements: false
     }
   },

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import { getDateNowSelectFormat } from '../utils/transductorStatus'
 // import example from './module-example'
 
 Vue.use(Vuex)
@@ -22,6 +22,12 @@ export default function (/* { ssrContext } */) {
         dimension: '',
         status: false,
         graphType: ''
+      },
+      filterOptions: {
+        dimension: 'Tensão',
+        vision: '',
+        startDate: getDateNowSelectFormat(1),
+        endDate: getDateNowSelectFormat()
       }
     },
     mutations: {
@@ -36,11 +42,18 @@ export default function (/* { ssrContext } */) {
         state.chartOptions.dimension = options.dimension
         state.chartOptions.status = options.status
         state.chartOptions.graphType = options.graphType
+      },
+      updateFilter (state, filter) {
+        state.filterOptions.dimension = filter.dimension
+        state.filterOptions.vision = filter.vision
+        state.filterOptions.startDate = filter.startDate
+        state.filterOptions.endDate = filter.endDate
       }
     },
     getters: {
       openMap: state => state.openMap,
-      chartOptions: state => state.chartOptions
+      chartOptions: state => state.chartOptions,
+      filterOptions: state => state.filterOptions
     },
 
     modules: {

@@ -16,6 +16,8 @@ export const dimensions = [
 import MASTER from '../services/masterApi/http-common'
 
 export async function getGraph (filter) {
+  console.log('get graph')
+
   let graphOptions = await getGraphOptions(filter.dimension)
   let startDate = await getDate(filter.startDate)
   let endDate = await getDate(filter.endDate)
@@ -76,17 +78,17 @@ export function getGraphOptions (dimension) {
         unit: 'A',
         graphType: 'linechart'
       }
-    case dimensions[1]: // Custo
+    case dimensions[1]: // Custo - barras
       return {
         url: 'cost-consumption',
         unit: 'R$',
-        graphType: 'linechart'
+        graphType: 'barchart'
       }
-    case dimensions[2]: // Consumo
+    case dimensions[2]: // Consumo - gráfico de barras
       return {
         url: '',
         unit: '',
-        graphType: ''
+        graphType: 'barchart'
       }
     case dimensions[3]: // DHT Corrente
       return {
@@ -100,17 +102,17 @@ export function getGraphOptions (dimension) {
         unit: 'V',
         graphType: 'linechart'
       }
-    case dimensions[5]: // Energia Captativa
+    case dimensions[5]: // Energia Captativa - ???
       return {
         url: '',
         unit: '',
-        graphType: ''
+        graphType: 'linechart'
       }
-    case dimensions[6]: // Energia Indutiva
+    case dimensions[6]: // Energia Indutiva - ???
       return {
         url: '',
         unit: '',
-        graphType: ''
+        graphType: 'linechart'
       }
     case dimensions[7]: // Fator de Potencia
       return {
@@ -118,11 +120,11 @@ export function getGraphOptions (dimension) {
         unit: ' ',
         graphType: 'linechart'
       }
-    case dimensions[8]: // Geração
+    case dimensions[8]: // Geração - barra
       return {
         url: '',
         unit: '',
-        graphType: ''
+        graphType: 'barchart'
       }
     case dimensions[9]: // Potencia Aparente
       return {

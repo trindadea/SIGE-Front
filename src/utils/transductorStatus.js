@@ -1,3 +1,15 @@
+
+export function getDateNowSelectFormat (daysBeforeToday = 0) {
+  let date = new Date()
+  console.log('data', date)
+
+  let day = date.getDate() - daysBeforeToday
+  let month = date.getMonth() + 1
+  let year = date.getFullYear()
+  let dateFormatted = day.toString().padStart(2, '0') + '/' + month.toString().padStart(2, '0') + '/' + year.toString()
+  return dateFormatted
+}
+
 export function separateInDays (arr, type, today, yesterday, beforeYesterday, occurrences = []) {
   let now = new Date()
   arr.forEach((elem) => {

@@ -64,12 +64,13 @@ export default {
     'transductorId'
   ],
   data () {
+    let filter = this.$store.getters.filterOptions
     return {
-      option: null,
+      option: filter.dimension,
       options: this.filterList,
       vision: this.visionOptions[0].value,
-      startDate: '',
-      endDate: ''
+      startDate: filter.startDate,
+      endDate: filter.endDate
     }
   },
   methods: {
@@ -88,7 +89,7 @@ export default {
         endDate: this.endDate
       }
       let graphOpt = await getGraph(filter)
-      console.log('ta vindocerto??', graphOpt)
+      await this.$store.commit('updateFilter', filter)
       await this.$store.commit('updateChartPhase', graphOpt)
     }
   }

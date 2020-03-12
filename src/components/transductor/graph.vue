@@ -7,7 +7,7 @@
       :transductorId="transductorId"
     />
     <line-chart
-      v-if="graphIsLinechart()"
+      v-if="graphIsLinechart() && mounted"
       :transductorId='transductorId'
     />
     <no-data-placeholder
@@ -20,9 +20,9 @@
 </template>
 <script>
 import chartFilter from './chartFilter.vue'
-import LineChart from '../charts/LineChartPresentation.vue'
-import noDataPlaceholder from '../charts/noDataPlaceholder.vue'
-import { dimensions } from '../../utils/transductorGraphControl'
+import LineChart from './LineChart.vue'
+import noDataPlaceholder from './noDataPlaceholder.vue'
+import { dimensions, getGraph } from '../../utils/transductorGraphControl'
 
 export default {
   name: 'TransductorGraph',
@@ -40,13 +40,23 @@ export default {
       vision: [
         { label: 'Hora', value: 'hour' },
         { label: 'Dia', value: 'day' }
-      ]
+      ],
+      mounted: false
     }
+  },
+  async created () {
+    let filter = {
+      ...this.$store.getters.filterOptions,
+      transductor: this.transductorId
+    }
+    let graphOpt = await getGraph(filter)
+    await this.$store.commit('updateFilter', filter)
+    await this.$store.commit('updateChartPhase', graphOpt)
+    this.mounted = true
   },
   methods: {
     graphIsLinechart () {
       let type = this.$store.getters.chartOptions.graphType
-      console.log(type)
       return type === 'linechart'
     }
   }
