@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="padding: 1.5em;" >
+    <div style="padding: 1.5em;" v-if="this.$store.state.chartOptions.status">
       <apexcharts
         v-if="mounted"
         id="chart"
@@ -8,23 +8,23 @@
         :options="chartOptions"
         :series="series"/>
     </div>
-    <!-- <no-data-placeholder
+    <no-data-placeholder
       style="padding: 1.5em;"
       v-else
       info="Para visualizar os dados é necessária a seleção de uma dimensão,
         assim como um intervalo de dados."
-    /> -->
+    />
   </div>
 </template>
 
 <script>
 import apexcharts from '../../services/ssr-import/apexcharts'
-// import noDataPlaceholder from './NoDataPlaceholder'
+import noDataPlaceholder from './NoDataPlaceholder'
 
 export default {
   components: {
-    apexcharts: apexcharts
-    // noDataPlaceholder: noDataPlaceholder
+    apexcharts: apexcharts,
+    noDataPlaceholder: noDataPlaceholder
   },
   props: [
     'graphic_type',

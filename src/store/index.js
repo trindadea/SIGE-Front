@@ -34,7 +34,6 @@ export default function (/* { ssrContext } */) {
         state.chartOptions.unit = options.unit
         state.chartOptions.dimension = options.dimension
         state.chartOptions.status = options.status
-        state.chartOptions.bla = options.status
       }
     },
     getters: {
