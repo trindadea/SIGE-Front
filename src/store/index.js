@@ -13,25 +13,33 @@ Vue.use(Vuex)
 export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     state: {
-      transductorFilter: {
+      openMap: false,
+      chartOptions: {
+        phase_a: [],
+        phase_b: [],
+        phase_c: [],
+        unit: '',
         dimension: '',
-        vision: '',
-        startDate: '',
-        endDate: ''
-      },
-      openMap: false
+        status: false
+      }
     },
     mutations: {
-      changeTransductorFilter (state, filter) {
-        state.transductorFilter = filter
-      },
       changeMapStatus (state) {
         state.openMap = !state.openMap
+      },
+      updateChartPhase (state, options) {
+        state.chartOptions.phase_a = options.phase_a
+        state.chartOptions.phase_b = options.phase_b
+        state.chartOptions.phase_c = options.phase_c
+        state.chartOptions.unit = options.unit
+        state.chartOptions.dimension = options.dimension
+        state.chartOptions.status = options.status
+        state.chartOptions.bla = options.status
       }
     },
     getters: {
-      transductorFilter: state => state.transductorFilter,
-      openMap: state => state.openMap
+      openMap: state => state.openMap,
+      chartOptions: state => state.chartOptions
     },
 
     modules: {

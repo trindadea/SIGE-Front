@@ -53,12 +53,15 @@
   </div>
 </template>
 <script>
+import { getGraph } from '../../utils/transductorGraphControl'
+
 export default {
   name: 'ChartFilter',
   props: [
     'filterLabel',
     'filterList',
-    'visionOptions'
+    'visionOptions',
+    'transductorId'
   ],
   data () {
     return {
@@ -76,15 +79,17 @@ export default {
         this.options = this.filterList.filter(v => v.toLowerCase().indexOf(needle) > -1)
       })
     },
-    applyFilter () {
+    async applyFilter () {
       let filter = {
+        transductor: this.transductorId,
         dimension: this.option,
         vision: this.vision,
         startDate: this.startDate,
         endDate: this.endDate
       }
-      console.log('FILTER: ', filter)
-      this.$store.commit('changeTransductorFilter', filter)
+      let graphOpt = await getGraph(filter)
+      console.log('ta vindocerto??', graphOpt)
+      await this.$store.commit('updateChartPhase', graphOpt)
     }
   }
 }

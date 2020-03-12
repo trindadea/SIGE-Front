@@ -4,14 +4,11 @@
       filterLabel="Dimensão"
       :filterList="dimensions"
       :visionOptions="vision"
+      :transductorId="transductorId"
     />
     <line-chart
-      v-if="graphType() === 'linechart'"
+      v-if="graphIsLinechart()"
       :transductorId='transductorId'
-      :url='getUrl()'
-      :startDate='getDate("startDate")'
-      :endDate='getDate("endDate")'
-      :unit="getUnit()"
     />
     <no-data-placeholder
       v-else
@@ -25,6 +22,7 @@
 import chartFilter from './chartFilter.vue'
 import LineChart from '../charts/LineChartPresentation.vue'
 import noDataPlaceholder from '../charts/noDataPlaceholder.vue'
+import { dimensions, graphType } from '../../utils/transductorGraphControl'
 
 export default {
   name: 'TransductorGraph',
@@ -38,21 +36,7 @@ export default {
   ],
   data () {
     return {
-      dimensions: [
-        'Corrente',
-        'Custo',
-        'Consumo',
-        'DHT Corrente',
-        'DHT Tensão',
-        'Energia Captativa',
-        'Energia Indutiva',
-        'Fator de Potência',
-        'Geração',
-        'Potência Aparente',
-        'Potência Ativa',
-        'Potência Reativa',
-        'Tensão'
-      ],
+      dimensions: dimensions,
       vision: [
         { label: 'Hora', value: 'hour' },
         { label: 'Dia', value: 'day' }
@@ -60,72 +44,9 @@ export default {
     }
   },
   methods: {
-    showInfo () {
-      let filter = this.$store.state.transductorFilter
-      return filter
-    },
-    getDate (date) {
-      let dateString = this.$store.state.transductorFilter[date]
-      if (dateString !== '') {
-        let dateParts = dateString.split('/')
-        let res = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0] + ' ' + '00:00:00'
-
-        return res
-      } else {
-        return undefined
-      }
-    },
-    graphType () {
-      let dimension = this.$store.state.transductorFilter.dimension
-
-      if (dimension === this.dimensions[0] || dimension === this.dimensions[3] ||
-          dimension === this.dimensions[4] || dimension === this.dimensions[6] ||
-          dimension === this.dimensions[7] || dimension === this.dimensions[9] ||
-          dimension === this.dimensions[10] || dimension === this.dimensions[11] ||
-          dimension === this.dimensions[12]) {
-        return 'linechart'
-      } else {
-        return ''
-      }
-    },
-    getUrl () {
-      let dimension = this.$store.state.transductorFilter.dimension
-      switch (dimension) {
-        case this.dimensions[0]:
-          return ''
-        case this.dimensions[1]:
-          return ''
-        case this.dimensions[2]:
-          return ''
-        case this.dimensions[3]:
-          return 'minutely-dht-current'
-        case this.dimensions[4]:
-          return 'minutely-dht-voltage'
-        case this.dimensions[5]:
-          return ''
-        case this.dimensions[6]:
-          return ''
-        case this.dimensions[7]:
-          return ''
-        case this.dimensions[8]:
-          return ''
-        case this.dimensions[9]:
-          return ''
-        case this.dimensions[10]:
-          return ''
-        case this.dimensions[11]:
-          return ''
-        case this.dimensions[12]:
-          return ''
-        default:
-          return ''
-      }
-    },
-    getUnit () {
-      let dimension = this.$store.state.transductorFilter.dimension
-      if (dimension === this.dimensions[4]) {
-        return 'V'
-      }
+    graphIsLinechart () {
+      let dimension = this.$store.state.chartOptions.dimension
+      return graphType(dimension) === 'linechart'
     }
   }
 }

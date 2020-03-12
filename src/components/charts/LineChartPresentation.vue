@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="padding: 1.5em;" v-if="hasAllData()">
+    <div style="padding: 1.5em;" >
       <apexcharts
         v-if="mounted"
         id="chart"
@@ -8,76 +8,74 @@
         :options="chartOptions"
         :series="series"/>
     </div>
-    <no-data-placeholder
+    <!-- <no-data-placeholder
       style="padding: 1.5em;"
       v-else
       info="Para visualizar os dados é necessária a seleção de uma dimensão,
         assim como um intervalo de dados."
-    />
+    /> -->
   </div>
 </template>
 
 <script>
-import MASTER from '../../services/masterApi/http-common'
 import apexcharts from '../../services/ssr-import/apexcharts'
-import NoDataPlaceholder from './NoDataPlaceholder'
+// import noDataPlaceholder from './NoDataPlaceholder'
 
 export default {
   components: {
-    apexcharts: apexcharts,
-    NoDataPlaceholder: NoDataPlaceholder
+    apexcharts: apexcharts
+    // noDataPlaceholder: noDataPlaceholder
   },
   props: [
-    'url',
     'graphic_type',
     'show_legend',
-    'unit',
     'id',
     'min',
     'decimals',
-    'max',
-    'transductorId',
-    'startDate',
-    'endDate'
+    'max'
   ],
 
   data () {
     return {
-      phase_a: [],
-      phase_b: [],
-      phase_c: [],
       measurements: [],
       mounted: false
     }
   },
-
+  mounted () {
+    this.mounted = true
+  },
   computed: {
     series () {
+      let chartData = this.$store.getters.chartOptions
+
       if (this.graphic_type === '1') {
         return [
           {
             name: 'asdfadsf',
-            data: this.phase_a
+            data: chartData.phase_a
           }
         ]
       } else {
         return [
           {
             name: 'Fase A',
-            data: this.phase_a
+            data: chartData.phase_a
           },
           {
             name: 'Fase B',
-            data: this.phase_b
+            data: chartData.phase_b
           },
           {
             name: 'Fase C',
-            data: this.phase_c
+            data: chartData.phase_c
           }
         ]
       }
     },
+
     chartOptions () {
+      let chartData = this.$store.getters.chartOptions
+
       return {
         colors: ['#46b5d1', '#007944', '#da2d2d'],
 
@@ -114,7 +112,7 @@ export default {
         dataLabels: {
           enabled: false,
           formatter: (val) => {
-            return `${val.toFixed(0)} ${this.unit}`
+            return `${val.toFixed(0)} ${chartData.unit}`
           },
           style: {
             fontSize: '1rem'
@@ -139,7 +137,7 @@ export default {
         yaxis: {
           labels: {
             formatter: (val) => {
-              return val.toFixed(this.decimals || 0) + ' ' + this.unit
+              return val.toFixed(this.decimals || 0) + ' ' + chartData.unit
             },
             style: {
               fontSize: '1rem'
@@ -166,58 +164,12 @@ export default {
           },
           y: {
             formatter: (val) => {
-              return `${val.toFixed(1)} ${this.unit}`
+              return `${val.toFixed(1)} ${chartData.unit}`
             }
           }
         }
       }
     }
-  },
-
-  methods: {
-    buildGraphInformation (data) {
-      if (this.graphic_type === '1') {
-        console.log(data.measurements)
-        this.setOneFaseInformations(data.measurements)
-      } else {
-        let phaseAList = data['phase_a']
-        let phaseBList = data['phase_b']
-        let phaseCList = data['phase_c']
-
-        this.setThreeFaseInformations(phaseAList, phaseBList, phaseCList)
-      }
-    },
-
-    setThreeFaseInformations (measurementListA, measurementListB, measurementListC) {
-      this.phase_a = measurementListA
-      this.phase_b = measurementListB
-      this.phase_c = measurementListC
-    },
-
-    hasAllData () {
-      if (this.url !== undefined &&
-        this.transductorId !== undefined &&
-        this.startDate !== undefined &&
-        this.endDate !== undefined) {
-        return true
-      } else {
-        return false
-      }
-    }
-  },
-
-  mounted () {
-    this.mounted = true
-    const a = `/graph/${this.url}/?serial_number=${this.transductorId}&start_date=${this.startDate}&end_date=${this.endDate}&is_filtered=True`
-    console.log('ta montando?????')
-
-    MASTER
-      .get(a)
-      .then((res) => {
-        const measurements = res.data[0]
-        this.buildGraphInformation(measurements)
-      })
-      .catch((err) => console.log(err))
   }
 }
 </script>
