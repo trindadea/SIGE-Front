@@ -55,7 +55,7 @@ export default {
     },
     chartOptions () {
       return {
-        colors: ['#fa8901', '#3333d0'],
+        colors: ['#00417e'],
 
         chart: {
           stacked: true,
@@ -117,7 +117,7 @@ export default {
         grid: {
           borderColor: '#e7e7e7',
           row: {
-            colors: ['#f3f3f3', 'transparent'],
+            colors: ['transparent'],
             opacity: 0.5
           }
         },
@@ -136,7 +136,7 @@ export default {
 
         legend: {
           show: true,
-          fontSize: '16px',
+          fontSize: '8vh',
           onItemHover: {
             highlightDataSeries: true
           }
@@ -151,19 +151,20 @@ export default {
     }
   },
 
-  mounted () {
-    HTTP.get(this.url)
+  async mounted () {
+    await HTTP.get(this.url)
       .then(res => {
         console.log(res.data)
         this.total_cost = res.data.cost
         this.min = res.data.min
         this.max = res.data.max
+        this.mounted = true
       })
       .catch(err => {
         console.log(err)
       })
 
-    this.mounted = true
+    // console.log()
   }
 }
 </script>

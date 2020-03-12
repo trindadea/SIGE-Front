@@ -1,10 +1,14 @@
 <template>
   <div>
     <total-cost-filter />
+    <div class="container">
     <bar-chart
       title="Consumo"
-      url="/graph/cost-consumption/?type=monthly"
-      unit="R$"/>
+      url="/graph/cost-consumption/?type=daily"
+      unit="R$"
+      class="chart"
+      />
+    </div>
   </div>
 </template>
 
@@ -27,5 +31,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    margin-right: 0;
+    margin-left: 0;
+  }
+  .chart {
+    width: 55%;
+  }
 </style>

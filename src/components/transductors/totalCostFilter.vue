@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="containerFilter">
     <div class="adjust">
       <div class="filter">
         <q-select
@@ -130,7 +130,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
+.containerFilter {
   background-color: white;
   display: flex;
   align-items: center;
