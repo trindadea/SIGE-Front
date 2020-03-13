@@ -18,7 +18,7 @@
       >
         <q-scroll-area class="fit">
           <q-list padding>
-            <div v-for="item in menuItems" :key="item">
+            <div v-for="item in menuItems" :key="item.name">
               <a :href="item.link" style="text-decoration: none" class="text-grey-10">
                 <q-item clickable v-ripple>
                   <q-item-section avatar>
@@ -56,7 +56,7 @@ import Header from 'components/Header.vue'
 const menuItems = [
   {
     name: 'Início',
-    link: '/home',
+    link: '/',
     icon: 'home',
     separator: false
   },
@@ -68,7 +68,7 @@ const menuItems = [
   },
   {
     name: 'Medidores',
-    link: '/home/report',
+    link: '/report',
     icon: 'mdi-gauge',
     separator: true
   },

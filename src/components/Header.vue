@@ -1,7 +1,7 @@
 <template>
   <q-header class="q-pa-none unb-blue">
     <q-toolbar class="text-white">
-      <a href="/home/">
+      <a href="/">
         <q-img
           src="../statics/icons/logo_smi_horizontal_header.svg"
           style="height: 30px; width: 140px"
@@ -9,7 +9,7 @@
       </a>
       <q-toolbar-title class="text-bold text-center">{{ this.$store.state.page }}</q-toolbar-title>
       <q-icon name="mdi-account-circle" class="float-right" size="sm">
-        <q-popup-edit content-class="bg-white text-black q-mr-sm q-mt-sm">
+        <q-popup-edit content-class="bg-white text-black q-mr-sm q-mt-sm" v-model="username">
           <div v-if="userLogged" class="col text-center">
             <div class="text-bold" style="font-size:1.3em">{{ username }}</div>
             <div>{{ useremail }}</div>
@@ -60,16 +60,15 @@ export default {
       this.$router.push({ path: '/users/logout' })
     },
     loadUserData () {
-      let userToken = this.$q.localStorage.getItem('userToken')
-      let userID = this.$q.localStorage.getItem('userID')
-      if (!userToken || !userID) {
-        this.userLogged = false
-        return
-      } else {
+      if (this.$store.getters.isAuthenticated) {
         this.userLogged = true
+      } else {
+        return
       }
       let userName = this.$q.localStorage.getItem('userName')
+      if (userName === null) userName = ''
       let userEmail = this.$q.localStorage.getItem('userEmail')
+      if (userEmail === null) userEmail = ''
       if (userName && userEmail) {
         this.username = userName
         this.useremail = userEmail
@@ -85,6 +84,8 @@ export default {
           console.log(res)
           this.username = res.data.name
           this.useremail = res.data.email
+          this.$q.localStorage.set('userName', this.username)
+          this.$q.localStorage.set('userEmail', this.useremail)
         })
         .catch(err => {
           this.userLogged = false

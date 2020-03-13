@@ -3,7 +3,7 @@
     <div
       class="col-md-4 col-lg-3 col-sm-6 col-12 q-pa-sm"
       v-for="item in graphData"
-      :key="item"
+      :key="item.name"
     >
       <a :href="item.link" style="text-decoration: none">
         <q-card class="my-card">
@@ -19,11 +19,6 @@
 
 <script>
 let graphData = [
-  {
-    graph: '',
-    link: '',
-    name: 'Medidores'
-  },
   {
     graph: '',
     link: '',

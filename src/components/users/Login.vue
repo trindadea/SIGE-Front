@@ -109,11 +109,12 @@ export default {
           console.log(res)
           this.$q.localStorage.set('userToken', res.data.token)
           this.$q.localStorage.set('userID', res.data.user.id)
+          this.$store.commit('setAuthStatus', true)
           this.$q.notify({
             type: 'positive',
             message: `Voce está autenticado.`
           })
-          this.$router.push('/home/')
+          this.$router.push('/')
         })
         .catch(err => {
           console.log(err)

@@ -86,7 +86,8 @@ export default {
               console.log(res)
               this.$q.localStorage.set('userToken', res.data.token)
               this.$q.localStorage.set('userID', res.data.user.id)
-              this.$router.push('/home/')
+              this.$store.commit('setAuthStatus', true)
+              this.$router.push('/')
               this.$q.notify({
                 type: 'positive',
                 message: `Sua conta foi criada com sucesso.`

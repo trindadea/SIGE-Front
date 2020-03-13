@@ -1,7 +1,22 @@
 
+import store from '../store/index'
+
+let ifAuthenticated = (to, from, next) => {
+  let isAuthenticated = store().state.authStatus()
+  if (isAuthenticated === undefined) {
+    isAuthenticated = false
+  }
+  console.log(isAuthenticated)
+  if (isAuthenticated) {
+    next()
+  } else {
+    next({ path: '/users/login' })
+  }
+}
+
 const routes = [
   {
-    path: '/',
+    path: '/dashboard-home',
     component: () => import('components/presentationDashboard/PresentationDashboard.vue'),
     children: [
       {
@@ -21,6 +36,7 @@ const routes = [
   },
   {
     path: '/transductors',
+    beforeEnter: ifAuthenticated,
     component: () => import('components/transductors/TransductorsBase.vue'),
     children: [
       {
@@ -45,6 +61,7 @@ const routes = [
   },
   {
     path: '/servers',
+    beforeEnter: ifAuthenticated,
     component: () => import('components/slaves/SlavesBase.vue'),
     children: [
       {
@@ -69,6 +86,7 @@ const routes = [
   },
   {
     path: '/buildings',
+    beforeEnter: ifAuthenticated,
     component: () => import('components/buildings/BuildingsBase.vue'),
     children: [
       {
@@ -93,6 +111,7 @@ const routes = [
   },
   {
     path: '/campi',
+    beforeEnter: ifAuthenticated,
     component: () => import('components/campi/CampiBase.vue'),
     children: [
       {
@@ -117,6 +136,7 @@ const routes = [
   },
   {
     path: '/transductor_models',
+    beforeEnter: ifAuthenticated,
     component: () => import('components/transductorModel/TransductorModelBase.vue'),
     children: [
       {
@@ -170,7 +190,8 @@ const routes = [
     ]
   },
   {
-    path: '/home',
+    path: '/',
+    beforeEnter: ifAuthenticated,
     component: () => import('components/home/HomeBase.vue'),
     children: [
       {
@@ -197,6 +218,7 @@ const routes = [
       },
       {
         path: 'edit',
+        beforeEnter: ifAuthenticated,
         component: () => import('components/users/UserUpdate.vue')
       },
       {
