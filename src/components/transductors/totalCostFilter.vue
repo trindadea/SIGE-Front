@@ -45,17 +45,18 @@
             toggle-color="primary"
             class="elem toggle"
             :options="[
-          {label: 'DIA', value: 'day'},
-          {label: 'MÊS', value: 'month'},
-          {label: 'ANO', value: 'year'}
+          {label: 'DIA', value: 'daily'},
+          {label: 'MÊS', value: 'monthly'},
+          {label: 'ANO', value: 'yearly'}
         ]"
+        @input="changePeriodicity(model)"
           />
         </div>
         <q-input v-model="startDate" :mask="mask" label="Período: Início" class="elem">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer calendar">
               <q-popup-proxy transition-show="scale" transition-hide="scale">
-                <q-date v-model="startDate" mask="DD/MM/YYYY" />
+                <q-date @input="changeStartDate(startDate)" v-model="startDate" mask="DD/MM/YYYY" />
               </q-popup-proxy>
             </q-icon>
           </template>
@@ -64,7 +65,7 @@
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer calendar">
               <q-popup-proxy transition-show="scale" transition-hide="scale">
-                <q-date v-model="endDate" mask="DD/MM/YYYY" />
+                <q-date @input="changeEndDate(endDate)" v-model="endDate" mask="DD/MM/YYYY" />
               </q-popup-proxy>
             </q-icon>
           </template>
@@ -80,12 +81,13 @@
 
 <script>
 import HTTP from '../../services/masterApi/http-common'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'TotalCostFilter',
   data () {
     return {
-      model: 'day',
+      model: 'daily',
       allOptionsCampus: [],
       optionsCampus: this.allOptionsCampus,
       allOptions: [],
@@ -96,6 +98,7 @@ export default {
       value: false
     }
   },
+  props: {},
   async created () {
     await HTTP.get('campi/')
       .then(res => {
@@ -109,6 +112,7 @@ export default {
       })
   },
   methods: {
+    ...mapActions('totalCostStore', ['changePeriodicity', 'changeStartDate', 'changeEndDate']),
     filterFn (val, update, abort) {
       update(() => {
         const needle = val.toLowerCase()

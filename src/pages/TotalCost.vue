@@ -1,13 +1,14 @@
 <template>
   <div>
-    <total-cost-filter />
+    <total-cost-filter/>
     <div class="container">
     <bar-chart
       title="Consumo"
-      url="/graph/cost-consumption/?type=daily"
+      :url="getUrl"
       unit="R$"
       class="chart"
       />
+      {{getUrl}}
     </div>
   </div>
 </template>
@@ -15,6 +16,7 @@
 <script>
 import TotalCostFilter from '../components/transductors/totalCostFilter'
 import BarChartPresentation from '../components/charts/BarChartPresentation'
+import { mapGetters } from 'vuex'
 
 export default {
 
@@ -23,10 +25,12 @@ export default {
     BarChart: BarChartPresentation
   },
   data () {
-    return {
-    }
+    return {}
   },
-  methods: {}
+  methods: {},
+  computed: {
+    ...mapGetters('totalCostStore', ['getUrl'])
+  }
 }
 </script>
 
