@@ -1,14 +1,13 @@
 <template>
-  <div>
-    <div>
       <apexcharts
         v-if="mounted"
         id="chart"
         type="bar"
         :series="series"
-        :options="chartOptions"/>
-    </div>
-  </div>
+        :options="chartOptions"
+        height='100%'
+        width='350%'
+      />
 </template>
 
 <script>
@@ -58,38 +57,14 @@ export default {
         colors: ['#00417e'],
 
         chart: {
-          stacked: true,
+          type: 'bar',
           toolbar: {
             show: false
           }
         },
 
-        plotOptions: {
-          bar: {
-            columnWidth: (100 / (this.total_cost.length / 2)).toString() + '%',
-            dataLabels: {
-              enabled: true,
-              position: 'top',
-              formatter: (val) => {
-                return `${this.unit} ${(val / 1000).toFixed(2)}`
-              }
-            }
-          }
-        },
-
         dataLabels: {
-          enabled: false,
-          formatter: (val) => {
-            return `${this.unit} ${(val / 1000).toFixed(2)}`
-          },
-          style: {
-            fontSize: '1rem'
-          },
-          offsetY: 20
-        },
-
-        markers: {
-          size: 1
+          enabled: false
         },
 
         xaxis: {
@@ -112,34 +87,6 @@ export default {
             }
           },
           tickAmount: 10
-        },
-
-        grid: {
-          borderColor: '#e7e7e7',
-          row: {
-            colors: ['transparent'],
-            opacity: 0.5
-          }
-        },
-
-        tooltip: {
-          x: {
-            format: 'dd-MM-yyyy HH:mm',
-            formatter: undefined
-          },
-          y: {
-            formatter: (val) => {
-              return `${this.unit} ${(val / 1000).toFixed(2)}`
-            }
-          }
-        },
-
-        legend: {
-          show: true,
-          fontSize: '8vh',
-          onItemHover: {
-            highlightDataSeries: true
-          }
         }
       }
     }

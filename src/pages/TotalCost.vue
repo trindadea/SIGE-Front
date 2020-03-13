@@ -38,8 +38,6 @@ export default {
     background-color: white;
     margin-right: 0;
     margin-left: 0;
-  }
-  .chart {
-    width: 55%;
+    height: 72vh;
   }
 </style>
