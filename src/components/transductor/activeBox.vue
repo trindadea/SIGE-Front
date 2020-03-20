@@ -7,7 +7,7 @@
       </div>
     </q-card-section>
     <div class="card-content">
-      <p v-if="this.campusName !== ''">Campus {{this.campusName}}</p>
+      <p class="campus" v-if="this.campusName !== ''">Campus {{this.campusName}}</p>
       <q-btn
         v-if="lat !== null && long !== null"
         outline
@@ -101,6 +101,9 @@ export default {
 
 .map-button {
   color: $primary;
+}
+.campus {
+  font-size: 16px;
 }
 
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="occ">
+  <q-scroll-area class="occ">
     <p class="occ-title" v-if="occurrences.length > 0">
       Ocorrência{{occurrences.length > 1? 's': '' }} em andamento
     </p>
@@ -31,7 +31,7 @@
       <p v-if="today.length === 0 && yesterday.length === 0 && beforeYesterday.length === 0" class="no-occ">
         Não houve ocorrências
       </p>
-  </div>
+  </q-scroll-area>
 </template>
 
 <script>

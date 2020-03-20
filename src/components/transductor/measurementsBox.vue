@@ -70,6 +70,9 @@ export default {
         }
         console.log('res', res.data)
         this.lastReading = this.getTime(res.data[0].collection_date)
+        if (res.data[0].consumption) {
+          this.generation = (Math.floor((res.data[0].consumption) / 1000)).toString() + ' kW'
+        }
         this.hasMeasurements = true
       })
       .catch(err => {
