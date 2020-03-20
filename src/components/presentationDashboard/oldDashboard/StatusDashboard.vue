@@ -176,7 +176,7 @@ export default {
           // console.log(res.data)
         })
         .catch((err) => {
-          console.log(err)
+          console.error(err)
           this.loading = false
           this.status = 'failed'
         })
@@ -193,7 +193,7 @@ export default {
       //     this.loading = false
       //   })
       //   .catch((err) => {
-      //     console.log(err)
+      //     console.error(err)
       //     this.loading = false
       //     this.status = 'failed'
       //   })
@@ -219,7 +219,7 @@ export default {
           console.log(res.data)
         })
         .catch(err => {
-          console.log(err)
+          console.error(err)
         })
     }
   },
