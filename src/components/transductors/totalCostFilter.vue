@@ -3,15 +3,16 @@
     <div class="adjust">
       <div class="filter">
         <q-select
-          v-model="allOptionsCampus"
+          v-model="campusModel"
           use-input
-          hide-selected
-          fill-input
+          map-options
+          emit-value
+          option-value="id"
+          option-label="name"
           input-debounce="0"
           label="Campus"
           :options="optionsCampus"
           @filter="filterCampus"
-          class="elem campus"
         >
           <template v-slot:no-option>
             <q-item>
@@ -82,14 +83,15 @@
 <script>
 import HTTP from '../../services/masterApi/http-common'
 import { mapActions } from 'vuex'
+const allCampus = []
 
 export default {
   name: 'TotalCostFilter',
   data () {
     return {
       model: 'daily',
-      allOptionsCampus: [],
-      optionsCampus: this.allOptionsCampus,
+      campusModel: null,
+      optionsCampus: allCampus,
       allOptions: [],
       options: this.allOptions,
       startDate: '',
@@ -102,9 +104,8 @@ export default {
   async created () {
     await HTTP.get('campi/')
       .then(res => {
-        console.log(res.data)
         res.data.forEach(elem => {
-          this.allOptionsCampus.push(elem.name)
+          allCampus.push(elem)
         })
       })
       .catch(err => {
@@ -122,10 +123,16 @@ export default {
       })
     },
     filterCampus (val, update, abort) {
+      if (val === '') {
+        update(() => {
+          this.optionsCampus = allCampus
+        })
+        return
+      }
       update(() => {
         const needle = val.toLowerCase()
-        this.optionsCampus = this.allOptionsCampus.filter(
-          v => v.toLowerCase().indexOf(needle) > -1
+        this.optionsCampus = allCampus.filter(
+          v => v.name.toLowerCase().indexOf(needle) > -1
         )
       })
     }

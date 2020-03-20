@@ -8,7 +8,6 @@
       unit="R$"
       class="chart"
       />
-      {{getUrl}}
     </div>
   </div>
 </template>
