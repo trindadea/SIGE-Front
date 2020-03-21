@@ -13,6 +13,7 @@
           label="Campus"
           :options="optionsCampus"
           @filter="filterCampus"
+          @input="getGroups"
         >
           <template v-slot:no-option>
             <q-item>
@@ -21,14 +22,16 @@
           </template>
         </q-select>
 
-        <q-select
-          v-model="allOptions"
+          <q-select
+          v-model="optionsModel"
           use-input
-          hide-selected
-          fill-input
+          map-options
+          emit-value
+          option-value="id"
+          option-label="name"
           input-debounce="0"
           label="Filtro"
-          :options="options"
+          :options="optionsGroup"
           @filter="filterFn"
           class="col-4 elem"
         >
@@ -84,6 +87,7 @@
 import HTTP from '../../services/masterApi/http-common'
 import { mapActions } from 'vuex'
 const allCampus = []
+const groups = []
 
 export default {
   name: 'TotalCostFilter',
@@ -92,8 +96,8 @@ export default {
       model: 'daily',
       campusModel: null,
       optionsCampus: allCampus,
-      allOptions: [],
-      options: this.allOptions,
+      optionsModel: null,
+      optionsGroup: groups,
       startDate: '',
       endDate: '',
       mask: '##/##/####',
@@ -117,24 +121,27 @@ export default {
     filterFn (val, update, abort) {
       update(() => {
         const needle = val.toLowerCase()
-        this.options = this.allOptions.filter(
-          v => v.toLowerCase().indexOf(needle) > -1
+        this.optionsCampus = allCampus.filter(
+          v => v.name.toLowerCase().indexOf(needle) > -1
         )
       })
     },
     filterCampus (val, update, abort) {
-      if (val === '') {
-        update(() => {
-          this.optionsCampus = allCampus
-        })
-        return
-      }
       update(() => {
         const needle = val.toLowerCase()
         this.optionsCampus = allCampus.filter(
           v => v.name.toLowerCase().indexOf(needle) > -1
         )
       })
+    },
+    getGroups () {
+      console.log(this.optionsCampus)
+      groups.slice(0, groups.length)
+      if (this.optionsCampus.length === 1) {
+        this.optionsCampus.groups_related.map((item) => {
+          groups.push(item)
+        })
+      }
     }
   }
 }
