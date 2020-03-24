@@ -93,7 +93,7 @@ export default {
         })
         .catch((err) => {
           this.loading = false
-          console.log(err)
+          console.error(err)
           this.messageType = 'negative'
           this.message = err.message
         })
@@ -115,7 +115,7 @@ export default {
         console.log(this.availableCampi)
       })
       .catch((err) => {
-        console.log(err)
+        console.error(err)
       })
   }
 }

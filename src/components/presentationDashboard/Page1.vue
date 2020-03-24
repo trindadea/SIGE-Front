@@ -168,7 +168,7 @@ export default {
           this.transductors = res.data
         })
         .catch((err) => {
-          console.log(err)
+          console.error(err)
         })
     },
     getColorStatus (isBroken) {

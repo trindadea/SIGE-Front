@@ -1,8 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { getDateNowSelectFormat } from '../utils/transductorStatus'
+import VueCrontab from 'vue-crontab'
+
 // import example from './module-example'
 
+Vue.use(VueCrontab)
 Vue.use(Vuex)
 
 /*

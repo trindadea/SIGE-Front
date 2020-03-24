@@ -20,7 +20,7 @@
 </template>
 <script>
 import chartFilter from './chartFilter.vue'
-import LineChart from './LineChart.vue'
+import LineChart from './lineChart.vue'
 import noDataPlaceholder from './noDataPlaceholder.vue'
 import { dimensions, getGraph } from '../../utils/transductorGraphControl'
 

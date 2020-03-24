@@ -17,12 +17,14 @@
 
 <script>
 import axios from 'axios'
+import apexcharts from '../../services/ssr-import/apexcharts'
 // import NoDataPlaceholder from './NoDataPlaceholder.vue'
 
 export default {
   name: 'BarChartPresentation',
 
   components: {
+    'apexcharts': apexcharts
     // 'no-data-placeholder': NoDataPlaceholder,
   },
 
@@ -249,7 +251,7 @@ export default {
           this.setTransductorList(transductorsList)
         })
         .catch((err) => {
-          console.log(err)
+          console.error(err)
         })
     }
   },
