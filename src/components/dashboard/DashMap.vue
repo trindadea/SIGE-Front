@@ -1,12 +1,14 @@
 <template>
   <div class="q-pr-md q-ma-none">
+      <!-- :center="mapCenter" -->
+      {{transductors}}
     <l-map
       style="height: 53.9vh!important"
       class="rounded-borders cursor-not-allowed"
-      :zoom="16"
-      :min-zoom="16"
-      :max-zoom="16"
-      :center="mapCenter"
+      :zoom="currentCampus.zoom_ratio"
+      :min-zoom="currentCampus.zoom_ratio"
+      :max-zoom="currentCampus.zoom_ratio"
+      :center="[currentCampus.geolocation_latitude, currentCampus.geolocation_longitude]"
       :options="mapOptions"
       id="region-map">
 
@@ -31,7 +33,7 @@
         v-for="transductor in transductors_points"
         :key="transductor.id"
         :lat-lng="transductor.coordinates"
-        :radius="10"
+        :radius="14"
         :l-style="transductor.style"
         :hover="true"
       />
@@ -106,8 +108,8 @@ export default {
             name: t.name,
             coordinates: [t.geolocation_latitude, t.geolocation_longitude],
             style: {
-              color: t.broken ? 'green' : 'silver',
-              fillColor: t.broken ? 'lime' : 'red',
+              color: !t.broken ? 'green' : 'silver',
+              fillColor: !t.broken ? 'lime' : '#FF0000',
               fillOpacity: 1
             }
           }

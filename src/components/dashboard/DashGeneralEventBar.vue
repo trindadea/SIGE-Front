@@ -42,78 +42,6 @@ export default {
           //     start_time: '',
           //     end_time: ''
           //   },
-          //   {
-          //     id: 12,
-          //     location: 'somewhere in the distance',
-          //     campus: '',
-          //     transductor: '',
-          //     data: '',
-          //     start_time: '',
-          //     end_time: ''
-          //   },
-          //   {
-          //     id: 13,
-          //     location: 'somewhere in the distance',
-          //     campus: '',
-          //     transductor: '',
-          //     data: '',
-          //     start_time: '',
-          //     end_time: ''
-          //   },
-          //   {
-          //     id: 14,
-          //     location: 'somewhere in the distance',
-          //     campus: '',
-          //     transductor: '',
-          //     data: '',
-          //     start_time: '',
-          //     end_time: ''
-          //   },
-          //   {
-          //     id: 15,
-          //     location: 'somewhere in the distance',
-          //     campus: '',
-          //     transductor: '',
-          //     data: '',
-          //     start_time: '',
-          //     end_time: ''
-          //   },
-          //   {
-          //     id: 16,
-          //     location: 'somewhere in the distance',
-          //     campus: '',
-          //     transductor: '',
-          //     data: '',
-          //     start_time: '',
-          //     end_time: ''
-          //   },
-          //   {
-          //     id: 17,
-          //     location: 'somewhere in the distance',
-          //     campus: '',
-          //     transductor: '',
-          //     data: '',
-          //     start_time: '',
-          //     end_time: ''
-          //   },
-          //   {
-          //     id: 18,
-          //     location: 'somewhere in the distance',
-          //     campus: '',
-          //     transductor: '',
-          //     data: '',
-          //     start_time: '',
-          //     end_time: ''
-          //   },
-          //   {
-          //     id: 19,
-          //     location: 'somewhere in the distance',
-          //     campus: '',
-          //     transductor: '',
-          //     data: '',
-          //     start_time: '',
-          //     end_time: ''
-          //   }
           // ],
           eventsList: this.otherEvents.critical_tension,
           icon: 1
@@ -131,24 +59,6 @@ export default {
           //     start_time: '',
           //     end_time: ''
           //   },
-          //   {
-          //     id: 1567,
-          //     location: 'somewhere in the distance',
-          //     campus: '',
-          //     transductor: '',
-          //     data: '',
-          //     start_time: '',
-          //     end_time: ''
-          //   },
-          //   {
-          //     id: 21567,
-          //     location: 'somewhere in the distance',
-          //     campus: '',
-          //     transductor: '',
-          //     data: '',
-          //     start_time: '',
-          //     end_time: ''
-          //   }
           // ],
           eventsList: this.otherEvents.phase_drop,
           icon: 2
@@ -166,24 +76,6 @@ export default {
           //     start_time: '',
           //     end_time: ''
           //   },
-          //   {
-          //     id: 1517,
-          //     location: 'somewhere in the distance',
-          //     campus: '',
-          //     transductor: '',
-          //     data: '',
-          //     start_time: '',
-          //     end_time: ''
-          //   },
-          //   {
-          //     id: 176,
-          //     location: 'somewhere in the distance',
-          //     campus: '',
-          //     transductor: '',
-          //     data: '',
-          //     start_time: '',
-          //     end_time: ''
-          //   }
           // ],
           eventsList: this.otherEvents.precarious_tension,
           icon: 3

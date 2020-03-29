@@ -88,7 +88,7 @@ export default {
 
   created () {
     this.getAPIInfo()
-    setInterval(this.getAPIInfo, 60000) // updates data every minute
+    setInterval(this.getAPIInfo, 62000) // updates data aprox. every minute
   }
 }
 </script>
