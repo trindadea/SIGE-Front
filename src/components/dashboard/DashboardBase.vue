@@ -19,7 +19,7 @@
     <div v-else class="text-center" id="conn-error">
       <h1><q-icon name="cloud_off"/></h1>
       <h2>Falha na conexão com o servidor central</h2>
-      <q-btn outline label="Tentar novamente" @click="getAPIInfo()" autofocus/>
+      <q-btn outline label="Tentar novamente" @click="getAPIInfo()"/>
     </div>
   </div>
 </template>
