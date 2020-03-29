@@ -1,7 +1,6 @@
 <template>
   <div class="q-pr-md q-ma-none">
       <!-- :center="mapCenter" -->
-      {{transductors}}
     <l-map
       style="height: 53.9vh!important"
       class="rounded-borders cursor-not-allowed"
