@@ -102,7 +102,7 @@ export default {
         this.transductor = res.data
       })
       .catch((err) => {
-        console.log(err)
+        console.error(err)
       })
     this.loading = false
   }
