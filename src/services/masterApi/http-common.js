@@ -17,7 +17,7 @@ if (typeof window === 'undefined') {
 }
 
 const HTTP = axios.create({
-  baseURL: `http://192.168.100.229:8001/`
+  baseURL: `http://0.0.0.0:8001/`
 })
 
 export default HTTP

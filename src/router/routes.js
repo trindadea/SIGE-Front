@@ -1,7 +1,7 @@
 
 const routes = [
   {
-    path: '/monitoring-panel',
+    path: '/dashboard',
     component: () => import('components/dashboard/DashboardBase.vue')
   },
   {
