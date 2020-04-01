@@ -4,7 +4,7 @@ stages:
   - publishImageConfig:
       dockerfilePath: ./Dockerfile.prod
       buildContext: .
-      tag: smi-front:${CICD_EXECUTION_SEQUENCE}
+      tag: smi-front:latest
       pushRemote: true
       registry: registry.lappis.rocks
 

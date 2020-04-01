@@ -10,4 +10,6 @@ RUN mv src/services/masterApi/http-common-homolog-deploy.js src/services/masterA
 
 WORKDIR /smi-front/dist/ssr
 
-ENTRYPOINT ["yarn", "start:ssr"]
+ENTRYPOINT ["yarn"]
+
+CMD ["start:ssr"]
