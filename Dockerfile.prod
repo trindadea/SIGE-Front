@@ -8,8 +8,4 @@ RUN mv src/services/masterApi/http-common-homolog-deploy.js src/services/masterA
     yarn install && \
     yarn build:ssr
 
-WORKDIR /smi-front/dist/ssr
-
-ENTRYPOINT ["yarn"]
-
-CMD ["start:ssr"]
+ENTRYPOINT ["yarn", "start:ssr"]
