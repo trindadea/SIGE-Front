@@ -19,7 +19,7 @@
 
 <script>
 import apexcharts from '../../services/ssr-import/apexcharts'
-import noDataPlaceholder from './noDataPlaceholder'
+import noDataPlaceholder from './noDataPlaceHolder.vue'
 
 export default {
   components: {

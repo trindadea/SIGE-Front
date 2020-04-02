@@ -21,7 +21,7 @@
 <script>
 import chartFilter from './chartFilter.vue'
 import LineChart from './lineChart.vue'
-import noDataPlaceholder from './noDataPlaceholder.vue'
+import noDataPlaceholder from './noDataPlaceHolder.vue'
 import { dimensions, getGraph } from '../../utils/transductorGraphControl'
 
 export default {
