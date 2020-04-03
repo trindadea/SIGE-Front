@@ -14,9 +14,29 @@ const updateBarChart = ({ commit }) => {
   commit('updateBarChart')
 }
 
+const filterByCampus = ({ commit }, idCampus) => {
+  commit('filterByCampus', idCampus)
+}
+
+const filterByGroup = ({ commit }, idGroup) => {
+  commit('filterByGroup', idGroup)
+}
+
+const clearStartDate = ({ commit }) => {
+  commit('clearStartDate')
+}
+
+const clearEndDate = ({ commit }) => {
+  commit('clearEndDate')
+}
+
 export {
   changePeriodicity,
   changeStartDate,
   changeEndDate,
-  updateBarChart
+  updateBarChart,
+  filterByCampus,
+  filterByGroup,
+  clearStartDate,
+  clearEndDate
 }

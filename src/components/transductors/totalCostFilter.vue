@@ -13,7 +13,8 @@
           label="Campus"
           :options="optionsCampus"
           @filter="filterCampus"
-          @input="getGroups"
+          class="col-4 elem select"
+          @input="getGroups(); filterByCampus(campusModel)"
         >
           <template v-slot:no-option>
             <q-item>
@@ -33,7 +34,8 @@
           label="Filtro"
           :options="optionsGroup"
           @filter="filterFn"
-          class="col-4 elem"
+          class="col-4 elem select"
+          @input="filterByGroup(optionsModel)"
         >
           <template v-slot:no-option>
             <q-item>
@@ -56,7 +58,7 @@
         @input="changePeriodicity(model)"
           />
         </div>
-        <q-input v-model="startDate" :mask="mask" label="Período: Início" class="elem">
+        <q-input v-model="startDate" :mask="mask" label="Período: Início" class="elem input" :error="errorStartDate" @input="verifyClearInput">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer calendar">
               <q-popup-proxy transition-show="scale" transition-hide="scale">
@@ -65,7 +67,7 @@
             </q-icon>
           </template>
         </q-input>
-        <q-input v-model="endDate" :mask="mask" label="Período: Fim" class="elem">
+        <q-input v-model="endDate" :mask="mask" label="Período: Fim" class="elem input" :error="errorEndDate" @input="verifyClearInput">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer calendar">
               <q-popup-proxy transition-show="scale" transition-hide="scale">
@@ -85,7 +87,8 @@
 
 <script>
 import HTTP from '../../services/masterApi/http-common'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
+import moment from 'moment'
 const allCampus = []
 const groups = []
 
@@ -116,8 +119,11 @@ export default {
         console.log(err)
       })
   },
+  computed: {
+    ...mapGetters('totalCostStore', ['errorStartDate', 'errorEndDate'])
+  },
   methods: {
-    ...mapActions('totalCostStore', ['changePeriodicity', 'changeStartDate', 'changeEndDate']),
+    ...mapActions('totalCostStore', ['changePeriodicity', 'changeStartDate', 'changeEndDate', 'filterByCampus', 'filterByGroup', 'clearStartDate', 'clearEndDate']),
     filterFn (val, update, abort) {
       update(() => {
         const needle = val.toLowerCase()
@@ -135,14 +141,33 @@ export default {
       })
     },
     getGroups () {
-      groups.map(group => groups.pop())
-      console.log(groups)
+      while (groups.length) {
+        groups.pop()
+      }
       this.optionsModel = null
       allCampus.filter(campus => campus.id === this.campusModel)[0].groups_related.map(group => {
         if (groups.filter(subGroup => subGroup.name === group.name).length === 0) {
           groups.push(group)
         }
       })
+    },
+
+    verifyClearInput () {
+      if (!this.startDate) {
+        this.clearStartDate()
+      } else {
+        if (moment(this.startDate, 'DD-MM-YYYY').isValid()) {
+          this.changeStartDate(this.startDate)
+        }
+      }
+
+      if (!this.endDate) {
+        this.clearEndDate()
+      } else {
+        if (moment(this.endDate, 'DD-MM-YYYY').isValid()) {
+          this.changeEndDate(this.endDate)
+        }
+      }
     }
   }
 }
@@ -211,5 +236,11 @@ export default {
 .adjust-toggle {
   margin-left: 39%;
   margin-top: -1.5%;
+}
+.select {
+  max-width: 20%;
+}
+.input {
+  padding-bottom: 0;
 }
 </style>
