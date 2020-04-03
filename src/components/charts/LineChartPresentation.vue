@@ -17,10 +17,12 @@
 
 <script>
 import axios from 'axios'
+import apexcharts from '../../services/ssr-import/apexcharts'
 // import NoDataPlaceholder from './NoDataPlaceholder.vue'
 
 export default {
   components: {
+    'apexcharts': apexcharts
     // 'no-data-placeholder': NoDataPlaceholder,
   },
 
@@ -187,7 +189,7 @@ export default {
           console.log(measurements)
           this.buildGraphInformation(measurements)
         })
-        .catch((err) => console.log(err))
+        .catch((err) => console.error(err))
     },
 
     buildGraphInformation (data) {
@@ -224,7 +226,7 @@ export default {
           this.transductor = res.data
         })
         .catch((err) => {
-          console.log(err)
+          console.error(err)
         })
     }
   },
@@ -241,7 +243,7 @@ export default {
         console.log(measurements)
         this.buildGraphInformation(measurements)
       })
-      .catch((err) => console.log(err))
+      .catch((err) => console.error(err))
   }
 }
 </script>
