@@ -1,13 +1,14 @@
 <template>
+      <div class="bg-white chart-container">
       <apexcharts
         v-if="mounted"
         id="chart"
         type="bar"
         :series="series"
         :options="chartOptions"
-        height='100%'
-        width='350%'
+        height="95%"
       />
+      </div>
 </template>
 
 <script>
@@ -117,7 +118,8 @@ export default {
 </script>
 
 <style scoped>
-  #chart {
-    padding: .5rem;
+  .chart-container {
+    height: 100%;
+    width: 80%;
   }
 </style>
