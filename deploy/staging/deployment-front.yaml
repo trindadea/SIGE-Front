@@ -57,7 +57,7 @@ spec:
     spec:
       containers:
       - name: smi-front-staging
-        image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
+        image: registry.lappis.rocks/smi-front:latest
         command: ["yarn", "start:ssr"]
         ports:
         - containerPort: 8080

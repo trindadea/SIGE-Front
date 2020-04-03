@@ -10,7 +10,7 @@
 
 <script>
 // import axios from 'axios'
-import HTTP from '../../services/masterApi/http-common'
+import MASTER from '../../services/masterApi/http-common'
 import Apexcharts from '../../services/ssr-import/apexcharts'
 
 export default {
@@ -175,8 +175,8 @@ export default {
       //   ]
 
       //   axios.all([
-      //     HTTP.get(consumption[0]),
-      //     HTTP.get(consumption[1])
+      //     MASTER.get(consumption[0]),
+      //     MASTER.get(consumption[1])
       //   ])
       //     .then(axios.spread((consA, consB) => {
       //       this.consumption = [...consA.data, ...consB.data]
@@ -185,7 +185,7 @@ export default {
       //       console.log(errArray)
       //     })
       // }
-      HTTP
+      MASTER
         .get(`/graph/quarterly-daily-consumption/?campus=${this.selectedCampus.id}`)
         // .get(`/graph/quartely-daily-consumption/?start_date=2020-03-05%2000:00:00&end_date=2020-03-05%2023:59:59&campus=2`)
         .then((res) => {

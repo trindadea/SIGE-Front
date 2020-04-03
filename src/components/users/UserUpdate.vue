@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import HTTP from '../../services/masterApi/http-common'
+import MASTER from '../../services/masterApi/http-common'
 
 export default {
   name: '',
@@ -74,7 +74,7 @@ export default {
   },
   methods: {
     retrieveUserInformation () {
-      HTTP
+      MASTER
         .get('users/' + this.$q.localStorage.getItem('userID') + '/', {
           headers: {
             authorization: 'Token ' + this.$q.localStorage.getItem('userToken')
@@ -98,7 +98,7 @@ export default {
       data.name = this.fullname
       data.email = this.email
       data.password = this.password
-      HTTP
+      MASTER
         .put('users/' + this.$q.localStorage.getItem('userID') + '/', data,
           {
             headers: {

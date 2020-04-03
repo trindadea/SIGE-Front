@@ -16,14 +16,16 @@
         :alerts="alerts"/>
     </div>
 
-    <div v-else>
-      CHECK YOUR API
+    <div v-else class="text-center" id="conn-error">
+      <h1><q-icon name="cloud_off"/></h1>
+      <h2>Falha na conexão com o servidor central</h2>
+      <q-btn outline label="Tentar novamente" @click="getAPIInfo()"/>
     </div>
   </div>
 </template>
 
 <script>
-import HTTP from '../../services/masterApi/http-common'
+import MASTER from '../../services/masterApi/http-common'
 
 import DashBottomBar from 'components/dashboard/DashBottomBar'
 import DashCampusTab from 'components/dashboard/DashCampusTab'
@@ -53,7 +55,7 @@ export default {
 
   methods: {
     getAllCampi () {
-      HTTP.get('campi/')
+      MASTER.get('campi/')
         .then((res) => {
           this.campiList = res.data
         })
@@ -67,7 +69,7 @@ export default {
     },
 
     getEventsInProgress () {
-      HTTP.get('occurences/')
+      MASTER.get('occurences/')
         .then((res) => {
           this.eventsInProgress = res.data
         })
@@ -88,7 +90,7 @@ export default {
 
   created () {
     this.getAPIInfo()
-    setInterval(this.getAPIInfo, 60000) // updates data every minute
+    setInterval(this.getAPIInfo, 62000) // updates data aprox. every minute
   }
 }
 </script>
@@ -123,5 +125,9 @@ export default {
 
   .card-title {
     font-size: 24px;
+  }
+
+  #conn-error {
+    margin-top: 30vh;
   }
 </style>
