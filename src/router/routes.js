@@ -5,6 +5,16 @@ const routes = [
     component: () => import('components/dashboard/DashboardBase.vue')
   },
   {
+    path: '/transductor_list',
+    component: () => import('components/transductorList/TransductorListBase.vue'),
+    children: [
+      {
+        path: '',
+        component: () => import('components/transductorList/TransductorList.vue')
+      }
+    ]
+  },
+  {
     path: '/users',
     component: () => import('components/users/AuthBase.vue'),
     children: [
