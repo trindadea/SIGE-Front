@@ -10,8 +10,13 @@ const changeEndDate = ({ commit }, endDate) => {
   commit('changeEndDate', endDate)
 }
 
+const updateBarChart = ({ commit }) => {
+  commit('updateBarChart')
+}
+
 export {
   changePeriodicity,
   changeStartDate,
-  changeEndDate
+  changeEndDate,
+  updateBarChart
 }

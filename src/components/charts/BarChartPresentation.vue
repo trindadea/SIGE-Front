@@ -96,23 +96,32 @@ export default {
   methods: {
     labelFormatter (value) {
       return this.unit + ' ' + (value / 1000).toFixed(2)
+    },
+    async getData () {
+      console.log(this.url)
+      await HTTP.get(this.url)
+        .then(res => {
+          console.log(res.data)
+          this.total_cost = res.data.cost
+          this.min = res.data.min
+          this.max = res.data.max
+          this.mounted = true
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   },
 
   async mounted () {
-    await HTTP.get(this.url)
-      .then(res => {
-        console.log(res.data)
-        this.total_cost = res.data.cost
-        this.min = res.data.min
-        this.max = res.data.max
-        this.mounted = true
-      })
-      .catch(err => {
-        console.log(err)
-      })
-
+    this.getData()
     // console.log()
+  },
+
+  watch: {
+    url: async function (newVal, oldVal) {
+      this.getData()
+    }
   }
 }
 </script>

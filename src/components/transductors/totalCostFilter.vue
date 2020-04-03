@@ -135,13 +135,14 @@ export default {
       })
     },
     getGroups () {
-      console.log(this.optionsCampus)
-      groups.slice(0, groups.length)
-      if (this.optionsCampus.length === 1) {
-        this.optionsCampus.groups_related.map((item) => {
-          groups.push(item)
-        })
-      }
+      groups.map(group => groups.pop())
+      console.log(groups)
+      this.optionsModel = null
+      allCampus.filter(campus => campus.id === this.campusModel)[0].groups_related.map(group => {
+        if (groups.filter(subGroup => subGroup.name === group.name).length === 0) {
+          groups.push(group)
+        }
+      })
     }
   }
 }
