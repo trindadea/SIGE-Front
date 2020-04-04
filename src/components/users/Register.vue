@@ -55,6 +55,9 @@
 import MASTER from '../../services/masterApi/http-common'
 
 export default {
+  created () {
+    this.$store.commit('changePage', 'Cadastro')
+  },
   name: '',
   data () {
     return {
@@ -83,6 +86,9 @@ export default {
               console.log(res)
               this.$q.localStorage.set('userToken', res.data.token)
               this.$q.localStorage.set('userID', res.data.user.id)
+              this.$q.localStorage.set('username', res.data.name)
+              this.$q.localStorage.set('useremail', res.data.user.email)
+              // this.$store.commit('setAuthStatus', true)
               this.$router.push('/')
               this.$q.notify({
                 type: 'positive',

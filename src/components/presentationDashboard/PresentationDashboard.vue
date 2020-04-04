@@ -2,7 +2,7 @@
   <div>
     <q-layout view="hhh lpR fff">
 
-      <presentation-header/>
+      <Header/>
 
       <q-page-container class="bg-grey-2">
         <router-view />
@@ -16,14 +16,14 @@
 
 <script>
 // import PresentationFooter from 'components/presentationDashboard/Footer.vue'
-import PresentationHeader from 'components/presentationDashboard/Header.vue'
+import Header from 'components/Header.vue'
 
 export default {
   name: '',
 
   components: {
     // PresentationFooter,
-    PresentationHeader
+    Header
   }
 }
 </script>

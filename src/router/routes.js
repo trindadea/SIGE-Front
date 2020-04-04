@@ -1,20 +1,50 @@
 
+import store from '../store/index'
+
+let ifAuthenticated = (to, from, next) => {
+  let isAuthenticated = store().getters.authStatus()
+  if (isAuthenticated === undefined) {
+    isAuthenticated = false
+  }
+  console.log(isAuthenticated)
+  if (isAuthenticated) {
+    next()
+  } else {
+    next({ path: '/users/login' })
+  }
+}
+
 const routes = [
   {
     path: '/dashboard',
     component: () => import('components/dashboard/DashboardBase.vue')
   },
   {
-    path: '/transductor/:id',
-    component: () => import('pages/Transductor.vue')
-  },
-  {
-    path: '/transductor_list',
-    component: () => import('components/transductorList/TransductorListBase.vue'),
+    path: '/',
+    beforeEnter: ifAuthenticated,
+    component: () => import('components/home/HomeBase.vue'),
     children: [
       {
         path: '',
-        component: () => import('components/transductorList/TransductorList.vue')
+        component: () => import('components/home/Home.vue')
+      },
+      {
+        path: 'report',
+        component: () => import('components/home/Report.vue')
+      },
+      {
+        path: '/transductor_list',
+        component: () => import('components/transductorList/TransductorListBase.vue'),
+        children: [
+          {
+            path: '',
+            component: () => import('components/transductorList/TransductorList.vue')
+          }
+        ]
+      },
+      {
+        path: '/transductor/:id',
+        component: () => import('pages/Transductor.vue')
       }
     ]
   },
@@ -32,6 +62,7 @@ const routes = [
       },
       {
         path: 'edit',
+        beforeEnter: ifAuthenticated,
         component: () => import('components/users/UserUpdate.vue')
       },
       {
