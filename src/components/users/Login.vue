@@ -109,7 +109,9 @@ export default {
           console.log(res)
           this.$q.localStorage.set('userToken', res.data.token)
           this.$q.localStorage.set('userID', res.data.user.id)
-          this.$store.commit('setAuthStatus', true)
+          this.$q.localStorage.set('username', res.data.user.name)
+          this.$q.localStorage.set('useremail', res.data.user.email)
+          // this.$store.commit('setAuthStatus', true)
           this.$q.notify({
             type: 'positive',
             message: `Voce está autenticado.`

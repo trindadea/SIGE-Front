@@ -32,6 +32,22 @@ export default function (/* { ssrContext } */) {
         state.page = page
       }
     },
+    getters: {
+      authStatus (state) {
+        let userToken = LocalStorage.getItem('userToken')
+        if (userToken == null) userToken = ''
+        let userID = LocalStorage.getItem('userID')
+        if (userID == null) userID = ''
+        return !!(userToken && userID)
+      },
+      user (state) {
+        let user = {
+          name: LocalStorage.getItem('username'),
+          email: LocalStorage.getItem('useremail')
+        }
+        return user
+      }
+    },
     // enable strict mode (adds overhead!)
     // for dev mode only
     strict: process.env.DEV

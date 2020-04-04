@@ -40,10 +40,11 @@ import HTTP from '../services/masterApi/http-common'
 
 export default {
   data () {
+    let user = this.$store.getters.user
     return {
-      userLogged: false,
-      username: '',
-      useremail: ''
+      userLogged: this.$store.getters.authStatus,
+      username: user.name === null ? '' : user.name,
+      useremail: user.email === null ? '' : user.email
     }
   },
   methods: {
@@ -59,15 +60,16 @@ export default {
     goToLogout () {
       this.$router.push({ path: '/users/logout' })
     },
-    loadUserData () {
-      if (this.$store.getters.isAuthenticated) {
+
+    async loadUserData () {
+      if (await this.$store.getters.authStatus) {
         this.userLogged = true
       } else {
         return
       }
-      let userName = this.$q.localStorage.getItem('userName')
+      let userName = this.$q.localStorage.getItem('username')
       if (userName === null) userName = ''
-      let userEmail = this.$q.localStorage.getItem('userEmail')
+      let userEmail = this.$q.localStorage.getItem('useremail')
       if (userEmail === null) userEmail = ''
       if (userName && userEmail) {
         this.username = userName
@@ -84,18 +86,18 @@ export default {
           console.log(res)
           this.username = res.data.name
           this.useremail = res.data.email
-          this.$q.localStorage.set('userName', this.username)
-          this.$q.localStorage.set('userEmail', this.useremail)
+          this.$q.localStorage.set('username', this.username)
+          this.$q.localStorage.set('useremail', this.useremail)
         })
         .catch(err => {
           this.userLogged = false
           console.log(err)
         })
     }
-  },
-  created () {
-    this.loadUserData()
   }
+  // created () {
+  //   this.loadUserData()
+  // }
 }
 </script>
 
