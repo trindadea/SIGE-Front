@@ -52,9 +52,12 @@
 </template>
 
 <script>
-import HTTP from '../../services/masterApi/http-common'
+import MASTER from '../../services/masterApi/http-common'
 
 export default {
+  created () {
+    this.$store.commit('changePage', 'Cadastro')
+  },
   name: '',
   data () {
     return {
@@ -66,7 +69,7 @@ export default {
   },
   methods: {
     register () {
-      HTTP
+      MASTER
         .post('users/', {
           email: this.email,
           password: this.password,
@@ -74,7 +77,7 @@ export default {
         })
         .then(res => {
           console.log(res)
-          HTTP
+          MASTER
             .post(`login/`, {
               email: this.email,
               password: this.password
@@ -83,6 +86,9 @@ export default {
               console.log(res)
               this.$q.localStorage.set('userToken', res.data.token)
               this.$q.localStorage.set('userID', res.data.user.id)
+              this.$q.localStorage.set('username', res.data.name)
+              this.$q.localStorage.set('useremail', res.data.user.email)
+              // this.$store.commit('setAuthStatus', true)
               this.$router.push('/')
               this.$q.notify({
                 type: 'positive',
