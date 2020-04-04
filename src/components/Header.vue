@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import HTTP from '../services/masterApi/http-common'
+import MASTER from '../services/masterApi/http-common'
 
 export default {
   data () {
@@ -76,7 +76,7 @@ export default {
         this.useremail = userEmail
         return
       }
-      HTTP
+      MASTER
         .get('users/' + this.$q.localStorage.getItem('userID') + '/', {
           headers: {
             authorization: 'Token ' + this.$q.localStorage.getItem('userToken')

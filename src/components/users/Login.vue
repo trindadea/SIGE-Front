@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import HTTP from '../../services/masterApi/http-common'
+import MASTER from '../../services/masterApi/http-common'
 
 export default {
   created () {
@@ -100,7 +100,7 @@ export default {
   },
   methods: {
     login () {
-      HTTP
+      MASTER
         .post('login/', {
           email: this.email,
           password: this.password
