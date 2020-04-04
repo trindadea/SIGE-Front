@@ -4,7 +4,7 @@ stages:
   - publishImageConfig:
       dockerfilePath: ./Dockerfile.prod
       buildContext: .
-      tag: smi-front:${CICD_EXECUTION_SEQUENCE}
+      tag: smi-front:latest
       pushRemote: true
       registry: registry.lappis.rocks
 
@@ -14,6 +14,14 @@ stages:
   steps:
   - applyYamlConfig:
       path: ./deploy/staging/deployment-front.yaml
+
+- name: Deploy Production
+  when:
+    branch: master
+  steps:
+  - applyYamlConfig:
+      path: ./deploy/production/deployment-front.yaml
+
 
 branch:
   include: [ master, development ]

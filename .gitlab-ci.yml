@@ -22,7 +22,7 @@ build:
   before_script:
     - yarn install
   script:
-    - yarn build
+    - yarn build:ssr
 
 code_quality:
   stage: quality

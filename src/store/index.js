@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { LocalStorage } from 'quasar'
+import VueCrontab from 'vue-crontab'
 
 // import example from './module-example'
 
+Vue.use(VueCrontab)
 Vue.use(Vuex)
 
 /*

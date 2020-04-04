@@ -85,7 +85,7 @@ export default {
         })
         .catch((err) => {
           this.loading = false
-          console.log(err)
+          console.error(err)
           this.messageType = 'negative'
           this.message = err.message
         })
