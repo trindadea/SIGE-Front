@@ -86,7 +86,7 @@ export default {
   methods: {
     getLastMeasurement () {
       HTTP
-        .get(`/realtime-measurements/?serial_number=${this.transductor.serial_number}`)
+        .get(`/realtime-measurements/?serial_number=${this.transductor.id}`)
         .then((res) => {
           this.rtm = res.data
         })
@@ -96,7 +96,7 @@ export default {
     },
     getTransductorsLast72h () {
       HTTP
-        .get(`/occurences/?type=period&serial_number=${this.transductor.serial_number}`)
+        .get(`/occurences/?type=period&serial_number=${this.transductor.id}`)
         .then((res) => {
           this.transductor_occurences = res.data
         })
