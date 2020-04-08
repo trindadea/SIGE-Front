@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-layout view="hhh lpR fff" style="background-color:#fafafa">
-      <user-header/>
+      <Header/>
       <q-page-container>
         <router-view/>
       </q-page-container>
@@ -10,12 +10,12 @@
 </template>
 
 <script>
-import UserHeader from 'components/users/Header.vue'
+import Header from 'components/Header.vue'
 
 export default {
   name: '',
   components: {
-    UserHeader
+    Header
   }
 }
 </script>
@@ -57,10 +57,6 @@ export default {
     // margin-bottom: 2.5em;
     margin-top: .5em;
     margin-bottom: .5em;
-  }
-
-  .unb-blue {
-    background-color: rgba(0, 64, 126, 100%);
   }
 
   a {

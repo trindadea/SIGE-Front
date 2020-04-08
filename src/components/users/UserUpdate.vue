@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import HTTP from '../../services/masterApi/http-common'
+import MASTER from '../../services/masterApi/http-common'
 
 export default {
   name: '',
@@ -61,6 +61,7 @@ export default {
     }
   },
   created () {
+    this.$store.commit('changePage', 'Editar Dados')
     if (!this.$q.localStorage.getItem('userID') ||
         !this.$q.localStorage.getItem('userToken')) {
       this.$q.notify({
@@ -74,7 +75,7 @@ export default {
   },
   methods: {
     retrieveUserInformation () {
-      HTTP
+      MASTER
         .get('users/' + this.$q.localStorage.getItem('userID') + '/', {
           headers: {
             authorization: 'Token ' + this.$q.localStorage.getItem('userToken')
@@ -98,7 +99,7 @@ export default {
       data.name = this.fullname
       data.email = this.email
       data.password = this.password
-      HTTP
+      MASTER
         .put('users/' + this.$q.localStorage.getItem('userID') + '/', data,
           {
             headers: {
