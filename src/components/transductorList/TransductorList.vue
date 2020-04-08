@@ -91,6 +91,7 @@ import MASTER from '../../services/masterApi/http-common'
 
 export default {
   created () {
+    this.$store.commit('changePage', 'Medidores')
     this.getTransductors()
   },
   methods: {

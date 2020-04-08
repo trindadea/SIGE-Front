@@ -60,6 +60,7 @@ export default {
         res.data.grouping.forEach(group => {
           this.groupRequest(group)
         })
+        this.$store.commit('changePage', res.data.name)
       })
   },
   methods: {

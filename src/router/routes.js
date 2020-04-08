@@ -2,7 +2,7 @@
 import store from '../store/index'
 
 let ifAuthenticated = (to, from, next) => {
-  let isAuthenticated = store().getters.authStatus()
+  let isAuthenticated = store().getters.authStatus
   if (isAuthenticated === undefined) {
     isAuthenticated = false
   }

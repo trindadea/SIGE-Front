@@ -68,7 +68,7 @@ const menuItems = [
   },
   {
     name: 'Medidores',
-    link: '/report',
+    link: '/transductor_list',
     icon: 'mdi-gauge',
     separator: true
   },
