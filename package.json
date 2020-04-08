@@ -13,7 +13,7 @@
     "start": "quasar dev -m ssr",
     "build": "quasar build",
     "build:ssr": "quasar build -m ssr",
-    "start:ssr": "node index.js"
+    "start:ssr": "node dist/ssr/index.js"
   },
   "dependencies": {
     "@babel/core": "^7.5.5",
@@ -30,7 +30,9 @@
     "quasar": "^1.0.0",
     "sass-loader": "^7.1.0",
     "vue-apexcharts": "^1.5.1",
-    "vue2-leaflet": "^2.2.1"
+    "vue-crontab": "^0.0.4",
+    "vue2-leaflet": "^2.2.1",
+    "vuex": "^3.1.2"
   },
   "devDependencies": {
     "@quasar/app": "^1.0.0",
@@ -38,7 +40,7 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^5.10.0",
     "eslint-loader": "^2.1.1",
-    "eslint-plugin-vue": "^5.0.0"
+    "eslint-plugin-vue": "^6.1.2"
   },
   "engines": {
     "node": ">= 8.9.0",
