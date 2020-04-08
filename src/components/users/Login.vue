@@ -39,7 +39,8 @@
     <div class="col-md-4 col-lg-5 q-pa-lg">
       <q-form
         class="q-gutter-md q-pa-lg shadow-1 form-box"
-        @validation-success="login()">
+        @validation-success="login()"
+        @submit.prevent>
         <h3 class="login-text">
           Entre seus dados para acessar
         </h3>
