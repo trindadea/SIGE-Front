@@ -58,11 +58,11 @@
           password
           type="password"
           :rules="[ val => val && val.length >= 8 || 'Insira uma senha com ao menos 8 caracteres.']"/>
-        <div class="text-right">
+<!--         <div class="text-right">
           <a href="/users/forgotten-password/">
             Esqueceu sua senha?
           </a>
-        </div>
+        </div> -->
         <div class="text-center q-mt-lg">
           <q-btn
             size="1rem"
@@ -88,8 +88,8 @@ export default {
   },
   data () {
     return {
-      email: 'ezequiel@gmail.com',
-      password: '12345678',
+      email: '',
+      password: '',
       partners: [
         'https://www.infoescola.com/wp-content/uploads/2016/02/unb.png',
         'statics/ceb_partner.jpg',
