@@ -74,10 +74,10 @@ const menuItems = [
   },
   {
     name: 'Custo Total',
-    link: '',
+    link: '/total_cost',
     icon: 'equalizer',
     separator: false
-  },
+  }/* ,
   {
     name: 'Demanda e Geração',
     link: '',
@@ -95,7 +95,7 @@ const menuItems = [
     link: '',
     icon: 'equalizer',
     separator: false
-  }
+  } */
 ]
 export default {
   components: {

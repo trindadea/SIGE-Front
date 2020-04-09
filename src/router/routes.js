@@ -32,7 +32,7 @@ const routes = [
         path: '/about', component: () => import('pages/About.vue')
       },
       {
-        path: '/totalCost', component: () => import('pages/TotalCost.vue')
+        path: '/total_cost', component: () => import('pages/TotalCost.vue')
       },
       {
         path: '/transductor/:id',

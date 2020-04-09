@@ -7,7 +7,7 @@
     >
       <a :href="item.link" style="text-decoration: none">
         <q-card class="my-card">
-          <img src="https://cdn.quasar.dev/img/mountains.jpg">
+          <img :src="item.image">
           <q-card-section>
             <div class="card-text">{{ item.name }}</div>
           </q-card-section>
@@ -22,24 +22,14 @@ import { mapActions } from 'vuex'
 
 let graphData = [
   {
-    graph: '',
-    link: '',
+    image: 'statics/CustoTotal.png',
+    link: '/total_cost',
     name: 'Custo Total'
   },
   {
-    graph: '',
-    link: '',
-    name: 'Demanda e Geração'
-  },
-  {
-    graph: '',
-    link: '',
-    name: 'Curva de Carga'
-  },
-  {
-    graph: '',
-    link: '',
-    name: 'Fator de Potência'
+    image: 'statics/Medidores.png',
+    link: '/transductor_list',
+    name: 'Medidores'
   }
 ]
 export default {
