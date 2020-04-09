@@ -6,7 +6,9 @@ import VueCrontab from 'vue-crontab'
 
 // import example from './module-example'
 
+import totalCostStore from './module-totalCost'
 Vue.use(VueCrontab)
+
 Vue.use(Vuex)
 
 /*
@@ -16,6 +18,9 @@ Vue.use(Vuex)
 
 export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
+    modules: {
+      totalCostStore
+    },
     state: {
       page: '',
       userAuth: false,
