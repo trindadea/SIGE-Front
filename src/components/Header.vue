@@ -36,18 +36,22 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import MASTER from '../services/masterApi/http-common'
 
 export default {
   data () {
-    let user = this.$store.getters.user
     return {
-      userLogged: this.$store.getters.authStatus,
-      username: user.name === null ? '' : user.name,
-      useremail: user.email === null ? '' : user.email
+      userLogged: '',
+      username: '',
+      useremail: ''
     }
   },
+  computed: {
+    ...mapGetters('userStore', ['getUser', 'authStatus'])
+  },
   methods: {
+    ...mapActions('userStore', ['saveUserInfo']),
     goToEdit () {
       this.$router.push({ path: '/users/edit' })
     },
@@ -62,42 +66,43 @@ export default {
     },
 
     async loadUserData () {
-      if (await this.$store.getters.authStatus) {
+      if (await this.authStatus) {
         this.userLogged = true
       } else {
         return
       }
-      let userName = this.$q.localStorage.getItem('username')
+      let user = this.getUser
+      let userName = user.username
       if (userName === null) userName = ''
-      let userEmail = this.$q.localStorage.getItem('useremail')
+      let userEmail = user.useremail
       if (userEmail === null) userEmail = ''
       if (userName && userEmail) {
         this.username = userName
         this.useremail = userEmail
-        return
       }
       MASTER
-        .get('users/' + this.$q.localStorage.getItem('userID') + '/', {
+        .get('users/' + user.id + '/', {
           headers: {
-            authorization: 'Token ' + this.$q.localStorage.getItem('userToken')
+            authorization: 'Token ' + user.token
           }
         })
         .then(res => {
-          console.log(res)
           this.username = res.data.name
           this.useremail = res.data.email
-          this.$q.localStorage.set('username', this.username)
-          this.$q.localStorage.set('useremail', this.useremail)
+          this.saveUserInfo({
+            'username': this.username,
+            'useremail': this.useremail
+          })
         })
         .catch(err => {
           this.userLogged = false
           console.log(err)
         })
     }
+  },
+  created () {
+    this.loadUserData()
   }
-  // created () {
-  //   this.loadUserData()
-  // }
 }
 </script>
 

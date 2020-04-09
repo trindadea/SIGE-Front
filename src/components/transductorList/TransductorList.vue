@@ -88,13 +88,15 @@
 
 <script>
 import MASTER from '../../services/masterApi/http-common'
+import { mapActions } from 'vuex'
 
 export default {
   created () {
-    this.$store.commit('changePage', 'Medidores')
+    this.changePage('Medidores')
     this.getTransductors()
   },
   methods: {
+    ...mapActions('userStore', ['changePage']),
     async getTransductors () {
       await MASTER
         .get(`energy-transductors-list/`)

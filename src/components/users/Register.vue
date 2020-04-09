@@ -35,7 +35,7 @@
           lazy-rules
           password
           type="password"
-          :rules="[ val => val && val.length >= 8 || 'Insira uma senha com ao menos 8 caracteres.']"/>
+          :rules="[ val => val && val.length >= 8 || 'Insira uma senha com ao menos 8 caracteres.', val => val === this.password || 'Confirmação deve ser iqual a senha informada']"/>
         <div class="text-center q-mt-lg">
           <q-btn
             size="1rem"
@@ -54,10 +54,11 @@
 
 <script>
 import MASTER from '../../services/masterApi/http-common'
+import { mapActions } from 'vuex'
 
 export default {
   created () {
-    this.$store.commit('changePage', 'Cadastro')
+    this.changePage('Cadastro')
   },
   name: '',
   data () {
@@ -69,6 +70,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions('userStore', ['changePage', 'saveUserInfo']),
     register () {
       MASTER
         .post('users/', {
@@ -84,12 +86,12 @@ export default {
               password: this.password
             })
             .then(res => {
-              console.log(res)
-              this.$q.localStorage.set('userToken', res.data.token)
-              this.$q.localStorage.set('userID', res.data.user.id)
-              this.$q.localStorage.set('username', res.data.name)
-              this.$q.localStorage.set('useremail', res.data.user.email)
-              // this.$store.commit('setAuthStatus', true)
+              this.saveUserInfo({
+                'userToken': res.data.token,
+                'userID': res.data.user.id,
+                'username': res.data.user.name,
+                'useremail': res.data.user.email
+              })
               this.$router.push('/')
               this.$q.notify({
                 type: 'positive',

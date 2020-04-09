@@ -81,15 +81,15 @@
 
 <script>
 import MASTER from '../../services/masterApi/http-common'
-
+import { mapActions } from 'vuex'
 export default {
   created () {
-    this.$store.commit('changePage', 'Login')
+    this.changePage('Login')
   },
   data () {
     return {
-      email: '',
-      password: '',
+      email: 'ezequiel@gmail.com',
+      password: '12345678',
       partners: [
         'https://www.infoescola.com/wp-content/uploads/2016/02/unb.png',
         'statics/ceb_partner.jpg',
@@ -100,6 +100,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions('userStore', ['changePage', 'saveUserInfo']),
     login () {
       MASTER
         .post('login/', {
@@ -107,11 +108,17 @@ export default {
           password: this.password
         })
         .then(res => {
-          console.log(res)
+          this.saveUserInfo({
+            'userToken': res.data.token,
+            'userID': res.data.user.id,
+            'username': res.data.user.name,
+            'useremail': res.data.user.email
+          })
+          /*
           this.$q.localStorage.set('userToken', res.data.token)
           this.$q.localStorage.set('userID', res.data.user.id)
           this.$q.localStorage.set('username', res.data.user.name)
-          this.$q.localStorage.set('useremail', res.data.user.email)
+          this.$q.localStorage.set('useremail', res.data.user.email) */
           // this.$store.commit('setAuthStatus', true)
           this.$q.notify({
             type: 'positive',

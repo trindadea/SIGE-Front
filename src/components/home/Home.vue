@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 let graphData = [
   {
     graph: '',
@@ -42,12 +44,15 @@ let graphData = [
 ]
 export default {
   created () {
-    this.$store.commit('changePage', 'Início')
+    this.changePage('Início')
   },
   data () {
     return {
       graphData
     }
+  },
+  methods: {
+    ...mapActions('userStore', ['changePage'])
   }
 }
 </script>

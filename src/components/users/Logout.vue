@@ -1,26 +1,25 @@
 <template>
-  <div>
-    Você está deslogado... Sendo redicionado
-  </div>
+  <div>Você está deslogado... Sendo redicionado</div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   created () {
-    this.$q.localStorage.set('userID', '')
-    this.$q.localStorage.set('userToken', '')
-    this.$q.localStorage.set('username', '')
-    this.$q.localStorage.set('useremail', '')
-    // this.$store.commit('setAuthStatus', false)
+    this.logout()
+
     this.$q.notify({
       type: 'positive',
       message: `Voce saiu da sua conta.`
     })
     this.$router.push('/')
+  },
+  methods: {
+    ...mapActions('userStore', ['logout'])
   }
 }
 </script>
 
 <style>
-
 </style>
