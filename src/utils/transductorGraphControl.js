@@ -16,8 +16,6 @@ export const dimensions = [
 import MASTER from '../services/masterApi/http-common'
 
 export async function getGraph (filter) {
-  console.log('get graph')
-
   let graphOptions = await getGraphOptions(filter.dimension)
   let startDate = await getDate(filter.startDate)
   let endDate = await getDate(filter.endDate)

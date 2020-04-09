@@ -3,7 +3,6 @@ const authStatus = (state) => {
   if (userToken == null) userToken = ''
   let userID = state.userID
   if (userID == null) userID = ''
-  console.log(!!(userToken && userID), state.userToken, state.userID)
   return !!(userToken && userID)
 }
 
@@ -14,7 +13,6 @@ const getUser = (state) => {
     id: state.userID,
     token: state.userToken
   }
-  console.log(user)
   return user
 }
 
