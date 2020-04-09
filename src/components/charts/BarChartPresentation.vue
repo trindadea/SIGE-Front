@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import HTTP from '../../services/masterApi/http-common'
+import MASTER from '../../services/masterApi/http-common'
 import apexcharts from '../../services/ssr-import/apexcharts'
 // import NoDataPlaceholder from './NoDataPlaceholder.vue'
 
@@ -99,7 +99,7 @@ export default {
     },
     async getData () {
       console.log(this.url)
-      await HTTP.get(this.url)
+      await MASTER.get(this.url)
         .then(res => {
           console.log(res.data)
           this.total_cost = res.data.cost
