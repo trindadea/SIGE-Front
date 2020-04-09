@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import HTTP from '../../../services/masterApi/http-common'
+import MASTER from '../../../services/masterApi/http-common'
 
 export default {
   name: 'DashLastMeasurementCard',
@@ -85,7 +85,7 @@ export default {
 
   methods: {
     getLastMeasurement () {
-      HTTP
+      MASTER
         .get(`/realtime-measurements/?serial_number=${this.transductor.serial_number}`)
         .then((res) => {
           this.rtm = res.data
@@ -95,7 +95,7 @@ export default {
         })
     },
     getTransductorsLast72h () {
-      HTTP
+      MASTER
         .get(`/occurences/?type=period&serial_number=${this.transductor.serial_number}`)
         .then((res) => {
           this.transductor_occurences = res.data

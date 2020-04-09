@@ -13,7 +13,7 @@
           title="Medidores"
           :data="transductors"
           :columns="columns"
-          row-key="name"
+          row-key="serial_number"
           :pagination.sync="pagination"
           :filter="filter"
           :rows-per-page-options="[15, 30, 60, 0]"
@@ -21,6 +21,7 @@
           no-data-label="Nenhum medidor cadastrado"
           no-results-label="Nenhum medidor com esse filtro"
           rows-per-page-label="Itens por página"
+          @row-click='(evt,row) => {clickItem(row)}'
         >
           <template v-slot:top-right>
             <q-input dark dense debounce="300" v-model="filter" placeholder="Filtrar">
@@ -86,15 +87,16 @@
 </template>
 
 <script>
-import HTTP from '../../services/masterApi/http-common'
+import MASTER from '../../services/masterApi/http-common'
 
 export default {
   created () {
+    this.$store.commit('changePage', 'Medidores')
     this.getTransductors()
   },
   methods: {
     async getTransductors () {
-      await HTTP
+      await MASTER
         .get(`energy-transductors-list/`)
         .then((res) => {
           this.transductors = res.data
@@ -103,6 +105,9 @@ export default {
           console.log(err)
         })
       this.dataLoaded = true
+    },
+    clickItem (row) {
+      this.$router.push('transductor/' + row.serial_number)
     }
   },
   data () {

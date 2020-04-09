@@ -18,14 +18,13 @@
 </template>
 
 <script>
-import axios from 'axios'
 import apexcharts from '../../services/ssr-import/apexcharts'
-// import NoDataPlaceholder from './NoDataPlaceholder.vue'
+import noDataPlaceholder from './noDataPlaceHolder.vue'
 
 export default {
   components: {
-    'apexcharts': apexcharts
-    // 'no-data-placeholder': NoDataPlaceholder,
+    apexcharts: apexcharts,
+    noDataPlaceholder: noDataPlaceholder
   },
   props: [
     'graphic_type',
@@ -171,76 +170,6 @@ export default {
         }
       }
     }
-  },
-
-  methods: {
-    updateChart () {
-      const a = `http://192.168.100.229:8001/graph/${this.url}/?serial_number=${this.transductor.id}&start_date=2019-06-01 00:00&end_date=2019-07-31 23:59`
-
-      console.log(a)
-
-      axios
-        .get(a)
-        .then((res) => {
-          const measurements = res.data.results[0]
-          console.log(measurements)
-          this.buildGraphInformation(measurements)
-        })
-        .catch((err) => console.error(err))
-    },
-
-    buildGraphInformation (data) {
-      if (this.graphic_type === '1') {
-        console.log(data.measurements)
-        this.setOneFaseInformations(data.measurements)
-      } else {
-        let phaseAList = data['phase_a']
-        let phaseBList = data['phase_b']
-        let phaseCList = data['phase_c']
-
-        this.setThreeFaseInformations(phaseAList, phaseBList, phaseCList)
-      }
-    },
-
-    setOneFaseInformations (measurementList) {
-      this.phase_a = measurementList
-    },
-
-    setThreeFaseInformations (measurementListA, measurementListB, measurementListC) {
-      this.phase_a = measurementListA
-      this.phase_b = measurementListB
-      this.phase_c = measurementListC
-    },
-
-    setTransductorList (transductorList) {
-      this.transductorList = transductorList
-    },
-
-    getTransductors () {
-      axios
-        .get(`http://192.168.100.229:8001/energy_transductors/${this.id}/`)
-        .then((res) => {
-          this.transductor = res.data
-        })
-        .catch((err) => {
-          console.error(err)
-        })
-    }
-  },
-
-  beforeMount () {
-    const a = `http://192.168.100.229:8001/graph/${this.url}/?serial_number=${this.id}&start_date=2019-06-01 00:00&end_date=2019-12-30 23:59&is_filtered=True`
-
-    console.log(a)
-
-    axios
-      .get(a)
-      .then((res) => {
-        const measurements = res.data.results[0]
-        console.log(measurements)
-        this.buildGraphInformation(measurements)
-      })
-      .catch((err) => console.error(err))
   }
 }
 </script>
