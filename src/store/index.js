@@ -4,7 +4,9 @@ import { getDateNowSelectFormat } from '../utils/transductorStatus'
 import VueCrontab from 'vue-crontab'
 import userStore from './module-user'
 
+import totalCostStore from './module-totalCost'
 Vue.use(VueCrontab)
+
 Vue.use(Vuex)
 
 /*
@@ -15,7 +17,8 @@ Vue.use(Vuex)
 export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
-      userStore
+      userStore,
+      totalCostStore
     },
     state: {
       openMap: false,
