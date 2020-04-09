@@ -58,6 +58,7 @@ export default {
       HTTP.get('campi/')
         .then((res) => {
           this.campiList = res.data
+          this.$store.commit('setDashboardCampi', res.data)
         })
         .catch(err => {
           console.error(err)
@@ -72,6 +73,7 @@ export default {
       HTTP.get('occurences/')
         .then((res) => {
           this.eventsInProgress = res.data
+          this.$store.commit('setDashboardEvents', res.data)
         })
         .catch(err => {
           console.error(err)

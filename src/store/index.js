@@ -27,13 +27,35 @@ export default function (/* { ssrContext } */) {
         let userID = LocalStorage.getItem('userID')
         if (userID == null) userID = ''
         return !!(userToken && userID)
+      },
+      dashboard: {
+        events: null,
+        campi: null,
+        active: {
+          campus: null,
+          transductor: null
+        }
       }
     },
+
     mutations: {
       changePage (state, page) {
         state.page = page
+      },
+      setDashboardEvents (state, events) {
+        state.dashboard.events = events
+      },
+      setDashboardCampi (state, campiList) {
+        state.dashboard.campi = campiList
+      },
+      setDashboardActiveCampus (state, activeCampus) {
+        state.dashboard.active.campus = activeCampus
+      },
+      setDashboardActiveTransductor (state, activeTransductor) {
+        state.dashboard.active.transductor = activeTransductor
       }
     },
+
     getters: {
       authStatus (state) {
         let userToken = LocalStorage.getItem('userToken')
