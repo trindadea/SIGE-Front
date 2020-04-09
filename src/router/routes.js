@@ -1,19 +1,3 @@
-
-import store from '../store/index'
-
-let ifAuthenticated = (to, from, next) => {
-  let isAuthenticated = store().getters.authStatus
-  if (isAuthenticated === undefined) {
-    isAuthenticated = false
-  }
-  console.log(isAuthenticated)
-  if (isAuthenticated) {
-    next()
-  } else {
-    next({ path: '/users/login' })
-  }
-}
-
 const routes = [
   {
     path: '/dashboard',
@@ -21,7 +5,9 @@ const routes = [
   },
   {
     path: '/',
-    beforeEnter: ifAuthenticated,
+    meta: {
+      requiresAuth: true
+    },
     component: () => import('components/home/HomeBase.vue'),
     children: [
       {
@@ -62,7 +48,9 @@ const routes = [
       },
       {
         path: 'edit',
-        beforeEnter: ifAuthenticated,
+        meta: {
+          requiresAuth: true
+        },
         component: () => import('components/users/UserUpdate.vue')
       },
       {

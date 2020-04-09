@@ -11,11 +11,20 @@ module.exports = function (ctx) {
     },
 
     plugins: [
-      {path: 'apexcharts', server: false}
+      {path: 'apexcharts', server: false},
+      'Cookies',
     ],
 
     boot: [
-      'axios'
+      'axios',
+      {
+        path: 'vuex_persist',
+        server: false
+      },
+      {
+        path: 'auth_routes',
+        server: false
+      }
     ],
 
     css: [
