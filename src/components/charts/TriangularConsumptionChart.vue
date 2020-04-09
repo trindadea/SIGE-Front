@@ -14,7 +14,7 @@
 
 <script>
 import axios from 'axios'
-import HTTP from '../../services/masterApi/http-common'
+import MASTER from '../../services/masterApi/http-common'
 import Apexcharts from '../../services/ssr-import/apexcharts'
 
 export default {
@@ -159,8 +159,8 @@ export default {
         ]
 
         axios.all([
-          HTTP.get(consumption[0]),
-          HTTP.get(consumption[1])
+          MASTER.get(consumption[0]),
+          MASTER.get(consumption[1])
         ])
           .then(axios.spread((consA, consB) => {
             this.consumption = [...consA.data, ...consB.data]

@@ -32,7 +32,7 @@
 <script>
 import NoDataPlaceholder from './NoDataPlaceholder.vue'
 import moment from 'moment'
-import HTTP from '../../services/masterApi/http-common'
+import MASTER from '../../services/masterApi/http-common'
 
 export default {
   components: {
@@ -178,7 +178,7 @@ export default {
       console.log(`http://127.0.0.1:8001/graph/${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
 
       if (this.selectedTransductor !== undefined) {
-        HTTP
+        MASTER
           .get(`graph/minutely_${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
           .then((res) => {
             const measurements = res.data.results[0]
@@ -252,7 +252,7 @@ export default {
     },
 
     getTransductors () {
-      HTTP
+      MASTER
         .get('energy_transductors')
         .then((res) => {
           const transductors = res.data

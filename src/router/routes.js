@@ -2,7 +2,7 @@
 import store from '../store/index'
 
 let ifAuthenticated = (to, from, next) => {
-  let isAuthenticated = store().state.authStatus()
+  let isAuthenticated = store().getters.authStatus
   if (isAuthenticated === undefined) {
     isAuthenticated = false
   }
@@ -41,6 +41,10 @@ const routes = [
             component: () => import('components/transductorList/TransductorList.vue')
           }
         ]
+      },
+      {
+        path: '/transductor/:id',
+        component: () => import('pages/Transductor.vue')
       }
     ]
   },
