@@ -33,7 +33,7 @@
           <td class="col">A - {{ rtm.current_a.toFixed(0) }}A</td>
           <td class="col">Ativa - {{ rtm.total_active_power.toFixed(0) }}W</td>
           <td class="col">
-            {{ countCriticalEvents(transductor_occurences) }} <q-icon :style="{opacity: 0.5}" :name="'img:statics/icons/ic_ocorrencia_critica_mono.svg'"/>
+            {{  }} <q-icon :style="{opacity: 0.5}" :name="'img:statics/icons/ic_ocorrencia_critica_mono.svg'"/>
           </td>
         </tr>
 
@@ -42,7 +42,7 @@
           <td class="col">B - {{ rtm.current_b.toFixed(0) }}A</td>
           <td class="col">Reativa - {{ rtm.total_reactive_power.toFixed(0) }}kVAr</td>
           <td class="col">
-            {{ countWarningEvents(transductor_ocurrences) }} <q-icon :style="{opacity: 0.5}" :name="'img:statics/icons/ic_ocorrencia_precaria_mono.svg'"/>
+            {{  }} <q-icon :style="{opacity: 0.5}" :name="'img:statics/icons/ic_ocorrencia_precaria_mono.svg'"/>
           </td>
         </tr>
 
@@ -55,7 +55,7 @@
       </table>
     </q-card-section>
 
-    <q-card-section v-else-if="transductor.name" class="q-pt-xs">
+    <q-card-section v-if="transductor.name && rtm.length === 0" class="q-pt-xs">
       <h6 class="text-center" style="color: rgba(255, 255, 255, 0.6)">
         Última medida não disponível
       </h6>
