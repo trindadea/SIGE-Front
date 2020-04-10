@@ -62,6 +62,7 @@ export default {
         .get(`/occurences/?type=period&campus=${campus.id}`)
         .then((res) => {
           this.last72hEvents = res.data
+          this.last72hEvents.campus_name = this.currentCampus.name
         })
         .catch((err) => { console.error(err) })
     },

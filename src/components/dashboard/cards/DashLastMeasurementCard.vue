@@ -55,7 +55,7 @@
       </table>
     </q-card-section>
 
-    <q-card-section v-else class="q-pt-xs">
+    <q-card-section v-else-if="transductor.name" class="q-pt-xs">
       <h6 class="text-center" style="color: rgba(255, 255, 255, 0.6)">
         Última medida não disponível
       </h6>
