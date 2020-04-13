@@ -76,7 +76,7 @@ export default {
 
       switch (this.name) {
         case 'Queda de Fase':
-          formattedStr = `${splittedLocation[0].toUpperCase() + splittedLocation.slice(1)} (${eventObj.campus}) - ${Object.keys(eventObj.data)}`
+          formattedStr = `${splittedLocation[0].toUpperCase() + splittedLocation.slice(1)} (${eventObj.campus}) - ${this.formatDrops(eventObj)}`
           break
 
         case 'Falha de Comunicação':
@@ -88,7 +88,7 @@ export default {
           break
 
         default:
-          formattedStr = `${splittedLocation[0].toUpperCase() + splittedLocation.slice(1)} (${eventObj.campus}) - ${Object.keys(eventObj.data)}`
+          formattedStr = `${splittedLocation[0].toUpperCase() + splittedLocation.slice(1)} (${eventObj.campus}) - ${this.formatDrops(eventObj)}`
 
           break
       }
@@ -98,7 +98,24 @@ export default {
 
     formatDrops (obj) {
       let drops = Object.keys(obj.data)
-      return drops
+      let d = []
+      drops.forEach(label => {
+        switch (label) {
+          case 'voltage_a':
+            d.push('A')
+            break
+          case 'voltage_b':
+            d.push('B')
+            break
+          case 'voltage_c':
+            d.push('C')
+            break
+          default:
+            d.push(label)
+            break
+        }
+      })
+      return d
     }
   }
 
