@@ -12,6 +12,7 @@
     </q-card-section>
 
     <q-card-section v-if="rtm.length !== 0" class="q-pt-none q-pb-xs">
+
       <table class="readings">
         <tr class="row">
           <th class="col h4">
@@ -33,7 +34,7 @@
           <td class="col">A - {{ rtm.current_a.toFixed(0) }}A</td>
           <td class="col">Ativa - {{ rtm.total_active_power.toFixed(0) }}W</td>
           <td class="col">
-            {{  }} <q-icon :style="{opacity: 0.5}" :name="'img:statics/icons/ic_ocorrencia_critica_mono.svg'"/>
+            {{ countCriticalEvents() }} <q-icon :style="{opacity: 0.5}" :name="'img:statics/icons/ic_ocorrencia_critica_mono.svg'"/>
           </td>
         </tr>
 
@@ -42,7 +43,7 @@
           <td class="col">B - {{ rtm.current_b.toFixed(0) }}A</td>
           <td class="col">Reativa - {{ rtm.total_reactive_power.toFixed(0) }}kVAr</td>
           <td class="col">
-            {{  }} <q-icon :style="{opacity: 0.5}" :name="'img:statics/icons/ic_ocorrencia_precaria_mono.svg'"/>
+            {{ countWarningEvents() }} <q-icon :style="{opacity: 0.5}" :name="'img:statics/icons/ic_ocorrencia_precaria_mono.svg'"/>
           </td>
         </tr>
 
@@ -108,17 +109,25 @@ export default {
         })
     },
 
+    countWarningEvents () {
+      if (this.transductor_occurences.count !== undefined) {
+        return this.transductor_occurences.slave_connection_fail.length + this.transductor_occurences.transductor_connection_fail.length
+      }
+
+      return 0
+    },
+
+    countCriticalEvents () {
+      if (this.transductor_occurences.count !== undefined) {
+        return this.transductor_occurences.critical_tension.length + this.transductor_occurences.phase_drop.length + this.transductor_occurences.precarious_tension.length
+      }
+
+      return 0
+    },
+
     async getApiInfo () {
       await this.getLastMeasurement()
       await this.getTransductorsLast72h()
-    },
-
-    countWarningEvents (transdOcc) {
-      return transdOcc.precarious_tension.length + transdOcc.transductor_connection_fail.length + transdOcc.slave_connection_fail.length || 0
-    },
-
-    countCriticalEvents (transdOcc) {
-      return transdOcc.critical_tension.length + transdOcc.phase_drop.length || 0
     }
   },
 
