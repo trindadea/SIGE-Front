@@ -1,107 +1,93 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          @click="leftDrawerOpen = !leftDrawerOpen"
-          aria-label="Menu"
-        >
-          <q-icon name="menu" />
-        </q-btn>
-
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
-      </q-toolbar>
-    </q-header>
-
-    <q-drawer
-      v-model="leftDrawerOpen"
-      bordered
-      content-class="bg-grey-2"
-    >
-      <q-list>
-        <q-item-label header>Essential Links</q-item-label>
-        <q-item clickable tag="a" target="_blank" href="https://quasar.dev">
-          <q-item-section avatar>
-            <q-icon name="school" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Docs</q-item-label>
-            <q-item-label caption>quasar.dev</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://github.quasar.dev">
-          <q-item-section avatar>
-            <q-icon name="code" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Github</q-item-label>
-            <q-item-label caption>github.com/quasarframework</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://chat.quasar.dev">
-          <q-item-section avatar>
-            <q-icon name="chat" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Discord Chat Channel</q-item-label>
-            <q-item-label caption>chat.quasar.dev</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://forum.quasar.dev">
-          <q-item-section avatar>
-            <q-icon name="record_voice_over" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Forum</q-item-label>
-            <q-item-label caption>forum.quasar.dev</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://twitter.quasar.dev">
-          <q-item-section avatar>
-            <q-icon name="rss_feed" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Twitter</q-item-label>
-            <q-item-label caption>@quasarframework</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://facebook.quasar.dev">
-          <q-item-section avatar>
-            <q-icon name="public" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Facebook</q-item-label>
-            <q-item-label caption>@QuasarFramework</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
-    </q-drawer>
-
-    <q-page-container>
-      <router-view />
-    </q-page-container>
-  </q-layout>
+  <div>
+    <q-layout view="hhh lpR lff" style="background-color:#fafafa">
+      <Header />
+      <q-drawer
+        v-model="drawer"
+        show-if-above
+        :mini="miniState"
+        @mouseover="miniState = false"
+        @mouseout="miniState = true"
+        :width="250"
+        :breakpoint="0"
+        bordered
+        content-class="bg-grey-3"
+      >
+        <q-scroll-area class="fit">
+          <q-list padding>
+            <div v-for="item in menuItems" :key="item.name">
+              <a :href="item.link" style="text-decoration: none" class="text-grey-10">
+                <q-item clickable v-ripple>
+                  <q-item-section avatar>
+                    <q-icon class="text-grey-6" :name="item.icon" />
+                  </q-item-section>
+                  <q-item-section>{{ item.name }}</q-item-section>
+                </q-item>
+              </a>
+              <q-separator v-if="item.separator" />
+            </div>
+          </q-list>
+        </q-scroll-area>
+        <div class="absolute-bottom">
+          <q-separator />
+          <a href="/users/logout" style="text-decoration: none" class="text-grey-10">
+            <q-item clickable v-ripple>
+              <q-item-section avatar>
+                <q-icon class="text-grey-6" name="img:../../statics/icons/ic_sair.svg" />
+              </q-item-section>
+              <q-item-section>Sair</q-item-section>
+            </q-item>
+          </a>
+        </div>
+      </q-drawer>
+      <q-page-container>
+        <keep-alive>
+          <router-view />
+        </keep-alive>
+      </q-page-container>
+    </q-layout>
+  </div>
 </template>
 
 <script>
-import { openURL } from 'quasar'
+import Header from 'components/Header.vue'
 
+const menuItems = [
+  {
+    name: 'Início',
+    link: '/',
+    icon: 'home',
+    separator: false
+  },
+  {
+    name: 'Sobre o Projeto',
+    link: '/about',
+    icon: 'img:../../statics/icons/ic_sobre.svg',
+    separator: false
+  },
+  {
+    name: 'Medidores',
+    link: '/transductor_list',
+    icon: 'mdi-gauge',
+    separator: true
+  },
+  {
+    name: 'Custo Total',
+    link: '/total_cost',
+    icon: 'equalizer',
+    separator: false
+  }
+]
 export default {
-  name: 'MyLayout',
+  components: {
+    Header
+  },
   data () {
     return {
-      leftDrawerOpen: this.$q.platform.is.desktop
+      drawer: false,
+      miniState: true,
+      menuItems
     }
-  },
-  methods: {
-    openURL
   }
 }
 </script>
