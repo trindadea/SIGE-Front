@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import HTTP from '../../services/masterApi/http-common'
+import MASTER from '../../services/masterApi/http-common'
 
 import DashBottomBar from 'components/dashboard/DashBottomBar'
 import DashCampusTab from 'components/dashboard/DashCampusTab'
@@ -55,7 +55,7 @@ export default {
 
   methods: {
     getAllCampi () {
-      HTTP.get('campi/')
+      MASTER.get('campi/')
         .then((res) => {
           this.campiList = res.data
           this.$store.commit('setDashboardCampi', res.data)
@@ -70,7 +70,7 @@ export default {
     },
 
     getEventsInProgress () {
-      HTTP.get('occurences/')
+      MASTER.get('occurences/')
         .then((res) => {
           this.eventsInProgress = res.data
           this.$store.commit('setDashboardEvents', res.data)

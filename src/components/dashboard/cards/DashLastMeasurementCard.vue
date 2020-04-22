@@ -12,6 +12,7 @@
     </q-card-section>
 
     <q-card-section v-if="rtm.length !== 0" class="q-pt-none q-pb-xs">
+
       <table class="readings">
         <tr class="row">
           <th class="col h4">
@@ -29,33 +30,33 @@
         </tr>
 
         <tr class="row">
-          <td class="col">A - {{ rtm.tension_a }}V</td>
-          <td class="col">A - {{ rtm.current_a }}A</td>
-          <td class="col">A - {{ rtm.active_power_a }}W</td>
+          <td class="col">A: {{ rtm.voltage_a.toFixed(0) }}V</td>
+          <td class="col">A: {{ rtm.current_a.toFixed(0) }}A</td>
+          <td class="col">Ativa: {{ rtm.total_active_power.toFixed(0) }}W</td>
           <td class="col">
-            {{ 0 }} <q-icon :style="{opacity: 0.5}" :name="'img:statics/icons/ic_ocorrencia_critica_mono.svg'"/>
+            {{ countCriticalEvents() }} <q-icon :style="{opacity: 0.5}" :name="'img:statics/icons/ic_ocorrencia_critica_mono.svg'"/>
           </td>
         </tr>
 
         <tr class="row">
-          <td class="col">B - {{ rtm.tension_b }}V</td>
-          <td class="col">B - {{ rtm.current_b }}A</td>
-          <td class="col">B - {{ rtm.active_power_b }}kVAr</td>
+          <td class="col">B: {{ rtm.voltage_b.toFixed(0) }}V</td>
+          <td class="col">B: {{ rtm.current_b.toFixed(0) }}A</td>
+          <td class="col">Reativa: {{ rtm.total_reactive_power.toFixed(0) }}kVAr</td>
           <td class="col">
-            {{ 0 }} <q-icon :style="{opacity: 0.5}" :name="'img:statics/icons/ic_ocorrencia_precaria_mono.svg'"/>
+            {{ countWarningEvents() }} <q-icon :style="{opacity: 0.5}" :name="'img:statics/icons/ic_ocorrencia_precaria_mono.svg'"/>
           </td>
         </tr>
 
         <tr class="row">
-          <td class="col">C - {{ rtm.tension_c }}V</td>
-          <td class="col">C - {{ rtm.current_c }}A</td>
-          <td class="col">T - {{ rtm.active_power_c }}kVa</td>
+          <td class="col">C: {{ rtm.voltage_c.toFixed(0) }}V</td>
+          <td class="col">C: {{ rtm.current_c.toFixed(0) }}A</td>
+          <td class="col">Total: {{ rtm.total_power_factor.toFixed(0) }}kVa</td>
           <td class="col"></td>
         </tr>
       </table>
     </q-card-section>
 
-    <q-card-section v-if="transductor.name" class="q-pt-xs">
+    <q-card-section v-if="transductor.name && rtm.length === 0" class="q-pt-xs">
       <h6 class="text-center" style="color: rgba(255, 255, 255, 0.6)">
         Última medida não disponível
       </h6>
@@ -64,7 +65,7 @@
 </template>
 
 <script>
-import HTTP from '../../../services/masterApi/http-common'
+import MASTER from '../../../services/masterApi/http-common'
 
 export default {
   name: 'DashLastMeasurementCard',
@@ -72,7 +73,8 @@ export default {
   data () {
     return {
       rtm: [],
-      transductor_occurences: {}
+      transductor_occurences: {},
+      errors: []
     }
   },
 
@@ -85,24 +87,42 @@ export default {
 
   methods: {
     getLastMeasurement () {
-      HTTP
+      MASTER
         .get(`/realtime-measurements/?serial_number=${this.transductor.serial_number}`)
         .then((res) => {
-          this.rtm = res.data
-        })
+          this.rtm = res.data[0]
+        }).toFixed(0)
         .catch((err) => {
+          this.errors.push(err)
           console.error(err)
         })
     },
     getTransductorsLast72h () {
-      HTTP
+      MASTER
         .get(`/occurences/?type=period&serial_number=${this.transductor.serial_number}`)
         .then((res) => {
           this.transductor_occurences = res.data
         })
         .catch((err) => {
+          this.errors.push(err)
           console.error(err)
         })
+    },
+
+    countWarningEvents () {
+      if (this.transductor_occurences.count !== undefined) {
+        return this.transductor_occurences.slave_connection_fail.length + this.transductor_occurences.transductor_connection_fail.length
+      }
+
+      return 0
+    },
+
+    countCriticalEvents () {
+      if (this.transductor_occurences.count !== undefined) {
+        return this.transductor_occurences.critical_tension.length + this.transductor_occurences.phase_drop.length + this.transductor_occurences.precarious_tension.length
+      }
+
+      return 0
     },
 
     async getApiInfo () {

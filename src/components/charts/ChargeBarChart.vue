@@ -1,16 +1,18 @@
 <template>
-  <apexcharts
-    id="chart"
-    type="bar"
-    :series="series"
-    :options="chartOptions"
-    height="170px"
-    width="100%"/>
+  <div>
+    <apexcharts
+      id="chart"
+      type="bar"
+      :series="series"
+      :options="chartOptions"
+      height="170px"
+      width="100%"/>
+
+  </div>
 </template>
 
 <script>
-// import axios from 'axios'
-import HTTP from '../../services/masterApi/http-common'
+import MASTER from '../../services/masterApi/http-common'
 import Apexcharts from '../../services/ssr-import/apexcharts'
 
 export default {
@@ -35,7 +37,8 @@ export default {
       generation: [],
       measurements: [],
       transductorList: [],
-      selectedPeriod: 'Hoje'
+      selectedPeriod: 'Hoje',
+      errors: []
     }
   },
 
@@ -168,30 +171,16 @@ export default {
 
   methods: {
     updateChart () {
-      // if (this.selectedTransductor !== undefined) {
-      //   const consumption = [
-      //     `/graph/quarterly-consumption-off-peak/?start_date=2019-06-01 00:00&end_date=2019-06-30 23:59`,
-      //     `/graph/quarterly-consumption-peak/?start_date=2019-06-01 00:00&end_date=2019-06-30 23:59`
-      //   ]
-
-      //   axios.all([
-      //     HTTP.get(consumption[0]),
-      //     HTTP.get(consumption[1])
-      //   ])
-      //     .then(axios.spread((consA, consB) => {
-      //       this.consumption = [...consA.data, ...consB.data]
-      //     }))
-      //     .catch(errArray => {
-      //       console.log(errArray)
-      //     })
-      // }
-      HTTP
+      MASTER
         .get(`/graph/quarterly-daily-consumption/?campus=${this.selectedCampus.id}`)
-        // .get(`/graph/quartely-daily-consumption/?start_date=2020-03-05%2000:00:00&end_date=2020-03-05%2023:59:59&campus=2`)
+        // .get(`/graph/quarterly-daily-consumption/?start_date=2020-03-05%2000:00:00&end_date=2020-03-05%2023:59:59&campus=${this.selectedCampus.id}`)
         .then((res) => {
           this.consumption = res.data
         })
-        .catch(err => { console.error(err) })
+        .catch(err => {
+          this.errors = err
+          console.error(err)
+        })
     }
   },
 

@@ -1,11 +1,16 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { getDateNowSelectFormat } from '../utils/transductorStatus'
 import { LocalStorage } from 'quasar'
 import VueCrontab from 'vue-crontab'
 
 // import example from './module-example'
 
+import totalCostStore from './module-totalCost'
+import dashboard from './dashboard'
+
 Vue.use(VueCrontab)
+
 Vue.use(Vuex)
 
 /*
@@ -16,25 +21,35 @@ Vue.use(Vuex)
 export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
-      // example
+      totalCostStore,
+      dashboard
     },
     state: {
       page: '',
       userAuth: false,
       authStatus: () => {
+        console.log('authSTATUS')
         let userToken = LocalStorage.getItem('userToken')
         if (userToken == null) userToken = ''
         let userID = LocalStorage.getItem('userID')
         if (userID == null) userID = ''
         return !!(userToken && userID)
       },
-      dashboard: {
-        events: null,
-        campi: null,
-        active: {
-          campus: null,
-          transductor: null
-        }
+      openMap: false,
+      chartOptions: {
+        phase_a: [],
+        phase_b: [],
+        phase_c: [],
+        unit: '',
+        dimension: '',
+        status: false,
+        graphType: ''
+      },
+      filterOptions: {
+        dimension: 'Tensão',
+        vision: '',
+        startDate: getDateNowSelectFormat(1),
+        endDate: getDateNowSelectFormat()
       }
     },
 
@@ -42,21 +57,30 @@ export default function (/* { ssrContext } */) {
       changePage (state, page) {
         state.page = page
       },
-      setDashboardEvents (state, events) {
-        state.dashboard.events = events
+      changeMapStatus (state) {
+        state.openMap = !state.openMap
       },
-      setDashboardCampi (state, campiList) {
-        state.dashboard.campi = campiList
+      updateChartPhase (state, options) {
+        state.chartOptions.phase_a = options.phase_a
+        state.chartOptions.phase_b = options.phase_b
+        state.chartOptions.phase_c = options.phase_c
+        state.chartOptions.unit = options.unit
+        state.chartOptions.dimension = options.dimension
+        state.chartOptions.status = options.status
+        state.chartOptions.graphType = options.graphType
       },
-      setDashboardActiveCampus (state, activeCampus) {
-        state.dashboard.active.campus = activeCampus
-      },
-      setDashboardActiveTransductor (state, activeTransductor) {
-        state.dashboard.active.transductor = activeTransductor
+      updateFilter (state, filter) {
+        state.filterOptions.dimension = filter.dimension
+        state.filterOptions.vision = filter.vision
+        state.filterOptions.startDate = filter.startDate
+        state.filterOptions.endDate = filter.endDate
       }
     },
 
     getters: {
+      openMap: state => state.openMap,
+      chartOptions: state => state.chartOptions,
+      filterOptions: state => state.filterOptions,
       authStatus (state) {
         let userToken = LocalStorage.getItem('userToken')
         if (userToken == null) userToken = ''

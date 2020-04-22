@@ -3,7 +3,8 @@
     <div class="col-9 col-lg-5 bg-white q-pa-lg shadow-1">
       <q-form
         class="q-gutter-md form-box"
-        @validation-success="register()">
+        @validation-success="register()"
+        @submit.prevent>
         <div class="text-center helper-text">
           Cadastro reservado para servidores e colaboradores da Universidade de Brasília
         </div>

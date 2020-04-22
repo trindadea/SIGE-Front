@@ -1,17 +1,19 @@
 <template>
   <div>
-    <!-- <div v-if="this.selectedTransductor !== ''"> -->
-    <div style="padding: 1.5em;">
-      <h2 class="text-left text-muted text-h4 q-pa-none q-ma-none q-px-lg q-mb-md">
-        {{this.title}}
-      </h2>
+    <div style="padding: 1.5em;" v-if="this.$store.state.chartOptions.status">
       <apexcharts
+        v-if="mounted"
         id="chart"
         type="line"
         :options="chartOptions"
         :series="series"/>
     </div>
-    <!-- <no-data-placeholder v-else/> -->
+    <no-data-placeholder
+      style="padding: 1.5em;"
+      v-else
+      info="Para visualizar os dados é necessária a seleção de uma dimensão,
+        assim como um intervalo de dados."
+    />
   </div>
 </template>
 
@@ -25,13 +27,9 @@ export default {
     'apexcharts': apexcharts
     // 'no-data-placeholder': NoDataPlaceholder,
   },
-
   props: [
-    'title',
-    'url',
     'graphic_type',
     'show_legend',
-    'unit',
     'id',
     'min',
     'decimals',
@@ -40,47 +38,46 @@ export default {
 
   data () {
     return {
-      phase_a: [],
-      phase_b: [],
-      phase_c: [],
       measurements: [],
-      transductor: '',
-      selectedPeriod: 'Hoje',
-      periodsOptions: {}
-
-      // id: 30000247
+      mounted: false
     }
   },
-
+  mounted () {
+    this.mounted = true
+  },
   computed: {
     series () {
+      let chartData = this.$store.getters.chartOptions
+
       if (this.graphic_type === '1') {
         return [
           {
             name: 'asdfadsf',
-            data: this.phase_a
+            data: chartData.phase_a
           }
         ]
       } else {
         return [
           {
             name: 'Fase A',
-            data: this.phase_a
+            data: chartData.phase_a
           },
           {
             name: 'Fase B',
-            data: this.phase_b
+            data: chartData.phase_b
           },
           {
             name: 'Fase C',
-            data: this.phase_c
+            data: chartData.phase_c
           }
         ]
       }
     },
+
     chartOptions () {
+      let chartData = this.$store.getters.chartOptions
+
       return {
-        // colors: ['', '', ''],
         colors: ['#46b5d1', '#007944', '#da2d2d'],
 
         chart: {
@@ -116,7 +113,7 @@ export default {
         dataLabels: {
           enabled: false,
           formatter: (val) => {
-            return `${val.toFixed(0)} ${this.unit}`
+            return `${val.toFixed(0)} ${chartData.unit}`
           },
           style: {
             fontSize: '1rem'
@@ -141,7 +138,7 @@ export default {
         yaxis: {
           labels: {
             formatter: (val) => {
-              return val.toFixed(this.decimals || 0) + ' ' + this.unit
+              return val.toFixed(this.decimals || 0) + ' ' + chartData.unit
             },
             style: {
               fontSize: '1rem'
@@ -168,7 +165,7 @@ export default {
           },
           y: {
             formatter: (val) => {
-              return `${val.toFixed(1)} ${this.unit}`
+              return `${val.toFixed(1)} ${chartData.unit}`
             }
           }
         }

@@ -21,7 +21,7 @@
 <script>
 import DashMap from './DashMap'
 import DashCampusInfo from './DashCampusInfo'
-import HTTP from '../../services/masterApi/http-common'
+import MASTER from '../../services/masterApi/http-common'
 
 export default {
   name: 'DashPanel',
@@ -45,7 +45,7 @@ export default {
 
   methods: {
     getTransductors () {
-      HTTP
+      MASTER
         .get(`/energy-transductors/?campi_id=${this.selectedCampus.id}`)
         .then((res) => {
           this.transductors = res.data
