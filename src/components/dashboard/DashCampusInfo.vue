@@ -33,7 +33,7 @@ import DashLast72hCard from './cards/DashLast72hCard'
 import DashChargeBarCard from './cards/DashChargeBarCard'
 import DashLastMeasurementCard from './cards/DashLastMeasurementCard'
 import DashConsumptionGenerationCard from './cards/DashConsumptionGenerationCard'
-import HTTP from '../../services/masterApi/http-common'
+import MASTER from '../../services/masterApi/http-common'
 
 export default {
   name: 'DashCampusInfo',
@@ -58,10 +58,11 @@ export default {
 
   methods: {
     getLast72hEvents (campus) {
-      HTTP
+      MASTER
         .get(`/occurences/?type=period&campus=${campus.id}`)
         .then((res) => {
           this.last72hEvents = res.data
+          this.last72hEvents.campus_name = this.currentCampus.name
         })
         .catch((err) => { console.error(err) })
     },
