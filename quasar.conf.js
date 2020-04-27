@@ -21,10 +21,7 @@ module.exports = function (ctx) {
         path: 'vuex_persist',
         server: false
       },
-      {
-        path: 'auth_routes',
-        server: false
-      }
+      'auth_routes',
     ],
 
     css: [

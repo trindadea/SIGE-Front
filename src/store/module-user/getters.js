@@ -1,9 +1,5 @@
 const authStatus = (state) => {
-  let userToken = state.userToken
-  if (userToken == null) userToken = ''
-  let userID = state.userID
-  if (userID == null) userID = ''
-  return !!(userToken && userID)
+  return state.userToken && state.userID
 }
 
 const getUser = (state) => {

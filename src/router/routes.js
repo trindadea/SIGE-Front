@@ -1,3 +1,15 @@
+import store from '../store'
+
+const beforeEnter = (to, from, next) => {
+  setTimeout(() => {
+    if (store().getters['userStore/authStatus']) {
+      return next('/')
+    } else {
+      return next()
+    }
+  }, 250)
+}
+
 const routes = [
   {
     path: '/dashboard',
@@ -12,6 +24,7 @@ const routes = [
     children: [
       {
         path: '',
+        name: '/',
         component: () => import('components/home/Home.vue')
       },
       {
@@ -40,10 +53,12 @@ const routes = [
     children: [
       {
         path: 'login',
+        beforeEnter: beforeEnter,
         component: () => import('components/users/Login.vue')
       },
       {
         path: 'register',
+        beforeEnter: beforeEnter,
         component: () => import('components/users/Register.vue')
       },
       {
