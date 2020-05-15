@@ -33,6 +33,7 @@ import measurementsBox from '../components/transductor/measurementsBox'
 import activeBox from '../components/transductor/activeBox'
 import occurences from '../components/transductor/occurences'
 import graph from '../components/transductor/graph'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'Transductor',
@@ -60,10 +61,11 @@ export default {
         res.data.grouping.forEach(group => {
           this.groupRequest(group)
         })
-        this.$store.commit('changePage', res.data.name)
+        this.changePage(res.data.name)
       })
   },
   methods: {
+    ...mapActions('userStore', ['changePage']),
     groupRequest (url) {
       MASTER
         .get(url)

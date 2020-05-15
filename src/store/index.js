@@ -1,10 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { getDateNowSelectFormat } from '../utils/transductorStatus'
-import { LocalStorage } from 'quasar'
 import VueCrontab from 'vue-crontab'
-
-// import example from './module-example'
+import userStore from './module-user'
 
 import totalCostStore from './module-totalCost'
 Vue.use(VueCrontab)
@@ -19,19 +17,10 @@ Vue.use(Vuex)
 export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
+      userStore,
       totalCostStore
     },
     state: {
-      page: '',
-      userAuth: false,
-      authStatus: () => {
-        console.log('authSTATUS')
-        let userToken = LocalStorage.getItem('userToken')
-        if (userToken == null) userToken = ''
-        let userID = LocalStorage.getItem('userID')
-        if (userID == null) userID = ''
-        return !!(userToken && userID)
-      },
       openMap: false,
       chartOptions: {
         phase_a: [],
@@ -49,10 +38,9 @@ export default function (/* { ssrContext } */) {
         endDate: getDateNowSelectFormat()
       }
     },
+    actions: {
+    },
     mutations: {
-      changePage (state, page) {
-        state.page = page
-      },
       changeMapStatus (state) {
         state.openMap = !state.openMap
       },
@@ -75,21 +63,7 @@ export default function (/* { ssrContext } */) {
     getters: {
       openMap: state => state.openMap,
       chartOptions: state => state.chartOptions,
-      filterOptions: state => state.filterOptions,
-      authStatus (state) {
-        let userToken = LocalStorage.getItem('userToken')
-        if (userToken == null) userToken = ''
-        let userID = LocalStorage.getItem('userID')
-        if (userID == null) userID = ''
-        return !!(userToken && userID)
-      },
-      user (state) {
-        let user = {
-          name: LocalStorage.getItem('username'),
-          email: LocalStorage.getItem('useremail')
-        }
-        return user
-      }
+      filterOptions: state => state.filterOptions
     },
     // enable strict mode (adds overhead!)
     // for dev mode only

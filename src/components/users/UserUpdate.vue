@@ -34,7 +34,7 @@
           lazy-rules
           password
           type="password"
-          :rules="[ val => val && val == password || 'Insira uma senha com ao menos 8 caracteres.']"/>
+          :rules="[ val => val && val == password || 'Insira uma senha com ao menos 8 caracteres.', val => v === this.password || 'Confirmação deve ser iqual a senha informada']"/>
         <div class="text-center q-mt-lg">
           <q-btn
             size="1rem"
@@ -49,6 +49,7 @@
 
 <script>
 import MASTER from '../../services/masterApi/http-common'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: '',
@@ -57,28 +58,35 @@ export default {
       fullname: '',
       email: '',
       password: '',
-      password_confirmation: ''
+      password_confirmation: '',
+      user: ''
     }
   },
   created () {
-    this.$store.commit('changePage', 'Editar Dados')
-    if (!this.$q.localStorage.getItem('userID') ||
-        !this.$q.localStorage.getItem('userToken')) {
+    this.changePage('Editar Dados')
+    this.user = this.getUser
+    if (!this.user.id ||
+        !this.user.token) {
       this.$q.notify({
         type: 'negative',
-        message: `Você precisa estar dentro da sua conta para editá-la.`
+        message: `Você precisa estar logado na sua conta para editá-la.`
       })
       this.$router.push('/users/login/')
       return
     }
     this.retrieveUserInformation()
   },
+  computed: {
+    ...mapGetters('userStore', ['getUser'])
+  },
   methods: {
+    ...mapActions('userStore', ['changePage', 'saveUserInfo']),
     retrieveUserInformation () {
+      const { user } = this
       MASTER
-        .get('users/' + this.$q.localStorage.getItem('userID') + '/', {
+        .get('users/' + user.id + '/', {
           headers: {
-            authorization: 'Token ' + this.$q.localStorage.getItem('userToken')
+            authorization: 'Token ' + user.token
           }
         })
         .then(res => {
@@ -95,18 +103,23 @@ export default {
         })
     },
     putUserInfo () {
+      const { user } = this
       let data = {}
       data.name = this.fullname
       data.email = this.email
       data.password = this.password
       MASTER
-        .put('users/' + this.$q.localStorage.getItem('userID') + '/', data,
+        .put('users/' + user.id + '/', data,
           {
             headers: {
-              authorization: 'Token ' + this.$q.localStorage.getItem('userToken')
+              authorization: 'Token ' + user.token
             }
           })
         .then(res => {
+          this.saveUserInfo({
+            'username': this.fullname,
+            'useremail': this.useremail
+          })
           console.log(res)
           this.$q.notify({
             type: 'negative',

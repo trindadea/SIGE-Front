@@ -58,11 +58,11 @@
           password
           type="password"
           :rules="[ val => val && val.length >= 8 || 'Insira uma senha com ao menos 8 caracteres.']"/>
-        <div class="text-right">
+<!--         <div class="text-right">
           <a href="/users/forgotten-password/">
             Esqueceu sua senha?
           </a>
-        </div>
+        </div> -->
         <div class="text-center q-mt-lg">
           <q-btn
             size="1rem"
@@ -81,10 +81,10 @@
 
 <script>
 import MASTER from '../../services/masterApi/http-common'
-
+import { mapActions } from 'vuex'
 export default {
   created () {
-    this.$store.commit('changePage', 'Login')
+    this.changePage('Login')
   },
   data () {
     return {
@@ -100,6 +100,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions('userStore', ['changePage', 'saveUserInfo']),
     login () {
       MASTER
         .post('login/', {
@@ -107,12 +108,12 @@ export default {
           password: this.password
         })
         .then(res => {
-          console.log(res)
-          this.$q.localStorage.set('userToken', res.data.token)
-          this.$q.localStorage.set('userID', res.data.user.id)
-          this.$q.localStorage.set('username', res.data.user.name)
-          this.$q.localStorage.set('useremail', res.data.user.email)
-          // this.$store.commit('setAuthStatus', true)
+          this.saveUserInfo({
+            'userToken': res.data.token,
+            'userID': res.data.user.id,
+            'username': res.data.user.name,
+            'useremail': res.data.user.email
+          })
           this.$q.notify({
             type: 'positive',
             message: `Voce está autenticado.`

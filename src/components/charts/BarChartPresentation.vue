@@ -101,7 +101,6 @@ export default {
       console.log(this.url)
       await MASTER.get(this.url)
         .then(res => {
-          console.log(res.data)
           this.total_cost = res.data.cost
           this.min = res.data.min
           this.max = res.data.max
