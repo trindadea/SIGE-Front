@@ -24,7 +24,7 @@
         </div>
 
         <div v-else>
-          <p v-for="ev in eventsList.slice(0, 8)" :key="ev.id"
+          <p v-for="ev in eventsList.slice(0, 8)" :key="ev.id + ev.location"
             class="q-my-none">
             {{ formatText(ev) }}
           </p>

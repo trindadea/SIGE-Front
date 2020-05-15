@@ -80,18 +80,17 @@ export default {
 
   props: {
     transductor: {
-      // type: Object,
-      required: true
+      type: Object
     }
   },
 
   methods: {
     getLastMeasurement () {
       MASTER
-        .get(`/realtime-measurements/?transductor_id=${this.transductor.id}`)
+        .get(`/realtime-measurements/?id=${this.transductor.id}`)
         .then((res) => {
           this.rtm = res.data[0]
-        }).toFixed(0)
+        })
         .catch((err) => {
           this.errors.push(err)
           console.error(err)
@@ -99,7 +98,7 @@ export default {
     },
     getTransductorsLast72h () {
       MASTER
-        .get(`/occurences/?type=period&transductor_id=${this.transductor.id}`)
+        .get(`/occurences/?type=period&id=${this.transductor.id}`)
         .then((res) => {
           this.transductor_occurences = res.data
         })
