@@ -1,87 +1,53 @@
-import store from '../store'
-
-const beforeEnter = (to, from, next) => {
-  setTimeout(() => {
-    if (store().getters['userStore/authStatus']) {
-      return next('/')
-    } else {
-      return next()
-    }
-  }, 250)
-}
-
-const routes = [
-  {
-    path: '/dashboard',
-    component: () => import('components/dashboard/DashboardBase.vue')
-  },
-  {
-    path: '/',
-    component: () => import('../layouts/MyLayout.vue'),
-    meta: {
-      requiresAuth: true
-    },
-    children: [
-      {
-        path: '',
-        name: '/',
-        component: () => import('components/home/Home.vue')
-      },
-      {
-        path: '/transductor_list',
-        component: () => import('components/transductorList/TransductorList.vue')
-      },
-      {
-        path: '/about',
-        component: () => import('pages/About.vue'),
-        meta: {
-          requiresAuth: true
+export default function (ssrContext) {
+  const routes = [
+    {
+      path: '',
+      component: () => import('layouts/MainLayout.vue'),
+      beforeEnter (to, from, next) {
+        const { store } = ssrContext
+        const logged = store.getters['userStore/authStatus']
+        if (logged) {
+          next()
+        } else {
+          next('/login')
         }
       },
-      {
-        path: '/total_cost', component: () => import('pages/TotalCost.vue')
+      children: [
+        { path: '/', name: '/', component: () => import('pages/Index.vue') },
+        { path: '/about', name: 'about', component: () => import('pages/About.vue') },
+        { path: '/edit', name: 'edit', component: () => import('pages/UserEdit.vue') },
+        { path: '/total_cost', name: 'total_cost', component: () => import('pages/TotalCost.vue') },
+        { path: '/transductor_list', name: 'transductor_list', component: () => import('pages/TransductorList.vue') },
+        { path: '/transductor/:id', name: 'transductor', component: () => import('pages/Transductor.vue') }
+      ]
+    },
+    {
+      path: '',
+      component: () => import('layouts/AuthLayout.vue'),
+      beforeEnter (to, from, next) {
+        const { store } = ssrContext
+        const logged = store.getters['userStore/authStatus']
+        if (logged) {
+          next('/login')
+        } else {
+          next()
+        }
       },
-      {
-        path: '/transductor/:id',
-        component: () => import('pages/Transductor.vue')
-      }
-    ]
-  },
-  {
-    path: '/users',
-    component: () => import('../layouts/AuthBase.vue'),
-    children: [
-      {
-        path: 'login',
-        beforeEnter: beforeEnter,
-        component: () => import('components/users/Login.vue')
-      },
-      {
-        path: 'register',
-        beforeEnter: beforeEnter,
-        component: () => import('components/users/Register.vue')
-      },
-      {
-        path: 'edit',
-        meta: {
-          requiresAuth: true
-        },
-        component: () => import('components/users/UserUpdate.vue')
-      },
-      {
-        path: 'logout',
-        component: () => import('components/users/Logout.vue')
-      }
-    ]
+      children: [
+        { path: '/login', name: 'login', component: () => import('pages/Login.vue') },
+        { path: '/register', name: 'register', component: () => import('pages/Register.vue') }
+      ]
+    },
+    { path: '/dashboard', name: 'dashboard', component: () => import('pages/DashboardBase.vue') }
+  ]
+
+  // Always leave this as last one
+  if (process.env.MODE !== 'ssr') {
+    routes.push({
+      path: '*',
+      component: () => import('pages/Error404.vue')
+    })
   }
-]
 
-// Always leave this as last one
-if (process.env.MODE !== 'ssr') {
-  routes.push({
-    path: '*',
-    component: () => import('pages/Error404.vue')
-  })
+  return routes
 }
-
-export default routes

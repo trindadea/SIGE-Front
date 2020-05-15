@@ -1,9 +1,9 @@
 const authStatus = (state) => {
-  return state.userToken && state.userID
+  return !!(state.userToken && state.userID)
 }
 
 const getUser = (state) => {
-  let user = {
+  const user = {
     name: state.username,
     email: state.useremail,
     id: state.userID,
@@ -12,7 +12,12 @@ const getUser = (state) => {
   return user
 }
 
+const getPage = (state) => {
+  return state.currentPage
+}
+
 export {
   authStatus,
-  getUser
+  getUser,
+  getPage
 }

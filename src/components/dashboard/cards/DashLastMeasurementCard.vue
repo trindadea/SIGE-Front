@@ -34,7 +34,7 @@
           <td class="col">A: {{ rtm.current_a.toFixed(0) }}A</td>
           <td class="col">Ativa: {{ rtm.total_active_power.toFixed(0) }}W</td>
           <td class="col">
-            {{ countCriticalEvents() }} <q-icon :style="{opacity: 0.5}" :name="'img:statics/icons/ic_ocorrencia_critica_mono.svg'"/>
+            {{ countCriticalEvents() }} <q-icon :style="{opacity: 0.5}" :name="'img:statics/ic_ocorrencia_critica_mono.svg'"/>
           </td>
         </tr>
 
@@ -43,7 +43,7 @@
           <td class="col">B: {{ rtm.current_b.toFixed(0) }}A</td>
           <td class="col">Reativa: {{ rtm.total_reactive_power.toFixed(0) }}kVAr</td>
           <td class="col">
-            {{ countWarningEvents() }} <q-icon :style="{opacity: 0.5}" :name="'img:statics/icons/ic_ocorrencia_precaria_mono.svg'"/>
+            {{ countWarningEvents() }} <q-icon :style="{opacity: 0.5}" :name="'img:statics/ic_ocorrencia_precaria_mono.svg'"/>
           </td>
         </tr>
 
@@ -88,7 +88,7 @@ export default {
   methods: {
     getLastMeasurement () {
       MASTER
-        .get(`/realtime-measurements/?id=${this.transductor.id}`)
+        .get(`/realtime-measurements/?transductor_id=${this.transductor.id}`)
         .then((res) => {
           this.rtm = res.data[0]
         }).toFixed(0)
@@ -99,7 +99,7 @@ export default {
     },
     getTransductorsLast72h () {
       MASTER
-        .get(`/occurences/?type=period&id=${this.transductor.id}`)
+        .get(`/occurences/?type=period&transductor_id=${this.transductor.id}`)
         .then((res) => {
           this.transductor_occurences = res.data
         })

@@ -95,7 +95,7 @@ export default {
   computed: {
     transductors_points () {
       let arr = []
-
+      arr = []
       if (this.transductors === 0) {
         return []
       }
@@ -114,6 +114,7 @@ export default {
           }
         )
       })
+
       return arr
     },
     mapCenter () {
