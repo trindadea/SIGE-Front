@@ -88,7 +88,7 @@ export default {
   methods: {
     getLastMeasurement () {
       MASTER
-        .get(`/realtime-measurements/?serial_number=${this.transductor.serial_number}`)
+        .get(`/realtime-measurements/?id=${this.transductor.id}`)
         .then((res) => {
           this.rtm = res.data[0]
         }).toFixed(0)
@@ -99,7 +99,7 @@ export default {
     },
     getTransductorsLast72h () {
       MASTER
-        .get(`/occurences/?type=period&serial_number=${this.transductor.serial_number}`)
+        .get(`/occurences/?type=period&id=${this.transductor.id}`)
         .then((res) => {
           this.transductor_occurences = res.data
         })
