@@ -43,7 +43,7 @@
         @validation-success="login()"
         @submit.prevent>
         <h3 class="login-text">
-          Entre seus dados para acessar
+          Entre com seus dados para acessar
         </h3>
         <q-input
           outlined
