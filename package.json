@@ -2,7 +2,7 @@
   "name": "smi-front",
   "version": "0.0.1",
   "description": "A Quasar Framework app",
-  "productName": "SMI app",
+  "productName": "SIGE - Sistema de Gestão Energética",
   "cordovaId": "org.cordova.quasar.app",
   "capacitorId": "",
   "author": "",
