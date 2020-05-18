@@ -80,7 +80,7 @@ export default {
           break
 
         case 'Falha de Comunicação':
-          formattedStr = `${splittedLocation[0].toUpperCase() + splittedLocation.slice(1)} (${eventObj.campus.toUpperCase()})`
+          formattedStr = `${splittedLocation[0].toUpperCase() + splittedLocation.slice(1)} (${eventObj.campus})`
           break
 
         case 'Máximo Consumo':
