@@ -18,7 +18,10 @@ export default function (ssrContext) {
         { path: '/edit', name: 'edit', component: () => import('pages/UserEdit.vue') },
         { path: '/total_cost', name: 'total_cost', component: () => import('pages/TotalCost.vue') },
         { path: '/transductor_list', name: 'transductor_list', component: () => import('pages/TransductorList.vue') },
-        { path: '/transductor/:id', name: 'transductor', component: () => import('pages/Transductor.vue') }
+        { path: '/transductor/:id', name: 'transductor', component: () => import('pages/Transductor.vue') },
+        { path: '/energy_consumption', name: 'energy_consumption', component: () => import('pages/EnergyConsumptionCurve.vue') },
+        { path: '/reports', name: 'reports', component: () => import('pages/Reports.vue') }
+
       ]
     },
     {

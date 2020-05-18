@@ -86,6 +86,18 @@ export default {
           link: '/total_cost',
           icon: 'equalizer',
           separator: false
+        },
+        {
+          name: 'Curva de Carga',
+          link: '/energy_consumption',
+          icon: 'show_chart',
+          separator: false
+        },
+        {
+          name: 'Relatórios',
+          link: '/reports',
+          icon: 'subject',
+          separator: false
         }
       ]
     }
