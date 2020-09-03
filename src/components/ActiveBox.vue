@@ -39,7 +39,7 @@ export default {
       long: null,
       name: '',
       campusName: '',
-      campusId: 0
+      campusId: ''
     }
   },
   async created () {
