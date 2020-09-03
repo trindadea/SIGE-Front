@@ -55,7 +55,7 @@ export default {
     },
 
     selectTransductor () {
-      let currentItem = this.selectedTransductor
+      const currentItem = this.selectedTransductor
 
       if (this.selectedTransductor === {}) {
         this.selectedTransductor = this.transductors[0]

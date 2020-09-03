@@ -1,7 +1,3 @@
-const changePage = (state, page) => {
-  state.page = page
-}
-
 const saveUserInfo = (state, loginInfo) => {
   if (loginInfo.userToken) {
     state.userToken = loginInfo.userToken
@@ -26,8 +22,12 @@ const logout = (state) => {
   state.userAuth = false
 }
 
+const changePage = (state, page) => {
+  state.currentPage = page
+}
+
 export {
-  changePage,
   saveUserInfo,
-  logout
+  logout,
+  changePage
 }

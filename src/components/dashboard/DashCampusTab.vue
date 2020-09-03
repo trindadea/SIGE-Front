@@ -21,7 +21,7 @@
         <q-tab
           dense
           v-for="campus in campi" :key="campus.id"
-          class="col-3 q-mx-md tabs text-capitalize"
+          class="col-3 q-mx-md tabs"
           :class="activeTab === campus.name ? 'q-tab--active': ''">
           {{ campus.name }}
         </q-tab>
@@ -84,7 +84,7 @@ export default {
         this.activeTab = this.campi[0].name
         this.currentCampus = this.campi[0]
       } else {
-        let a = this.campiName.indexOf(this.activeTab)
+        const a = this.campiName.indexOf(this.activeTab)
         this.activeTab = (a < this.campi.length - 1) ? this.campiName[a + 1] : this.campiName[0]
         this.currentCampus = (a < this.campi.length - 1) ? this.campi[a + 1] : this.campi[0]
       }

@@ -1,34 +1,34 @@
 <template>
-  <div>
-    <total-cost-filter/>
-    <div class="container">
-    <bar-chart
-      title="Consumo"
-      :url="getUrl"
-      unit="R$"
-      class="chart"
+  <div class="container">
+    <total-cost-filter />
+    <div class="full-height chart-container">
+      <bar-chart
+        unit="R$"
+        :url="getUrl"
       />
     </div>
   </div>
 </template>
 
-<script>
-import TotalCostFilter from '../components/transductors/totalCostFilter'
-import BarChartPresentation from '../components/charts/BarChartPresentation'
-import { mapGetters } from 'vuex'
+<script >
+import TotalCostFilter from '../components/TotalCostFilter'
+import BarChart from '../components/charts/BarChart'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
-
+  name: 'TotalCost',
   components: {
-    TotalCostFilter: TotalCostFilter,
-    BarChart: BarChartPresentation
+    TotalCostFilter,
+    BarChart
   },
-  data () {
-    return {}
-  },
-  methods: {},
   computed: {
     ...mapGetters('totalCostStore', ['getUrl'])
+  },
+  methods: {
+    ...mapActions('userStore', ['changePage'])
+  },
+  created () {
+    this.changePage('Custo Total')
   }
 }
 </script>
@@ -38,9 +38,9 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: white;
-    margin-right: 0;
-    margin-left: 0;
-    height: 72vh;
+    flex-direction: column;
+  }
+  .chart-container {
+    width: 80%;
   }
 </style>

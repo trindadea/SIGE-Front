@@ -1,21 +1,22 @@
 
 export function getDateNowSelectFormat (daysBeforeToday = 0) {
-  let date = new Date()
+  const date = new Date()
+  console.log('data', date)
 
-  let day = date.getDate() - daysBeforeToday
-  let month = date.getMonth() + 1
-  let year = date.getFullYear()
-  let dateFormatted = day.toString().padStart(2, '0') + '/' + month.toString().padStart(2, '0') + '/' + year.toString()
+  const day = date.getDate() - daysBeforeToday
+  const month = date.getMonth() + 1
+  const year = date.getFullYear()
+  const dateFormatted = day.toString().padStart(2, '0') + '/' + month.toString().padStart(2, '0') + '/' + year.toString()
   return dateFormatted
 }
 
 export function separateInDays (arr, type, today, yesterday, beforeYesterday, occurrences = []) {
-  let now = new Date()
+  const now = new Date()
   arr.forEach((elem) => {
-    let startTime = new Date(elem.start_time)
-    let endTime = elem.end_time === null ? new Date() : new Date(elem.end_time)
+    const startTime = new Date(elem.start_time)
+    const endTime = elem.end_time === null ? new Date() : new Date(elem.end_time)
 
-    let item = {
+    const item = {
       ...elem,
       originalType: type,
       type: getOccurenceName(type),
@@ -29,7 +30,7 @@ export function separateInDays (arr, type, today, yesterday, beforeYesterday, oc
     endTime.setHours(0, 0, 0, 0)
     now.setHours(0, 0, 0, 0)
 
-    let diff = Math.floor((now - endTime) / (1000 * 60 * 60 * 24))
+    const diff = Math.floor((now - endTime) / (1000 * 60 * 60 * 24))
 
     if (diff === 0) {
       today.push(item)
@@ -104,20 +105,20 @@ export function getPhase (item) {
 
 export function timePassedDays (date, compareDate, isStartTime) {
   let res = ''
-  let day = new Date(date)
-  let compareDay = new Date(compareDate)
+  const day = new Date(date)
+  const compareDay = new Date(compareDate)
 
   day.setHours(0, 0, 0, 0)
   compareDay.setHours(0, 0, 0, 0)
-  let days = Math.floor((compareDay - day) / (1000 * 60 * 60 * 24))
+  const days = Math.floor((compareDay - day) / (1000 * 60 * 60 * 24))
 
   if (isStartTime && days > 0) {
-    let plural = days > 1 ? 's ' : ' '
+    const plural = days > 1 ? 's ' : ' '
 
     res += days.toString() + ' dia' + plural
   } else {
-    let h = date.getHours()
-    let min = date.getMinutes()
+    const h = date.getHours()
+    const min = date.getMinutes()
     res += h.toString() + 'h' + min.toString().padStart(2, 0)
   }
   return res
@@ -137,15 +138,15 @@ export function getOccurenceName (type) {
 }
 
 export function timePassed (time) {
-  let d = new Date(time)
-  let now = new Date()
-  let min = Math.floor((now - d) / (1000 * 60))
+  const d = new Date(time)
+  const now = new Date()
+  const min = Math.floor((now - d) / (1000 * 60))
   if (min > 0) {
     if (min < 60) {
       return min + ' min'
     } else {
-      let h = Math.floor(min / 60)
-      let m = min % 60
+      const h = Math.floor(min / 60)
+      const m = min % 60
       if (m === 0) {
         return h + ' horas'
       } else {

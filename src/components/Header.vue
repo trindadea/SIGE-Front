@@ -1,15 +1,16 @@
 <template>
-  <q-header class="q-pa-none unb-blue">
+  <q-header class="q-pa-none unb-blue" elevated>
     <q-toolbar class="text-white">
       <a href="/">
         <q-img
-          src="../statics/icons/logo_smi_horizontal_header.svg"
+          src="statics/logo_smi_horizontal_header.svg"
           style="height: 30px; width: 140px"
         />
       </a>
-      <q-toolbar-title class="text-bold text-center">{{ this.$store.state.page }}</q-toolbar-title>
-      <q-icon name="mdi-account-circle" class="float-right" size="sm">
-        <q-popup-edit content-class="bg-white text-black q-mr-sm q-mt-sm" v-model="username">
+      <q-toolbar-title class="text-bold text-center">{{ getPage }}</q-toolbar-title>
+      <div style="padding-left: 8%">
+      <q-icon name="account_circle" class="float-right" size="sm">
+        <q-popup-edit content-class="bg-white text-black q-mr-sm q-mt-sm popup" v-model="username">
           <div v-if="userLogged" class="col text-center">
             <div class="text-bold" style="font-size:1.3em">{{ username }}</div>
             <div>{{ useremail }}</div>
@@ -17,7 +18,7 @@
               <q-btn outline style="color: #0055aa;" @click="goToEdit">Alterar dados</q-btn>
             </div>
             <div class="q-pa-sm">
-              <q-btn outline style="color: #0055aa;" @click="goToLogout">Sair</q-btn>
+              <q-btn outline style="color: #0055aa;" @click="logout">Sair</q-btn>
             </div>
           </div>
           <div v-else class="col text-center">
@@ -31,6 +32,7 @@
           </div>
         </q-popup-edit>
       </q-icon>
+      </div>
     </q-toolbar>
   </q-header>
 </template>
@@ -38,8 +40,10 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import MASTER from '../services/masterApi/http-common'
+import logoutHelper from '../mixins/logoutHelper.js'
 
 export default {
+  mixins: [logoutHelper],
   data () {
     return {
       userLogged: '',
@@ -48,21 +52,18 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('userStore', ['getUser', 'authStatus'])
+    ...mapGetters('userStore', ['getUser', 'authStatus', 'getPage'])
   },
   methods: {
     ...mapActions('userStore', ['saveUserInfo']),
     goToEdit () {
-      this.$router.push({ path: '/users/edit' })
+      this.$router.push({ path: '/edit' })
     },
     goToLogin () {
-      this.$router.push({ path: '/users/login' })
+      this.$router.push('/login')
     },
     goToRegister () {
-      this.$router.push({ path: '/users/register' })
-    },
-    goToLogout () {
-      this.$router.push({ path: '/users/logout' })
+      this.$router.push('/register')
     },
 
     async loadUserData () {
@@ -71,7 +72,7 @@ export default {
       } else {
         return
       }
-      let user = this.getUser
+      const user = this.getUser
       let userName = user.username
       if (userName === null) userName = ''
       let userEmail = user.useremail
@@ -90,8 +91,8 @@ export default {
           this.username = res.data.name
           this.useremail = res.data.email
           this.saveUserInfo({
-            'username': this.username,
-            'useremail': this.useremail
+            username: this.username,
+            useremail: this.useremail
           })
         })
         .catch(err => {
@@ -102,6 +103,9 @@ export default {
   },
   created () {
     this.loadUserData()
+  },
+  watch: {
+    '$route.path': 'loadUserData'
   }
 }
 </script>
@@ -109,5 +113,9 @@ export default {
 <style scoped lang="scss">
 .unb-blue {
   background-color: rgba(0, 64, 126, 100%);
+}
+.popup {
+  min-width: '30%';
+  min-height: '10%';
 }
 </style>

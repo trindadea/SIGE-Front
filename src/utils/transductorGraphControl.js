@@ -16,11 +16,13 @@ export const dimensions = [
 import MASTER from '../services/masterApi/http-common'
 
 export async function getGraph (filter) {
-  let graphOptions = await getGraphOptions(filter.dimension)
-  let startDate = await getDate(filter.startDate)
-  let endDate = await getDate(filter.endDate)
-  let url = `/graph/${graphOptions.url}/?serial_number=${filter.transductor}&start_date=${startDate}&end_date=${endDate}&is_filtered=True`
-  let graph = {
+  console.log('get graph')
+
+  const graphOptions = await getGraphOptions(filter.dimension)
+  const startDate = await getDate(filter.startDate)
+  const endDate = await getDate(filter.endDate)
+  const url = `/graph/${graphOptions.url}/?serial_number=${filter.transductor}&start_date=${startDate}&end_date=${endDate}&is_filtered=True`
+  const graph = {
     unit: graphOptions.unit,
     dimension: filter.dimension,
     phase_a: [],
@@ -34,9 +36,9 @@ export async function getGraph (filter) {
       .get(url)
       .then((res) => {
         const measurements = res.data[0]
-        graph.phase_a = measurements['phase_a']
-        graph.phase_b = measurements['phase_b']
-        graph.phase_c = measurements['phase_c']
+        graph.phase_a = measurements.phase_a
+        graph.phase_b = measurements.phase_b
+        graph.phase_c = measurements.phase_c
         graph.status = true
       })
       .catch((err) => {
@@ -58,9 +60,9 @@ export function hasAllData (filter, options) {
 }
 
 export function getDate (date) {
-  if (date !== '') {
-    let dateParts = date.split('/')
-    let res = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0] + ' ' + '00:00:00'
+  if (date !== '' && date !== undefined) {
+    const dateParts = date.split('/')
+    const res = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0] + ' ' + '00:00:00'
 
     return res
   } else {

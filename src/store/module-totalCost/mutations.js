@@ -1,7 +1,7 @@
 import moment from 'moment'
 
 const changePeriodicity = (state, periodicity) => {
-  let position = state.url.indexOf('/?type=')
+  const position = state.url.indexOf('/?type=')
 
   if (position > 0) {
     state.url = state.url.replace(state.periodicity, periodicity)
@@ -22,7 +22,7 @@ const changeStartDate = (state, startDate) => {
 
     startDate = `${startDate.format('YYYY-MM-DD HH:mm')}`
 
-    let position = state.url.indexOf('&start_date=')
+    const position = state.url.indexOf('&start_date=')
 
     if (position > 0) {
       state.url = state.url.replace(state.startDate, startDate)
@@ -44,7 +44,7 @@ const changeEndDate = (state, endDate) => {
 
     endDate = `${endDate.format('YYYY-MM-DD HH:mm')}`
 
-    let position = state.url.indexOf('&end_date=')
+    const position = state.url.indexOf('&end_date=')
 
     if (position > 0) {
       state.url = state.url.replace(state.endDate, endDate)
@@ -57,7 +57,7 @@ const changeEndDate = (state, endDate) => {
 }
 
 const filterByCampus = (state, idCampus) => {
-  let position = state.url.indexOf('&campus=')
+  const position = state.url.indexOf('&campus=')
 
   state.url = state.url.replace(`&group=${state.idGroup}`, '')
 
@@ -71,7 +71,7 @@ const filterByCampus = (state, idCampus) => {
 }
 
 const filterByGroup = (state, idGroup) => {
-  let position = state.url.indexOf('&group=')
+  const position = state.url.indexOf('&group=')
 
   if (position > 0) {
     state.url = state.url.replace(state.idGroup, idGroup)

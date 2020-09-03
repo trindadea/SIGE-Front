@@ -1,14 +1,13 @@
 <template>
   <div class="q-pr-md q-ma-none">
-      <!-- :center="mapCenter" -->
     <l-map
       style="height: 53.9vh!important"
       class="rounded-borders cursor-not-allowed"
-      :zoom="currentCampus.zoom_ratio"
-      :min-zoom="currentCampus.zoom_ratio"
-      :max-zoom="currentCampus.zoom_ratio"
-      :center="[currentCampus.geolocation_latitude, currentCampus.geolocation_longitude]"
+      :zoom="currentCampus.zoom_ratio || 16"
+      :min-zoom="currentCampus.zoom_ratio || 16"
+      :max-zoom="currentCampus.zoom_ratio || 16"
       :options="mapOptions"
+      :center="mapCenter"
       id="region-map">
 
       <l-tile-layer
@@ -77,7 +76,7 @@ export default {
 
       // center: [-15.7650, -47.8665],
       center: [-15.7650, -47.8665],
-      new_center: [0, 0],
+      new_center: [-15.7658756, -47.8743207],
 
       mapOptions: {
         zoomControl: false,
@@ -95,7 +94,7 @@ export default {
   computed: {
     transductors_points () {
       let arr = []
-
+      arr = []
       if (this.transductors === 0) {
         return []
       }
@@ -107,30 +106,22 @@ export default {
             name: t.name,
             coordinates: [t.geolocation_latitude, t.geolocation_longitude],
             style: {
-              color: !t.broken ? 'green' : 'silver',
+              color: !t.broken ? 'green' : '#CC0000',
               fillColor: !t.broken ? 'lime' : '#FF0000',
               fillOpacity: 1
             }
           }
         )
       })
+
       return arr
     },
     mapCenter () {
-      const arrOfTransductorPoints = this.transductors_points
-
-      if (arrOfTransductorPoints.length !== 0) {
-        return arrOfTransductorPoints[Math.floor(Math.random() * arrOfTransductorPoints.length)].coordinates
+      if (!(this.currentCampus.geolocation_latitude)) {
+        return [-15.7658756, -47.8743207] // darcy's geo-pos
       }
-      // let current = this.selectedTransductor
-
-      // if (current) {
-      //   return [current.geolocation_latitude, current.geolocation_longitude]
-      // }
-
-      return [-15.9895825, -48.0447814]
+      return [this.currentCampus.geolocation_latitude, this.currentCampus.geolocation_longitude]
     }
-
   },
 
   methods: {

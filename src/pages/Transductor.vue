@@ -29,10 +29,10 @@
 
 <script>
 import MASTER from '../services/masterApi/http-common'
-import measurementsBox from '../components/transductor/measurementsBox'
-import activeBox from '../components/transductor/activeBox'
-import occurences from '../components/transductor/occurences'
-import graph from '../components/transductor/graph'
+import measurementsBox from '../components/MeasurementsBox'
+import activeBox from '../components/ActiveBox'
+import occurences from '../components/Occurences'
+import graph from '../components/Graph'
 import { mapActions } from 'vuex'
 
 export default {
@@ -52,7 +52,7 @@ export default {
     }
   },
   created () {
-    let id = this.$router.currentRoute.params.id
+    const id = this.$router.currentRoute.params.id
     MASTER
       .get('/energy-transductors/' + id)
       .then((res) => {

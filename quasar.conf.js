@@ -1,98 +1,88 @@
+/*
+ * This file runs in a Node context (it's NOT transpiled by Babel), so use only
+ * the ES6 features that are supported by your Node version. https://node.green/
+ */
+
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
+/* eslint-env node */
 
-module.exports = function (ctx) {
+module.exports = function (/* ctx */) {
   return {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
-
-    vendor: {
-      add: [{ path: 'src/plugins/apexcharts'}]
-    },
-
-    plugins: [
-      {path: 'apexcharts', server: false},
-      'Cookies',
-    ],
+    // https://quasar.dev/quasar-cli/cli-documentation/boot-files
 
     boot: [
-      'axios',
-      {
-        path: 'vuex_persist',
-        server: false
-      },
-      'auth_routes',
+      'persist'
     ],
 
+    // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
     css: [
-      'app.sass'
+      'app.scss'
     ],
 
     preFetch: true,
 
+    // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
       // 'ionicons-v4',
-      'mdi-v3',
-      'fontawesome-v5',
+      'mdi-v5',
+      // 'fontawesome-v5',
       // 'eva-icons',
       // 'themify',
+      // 'line-awesome',
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
 
       'roboto-font', // optional, you are not bound to it
       'material-icons' // optional, you are not bound to it
     ],
 
+    // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
     framework: {
-      // iconSet: 'ionicons-v4',
-      // lang: 'de', // Quasar language
+      iconSet: 'material-icons', // Quasar icon set
+      lang: 'en-us', // Quasar language pack
 
-      all: true, // --- includes everything; for dev only!
+      // Possible values for "all":
+      // * 'auto' - Auto-import needed Quasar components & directives
+      //            (slightly higher compile time; next to minimum bundle size; most convenient)
+      // * false  - Manually specify what to import
+      //            (fastest compile time; minimum bundle size; most tedious)
+      // * true   - Import everything from Quasar
+      //            (not treeshaking Quasar; biggest bundle size; convenient)
+      all: 'auto',
 
-      components: [
-        'QLayout',
-        'QHeader',
-        'QDrawer',
-        'QPageContainer',
-        'QPage',
-        'QToolbar',
-        'QToolbarTitle',
-        'QBtn',
-        'QIcon',
-        'QList',
-        'QItem',
-        'QItemSection',
-        'QItemLabel',
-        'QForm',
-        'QSkeleton'
-      ],
-
-      directives: [
-        'Ripple'
-      ],
+      components: [],
+      directives: [],
 
       // Quasar plugins
       plugins: [
-        'Notify'
+        'Notify',
+        'Cookies'
       ]
     },
 
+    // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie
     supportIE: false,
 
+    // https://quasar.dev/quasar-cli/cli-documentation/supporting-ts
+    supportTS: false,
+
+    // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
-      scopeHoisting: true,
-      vueRouterMode: 'history',
-      // vueCompiler: true,
+      vueRouterMode: 'history', // available values: 'hash', 'history'
+
+      // rtl: false, // https://quasar.dev/options/rtl-support
+      // showProgress: false,
       // gzip: true,
       // analyze: true,
+
+      // Options below are automatically set depending on the env, set them if you want to override
+      // preloadChunks: false,
       // extractCSS: false,
-      env: ctx.dev
-        ? { // so on dev we'll have
-          MASTER_URL: JSON.stringify('http://0.0.0.0:8001/')
-        }
-        : { // and on build (production):
-          MASTER_URL: JSON.stringify('http:')
-        },
-      extendWebpack (cfg, { isServer, isClient }) {
+
+      // https://quasar.dev/quasar-cli/cli-documentation/handling-webpack
+      extendWebpack (cfg) {
         cfg.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
@@ -105,13 +95,15 @@ module.exports = function (ctx) {
       }
     },
 
+    // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
-      // https: true,
-      // port: 8080,
-      open: false // opens browser window automatically
+      https: false,
+      port: 8080,
+      open: true // opens browser window automatically
     },
 
     // animations: 'all', // --- includes all animations
+    // https://quasar.dev/options/animations
     animations: [],
 
     // https://quasar.dev/quasar-cli/developing-ssr/configuring-ssr
@@ -119,60 +111,62 @@ module.exports = function (ctx) {
       pwa: false
     },
 
-    // pwa: {
-    //   // workboxPluginMode: 'InjectManifest',
-    //   // workboxOptions: {}, // only for NON InjectManifest
-    //   manifest: {
-    //     name: 'Sistema de Monitoramento de Insumos',
-    //     short_name: 'SMI',
-    //     description: 'SPA app for SMI',
-    //     display: 'standalone',
-    //     orientation: 'portrait',
-    //     background_color: '#ffffff',
-    //     lang: 'pt-br',
-    //     theme_color: '#027be3',
-    //     icons: [
-    //       {
-    //         'src': 'statics/icons/icon-128x128.png',
-    //         'sizes': '128x128',
-    //         'type': 'image/png'
-    //       },
-    //       {
-    //         'src': 'statics/icons/icon-192x192.png',
-    //         'sizes': '192x192',
-    //         'type': 'image/png'
-    //       },
-    //       {
-    //         'src': 'statics/icons/icon-256x256.png',
-    //         'sizes': '256x256',
-    //         'type': 'image/png'
-    //       },
-    //       {
-    //         'src': 'statics/icons/icon-384x384.png',
-    //         'sizes': '384x384',
-    //         'type': 'image/png'
-    //       },
-    //       {
-    //         'src': 'statics/icons/icon-512x512.png',
-    //         'sizes': '512x512',
-    //         'type': 'image/png'
-    //       }
-    //     ]
-    //   }
-    // },
-
-    cordova: {
-      // id: 'org.cordova.quasar.app',
-      // noIosLegacyBuildFlag: true, // uncomment only if you know what you are doing
+    // https://quasar.dev/quasar-cli/developing-pwa/configuring-pwa
+    pwa: {
+      workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
+      workboxOptions: {}, // only for GenerateSW
+      manifest: {
+        name: 'SMI',
+        short_name: 'SMI',
+        description: 'Sistema de Monitoramento de Insumos - Universidade de Brasília.',
+        display: 'standalone',
+        orientation: 'portrait',
+        background_color: '#ffffff',
+        theme_color: '#027be3',
+        icons: [
+          {
+            src: 'statics/icons/icon-128x128.png',
+            sizes: '128x128',
+            type: 'image/png'
+          },
+          {
+            src: 'statics/icons/icon-192x192.png',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: 'statics/icons/icon-256x256.png',
+            sizes: '256x256',
+            type: 'image/png'
+          },
+          {
+            src: 'statics/icons/icon-384x384.png',
+            sizes: '384x384',
+            type: 'image/png'
+          },
+          {
+            src: 'statics/icons/icon-512x512.png',
+            sizes: '512x512',
+            type: 'image/png'
+          }
+        ]
+      }
     },
 
-    electron: {
-      // bundler: 'builder', // or 'packager'
+    // Full list of options: https://quasar.dev/quasar-cli/developing-cordova-apps/configuring-cordova
+    cordova: {
+      // noIosLegacyBuildFlag: true, // uncomment only if you know what you are doing
+      id: 'org.cordova.quasar.app'
+    },
 
-      extendWebpack (cfg, { isServer, isClient }) {
-        // do something with Electron main process Webpack cfg
-        // chainWebpack also available besides this extendWebpack
-      },
+    // Full list of options: https://quasar.dev/quasar-cli/developing-capacitor-apps/configuring-capacitor
+    capacitor: {
+      hideSplashscreen: true
+    },
+
+    // Full list of options: https://quasar.dev/quasar-cli/developing-electron-apps/configuring-electron
+    electron: {
+      bundler: 'packager', // 'packager' or 'builder'
 
       packager: {
         // https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options
@@ -190,7 +184,15 @@ module.exports = function (ctx) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        // appId: 'smi-front'
+        appId: 'smi-front'
+      },
+
+      // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
+      nodeIntegration: true,
+
+      extendWebpack (/* cfg */) {
+        // do something with Electron main process Webpack cfg
+        // chainWebpack also available besides this extendWebpack
       }
     }
   }
