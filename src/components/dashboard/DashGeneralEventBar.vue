@@ -1,10 +1,10 @@
 <template>
   <div class="base">
-    <div class="row q-px-md base">
+    <div class="row q-px-md q-col-gutter-md base">
       <div
         v-for="ev in eventTypes"
         :key="ev.name"
-        class="col-grow">
+        class="col-12 col-sm-6 col-lg">
         <dash-event-card
           v-if="ev.eventsList !== undefined"
           :name="ev.name"

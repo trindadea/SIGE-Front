@@ -1,13 +1,13 @@
 <template>
   <div class="q-ma-none q-py-none q-pr-none">
     <div class="row q-col-gutter-md">
-      <div class="col-12 col-sm-6">
+      <div class="col-12 col-md-6">
         <dash-consumption-generation-card
           class="height-conf"
           :transductor="selectedTransductor"/>
       </div>
 
-      <div class="col-12 col-sm-6">
+      <div class="col-12 col-md-6">
         <dash-last-72h-card
           class="height-conf"
           :last72hEvents="last72hEvents"/>
@@ -67,10 +67,6 @@ export default {
         .catch((err) => { console.error(err) })
     },
 
-    // onResize (size) {
-    //   console.log(size)
-    // },
-
     async getApiInfo () {
       await this.getLast72hEvents(this.currentCampus)
     }
@@ -100,8 +96,8 @@ export default {
 
   @media screen and (max-width: 800px) {
     .height-conf {
-      min-height: 25vh !important;
-      max-height: 25vh !important;
+      min-height: 100% !important;
+      max-height: 100% !important;
     }
   }
 </style>

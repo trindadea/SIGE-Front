@@ -1,7 +1,7 @@
 <template>
   <div class="row q-col-gutter-md">
 
-    <div class="col">
+    <div class="col-12 col-sm-6 card-consum">
       <q-card flat class="card-base card-bg">
         <q-inner-loading dark :showing="transductor === undefined">
           <q-spinner-ios size="50px" color="grey-4" thickness="7"/>
@@ -33,7 +33,7 @@
       </q-card>
     </div>
 
-    <div class="col">
+    <div class="col-12 col-sm-6 card-consum">
       <q-card flat class="card-base card-bg">
         <q-inner-loading dark :showing="transductor === undefined">
           <q-spinner-ios size="50px" color="grey-4" thickness="7"/>
@@ -114,4 +114,10 @@ export default {
     letter-spacing: 0.24px;
   }
 
+  @media screen and (max-width: 800px) {
+    .card-consum {
+      min-height: 200px !important;
+      max-height: 100%;
+    }
+  }
 </style>

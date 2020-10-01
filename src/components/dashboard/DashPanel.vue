@@ -28,7 +28,7 @@
   }
 
   .dash-map {
-    width: 50%;
+    width: 70%;
   }
 
   .dash-campus {

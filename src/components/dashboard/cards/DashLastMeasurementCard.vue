@@ -1,7 +1,7 @@
 <template>
   <q-card
     flat
-    class="card-bg">
+    class="card-bg last-card-info">
 
     <q-inner-loading dark :showing="transductor.name === undefined">
       <q-spinner-ios size="50px" color="grey-4" thickness="7"/>
@@ -158,4 +158,9 @@ export default {
     font-size: 20px;
   }
 
+  @media screen and (max-width: 800px) {
+    .last-card-info {
+      margin-bottom: 20px;
+    }
+  }
 </style>
