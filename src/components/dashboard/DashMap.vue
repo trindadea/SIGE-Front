@@ -16,19 +16,18 @@
       />
 
       <!-- for custom icons -->
-      <!-- <l-marker
-        v-for="transductor in transductors_points"
+      <l-marker
+        v-for="transductor in transductors_points[1]"
         :key="transductor.id"
         :lat-lng="transductor.coordinates">
         <l-icon
-          :icon-anchor="transductor.coordinates"
-          :icon-size="[120, 120]">
-          <img src="statics/icons/ic_ocorrencia_1.svg">
+          :icon-size="[16, 16]">
+          <img :src="transductor.img_src">
         </l-icon>
-      </l-marker> -->
+      </l-marker>
 
       <l-circle
-        v-for="transductor in transductors_points"
+        v-for="transductor in transductors_points[0]"
         :key="transductor.id"
         :lat-lng="transductor.coordinates"
         :radius="14"
@@ -46,8 +45,8 @@ import 'leaflet/dist/leaflet.css'
 
 export default {
   components: {
-    // 'l-marker': Vue2Leaflet.LMarker,
-    // 'l-icon': Vue2Leaflet.LIcon,
+    'l-marker': Vue2Leaflet.LMarker,
+    'l-icon': Vue2Leaflet.LIcon,
     'l-map': Vue2Leaflet.LMap,
     'l-circle': Vue2Leaflet.LCircle,
     'l-tile-layer': Vue2Leaflet.LTileLayer
@@ -55,6 +54,10 @@ export default {
 
   props: {
     transductors: {
+      type: Array,
+      required: true
+    },
+    occurences: {
       type: Array,
       required: true
     },
@@ -93,15 +96,34 @@ export default {
 
   computed: {
     transductors_points () {
-      let arr = []
-      arr = []
+      let arr = [[], []] // First array for non occurrence related and second for occurrences
+      arr = [[], []]
       if (this.transductors === 0) {
-        return []
+        return [[], []]
       }
 
+      let mapTrans = {}
+      mapTrans = {}
+
+      let i = 1
+      // Mark occurences in mapTrans
+      this.occurences.forEach(occ => {
+        occ.forEach(o => {
+          mapTrans[o.transductor] = `statics/ic_ocorrencia_${i}.svg`
+        })
+        i += 1
+      })
+
       this.transductors.forEach(t => {
-        arr.push(
-          {
+        if (mapTrans[t.id]) {
+          arr[1].push({
+            id: t.id,
+            name: t.name,
+            coordinates: [t.geolocation_latitude, t.geolocation_longitude],
+            img_src: mapTrans[t.id]
+          })
+        } else {
+          arr[0].push({
             id: t.id,
             name: t.name,
             coordinates: [t.geolocation_latitude, t.geolocation_longitude],
@@ -110,8 +132,8 @@ export default {
               fillColor: !t.broken ? 'lime' : '#FF0000',
               fillOpacity: 1
             }
-          }
-        )
+          })
+        }
       })
 
       return arr
