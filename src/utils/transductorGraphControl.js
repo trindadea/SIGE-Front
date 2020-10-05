@@ -21,7 +21,7 @@ export async function getGraph (filter) {
   const graphOptions = await getGraphOptions(filter.dimension)
   const startDate = await getDate(filter.startDate)
   const endDate = await getDate(filter.endDate)
-  const url = `/graph/${graphOptions.url}/?serial_number=${filter.transductor}&start_date=${startDate}&end_date=${endDate}&is_filtered=True`
+  const url = `/graph/${graphOptions.url}/?id=${filter.transductor}&start_date=${startDate}&end_date=${endDate}&is_filtered=True`
   const graph = {
     unit: graphOptions.unit,
     dimension: filter.dimension,

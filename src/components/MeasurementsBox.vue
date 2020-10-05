@@ -51,7 +51,7 @@ export default {
   async created () {
     console.log('id:', this.id)
     await MASTER
-      .get('/realtime-measurements/?serial_number=' + this.id)
+      .get('/realtime-measurements/?id=' + this.id)
       .then(res => {
         this.tension = {
           a: Math.round(res.data[0].voltage_a),
