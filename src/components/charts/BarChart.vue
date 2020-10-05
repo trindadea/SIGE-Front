@@ -1,10 +1,12 @@
 <template>
   <q-no-ssr>
-      <apexcharts type="bar" height="500" :options="chartOptions" :series="series" />
+      <apexcharts type="bar" height="500" :options="chartConf" :series="series" />
   </q-no-ssr>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'BarChart',
   components: {
@@ -13,14 +15,17 @@ export default {
   props: [
     'unit'
   ],
-  data () {
-    return {
-      min: 0,
-      series: [{
-        name: 'Custo total',
-        data: [1176161.05, 1021364.82, 983322.41, 1211139.45, 1563437.43, 1022631.37, 1000487.55, 880484.34, 1133119.42, 1104629.39, 1338607.05, 1251423.70]
-      }],
-      chartOptions: {
+  computed: {
+    ...mapGetters('transductorStore', ['chartOptions']),
+    series () {
+      console.log('opt:', this.chartOptions)
+      return [{
+        name: this.chartOptions.dimension,
+        data: this.chartOptions.values
+      }]
+    },
+    chartConf () {
+      return {
         colors: ['#00417e'],
         grid: {
           strokeDashArray: 0,
@@ -61,6 +66,11 @@ export default {
           tickAmount: 10
         }
       }
+    }
+  },
+  data () {
+    return {
+      min: 0
     }
   },
   methods: {

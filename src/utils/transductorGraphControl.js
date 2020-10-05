@@ -16,34 +16,61 @@ export const dimensions = [
 import MASTER from '../services/masterApi/http-common'
 
 export async function getGraph (filter) {
-  console.log('get graph')
-
   const graphOptions = await getGraphOptions(filter.dimension)
   const startDate = await getDate(filter.startDate)
   const endDate = await getDate(filter.endDate)
-  const url = `/graph/${graphOptions.url}/?serial_number=${filter.transductor}&start_date=${startDate}&end_date=${endDate}&is_filtered=True`
+  const url = `/graph/${graphOptions.url}/?id=${filter.transductor}&start_date=${startDate}&end_date=${endDate}&is_filtered=True`
+  console.log(url)
   const graph = {
     unit: graphOptions.unit,
     dimension: filter.dimension,
+    // Linechart options
     phase_a: [],
     phase_b: [],
     phase_c: [],
+
+    // Barchart options
+    values: [],
+    min: 0,
+    max: 0,
+
     status: false,
     graphType: graphOptions.graphType
   }
-  if (await hasAllData(filter, graphOptions)) {
-    await MASTER
-      .get(url)
-      .then((res) => {
-        const measurements = res.data[0]
-        graph.phase_a = measurements.phase_a
-        graph.phase_b = measurements.phase_b
-        graph.phase_c = measurements.phase_c
-        graph.status = true
-      })
-      .catch((err) => {
-        console.log('catch', err)
-      })
+  if (hasAllData(filter, graphOptions)) {
+    switch (graphOptions.graphType) {
+      case 'linechart':
+        await MASTER
+          .get(url)
+          .then((res) => {
+            const measurements = res.data[0]
+            graph.phase_a = measurements.phase_a
+            graph.phase_b = measurements.phase_b
+            graph.phase_c = measurements.phase_c
+            graph.status = true
+          })
+          .catch((err) => {
+            console.log('catch', err)
+          })
+        break
+
+      case 'barchart':
+        await MASTER
+          .get(url)
+          .then((res) => {
+            graph.values = res.data[graphOptions.nameValue]
+            graph.min = res.data.min
+            graph.max = res.data.max
+            graph.status = true
+          })
+          .catch((err) => {
+            console.log('catch', err)
+          })
+        break
+
+      default:
+        break
+    }
   }
   return graph
 }
@@ -82,13 +109,15 @@ export function getGraphOptions (dimension) {
       return {
         url: 'cost-consumption',
         unit: 'R$',
-        graphType: 'barchart'
+        graphType: 'barchart',
+        nameValue: 'cost'
       }
     case dimensions[2]: // Consumo - gráfico de barras
       return {
-        url: '',
+        url: 'quarterly-total-consumption',
         unit: '',
-        graphType: 'barchart'
+        graphType: 'barchart',
+        nameValue: 'consumption'
       }
     case dimensions[3]: // DHT Corrente
       return {
@@ -104,15 +133,17 @@ export function getGraphOptions (dimension) {
       }
     case dimensions[5]: // Energia Captativa - ???
       return {
-        url: '',
+        url: 'quarterly-total-capacitive-power',
         unit: '',
-        graphType: 'linechart'
+        graphType: 'barchart',
+        nameValue: 'capacitive_power'
       }
     case dimensions[6]: // Energia Indutiva - ???
       return {
-        url: '',
+        url: 'quarterly-total-inductive-power',
         unit: '',
-        graphType: 'linechart'
+        graphType: 'barchart',
+        nameValue: 'inductive_power'
       }
     case dimensions[7]: // Fator de Potencia
       return {
@@ -122,9 +153,10 @@ export function getGraphOptions (dimension) {
       }
     case dimensions[8]: // Geração - barra
       return {
-        url: '',
+        url: 'quarterly-total-generation',
         unit: '',
-        graphType: 'barchart'
+        graphType: 'barchart',
+        nameValue: 'generation'
       }
     case dimensions[9]: // Potencia Aparente
       return {
