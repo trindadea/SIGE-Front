@@ -115,12 +115,12 @@ export default {
       })
 
       this.transductors.forEach(t => {
-        if (mapTrans[t.id]) {
+        if (mapTrans[t.serial_number]) {
           arr[1].push({
             id: t.id,
             name: t.name,
             coordinates: [t.geolocation_latitude, t.geolocation_longitude],
-            img_src: mapTrans[t.id]
+            img_src: mapTrans[t.serial_number]
           })
         } else {
           arr[0].push({

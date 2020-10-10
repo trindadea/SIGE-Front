@@ -60,7 +60,7 @@ export default {
       MASTER
         .get(`/occurences/?type=active&campi_id=${this.selectedCampus.id}`)
         .then((res) => {
-          this.occurences = [res.data.critical_tension, res.data.precarious_tension, res.data.phase_drop, res.data.transductor_connection_fail]
+          this.occurences = [res.data.critical_tension, res.data.phase_drop, res.data.precarious_tension, res.data.transductor_connection_fail]
         })
         .catch((err) => {
           console.error(err)
