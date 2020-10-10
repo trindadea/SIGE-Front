@@ -105,13 +105,13 @@ export default {
       let mapTrans = {}
       mapTrans = {}
 
-      let i = 1
+      let i = 4
       // Mark occurences in mapTrans
       this.occurences.forEach(occ => {
         occ.forEach(o => {
           mapTrans[o.transductor] = `statics/ic_ocorrencia_${i}.svg`
         })
-        i += 1
+        i -= 1
       })
 
       this.transductors.forEach(t => {

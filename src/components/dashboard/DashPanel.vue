@@ -60,7 +60,8 @@ export default {
       MASTER
         .get(`/occurences/?type=active&campi_id=${this.selectedCampus.id}`)
         .then((res) => {
-          this.occurences = [res.data.critical_tension, res.data.phase_drop, res.data.precarious_tension, res.data.transductor_connection_fail]
+          // in descending priority order
+          this.occurences = [res.data.transductor_connection_fail, res.data.precarious_tension, res.data.phase_drop, res.data.critical_tension]
         })
         .catch((err) => {
           console.error(err)
