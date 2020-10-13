@@ -1,6 +1,11 @@
 <template>
   <q-no-ssr>
-      <apexcharts type="line" height="500" :options="chartOptions" :series="series" />
+      <apexcharts v-if="series[0].data.length !== 0" type="line" height="500" :options="chartOptions" :series="series" />
+      <div v-if="series[0].data.length === 0" class="no-data-warning">
+        <span>
+          Não há dados disponiveis no momento!
+        </span>
+      </div>
   </q-no-ssr>
 </template>
 
@@ -93,3 +98,20 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+    .no-data-warning {
+      width: 100%;
+      height: 60vh;
+      display:flex;
+      justify-content: center;
+      align-items: center;
+
+      span {
+        font-family: Roboto;
+        color: #00417e;
+        font-size: 2.4vh;
+        font-weight: bold;
+      }
+    }
+</style>
