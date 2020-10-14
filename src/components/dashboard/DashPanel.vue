@@ -6,6 +6,7 @@
       v-if="transductors !== []"
       class="col-7"
       :transductors="transductors"
+      :occurences="occurences"
       :selected-transductor="selectedTransductor"
       :current-campus="selectedCampus"/>
 
@@ -34,6 +35,7 @@ export default {
   data () {
     return {
       transductors: [],
+      occurences: [],
       selectedTransductor: {},
       interval: undefined
     }
@@ -54,6 +56,18 @@ export default {
         .catch((err) => { console.error(err) })
     },
 
+    getCampusOccurences () {
+      MASTER
+        .get(`/occurences/?type=active&campi_id=${this.selectedCampus.id}`)
+        .then((res) => {
+          // in descending priority order
+          this.occurences = [res.data.transductor_connection_fail, res.data.precarious_tension, res.data.phase_drop, res.data.critical_tension]
+        })
+        .catch((err) => {
+          console.error(err)
+        })
+    },
+
     selectTransductor () {
       const currentItem = this.selectedTransductor
 
@@ -66,6 +80,7 @@ export default {
 
     async getInfo () {
       await this.getTransductors()
+      await this.getCampusOccurences()
     }
   },
 
