@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import MASTER from '../../services/masterApi/http-common'
+
 export default {
   name: 'LineChart',
   components: {
@@ -95,6 +97,20 @@ export default {
     labelFormatterX (value) {
       return value + 'h'
     }
+  },
+  created () {
+    console.log('passou')
+    MASTER.get(`/graph/quarterly-daily-consumption/?campus=${1}`)
+      .then((res) => {
+        // this.series[0].data = res.data
+        this.series = [{
+          name: 'Consumo (Wh)',
+          data: res.data
+        }]
+        this.consumption = res.data
+        console.log(res.data)
+      })
+      .catch(err => { console.error(err) })
   }
 }
 </script>
