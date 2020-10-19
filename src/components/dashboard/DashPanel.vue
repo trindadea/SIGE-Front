@@ -7,6 +7,7 @@
       class="col-7"
       :transductors="transductors"
       :occurences="occurences"
+      :unifilarDiagram="unifilarDiagram"
       :selected-transductor="selectedTransductor"
       :current-campus="selectedCampus"/>
 
@@ -36,6 +37,7 @@ export default {
     return {
       transductors: [],
       occurences: [],
+      unifilarDiagram: [],
       selectedTransductor: {},
       interval: undefined
     }
@@ -52,6 +54,15 @@ export default {
         .then((res) => {
           this.transductors = res.data
           this.selectedTransductor = this.transductors[0]
+        })
+        .catch((err) => { console.error(err) })
+    },
+
+    getUnifilarDiagram () {
+      MASTER
+        .get(`/lines/?campus=${this.selectedCampus.id}`)
+        .then((res) => {
+          this.unifilarDiagram = res.data
         })
         .catch((err) => { console.error(err) })
     },
@@ -81,6 +92,7 @@ export default {
     async getInfo () {
       await this.getTransductors()
       await this.getCampusOccurences()
+      await this.getUnifilarDiagram()
     }
   },
 

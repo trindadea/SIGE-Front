@@ -35,6 +35,13 @@
         :hover="true"
       />
 
+      <l-line
+        v-for="line in lines"
+        :key="line.id"
+        :lat-lngs="line.coordinates"
+        :color="line.color"
+      />
+
     </l-map>
   </div>
 </template>
@@ -49,7 +56,8 @@ export default {
     'l-icon': Vue2Leaflet.LIcon,
     'l-map': Vue2Leaflet.LMap,
     'l-circle': Vue2Leaflet.LCircle,
-    'l-tile-layer': Vue2Leaflet.LTileLayer
+    'l-tile-layer': Vue2Leaflet.LTileLayer,
+    'l-line': Vue2Leaflet.LPolyline
   },
 
   props: {
@@ -58,6 +66,10 @@ export default {
       required: true
     },
     occurences: {
+      type: Array,
+      required: true
+    },
+    unifilarDiagram: {
       type: Array,
       required: true
     },
@@ -134,6 +146,23 @@ export default {
             }
           })
         }
+      })
+
+      return arr
+    },
+    lines () {
+      let arr = []
+      arr = []
+      if (this.unifilarDiagram === 0) {
+        return []
+      }
+
+      this.unifilarDiagram.forEach(point => {
+        arr.push({
+          id: point.id,
+          coordinates: [[point.start_lat, point.start_lng], [point.end_lat, point.end_lng]],
+          color: '#98274d'
+        })
       })
 
       return arr
