@@ -59,7 +59,7 @@ export default {
     }
   },
   created () {
-    MASTER.get('/occurences/?type=period&serial_number=' + this.id)
+    MASTER.get('/occurences/?type=period&id=' + this.id)
       .then(async res => {
         await separateInDays(
           res.data.critical_tension,

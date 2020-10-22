@@ -20,7 +20,6 @@ export async function getGraph (filter) {
   const startDate = await getDate(filter.startDate)
   const endDate = await getDate(filter.endDate)
   const url = `/graph/${graphOptions.url}/?id=${filter.transductor}&start_date=${startDate}&end_date=${endDate}&type=hourly`
-  console.log(url)
   const graph = {
     unit: graphOptions.unit,
     dimension: filter.dimension,
