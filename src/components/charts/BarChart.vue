@@ -52,7 +52,7 @@ export default {
         },
 
         xaxis: {
-          categories: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Óut', 'Nov', 'Dez']
+          categories: this.chartOptions.labels
         },
 
         yaxis: {

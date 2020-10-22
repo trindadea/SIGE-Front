@@ -109,7 +109,7 @@ export default {
       this.dataLoaded = true
     },
     clickItem (row) {
-      this.$router.push('transductor/' + row.serial_number)
+      this.$router.push('transductor/' + row.id)
     }
   },
   data () {

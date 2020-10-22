@@ -19,7 +19,7 @@ export async function getGraph (filter) {
   const graphOptions = await getGraphOptions(filter.dimension)
   const startDate = await getDate(filter.startDate)
   const endDate = await getDate(filter.endDate)
-  const url = `/graph/${graphOptions.url}/?id=${filter.transductor}&start_date=${startDate}&end_date=${endDate}&is_filtered=True`
+  const url = `/graph/${graphOptions.url}/?id=${filter.transductor}&start_date=${startDate}&end_date=${endDate}&type=hourly`
   console.log(url)
   const graph = {
     unit: graphOptions.unit,
@@ -31,6 +31,7 @@ export async function getGraph (filter) {
 
     // Barchart options
     values: [],
+    labels: [],
     min: 0,
     max: 0,
 
@@ -58,7 +59,10 @@ export async function getGraph (filter) {
         await MASTER
           .get(url)
           .then((res) => {
-            graph.values = res.data[graphOptions.nameValue]
+            res.data[graphOptions.nameValue].forEach(element => {
+              graph.values.push(element[1])
+              graph.labels.push(element[0])
+            })
             graph.min = res.data.min
             graph.max = res.data.max
             graph.status = true
@@ -105,14 +109,14 @@ export function getGraphOptions (dimension) {
         unit: 'A',
         graphType: 'linechart'
       }
-    case dimensions[1]: // Custo - barras
+    case dimensions[1]: // Custo
       return {
         url: 'cost-consumption',
         unit: 'R$',
         graphType: 'barchart',
         nameValue: 'cost'
       }
-    case dimensions[2]: // Consumo - gráfico de barras
+    case dimensions[2]: // Consumo
       return {
         url: 'quarterly-total-consumption',
         unit: '',
@@ -131,14 +135,14 @@ export function getGraphOptions (dimension) {
         unit: 'V',
         graphType: 'linechart'
       }
-    case dimensions[5]: // Energia Captativa - ???
+    case dimensions[5]: // Energia Captativa
       return {
         url: 'quarterly-total-capacitive-power',
         unit: '',
         graphType: 'barchart',
         nameValue: 'capacitive_power'
       }
-    case dimensions[6]: // Energia Indutiva - ???
+    case dimensions[6]: // Energia Indutiva
       return {
         url: 'quarterly-total-inductive-power',
         unit: '',
@@ -151,7 +155,7 @@ export function getGraphOptions (dimension) {
         unit: ' ',
         graphType: 'linechart'
       }
-    case dimensions[8]: // Geração - barra
+    case dimensions[8]: // Geração
       return {
         url: 'quarterly-total-generation',
         unit: '',
