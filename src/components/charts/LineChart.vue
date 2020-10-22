@@ -127,6 +127,7 @@ export default {
           type: 'datetime',
           show: true,
           labels: {
+            datetimeUTC: false,
             style: {
               fontSize: '.8rem'
             }

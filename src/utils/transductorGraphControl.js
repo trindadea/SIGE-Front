@@ -19,7 +19,8 @@ export async function getGraph (filter) {
   const graphOptions = await getGraphOptions(filter.dimension)
   const startDate = await getDate(filter.startDate)
   const endDate = await getDate(filter.endDate)
-  const url = `/graph/${graphOptions.url}/?id=${filter.transductor}&start_date=${startDate}&end_date=${endDate}&type=hourly`
+  const type = graphOptions.url === 'cost-consumption' ? 'daily' : 'hourly'
+  const url = `/graph/${graphOptions.url}/?id=${filter.transductor}&start_date=${startDate}&end_date=${endDate}&type=${type}`
   const graph = {
     unit: graphOptions.unit,
     dimension: filter.dimension,
@@ -114,7 +115,7 @@ export function getGraphOptions (dimension) {
     case dimensions[2]: // Consumo
       return {
         url: 'quarterly-total-consumption',
-        unit: '',
+        unit: 'kWh',
         graphType: 'barchart',
         nameValue: 'consumption'
       }
@@ -133,27 +134,27 @@ export function getGraphOptions (dimension) {
     case dimensions[5]: // Energia Captativa
       return {
         url: 'quarterly-total-capacitive-power',
-        unit: '',
+        unit: 'kVArh',
         graphType: 'barchart',
         nameValue: 'capacitive_power'
       }
     case dimensions[6]: // Energia Indutiva
       return {
         url: 'quarterly-total-inductive-power',
-        unit: '',
+        unit: 'kVArh',
         graphType: 'barchart',
         nameValue: 'inductive_power'
       }
     case dimensions[7]: // Fator de Potencia
       return {
         url: 'minutely-power-factor',
-        unit: ' ',
+        unit: ' ', // Não possui unidade, é uma grandeza adimensional
         graphType: 'linechart'
       }
     case dimensions[8]: // Geração
       return {
         url: 'quarterly-total-generation',
-        unit: '',
+        unit: 'kWh',
         graphType: 'barchart',
         nameValue: 'generation'
       }
