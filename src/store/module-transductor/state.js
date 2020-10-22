@@ -7,7 +7,6 @@ export default {
     phase_b: [],
     phase_c: [],
     values: [],
-    labels: [],
     min: 0,
     max: 0,
     unit: '',

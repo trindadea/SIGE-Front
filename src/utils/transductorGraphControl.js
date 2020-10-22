@@ -31,7 +31,6 @@ export async function getGraph (filter) {
 
     // Barchart options
     values: [],
-    labels: [],
     min: 0,
     max: 0,
 
@@ -59,10 +58,7 @@ export async function getGraph (filter) {
         await MASTER
           .get(url)
           .then((res) => {
-            res.data[graphOptions.nameValue].forEach(element => {
-              graph.values.push(element[1])
-              graph.labels.push(element[0])
-            })
+            graph.values = res.data[graphOptions.nameValue]
             graph.min = res.data.min
             graph.max = res.data.max
             graph.status = true

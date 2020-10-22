@@ -52,18 +52,45 @@ export default {
         },
 
         xaxis: {
-          categories: this.chartOptions.labels
+          type: 'datetime',
+          show: true,
+          labels: {
+            style: {
+              fontSize: '.8rem'
+            }
+          }
         },
 
         yaxis: {
-          min: 0,
           labels: {
-            formatter: this.labelFormatter,
+            formatter: (val) => {
+              if (this.chartOptions.unit === 'R$') {
+                return this.chartOptions.unit + ' ' + val.toFixed(this.decimals || 0)
+              }
+              return val.toFixed(this.decimals || 0) + ' ' + this.chartOptions.unit
+            },
             style: {
               fontSize: '1rem'
             }
           },
+          min: this.min,
+          max: this.max,
+          decimalsInFloat: 2,
           tickAmount: 10
+        },
+        tooltip: {
+          x: {
+            format: 'dd-MM-yyyy HH:mm',
+            formatter: undefined
+          },
+          y: {
+            formatter: (val) => {
+              if (this.chartOptions.unit === 'R$') {
+                return ` ${this.chartOptions.unit} ${val.toFixed(1)}`
+              }
+              return `${val.toFixed(1)} ${this.chartOptions.unit}`
+            }
+          }
         }
       }
     }
