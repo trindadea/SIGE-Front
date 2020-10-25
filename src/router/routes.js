@@ -20,7 +20,8 @@ export default function (ssrContext) {
         { path: '/transductor_list', name: 'transductor_list', component: () => import('pages/TransductorList.vue') },
         { path: '/transductor/:id', name: 'transductor', component: () => import('pages/Transductor.vue') },
         { path: '/energy_consumption', name: 'energy_consumption', component: () => import('pages/EnergyConsumptionCurve.vue') },
-        { path: '/reports', name: 'reports', component: () => import('pages/Reports.vue') }
+        { path: '/reports', name: 'reports', component: () => import('pages/Reports.vue') },
+        { path: '/campi', name: 'campi', component: () => import('pages/Campi.vue') }
 
       ]
     },

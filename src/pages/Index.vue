@@ -44,6 +44,11 @@ export default {
           image: 'statics/Relatorios.png',
           link: '/reports',
           name: 'Relatórios'
+        },
+        {
+          image: 'statics/Relatorios.png',
+          link: '/campi',
+          name: 'campi'
         }
       ]
     }
