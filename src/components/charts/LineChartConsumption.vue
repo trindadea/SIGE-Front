@@ -1,7 +1,7 @@
 <template>
   <q-no-ssr>
-      <apexcharts v-if="series[0].data.length !== 0" type="line" height="500" :options="chartOptions" :series="series" />
-      <div v-if="series[0].data.length === 0" class="no-data-warning">
+      <apexcharts v-if="series[0].data.length !== 0 && sumConsumption !== 0" type="line" height="500" :options="chartOptions" :series="series" />
+      <div v-if="series[0].data.length === 0 || sumConsumption === 0" class="no-data-warning">
         <span>
           Não há dados disponiveis no momento!
         </span>
@@ -23,6 +23,7 @@ export default {
   data () {
     return {
       min: 0,
+      sumConsumption: 0,
       series: [{
         name: 'Consumo (Wh)',
         data: [214.9, 192.0, 170.7, 172.2, 178.2, 170.3, 151.1, 128.8, 124.9, 125.0, 134.6, 133.3, 127.0, 137.5, 132.9, 146.9, 139.7, 130.7, 176.0, 259.3, 260.9, 241.0, 224.7, 226.0]
@@ -99,18 +100,21 @@ export default {
     }
   },
   created () {
-    console.log('passou')
-    MASTER.get(`/graph/quarterly-daily-consumption/?campus=${1}`)
-      .then((res) => {
-        // this.series[0].data = res.data
-        this.series = [{
-          name: 'Consumo (Wh)',
-          data: res.data
-        }]
-        this.consumption = res.data
-        console.log(res.data)
-      })
-      .catch(err => { console.error(err) })
+    (() => {
+      MASTER.get(`/graph/quarterly-daily-consumption/?campus=${1}`)
+        .then(async res => {
+          this.series = [{
+            name: 'Consumo (Wh)',
+            data: res.data
+          }]
+          res.data.forEach((item) => {
+            this.sumConsumption += item
+            return ''
+          })
+          this.consumption = res.data
+        })
+        .catch(err => { console.error(err) })
+    })()
   }
 }
 </script>
