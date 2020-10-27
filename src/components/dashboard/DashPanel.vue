@@ -37,7 +37,7 @@
 
   @media screen and (max-width: 800px) {
     .dash-content {
-      flex-direction: column-reverse;
+      flex-direction: column;
     }
 
     .dash-map {

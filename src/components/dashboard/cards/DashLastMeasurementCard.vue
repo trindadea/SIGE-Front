@@ -13,45 +13,53 @@
 
     <q-card-section v-if="rtm.length !== 0" class="q-pt-none q-pb-xs">
 
-      <table class="readings">
-        <tr class="row">
-          <th class="col h4">
-            Tensão
-          </th>
-          <th class="col h4">
-            Corrente
-          </th>
-          <th class="col h4">
-            Potência
-          </th>
-          <th class="col h4">
-            Últimas 72h
-          </th>
+      <table class="readings row">
+        <tr class="col-6 col-sm-3 q-pt-sm">
+          <span class="row">
+            <th class="col-12 h4">
+              Tensão
+            </th>
+            <td class="col-12">A: {{ rtm.voltage_a.toFixed(0) }}V</td>
+            <td class="col-12">B: {{ rtm.voltage_b.toFixed(0) }}V</td>
+            <td class="col-12">C: {{ rtm.voltage_c.toFixed(0) }}V</td>
+          </span>
         </tr>
 
-        <tr class="row">
-          <td class="col">A: {{ rtm.voltage_a.toFixed(0) }}V</td>
-          <td class="col">A: {{ rtm.current_a.toFixed(0) }}A</td>
-          <td class="col">Ativa: {{ rtm.total_active_power.toFixed(0) }}W</td>
-          <td class="col">
-            {{ countCriticalEvents() }} <q-icon :style="{opacity: 0.5}" :name="'img:statics/ic_ocorrencia_critica_mono.svg'"/>
-          </td>
+        <tr class="col-6 col-sm-3">
+          <span class="row">
+            <th class="col-12 h4">
+              Corrente
+            </th>
+            <td class="col-12">A: {{ rtm.current_a.toFixed(0) }}A</td>
+            <td class="col-12">B: {{ rtm.current_b.toFixed(0) }}A</td>
+            <td class="col-12">C: {{ rtm.current_c.toFixed(0) }}A</td>
+          </span>
         </tr>
 
-        <tr class="row">
-          <td class="col">B: {{ rtm.voltage_b.toFixed(0) }}V</td>
-          <td class="col">B: {{ rtm.current_b.toFixed(0) }}A</td>
-          <td class="col">Reativa: {{ rtm.total_reactive_power.toFixed(0) }}kVAr</td>
-          <td class="col">
-            {{ countWarningEvents() }} <q-icon :style="{opacity: 0.5}" :name="'img:statics/ic_ocorrencia_precaria_mono.svg'"/>
-          </td>
+        <tr class="col-6 col-sm-3">
+          <span class="row">
+            <th class="col-12 h4">
+              Potência
+            </th>
+            <td class="col-12">Ativa: {{ rtm.total_active_power.toFixed(0) }}W</td>
+            <td class="col-12">Reativa: {{ rtm.total_reactive_power.toFixed(0) }}kVAr</td>
+            <td class="col-12">Total: {{ rtm.total_power_factor.toFixed(0) }}kVa</td>
+          </span>
         </tr>
 
-        <tr class="row">
-          <td class="col">C: {{ rtm.voltage_c.toFixed(0) }}V</td>
-          <td class="col">C: {{ rtm.current_c.toFixed(0) }}A</td>
-          <td class="col">Total: {{ rtm.total_power_factor.toFixed(0) }}kVa</td>
-          <td class="col"></td>
+        <tr class="col-6 col-sm-3">
+          <span class="row">
+            <th class="col-12 h4">
+              Últimas 72h
+            </th>
+            <td class="col-12">
+              {{ countCriticalEvents() }} <q-icon :style="{opacity: 0.5}" :name="'img:statics/ic_ocorrencia_critica_mono.svg'"/>
+            </td>
+            <td class="col-12">
+              {{ countWarningEvents() }} <q-icon :style="{opacity: 0.5}" :name="'img:statics/ic_ocorrencia_precaria_mono.svg'"/>
+            </td>
+            <td class="col-12"></td>
+          </span>
         </tr>
       </table>
     </q-card-section>
