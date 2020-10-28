@@ -22,7 +22,8 @@ export default function (ssrContext) {
         { path: '/energy_consumption', name: 'energy_consumption', component: () => import('pages/EnergyConsumptionCurve.vue') },
         { path: '/reports', name: 'reports', component: () => import('pages/Reports.vue') },
         { path: '/campi', name: 'campi', component: () => import('pages/Campi.vue') },
-        { path: '/group_type', name: 'group_type', component: () => import('pages/GroupType.vue') }
+        { path: '/group_type', name: 'group_type', component: () => import('pages/GroupType.vue') },
+        { path: '/groups', name: 'groups', component: () => import('pages/Groups.vue') }
 
       ]
     },
