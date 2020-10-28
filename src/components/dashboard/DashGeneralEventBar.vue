@@ -4,7 +4,7 @@
       <div
         v-for="ev in eventTypes"
         :key="ev.name"
-        class="col-12 col-sm-6 col-lg">
+        class="col-12 col-sm-6 col-md-4 col-lg">
         <dash-event-card
           v-if="ev.eventsList !== undefined"
           :name="ev.name"

@@ -14,14 +14,14 @@
     <q-card-section v-if="rtm.length !== 0" class="q-pt-none q-pb-xs">
 
       <table class="readings row">
-        <tr class="col-6 col-sm-3 q-pt-sm">
+        <tr class="col-6 col-sm-3">
           <span class="row">
             <th class="col-12 h4">
               Tensão
             </th>
-            <td class="col-12">A: {{ rtm.voltage_a.toFixed(0) }}V</td>
-            <td class="col-12">B: {{ rtm.voltage_b.toFixed(0) }}V</td>
-            <td class="col-12">C: {{ rtm.voltage_c.toFixed(0) }}V</td>
+            <td class="col-12 reading-measurement">A: {{ rtm.voltage_a.toFixed(0) }}V</td>
+            <td class="col-12 reading-measurement">B: {{ rtm.voltage_b.toFixed(0) }}V</td>
+            <td class="col-12 reading-measurement">C: {{ rtm.voltage_c.toFixed(0) }}V</td>
           </span>
         </tr>
 
@@ -30,9 +30,9 @@
             <th class="col-12 h4">
               Corrente
             </th>
-            <td class="col-12">A: {{ rtm.current_a.toFixed(0) }}A</td>
-            <td class="col-12">B: {{ rtm.current_b.toFixed(0) }}A</td>
-            <td class="col-12">C: {{ rtm.current_c.toFixed(0) }}A</td>
+            <td class="col-12 reading-measurement">A: {{ rtm.current_a.toFixed(0) }}A</td>
+            <td class="col-12 reading-measurement">B: {{ rtm.current_b.toFixed(0) }}A</td>
+            <td class="col-12 reading-measurement">C: {{ rtm.current_c.toFixed(0) }}A</td>
           </span>
         </tr>
 
@@ -41,9 +41,9 @@
             <th class="col-12 h4">
               Potência
             </th>
-            <td class="col-12">Ativa: {{ rtm.total_active_power.toFixed(0) }}W</td>
-            <td class="col-12">Reativa: {{ rtm.total_reactive_power.toFixed(0) }}kVAr</td>
-            <td class="col-12">Total: {{ rtm.total_power_factor.toFixed(0) }}kVa</td>
+            <td class="col-12 reading-measurement">Ativa: {{ rtm.total_active_power.toFixed(0) }}W</td>
+            <td class="col-12 reading-measurement">Reativa: {{ rtm.total_reactive_power.toFixed(0) }}kVAr</td>
+            <td class="col-12 reading-measurement">Total: {{ rtm.total_power_factor.toFixed(0) }}kVa</td>
           </span>
         </tr>
 
@@ -160,6 +160,10 @@ export default {
     line-height: 36px;
     size: 24px;
     text-transform: uppercase;
+  }
+
+  .reading-measurement {
+    font-size: 0.8em;
   }
 
   td {
