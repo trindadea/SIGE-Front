@@ -78,6 +78,18 @@
           outlined
           v-model="campi.acronym"
           label="Acronym"/>
+        <q-input
+          outlined
+          v-model="campi.geolocation_latitude"
+          label="Latitude"/>
+        <q-input
+          outlined
+          v-model="campi.geolocation_longitude"
+          label="Longitude"/>
+        <q-input
+          outlined
+          v-model="campi.zoom_ratio"
+          label="Map Zoom"/>
         <div class="text-center q-mt-lg">
           <q-btn
             size="1rem"
