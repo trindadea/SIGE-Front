@@ -105,13 +105,8 @@ export default {
 <style lang="scss">
 
   .evt-card-size {
-    // min-height: 34.8vh;
-    // max-height: 34.8vh;
-    // min-height: 36.3vh;
-    // max-height: 36.3vh;
-    min-height: 34.8vh;
-    max-height: 34.8vh;
-
+    min-height: 31vh;
+    max-height: 31vh;
   }
 
 </style>
