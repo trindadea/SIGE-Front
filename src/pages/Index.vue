@@ -48,7 +48,12 @@ export default {
         {
           image: 'statics/Relatorios.png',
           link: '/campi',
-          name: 'campi'
+          name: 'Campi'
+        },
+        {
+          image: 'statics/Relatorios.png',
+          link: '/group_type',
+          name: 'Group Type'
         }
       ]
     }

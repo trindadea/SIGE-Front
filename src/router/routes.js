@@ -21,7 +21,8 @@ export default function (ssrContext) {
         { path: '/transductor/:id', name: 'transductor', component: () => import('pages/Transductor.vue') },
         { path: '/energy_consumption', name: 'energy_consumption', component: () => import('pages/EnergyConsumptionCurve.vue') },
         { path: '/reports', name: 'reports', component: () => import('pages/Reports.vue') },
-        { path: '/campi', name: 'campi', component: () => import('pages/Campi.vue') }
+        { path: '/campi', name: 'campi', component: () => import('pages/Campi.vue') },
+        { path: '/group_type', name: 'group_type', component: () => import('pages/GroupType.vue') }
 
       ]
     },
