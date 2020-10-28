@@ -1,11 +1,13 @@
 <template>
   <div>
-    <h3>Lista de Campi </h3>
-    <q-btn
-      size="1rem"
-      label="Novo"
-      color="primary"
-      @click="handlePressButton('new')"/>
+    <h3 class="title">Lista de Campi </h3>
+    <div class="btn">
+      <q-btn
+        size="1rem"
+        label="Novo"
+        color="primary"
+        @click="handlePressButton('new')"/>
+    </div>
     <div class="container">
       <div class="lst-campi">
         <ul>
@@ -208,7 +210,7 @@ export default {
 <style>
 .container {
   display               : grid;
-  font-size: 25px;
+  font-size             : 25px;
   grid-template-columns : 30% 1fr;
   gap                   : 10px;
   height                : 100vh;
@@ -216,7 +218,13 @@ export default {
   padding               : 10px;;
 }
 .campi-info {
-  padding: 20px;
+  padding   : 20px;
+}
+.title {
+  padding-left: 20px;
+}
+.btn {
+  padding   : 20px;
 }
 
 </style>
