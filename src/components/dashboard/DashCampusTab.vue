@@ -21,7 +21,7 @@
         <q-tab
           dense
           v-for="campus in campi" :key="campus.id"
-          class="col-3 q-mx-md tabs"
+          class="col-12 col-sm-3 q-mx-md tabs"
           :class="activeTab === campus.name ? 'q-tab--active': ''">
           {{ campus.name }}
         </q-tab>
