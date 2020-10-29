@@ -14,7 +14,7 @@
     <q-card-section v-if="rtm.length !== 0" class="q-pt-none q-pb-xs">
 
       <table class="readings row">
-        <tr class="col-6 col-sm-3">
+        <tr class="col-6 col-sm-6 col-md-3">
           <span class="row">
             <th class="col-12 h4">
               Tensão
@@ -25,7 +25,7 @@
           </span>
         </tr>
 
-        <tr class="col-6 col-sm-3">
+        <tr class="col-6 col-sm-6 col-md-3">
           <span class="row">
             <th class="col-12 h4">
               Corrente
@@ -36,7 +36,7 @@
           </span>
         </tr>
 
-        <tr class="col-6 col-sm-3">
+        <tr class="col-6 col-sm-6 col-md-3">
           <span class="row">
             <th class="col-12 h4">
               Potência
@@ -47,7 +47,7 @@
           </span>
         </tr>
 
-        <tr class="col-6 col-sm-3">
+        <tr class="col-6 col-sm-6 col-md-3">
           <span class="row">
             <th class="col-12 h4">
               Últimas 72h
