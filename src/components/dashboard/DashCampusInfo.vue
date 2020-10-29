@@ -1,13 +1,13 @@
 <template>
   <div class="q-ma-none q-py-none q-pr-none">
     <div class="row q-col-gutter-md">
-      <div class="col-6">
+      <div class="col-12 col-md-12 col-lg-6">
         <dash-consumption-generation-card
           class="height-conf"
           :transductor="selectedTransductor"/>
       </div>
 
-      <div class="col-6">
+      <div class="col-12 col-sm-12 col-lg-6">
         <dash-last-72h-card
           class="height-conf"
           :last72hEvents="last72hEvents"/>
@@ -94,4 +94,10 @@ export default {
     color: rgba(255, 255, 255, 0.6);
   }
 
+  @media screen and (max-width: 1440px) {
+    .height-conf {
+      min-height: 170px !important;
+      max-height: 100% !important;
+    }
+  }
 </style>

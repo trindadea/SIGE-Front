@@ -1,8 +1,7 @@
 <template>
-  <div class="q-pr-md q-ma-none">
+  <div class="map-wrapper">
     <l-map
-      style="height: 53.9vh!important"
-      class="rounded-borders cursor-not-allowed"
+      class="rounded-borders cursor-not-allowed map-dimension"
       :zoom="currentCampus.zoom_ratio || 16"
       :min-zoom="currentCampus.zoom_ratio || 16"
       :max-zoom="currentCampus.zoom_ratio || 16"
@@ -185,4 +184,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .map-dimension {
+    height: 53.9vh;
+  }
+
+  .map-wrapper {
+    padding-right: 16px;
+  }
+
+  @media screen and (max-width: 1440px) {
+    .map-dimension {
+      height: 100% !important;
+    }
+  }
+
+  @media screen and (max-width: 800px) {
+    .map-wrapper {
+      padding-right: 0 !important;
+    }
+
+    .map-dimension {
+      height: 53.9vh !important;
+    }
+  }
 </style>

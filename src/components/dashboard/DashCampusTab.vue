@@ -21,7 +21,7 @@
         <q-tab
           dense
           v-for="campus in campi" :key="campus.id"
-          class="col-3 q-mx-md tabs"
+          class="col-12 col-sm-3 q-mx-md tabs"
           :class="activeTab === campus.name ? 'q-tab--active': ''">
           {{ campus.name }}
         </q-tab>
@@ -33,7 +33,7 @@
       >
         <q-tab-panel
           animated
-          class="base q-py-md"
+          class="base q-py-md panel-wrapper"
           v-for="campus in campi" :key="campus.id"
           :name="campus.name">
           <dash-panel v-if="currentCampus" :selectedCampus="currentCampus"/>
@@ -135,4 +135,7 @@ export default {
     }
   }
 
+  .panel-wrapper {
+    min-height: 50vh;
+  }
 </style>

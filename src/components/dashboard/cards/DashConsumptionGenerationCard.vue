@@ -1,15 +1,15 @@
 <template>
   <div class="row q-col-gutter-md">
 
-    <div class="col">
-      <q-card flat class="card-base card-bg">
+    <div class="col-12 col-sm-6 card-consum q-pt-sm">
+      <q-card flat class="card-base card-bg card-consumption">
         <q-inner-loading dark :showing="transductor === undefined">
           <q-spinner-ios size="50px" color="grey-4" thickness="7"/>
         </q-inner-loading>
 
         <q-card-section
           v-if="transductor"
-          class="q-pt-xs q-pb-none text-center card-title">
+          class="q-pt-xs q-pb-none text-center card-title q-pt-sm">
           Consumo
         </q-card-section>
 
@@ -17,7 +17,6 @@
           v-if="transductor && false"
           class="q-pt-none q-pb-xs q-px-sm text-center">
             <triangular-consumption-chart class="fit q-pt-none q-pb-xs"/>
-            <!-- TODO: esse componente deve ser revisado -->
             <small class="overflow-hidden">
               acima do cont.- {{aboveSince}}min
             </small>
@@ -33,7 +32,7 @@
       </q-card>
     </div>
 
-    <div class="col">
+    <div class="col-12 col-sm-6 card-consumption">
       <q-card flat class="card-base card-bg">
         <q-inner-loading dark :showing="transductor === undefined">
           <q-spinner-ios size="50px" color="grey-4" thickness="7"/>
@@ -114,4 +113,11 @@ export default {
     letter-spacing: 0.24px;
   }
 
+  @media screen and (max-width: 800px) {
+    .card-consumption {
+      min-height: 200px !important;
+      max-height: 100%;
+      margin-top: 5px;
+    }
+  }
 </style>
