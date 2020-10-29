@@ -169,7 +169,11 @@ export default {
     },
     mapCenter () {
       if (!(this.currentCampus.geolocation_latitude)) {
-        return [-15.7658756, -47.8743207] // darcy's geo-pos
+        if (this.currentCampus.name.toLowerCase().includes('gama')) {
+          return [15.9894 - 48.0443] // gama's geo-pos
+        } else {
+          return [-15.7636, -47.8694] // darcy's geo-pos
+        }
       }
       return [this.currentCampus.geolocation_latitude, this.currentCampus.geolocation_longitude]
     }
