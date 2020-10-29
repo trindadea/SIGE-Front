@@ -25,6 +25,7 @@
     display: flex;
     flex-direction: row;
     width: 100%;
+    min-height: 53.9vh;
   }
 
   .dash-map {

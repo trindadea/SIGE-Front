@@ -96,7 +96,7 @@ export default {
 
   @media screen and (max-width: 1440px) {
     .height-conf {
-      min-height: 100% !important;
+      min-height: 170px !important;
       max-height: 100% !important;
     }
   }
