@@ -5,6 +5,9 @@ const updateChartPhase = (state, options) => {
   state.chartOptions.phase_a = options.phase_a
   state.chartOptions.phase_b = options.phase_b
   state.chartOptions.phase_c = options.phase_c
+  state.chartOptions.values = options.values
+  state.chartOptions.min = options.min
+  state.chartOptions.max = options.max
   state.chartOptions.unit = options.unit
   state.chartOptions.dimension = options.dimension
   state.chartOptions.status = options.status

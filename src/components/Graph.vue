@@ -7,7 +7,12 @@
       :transductorId="transductorId"
     />
     <line-chart
-      v-if="graphIsLinechart() && mounted"
+      v-if="graphIs('linechart') && mounted"
+      :transductorId='transductorId'
+    />
+    <bar-chart
+      v-else-if="graphIs('barchart') && mounted"
+      unit="R$"
       :transductorId='transductorId'
     />
     <no-data-placeholder
@@ -21,6 +26,7 @@
 <script>
 import chartFilter from './ChartFilter'
 import LineChart from './charts/LineChart.vue'
+import BarChart from './charts/BarChart.vue'
 import noDataPlaceholder from './NoDataPlaceHolder'
 import { dimensions, getGraph } from '../utils/transductorGraphControl'
 import { mapActions, mapGetters } from 'vuex'
@@ -30,6 +36,7 @@ export default {
   components: {
     chartFilter: chartFilter,
     LineChart: LineChart,
+    BarChart: BarChart,
     noDataPlaceholder: noDataPlaceholder
   },
   props: [
@@ -60,9 +67,9 @@ export default {
   },
   methods: {
     ...mapActions('transductorStore', ['updateFilter', 'updateChartPhase']),
-    graphIsLinechart () {
+    graphIs (graphType) {
       const type = this.chartOptions.graphType
-      return type === 'linechart'
+      return type === graphType
     }
   }
 }
