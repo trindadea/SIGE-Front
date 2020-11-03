@@ -59,6 +59,11 @@ export default {
           image: 'statics/Relatorios.png',
           link: '/groups',
           name: 'Groups'
+        },
+        {
+          image: 'statics/Relatorios.png',
+          link: '/slaves',
+          name: 'Slaves'
         }
       ]
     }

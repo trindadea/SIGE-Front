@@ -23,7 +23,8 @@ export default function (ssrContext) {
         { path: '/reports', name: 'reports', component: () => import('pages/Reports.vue') },
         { path: '/campi', name: 'campi', component: () => import('pages/Campi.vue') },
         { path: '/group_type', name: 'group_type', component: () => import('pages/GroupType.vue') },
-        { path: '/groups', name: 'groups', component: () => import('pages/Groups.vue') }
+        { path: '/groups', name: 'groups', component: () => import('pages/Groups.vue') },
+        { path: '/slaves', name: 'slaves', component: () => import('pages/Slaves.vue') }
 
       ]
     },
