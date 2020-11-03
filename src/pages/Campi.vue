@@ -9,23 +9,23 @@
         @click="handlePressButton('new')"/>
     </div>
     <div class="container">
-      <div class="lst-campi">
+      <div class="lst-campus">
         <ul>
-          <li v-for="(campi,index) in campis" :key="index">
+          <li v-for="(campus,index) in campi" :key="index">
             <p class="lst-item">
-              {{index}} - {{campi.name}} - {{campi.acronym}}
+              {{index}} - {{campus.name}} - {{campus.acronym}}
             <q-btn
               size="1rem"
               label="show"
-              @click="handlePressButton('show', campi.id)"
+              @click="handlePressButton('show', campus.id)"
               color="primary"/>
               </p>
           </li>
         </ul>
       </div>
-      <div class="campi-info" v-if="isCreatingNew">
+      <div class="campus-info" v-if="isCreatingNew">
         <h3 class="login-text">
-          Novo Campi
+          Novo Campus
         </h3>
         <q-form
           class="q-gutter-md"
@@ -34,7 +34,7 @@
           <q-input
             outlined
             v-model="newCampi.name"
-            label="Nome do Campi"/>
+            label="Nome do Campus"/>
           <q-input
             outlined
             v-model="newCampi.acronym"
@@ -60,35 +60,35 @@
           </div>
         </q-form>
       </div>
-      <div class="campi-info" v-if="isSelectedCampi">
+      <div class="campus-info" v-if="isSelectedCampi">
         <h3 class="login-text">
           Editar dados
         </h3>
-        <p>Id: {{campi.id}}</p>
-        <p>Transductors: {{campi.transductors}}</p>
+        <p>Id: {{campus.id}}</p>
+        <p>Transductors: {{campus.transductors}}</p>
         <q-form
         class="q-gutter-md"
         @submit="putCampi()"
         >
         <q-input
           outlined
-          v-model="campi.name"
-          label="Nome do Campi"/>
+          v-model="campus.name"
+          label="Nome do Campus"/>
         <q-input
           outlined
-          v-model="campi.acronym"
+          v-model="campus.acronym"
           label="Acronym"/>
         <q-input
           outlined
-          v-model="campi.geolocation_latitude"
+          v-model="campus.geolocation_latitude"
           label="Latitude"/>
         <q-input
           outlined
-          v-model="campi.geolocation_longitude"
+          v-model="campus.geolocation_longitude"
           label="Longitude"/>
         <q-input
           outlined
-          v-model="campi.zoom_ratio"
+          v-model="campus.zoom_ratio"
           label="Map Zoom"/>
         <div class="text-center q-mt-lg">
           <q-btn
@@ -99,7 +99,7 @@
           <q-btn
             size="1rem"
             label="Deletar"
-            @click="deleteCampi(campi.id)"
+            @click="deleteCampi(campus.id)"
             color="primary"/>
         </div>
       </q-form>
@@ -113,11 +113,11 @@ import MASTER from '../services/masterApi/http-common'
 // import { mapActions } from 'vuex'
 
 export default {
-  name: 'Campis',
+  name: 'Campi',
   data () {
     return {
-      campis: [],
-      campi: {},
+      campi: [],
+      campus: {},
       isSelectedCampi: false,
       isCreatingNew: false,
       newCampi: {}
@@ -146,7 +146,7 @@ export default {
         .get('campi/', {})
         .then(res => {
           console.log(res.data)
-          this.campis = res.data
+          this.campi = res.data
         })
         .catch(err => {
           this.err = err
@@ -158,7 +158,7 @@ export default {
         .get('campi/' + id, {})
         .then(res => {
           console.log(res.data)
-          this.campi = res.data
+          this.campus = res.data
           this.isSelectedCampi = true
         })
         .catch(err => {
@@ -166,14 +166,14 @@ export default {
         })
     },
     putCampi () {
-      const { id } = this.campi
+      const { id } = this.campus
       MASTER
-        .put('campi/' + id + '/', this.campi)
+        .put('campi/' + id + '/', this.campus)
         .then(res => {
-          this.campi = res.data
-          this.campis = this.campis.map((campi) => {
-            if (campi.id === id) return res.data
-            return campi
+          this.campus = res.data
+          this.campi = this.campi.map((campus) => {
+            if (campus.id === id) return res.data
+            return campus
           })
           this.$q.notify({
             type: 'positive',
@@ -192,10 +192,10 @@ export default {
       MASTER
         .delete('campi/' + id, {})
         .then(res => {
-          this.campis = this.campis.filter((campi) => campi.id !== id)
+          this.campi = this.campi.filter((campi) => campi.id !== id)
           this.$q.notify({
             type: 'positive',
-            message: 'Campi deletado com sucesso.'
+            message: 'Campus deletado com sucesso.'
           })
           this.isSelectedCampi = false
           this.campi = {}
@@ -209,7 +209,7 @@ export default {
       MASTER
         .post('campi/', this.newCampi)
         .then(res => {
-          this.campis.push(res.data)
+          this.campi.push(res.data)
           this.newCampi = {}
         })
         .catch(err => {
