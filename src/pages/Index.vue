@@ -64,6 +64,11 @@ export default {
           image: 'statics/Relatorios.png',
           link: '/slaves',
           name: 'Slaves'
+        },
+        {
+          image: 'statics/Relatorios.png',
+          link: '/transductors',
+          name: 'Transductors'
         }
       ]
     }
