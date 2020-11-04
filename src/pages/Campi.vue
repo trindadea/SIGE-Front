@@ -29,27 +29,27 @@
         </h3>
         <q-form
           class="q-gutter-md"
-          @submit="postCampi()"
+          @submit="postCampus()"
           >
           <q-input
             outlined
-            v-model="newCampi.name"
+            v-model="newCampus.name"
             label="Nome do Campus"/>
           <q-input
             outlined
-            v-model="newCampi.acronym"
+            v-model="newCampus.acronym"
             label="Acronym"/>
           <q-input
             outlined
-            v-model="newCampi.geolocation_latitude"
+            v-model="newCampus.geolocation_latitude"
             label="Latitude"/>
           <q-input
             outlined
-            v-model="newCampi.geolocation_longitude"
+            v-model="newCampus.geolocation_longitude"
             label="Longitude"/>
           <q-input
             outlined
-            v-model="newCampi.zoom_ratio"
+            v-model="newCampus.zoom_ratio"
             label="Map Zoom"/>
           <div class="text-center q-mt-lg">
             <q-btn
@@ -60,7 +60,7 @@
           </div>
         </q-form>
       </div>
-      <div class="campus-info" v-if="isSelectedCampi">
+      <div class="campus-info" v-if="isSelectedCampus">
         <h3 class="login-text">
           Editar dados
         </h3>
@@ -68,7 +68,7 @@
         <p>Transductors: {{campus.transductors}}</p>
         <q-form
         class="q-gutter-md"
-        @submit="putCampi()"
+        @submit="putCampus()"
         >
         <q-input
           outlined
@@ -99,7 +99,7 @@
           <q-btn
             size="1rem"
             label="Deletar"
-            @click="deleteCampi(campus.id)"
+            @click="deleteCampus(campus.id)"
             color="primary"/>
         </div>
       </q-form>
@@ -118,30 +118,30 @@ export default {
     return {
       campi: [],
       campus: {},
-      isSelectedCampi: false,
+      isSelectedCampus: false,
       isCreatingNew: false,
-      newCampi: {}
+      newCampus: {}
     }
   },
   created () {
-    this.getCampis()
+    this.getCampi()
   },
   methods: {
     handlePressButton (type, id = null) {
       const options = {
         new: () => {
-          this.isSelectedCampi = false
+          this.isSelectedCampus = false
           this.isCreatingNew = !this.isCreatingNew
         },
         show: () => {
-          this.isSelectedCampi = true
+          this.isSelectedCampus = true
           this.isCreatingNew = false
-          this.getCampi(id)
+          this.getCampus(id)
         }
       }
       if (options[type]) options[type]()
     },
-    getCampis () {
+    getCampi () {
       MASTER
         .get('campi/', {})
         .then(res => {
@@ -153,19 +153,19 @@ export default {
           console.log('err')
         })
     },
-    getCampi (id) {
+    getCampus (id) {
       MASTER
         .get('campi/' + id, {})
         .then(res => {
           console.log(res.data)
           this.campus = res.data
-          this.isSelectedCampi = true
+          this.isSelectedCampus = true
         })
         .catch(err => {
           console.log(err)
         })
     },
-    putCampi () {
+    putCampus () {
       const { id } = this.campus
       MASTER
         .put('campi/' + id + '/', this.campus)
@@ -188,29 +188,29 @@ export default {
           })
         })
     },
-    deleteCampi (id) {
+    deleteCampus (id) {
       MASTER
         .delete('campi/' + id, {})
         .then(res => {
-          this.campi = this.campi.filter((campi) => campi.id !== id)
+          this.campi = this.campi.filter((campus) => campus.id !== id)
           this.$q.notify({
             type: 'positive',
             message: 'Campus deletado com sucesso.'
           })
-          this.isSelectedCampi = false
-          this.campi = {}
+          this.isSelectedCampus = false
+          this.campus = {}
           console.log(res.data)
         })
         .catch(err => {
           console.log(err)
         })
     },
-    postCampi () {
+    postCampus () {
       MASTER
-        .post('campi/', this.newCampi)
+        .post('campi/', this.newCampus)
         .then(res => {
           this.campi.push(res.data)
-          this.newCampi = {}
+          this.newCampus = {}
         })
         .catch(err => {
           console.log(err)
