@@ -92,6 +92,14 @@ const clearEndDate = (state) => {
   state.endDate = ''
 }
 
+const updateChartSerie = (state, serieChart) => {
+  if (state.serieChart) {
+    state.serieChart = serieChart
+  } else {
+    state.serieChart = []
+  }
+}
+
 export {
   changePeriodicity,
   changeStartDate,
@@ -99,5 +107,6 @@ export {
   filterByCampus,
   filterByGroup,
   clearStartDate,
-  clearEndDate
+  clearEndDate,
+  updateChartSerie
 }

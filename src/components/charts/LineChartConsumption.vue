@@ -1,16 +1,17 @@
 <template>
   <q-no-ssr>
-      <apexcharts v-if="series[0].data.length !== 0 && sumConsumption !== 0" type="line" height="500" :options="chartOptions" :series="series" />
-      <div v-if="series[0].data.length === 0 || sumConsumption === 0" class="no-data-warning">
+      <apexcharts v-if="getSerie" type="line" height="500" :options="chartOptions" :series="getSerie" />
+      <!-- <div v-if="getSerie[0].data.length === 0 || sumConsumption === 0" class="no-data-warning">
         <span>
           Não há dados disponiveis no momento!
         </span>
-      </div>
+      </div> -->
   </q-no-ssr>
 </template>
 
 <script>
 import MASTER from '../../services/masterApi/http-common'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'LineChart',
@@ -90,6 +91,9 @@ export default {
         }
       }
     }
+  },
+  computed: {
+    ...mapGetters('totalCostStore', ['getSerie'])
   },
   methods: {
     labelFormatter (value) {

@@ -8,5 +8,6 @@ export default {
   idCampus: '',
   idGroup: '',
   errorStartDate: false,
-  errorEndDate: false
+  errorEndDate: false,
+  serieChart: []
 }

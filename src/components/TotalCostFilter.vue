@@ -23,7 +23,7 @@
           </template>
         </q-select>
 
-          <q-select
+        <q-select
           v-model="optionsModel"
           use-input
           map-options
@@ -76,6 +76,14 @@
             </q-icon>
           </template>
         </q-input>
+        <q-btn
+            class="apply_button"
+            size="1rem"
+            label="Aplicar"
+            type="button"
+            @click="applyFilter()"
+            color="primary"
+        />
       </div>
     </div>
     <div class="adjust-toggle">
@@ -87,6 +95,7 @@
 
 <script>
 import MASTER from '../services/masterApi/http-common'
+import { getGraphInformation } from '../utils/graphControl'
 import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
 const allCampus = []
@@ -120,10 +129,10 @@ export default {
       })
   },
   computed: {
-    ...mapGetters('totalCostStore', ['errorStartDate', 'errorEndDate'])
+    ...mapGetters('totalCostStore', ['errorStartDate', 'errorEndDate', 'getFilters'])
   },
   methods: {
-    ...mapActions('totalCostStore', ['changePeriodicity', 'changeStartDate', 'changeEndDate', 'filterByCampus', 'filterByGroup', 'clearStartDate', 'clearEndDate']),
+    ...mapActions('totalCostStore', ['changePeriodicity', 'changeStartDate', 'changeEndDate', 'filterByCampus', 'filterByGroup', 'clearStartDate', 'clearEndDate', 'updateChartSerie']),
     filterFn (val, update, abort) {
       update(() => {
         const needle = val.toLowerCase()
@@ -168,6 +177,11 @@ export default {
           this.changeEndDate(this.endDate)
         }
       }
+    },
+
+    async applyFilter () {
+      const serie = await getGraphInformation(this.getFilters, window.location.pathname.replace('/', ''))
+      this.updateChartSerie(serie)
     }
   }
 }
@@ -243,5 +257,12 @@ export default {
 }
 .input {
   padding-bottom: 0;
+}
+
+.apply_button {
+  height: 40px;
+  margin-top: auto;
+  margin-bottom: 1.7%;
+  margin-left: 1.7%;
 }
 </style>
