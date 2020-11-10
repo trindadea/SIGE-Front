@@ -1,15 +1,15 @@
 <template>
   <div>
-    <h3 class="title">Lista de GroupType </h3>
+    <!-- <h3 class="title">Lista de GroupType </h3>
     <div class="btn">
       <q-btn
         size="1rem"
         label="Novo"
         color="primary"
         @click="handlePressButton('new')"/>
-    </div>
+    </div> -->
     <div class="container">
-      <div class="lst-groupType">
+      <!-- <div class="lst-groupType">
         <ul>
           <li v-for="(groupType,index) in groupTypes" :key="index">
             <p class="lst-item">
@@ -22,23 +22,26 @@
               </p>
           </li>
         </ul>
-      </div>
+      </div> -->
       <div class="groupType-info" v-if="isCreatingNew">
-        <h3 class="login-text">
+        <h3 class="title">
           Novo GroupType
         </h3>
         <q-form
           class="q-gutter-md"
           @submit="postGroupType()"
           >
-          <q-input
-            outlined
-            v-model="newGroupType.name"
-            label="Nome do GroupType"/>
-          <div class="text-center q-mt-lg">
+          <div class="inputDiv">
+            <label>Nome: </label>
+            <q-input
+              class="inputField"
+              outlined
+              v-model="newGroupType.name"/>
+          </div>
+          <div class="btn">
             <q-btn
               size="1rem"
-              label="Enviar"
+              label="Salvar"
               type="submit"
               color="primary"/>
           </div>
@@ -86,7 +89,7 @@ export default {
       groupTypes: [],
       groupType: {},
       isSelectedGroupType: false,
-      isCreatingNew: false,
+      isCreatingNew: true,
       newGroupType: {}
     }
   },
@@ -186,9 +189,8 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss" scoped>
 .container {
-  display               : grid;
   font-size             : 25px;
   grid-template-columns : 30% 1fr;
   gap                   : 10px;
@@ -197,13 +199,26 @@ export default {
   padding               : 10px;;
 }
 .groupType-info {
-  padding   : 20px;
+  border      : 1px solid $primary;
+  padding     : 20px;
+  padding-top : 0px;
 }
 .title {
-  padding-left: 20px;
+  text-align      : center;
+  padding-top     : 0px;
+  padding-bottom  : 20px;
 }
 .btn {
-  padding   : 20px;
+  margin-top  : 24px;
+  text-align  : right;
+}
+.inputDiv {
+  display     : flex;
+  align-items : center;
+}
+.inputField {
+  flex          : 1;
+  padding-left  : 10px
 }
 
 </style>
