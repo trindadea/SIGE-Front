@@ -48,28 +48,32 @@
         </q-form>
       </div>
       <div class="groupType-info" v-if="isSelectedGroupType">
-        <h3 class="login-text">
+        <h3 class="title">
           Editar dados
         </h3>
-        <p>Id: {{groupType.id}}</p>
         <q-form
         class="q-gutter-md"
         @submit="putGroupType()"
         >
-        <q-input
-          outlined
-          v-model="groupType.name"
-          label="Nome do GroupType"/>
-        <div class="text-center q-mt-lg">
+        <div class="inputDiv">
+          <label>Nome: </label>
+          <q-input
+              class="inputField"
+              outlined
+              disabled
+              v-model="newGroupType.name"/>
+        </div>
+        <div class="text-right q-mt-lg">
           <q-btn
+            class="btn"
+            size="1rem"
+            label="Cancelar"
+            color="primary"/>
+          <q-btn
+            class="btn"
             size="1rem"
             label="Salvar"
             type="submit"
-            color="primary"/>
-          <q-btn
-            size="1rem"
-            label="Deletar"
-            @click="deleteGroupType(groupType.id)"
             color="primary"/>
         </div>
       </q-form>
@@ -210,6 +214,7 @@ export default {
 }
 .btn {
   margin-top  : 24px;
+  margin-left : 10px;
   text-align  : right;
 }
 .inputDiv {
