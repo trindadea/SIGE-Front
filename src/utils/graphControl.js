@@ -1,6 +1,7 @@
 // import MASTER from '../services/master/http-common'
 
-export async function getGraphInformation (filters, typeGraph) {
+export async function getGraphInformation (filters) {
+  const typeGraph = window.location.pathname.replace('/', '')
   if (typeGraph === 'energy_consumption') {
     return [{
       name: 'Consumo (Wh)',

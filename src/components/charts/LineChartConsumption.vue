@@ -10,8 +10,7 @@
 </template>
 
 <script>
-import MASTER from '../../services/masterApi/http-common'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'LineChart',
@@ -25,10 +24,6 @@ export default {
     return {
       min: 0,
       sumConsumption: 0,
-      series: [{
-        name: 'Consumo (Wh)',
-        data: [214.9, 192.0, 170.7, 172.2, 178.2, 170.3, 151.1, 128.8, 124.9, 125.0, 134.6, 133.3, 127.0, 137.5, 132.9, 146.9, 139.7, 130.7, 176.0, 259.3, 260.9, 241.0, 224.7, 226.0]
-      }],
       chartOptions: {
         colors: ['#00417e'],
         grid: {
@@ -93,9 +88,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('totalCostStore', ['getSerie'])
+    ...mapGetters('totalCostStore', ['getSerie', 'getFilters'])
   },
   methods: {
+    ...mapActions('totalCostStore', ['updateChartSerie']),
     labelFormatter (value) {
       return value.toFixed(2) + ' ' + this.unit
     },
@@ -104,21 +100,22 @@ export default {
     }
   },
   created () {
-    (() => {
-      MASTER.get(`/graph/quarterly-daily-consumption/?campus=${1}`)
-        .then(async res => {
-          this.series = [{
-            name: 'Consumo (Wh)',
-            data: res.data
-          }]
-          res.data.forEach((item) => {
-            this.sumConsumption += item
-            return ''
-          })
-          this.consumption = res.data
-        })
-        .catch(err => { console.error(err) })
-    })()
+    this.updateChartSerie([150, 30, 40])
+    // (() => {
+    //   MASTER.get(`/graph/quarterly-daily-consumption/?campus=${1}`)
+    //     .then(async res => {
+    //       this.series = [{
+    //         name: 'Consumo (Wh)',
+    //         data: res.data
+    //       }]
+    //       res.data.forEach((item) => {
+    //         this.sumConsumption += item
+    //         return ''
+    //       })
+    //       this.consumption = res.data
+    //     })
+    //     .catch(err => { console.error(err) })
+    // })()
   }
 }
 </script>

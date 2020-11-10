@@ -123,10 +123,14 @@ export default {
         res.data.forEach(elem => {
           allCampus.push(elem)
         })
+        this.campusModel = res.data[0]
       })
       .catch(err => {
         console.log(err)
       })
+
+    this.startDate = moment().format('DD/MM/YYYY')
+    this.endDate = moment().add(1, 'days').format('DD/MM/YYYY')
   },
   computed: {
     ...mapGetters('totalCostStore', ['errorStartDate', 'errorEndDate', 'getFilters'])
@@ -142,9 +146,9 @@ export default {
       })
     },
     filterCampus (val, update, abort) {
-      update(() => {
+      update(async () => {
         const needle = val.toLowerCase()
-        this.optionsCampus = allCampus.filter(
+        this.optionsCampus = await allCampus.filter(
           v => v.name.toLowerCase().indexOf(needle) > -1
         )
       })
@@ -180,7 +184,7 @@ export default {
     },
 
     async applyFilter () {
-      const serie = await getGraphInformation(this.getFilters, window.location.pathname.replace('/', ''))
+      const serie = await getGraphInformation(this.getFilters)
       this.updateChartSerie(serie)
     }
   }

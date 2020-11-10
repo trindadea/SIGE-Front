@@ -94,7 +94,10 @@ const clearEndDate = (state) => {
 
 const updateChartSerie = (state, serieChart) => {
   if (state.serieChart) {
-    state.serieChart = serieChart
+    state.serieChart = [{
+      name: 'Consumo (Wh)',
+      data: serieChart
+    }]
   } else {
     state.serieChart = []
   }
