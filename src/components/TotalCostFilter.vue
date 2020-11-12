@@ -131,6 +131,9 @@ export default {
 
     this.startDate = moment().format('DD/MM/YYYY')
     this.endDate = moment().format('DD/MM/YYYY')
+
+    const serie = await getGraphInformation(this.getFilters)
+    this.updateChartSerie(serie)
   },
   computed: {
     ...mapGetters('totalCostStore', ['errorStartDate', 'errorEndDate', 'getFilters'])

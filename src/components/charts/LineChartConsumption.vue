@@ -1,11 +1,11 @@
 <template>
   <q-no-ssr>
-      <apexcharts v-if="getSerie" type="line" height="500" :options="chartOptions" :series="getSerie" />
-      <!-- <div v-if="getSerie[0].data.length === 0 || sumConsumption === 0" class="no-data-warning">
+      <apexcharts v-if="getSerie && getGraphNotEmpty" type="line" height="500" :options="chartOptions" :series="getSerie" />
+      <div v-if="!getGraphNotEmpty" class="no-data-warning">
         <span>
           Não há dados disponiveis no momento!
         </span>
-      </div> -->
+      </div>
   </q-no-ssr>
 </template>
 
@@ -23,7 +23,6 @@ export default {
   data () {
     return {
       min: 0,
-      sumConsumption: 0,
       chartOptions: {
         colors: ['#00417e'],
         grid: {
@@ -88,7 +87,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('totalCostStore', ['getSerie', 'getFilters', 'getCategoryXAxis', 'getTypeXAxis'])
+    ...mapGetters('totalCostStore', ['getSerie', 'getFilters', 'getCategoryXAxis', 'getTypeXAxis', 'getGraphNotEmpty'])
   },
   methods: {
     ...mapActions('totalCostStore', ['updateChartSerie']),
@@ -99,24 +98,7 @@ export default {
       return value + 'h'
     }
   },
-  created () {
-    this.updateChartSerie([150, 30, 40])
-    // (() => {
-    //   MASTER.get(`/graph/quarterly-daily-consumption/?campus=${1}`)
-    //     .then(async res => {
-    //       this.series = [{
-    //         name: 'Consumo (Wh)',
-    //         data: res.data
-    //       }]
-    //       res.data.forEach((item) => {
-    //         this.sumConsumption += item
-    //         return ''
-    //       })
-    //       this.consumption = res.data
-    //     })
-    //     .catch(err => { console.error(err) })
-    // })()
-  }
+  created () {}
 }
 </script>
 

@@ -33,6 +33,10 @@ const getTypeXAxis = (state) => {
   return state.categoriesXAxis
 }
 
+const getGraphNotEmpty = (state) => {
+  return state.thereIsConsumption
+}
+
 export {
   getUrl,
   errorStartDate,
@@ -40,5 +44,6 @@ export {
   getFilters,
   getSerie,
   getCategoryXAxis,
-  getTypeXAxis
+  getTypeXAxis,
+  getGraphNotEmpty
 }

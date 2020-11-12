@@ -93,14 +93,21 @@ const clearEndDate = (state) => {
 }
 
 const updateChartSerie = (state, serieChart) => {
+  state.thereIsConsumption = false
   if (state.serieChart) {
-    console.log(serieChart)
     const xPlot = Object.keys(serieChart)
     const seriePlot = Object.values(serieChart)
     state.serieChart = [{
       name: 'Consumo (Wh)',
       data: seriePlot
     }]
+
+    seriePlot.forEach(item => {
+      console.log(item)
+      if (item !== 0) {
+        state.thereIsConsumption = true
+      }
+    })
 
     state.categoriesXAxis = xPlot
 
