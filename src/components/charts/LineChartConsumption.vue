@@ -51,7 +51,6 @@ export default {
 
         xaxis: {
           type: this.getTypeXAxis,
-          categories: this.getCategoryXAxis,
           labels: {
             show: true,
             formatter: this.labelFormatterX,
@@ -87,15 +86,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('totalCostStore', ['getSerie', 'getFilters', 'getCategoryXAxis', 'getTypeXAxis', 'getGraphNotEmpty'])
+    ...mapGetters('totalCostStore', ['getSerie', 'getFilters', 'getTypeXAxis', 'getGraphNotEmpty', 'getPeriodicity'])
   },
   methods: {
     ...mapActions('totalCostStore', ['updateChartSerie']),
     labelFormatter (value) {
       return value.toFixed(2) + ' ' + this.unit
-    },
-    labelFormatterX (value) {
-      return value + 'h'
     }
   },
   created () {}

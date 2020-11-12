@@ -21,7 +21,6 @@ const getFilters = (state) => {
 }
 
 const getSerie = (state) => {
-  console.log(state.serieChart)
   return state.serieChart
 }
 
@@ -37,6 +36,10 @@ const getGraphNotEmpty = (state) => {
   return state.thereIsConsumption
 }
 
+const getPeriodicity = (state) => {
+  return state.periodicity
+}
+
 export {
   getUrl,
   errorStartDate,
@@ -45,5 +48,6 @@ export {
   getSerie,
   getCategoryXAxis,
   getTypeXAxis,
-  getGraphNotEmpty
+  getGraphNotEmpty,
+  getPeriodicity
 }

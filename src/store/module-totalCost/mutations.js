@@ -95,21 +95,18 @@ const clearEndDate = (state) => {
 const updateChartSerie = (state, serieChart) => {
   state.thereIsConsumption = false
   if (state.serieChart) {
-    const xPlot = Object.keys(serieChart)
     const seriePlot = Object.values(serieChart)
-    state.serieChart = [{
-      name: 'Consumo (Wh)',
-      data: seriePlot
-    }]
+    const dataSerie = []
 
     seriePlot.forEach(item => {
-      console.log(item)
       if (item !== 0) {
         state.thereIsConsumption = true
       }
     })
 
-    state.categoriesXAxis = xPlot
+    Object.keys(serieChart).forEach(function (key) {
+      dataSerie.push({ x: key, y: serieChart[key] })
+    })
 
     if (state.periodicity === 'hourly') {
       state.typeXAxisGraph = 'HORA'
@@ -118,6 +115,11 @@ const updateChartSerie = (state, serieChart) => {
     } else {
       state.typeXAxisGraph = 'MÊS'
     }
+
+    state.serieChart = [{
+      name: 'Consumo (Wh)',
+      data: dataSerie
+    }]
   } else {
     state.serieChart = []
   }
