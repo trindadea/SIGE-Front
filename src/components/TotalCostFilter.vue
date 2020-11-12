@@ -51,9 +51,9 @@
             toggle-color="primary"
             class="elem toggle"
             :options="[
+          {label: 'HORA', value: 'hourly'},
           {label: 'DIA', value: 'daily'},
-          {label: 'MÊS', value: 'monthly'},
-          {label: 'ANO', value: 'yearly'}
+          {label: 'MES', value: 'monthly'}
         ]"
         @input="changePeriodicity(model)"
           />
@@ -105,7 +105,7 @@ export default {
   name: 'TotalCostFilter',
   data () {
     return {
-      model: 'daily',
+      model: 'hourly',
       campusModel: null,
       optionsCampus: allCampus,
       optionsModel: null,
@@ -130,7 +130,7 @@ export default {
       })
 
     this.startDate = moment().format('DD/MM/YYYY')
-    this.endDate = moment().add(1, 'days').format('DD/MM/YYYY')
+    this.endDate = moment().format('DD/MM/YYYY')
   },
   computed: {
     ...mapGetters('totalCostStore', ['errorStartDate', 'errorEndDate', 'getFilters'])

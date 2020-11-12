@@ -51,8 +51,8 @@ export default {
         },
 
         xaxis: {
-          type: 'Hora',
-          categories: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
+          type: this.getTypeXAxis,
+          categories: this.getCategoryXAxis,
           labels: {
             show: true,
             formatter: this.labelFormatterX,
@@ -88,7 +88,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('totalCostStore', ['getSerie', 'getFilters'])
+    ...mapGetters('totalCostStore', ['getSerie', 'getFilters', 'getCategoryXAxis', 'getTypeXAxis'])
   },
   methods: {
     ...mapActions('totalCostStore', ['updateChartSerie']),

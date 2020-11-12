@@ -25,10 +25,20 @@ const getSerie = (state) => {
   return state.serieChart
 }
 
+const getCategoryXAxis = (state) => {
+  return state.categories_xaxis
+}
+
+const getTypeXAxis = (state) => {
+  return state.categoriesXAxis
+}
+
 export {
   getUrl,
   errorStartDate,
   errorEndDate,
   getFilters,
-  getSerie
+  getSerie,
+  getCategoryXAxis,
+  getTypeXAxis
 }

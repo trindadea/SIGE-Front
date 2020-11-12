@@ -94,10 +94,23 @@ const clearEndDate = (state) => {
 
 const updateChartSerie = (state, serieChart) => {
   if (state.serieChart) {
+    console.log(serieChart)
+    const xPlot = Object.keys(serieChart)
+    const seriePlot = Object.values(serieChart)
     state.serieChart = [{
       name: 'Consumo (Wh)',
-      data: serieChart
+      data: seriePlot
     }]
+
+    state.categoriesXAxis = xPlot
+
+    if (state.periodicity === 'hourly') {
+      state.typeXAxisGraph = 'HORA'
+    } else if (state.periodicity === 'daily') {
+      state.typeXAxisGraph = 'DIA'
+    } else {
+      state.typeXAxisGraph = 'MÊS'
+    }
   } else {
     state.serieChart = []
   }
