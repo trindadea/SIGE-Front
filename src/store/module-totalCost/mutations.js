@@ -92,6 +92,39 @@ const clearEndDate = (state) => {
   state.endDate = ''
 }
 
+const updateChartSerie = (state, serieChart) => {
+  state.thereIsConsumption = false
+  if (state.serieChart) {
+    const seriePlot = Object.values(serieChart)
+    const dataSerie = []
+
+    seriePlot.forEach(item => {
+      if (item !== 0) {
+        state.thereIsConsumption = true
+      }
+    })
+
+    Object.keys(serieChart).forEach(function (key) {
+      dataSerie.push({ x: key, y: serieChart[key] })
+    })
+
+    if (state.periodicity === 'hourly') {
+      state.typeXAxisGraph = 'HORA'
+    } else if (state.periodicity === 'daily') {
+      state.typeXAxisGraph = 'DIA'
+    } else {
+      state.typeXAxisGraph = 'MÊS'
+    }
+
+    state.serieChart = [{
+      name: 'Consumo (Wh)',
+      data: dataSerie
+    }]
+  } else {
+    state.serieChart = []
+  }
+}
+
 export {
   changePeriodicity,
   changeStartDate,
@@ -99,5 +132,6 @@ export {
   filterByCampus,
   filterByGroup,
   clearStartDate,
-  clearEndDate
+  clearEndDate,
+  updateChartSerie
 }
