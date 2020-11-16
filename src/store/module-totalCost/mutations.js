@@ -22,7 +22,7 @@ const changeStartDate = (state, startDate) => {
   } else {
     state.errorStartDate = false
 
-    startDate = `${startDate.format('YYYY-MM-DD HH:mm')}`
+    startDate = `${startDate.format('YYYY-MM-DD HH:mm:ss')}`
 
     const position = state.url.indexOf('&start_date=')
 
@@ -33,7 +33,6 @@ const changeStartDate = (state, startDate) => {
     }
 
     state.startDate = startDate
-    console.log(startDate)
     updateChart(state)
   }
 }
@@ -46,7 +45,7 @@ const changeEndDate = (state, endDate) => {
   } else {
     state.errorEndDate = false
 
-    endDate = `${endDate.format('YYYY-MM-DD HH:mm')}`
+    endDate = `${endDate.format('YYYY-MM-DD HH:mm:ss')}`
 
     const position = state.url.indexOf('&end_date=')
 

@@ -20,13 +20,11 @@ export default {
     ...mapGetters('totalCostStore', ['totalCostChart']),
     graph () {
       if (this.isCostPage) {
-        console.log('total cost')
         return this.totalCostChart
       }
       return this.chartOptions
     },
     series () {
-      console.log('g?', this.graph)
       return [{
         name: this.graph.dimension,
         data: this.graph.values
