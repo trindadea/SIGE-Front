@@ -13,15 +13,23 @@ export default {
     Apexcharts: () => import('vue-apexcharts')
   },
   props: [
-    'unit'
+    'isCostPage'
   ],
   computed: {
     ...mapGetters('transductorStore', ['chartOptions']),
+    ...mapGetters('totalCostStore', ['totalCostChart']),
+    graph () {
+      if (this.isCostPage) {
+        console.log('total cost')
+        return this.totalCostChart
+      }
+      return this.chartOptions
+    },
     series () {
-      console.log('opt:', this.chartOptions)
+      console.log('g?', this.graph)
       return [{
-        name: this.chartOptions.dimension,
-        data: this.chartOptions.values
+        name: this.graph.dimension,
+        data: this.graph.values
       }]
     },
     chartConf () {
@@ -65,10 +73,10 @@ export default {
         yaxis: {
           labels: {
             formatter: (val) => {
-              if (this.chartOptions.unit === 'R$') {
-                return this.chartOptions.unit + ' ' + val.toFixed(this.decimals || 0)
+              if (this.graph.unit === 'R$') {
+                return this.graph.unit + ' ' + val.toFixed(this.decimals || 0)
               }
-              return val.toFixed(this.decimals || 0) + ' ' + this.chartOptions.unit
+              return val.toFixed(this.decimals || 0) + ' ' + this.graph.unit
             },
             style: {
               fontSize: '1rem'
@@ -86,24 +94,14 @@ export default {
           },
           y: {
             formatter: (val) => {
-              if (this.chartOptions.unit === 'R$') {
-                return ` ${this.chartOptions.unit} ${val.toFixed(1)}`
+              if (this.graph.unit === 'R$') {
+                return ` ${this.graph.unit} ${val.toFixed(1)}`
               }
-              return `${val.toFixed(1)} ${this.chartOptions.unit}`
+              return `${val.toFixed(1)} ${this.graph.unit}`
             }
           }
         }
       }
-    }
-  },
-  data () {
-    return {
-      min: 0
-    }
-  },
-  methods: {
-    labelFormatter (value) {
-      return this.unit + ' ' + value.toFixed(2)
     }
   }
 }

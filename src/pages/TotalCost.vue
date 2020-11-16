@@ -3,8 +3,7 @@
     <total-cost-filter />
     <div class="full-height chart-container">
       <bar-chart
-        unit="R$"
-        :url="getUrl"
+        :isCostPage="true"
       />
     </div>
   </div>
@@ -22,13 +21,15 @@ export default {
     BarChart
   },
   computed: {
-    ...mapGetters('totalCostStore', ['getUrl'])
+    ...mapGetters('totalCostStore', ['totalCostChart'])
   },
   methods: {
-    ...mapActions('userStore', ['changePage'])
+    ...mapActions('userStore', ['changePage']),
+    ...mapActions('totalCostStore', ['updateChart'])
   },
   created () {
     this.changePage('Custo Total')
+    this.updateChart()
   }
 }
 </script>
