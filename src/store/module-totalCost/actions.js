@@ -29,6 +29,9 @@ const clearStartDate = ({ commit }) => {
 const clearEndDate = ({ commit }) => {
   commit('clearEndDate')
 }
+const updateChart = ({ commit }) => {
+  commit('updateChart')
+}
 
 export {
   changePeriodicity,
@@ -38,5 +41,6 @@ export {
   filterByCampus,
   filterByGroup,
   clearStartDate,
-  clearEndDate
+  clearEndDate,
+  updateChart
 }

@@ -10,8 +10,13 @@ const errorEndDate = (state) => {
   return state.errorEndDate
 }
 
+const totalCostChart = (state) => {
+  return state.totalCostChart
+}
+
 export {
   getUrl,
   errorStartDate,
-  errorEndDate
+  errorEndDate,
+  totalCostChart
 }

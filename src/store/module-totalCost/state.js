@@ -8,5 +8,12 @@ export default {
   idCampus: '',
   idGroup: '',
   errorStartDate: false,
-  errorEndDate: false
+  errorEndDate: false,
+  totalCostChart: {
+    values: [],
+    min: 0,
+    max: 0,
+    unit: 'R$',
+    status: false
+  }
 }
