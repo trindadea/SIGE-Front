@@ -74,11 +74,9 @@ export default {
 
   mounted () {
     this.getApiInfo()
-  },
-
-  updated () {
-    this.getApiInfo()
+    setInterval(this.getApiInfo, 5000)
   }
+
 }
 </script>
 

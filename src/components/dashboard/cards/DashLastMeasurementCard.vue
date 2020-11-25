@@ -140,10 +140,7 @@ export default {
 
   mounted () {
     this.getApiInfo()
-  },
-
-  async beforeUpdate () {
-    this.getApiInfo()
+    setInterval(this.getApiInfo, 5000)
   }
 }
 </script>
