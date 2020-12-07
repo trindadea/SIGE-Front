@@ -29,8 +29,8 @@ const clearStartDate = ({ commit }) => {
 const clearEndDate = ({ commit }) => {
   commit('clearEndDate')
 }
-const updateChart = ({ commit }) => {
-  commit('updateChart')
+const updateChart = ({ commit }, chart) => {
+  commit('updateChart', chart)
 }
 
 export {

@@ -14,7 +14,7 @@
           :options="optionsCampus"
           @filter="filterCampus"
           class="col-4 elem select"
-          @input="getGroups(); filterByCampus(campusModel)"
+          @input="getGroups(); filterByCampus(campusModel); getChart();"
         >
           <template v-slot:no-option>
             <q-item>
@@ -35,7 +35,7 @@
           :options="optionsGroup"
           @filter="filterFn"
           class="col-4 elem select"
-          @input="filterByGroup(optionsModel)"
+          @input="filterByGroup(optionsModel); getChart();"
         >
           <template v-slot:no-option>
             <q-item>
@@ -55,14 +55,14 @@
           {label: 'MÊS', value: 'monthly'},
           {label: 'ANO', value: 'yearly'}
         ]"
-        @input="changePeriodicity(model)"
+        @input="changePeriodicity(model); getChart();"
           />
         </div>
         <q-input v-model="startDate" :mask="mask" label="Período: Início" class="elem input" :error="errorStartDate" @input="verifyClearInput">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer calendar">
               <q-popup-proxy transition-show="scale" transition-hide="scale">
-                <q-date @input="changeStartDate(startDate)" v-model="startDate" mask="DD/MM/YYYY" />
+                <q-date @input="changeStartDate(startDate); getChart();" v-model="startDate" mask="DD/MM/YYYY" />
               </q-popup-proxy>
             </q-icon>
           </template>
@@ -71,7 +71,7 @@
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer calendar">
               <q-popup-proxy transition-show="scale" transition-hide="scale">
-                <q-date @input="changeEndDate(endDate)" v-model="endDate" mask="DD/MM/YYYY" />
+                <q-date @input="changeEndDate(endDate); getChart();" v-model="endDate" mask="DD/MM/YYYY" />
               </q-popup-proxy>
             </q-icon>
           </template>
@@ -89,6 +89,8 @@
 import MASTER from '../services/masterApi/http-common'
 import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
+import { dimensions } from '../utils/transductorGraphControl'
+
 const allCampus = []
 const groups = []
 
@@ -118,12 +120,13 @@ export default {
       .catch(err => {
         console.log(err)
       })
+    this.getChart()
   },
   computed: {
-    ...mapGetters('totalCostStore', ['errorStartDate', 'errorEndDate'])
+    ...mapGetters('totalCostStore', ['errorStartDate', 'errorEndDate', 'getUrl'])
   },
   methods: {
-    ...mapActions('totalCostStore', ['changePeriodicity', 'changeStartDate', 'changeEndDate', 'filterByCampus', 'filterByGroup', 'clearStartDate', 'clearEndDate']),
+    ...mapActions('totalCostStore', ['changePeriodicity', 'changeStartDate', 'changeEndDate', 'filterByCampus', 'filterByGroup', 'clearStartDate', 'clearEndDate', 'updateChart']),
     filterFn (val, update, abort) {
       update(() => {
         const needle = val.toLowerCase()
@@ -155,19 +158,41 @@ export default {
     verifyClearInput () {
       if (!this.startDate) {
         this.clearStartDate()
+        this.getChart()
       } else {
         if (moment(this.startDate, 'DD-MM-YYYY').isValid()) {
           this.changeStartDate(this.startDate)
+          this.getChart()
         }
       }
 
       if (!this.endDate) {
         this.clearEndDate()
+        this.getChart()
       } else {
         if (moment(this.endDate, 'DD-MM-YYYY').isValid()) {
           this.changeEndDate(this.endDate)
+          this.getChart()
         }
       }
+    },
+    getChart () {
+      MASTER
+        .get(this.getUrl)
+        .then((res) => {
+          var chart = {
+            values: res.data.cost,
+            min: res.data.min,
+            max: res.data.max,
+            status: true,
+            unit: 'R$',
+            dimension: dimensions[1]
+          }
+          this.updateChart(chart)
+        })
+        .catch((err) => {
+          console.log('catch', err)
+        })
     }
   }
 }

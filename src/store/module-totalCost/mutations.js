@@ -1,5 +1,4 @@
 import moment from 'moment'
-import MASTER from '../../services/masterApi/http-common'
 
 const changePeriodicity = (state, periodicity) => {
   const position = state.url.indexOf('/?type=')
@@ -11,7 +10,6 @@ const changePeriodicity = (state, periodicity) => {
   }
 
   state.periodicity = periodicity
-  updateChart(state)
 }
 
 const changeStartDate = (state, startDate) => {
@@ -33,7 +31,6 @@ const changeStartDate = (state, startDate) => {
     }
 
     state.startDate = startDate
-    updateChart(state)
   }
 }
 
@@ -56,7 +53,6 @@ const changeEndDate = (state, endDate) => {
     }
 
     state.endDate = endDate
-    updateChart(state)
   }
 }
 
@@ -72,7 +68,6 @@ const filterByCampus = (state, idCampus) => {
   }
 
   state.idCampus = idCampus
-  updateChart(state)
 }
 
 const filterByGroup = (state, idGroup) => {
@@ -85,34 +80,20 @@ const filterByGroup = (state, idGroup) => {
   }
 
   state.idGroup = idGroup
-  updateChart(state)
 }
 
 const clearStartDate = (state) => {
   state.url = state.url.replace('&start_date=' + state.startDate, '')
   state.startDate = ''
-  updateChart(state)
 }
 
 const clearEndDate = (state) => {
   state.url = state.url.replace('&end_date=' + state.endDate, '')
   state.endDate = ''
-  updateChart(state)
 }
 
-const updateChart = (state) => {
-  MASTER
-    .get(state.url)
-    .then((res) => {
-      state.totalCostChart.values = res.data.cost
-      state.totalCostChart.min = res.data.min
-      state.totalCostChart.max = res.data.max
-      state.totalCostChart.status = true
-      console.log(res)
-    })
-    .catch((err) => {
-      console.log('catch', err)
-    })
+const updateChart = (state, chart) => {
+  state.totalCostChart = chart
 }
 
 export {

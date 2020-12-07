@@ -1,5 +1,4 @@
 import moment from 'moment'
-
 export default {
   periodicity: 'daily',
   url: '/graph/cost-consumption/?type=daily',
@@ -14,6 +13,7 @@ export default {
     min: 0,
     max: 0,
     unit: 'R$',
-    status: false
+    status: false,
+    dimension: ''
   }
 }

@@ -3,6 +3,7 @@
     <total-cost-filter />
     <div class="full-height chart-container">
       <bar-chart
+        v-if="totalCostChart.status"
         :isCostPage="true"
       />
     </div>
@@ -24,12 +25,10 @@ export default {
     ...mapGetters('totalCostStore', ['totalCostChart'])
   },
   methods: {
-    ...mapActions('userStore', ['changePage']),
-    ...mapActions('totalCostStore', ['updateChart'])
+    ...mapActions('userStore', ['changePage'])
   },
   created () {
     this.changePage('Custo Total')
-    this.updateChart()
   }
 }
 </script>
