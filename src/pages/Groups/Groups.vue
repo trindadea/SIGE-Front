@@ -9,85 +9,114 @@
         @click="handlePressButton('new')"/>
     </div>
     <div class="container">
-      <div class="lst-groups">
-        <ul>
-          <li v-for="(group,index) in groups" :key="index">
-            <p class="lst-item">
-              {{index}} - {{group.name}}
-            <q-btn
-              size="1rem"
-              label="show"
-              @click="handlePressButton('show', group.id)"
-              color="primary"/>
-              </p>
-          </li>
-        </ul>
-      </div>
-      <div class="groups-info" v-if="isCreatingNew">
-        <h3 class="login-text">
+      <div class="info" v-if="isCreatingNew">
+        <h3 class="title">
           Novo Grupo
         </h3>
         <q-form
           class="q-gutter-md"
           @submit="postGroup()"
           >
-          <q-input
-            outlined
-            v-model="newGroup.name"
-            label="Nome do Grupo"/>
-          <q-select
-            outlined
-            v-model="newGroup.type"
-            label="Tipo do Grupo"
-            :options="groupTypes"
-            option-value="url"
-            option-label="name"
-            emit-value
-            map-options/>
-          <div class="text-center q-mt-lg">
+          <div class="inputDiv">
+            <label>Nome do Grupo: </label>
+            <q-input
+              class="inputField"
+              outlined
+              v-model="newGroup.name"/>
+          </div>
+          <div class="inputDiv">
+            <label>Tipo do Grupo: </label>
+            <q-select
+              class="inputField"
+              outlined
+              v-model="newGroup.type"
+              label="Tipo do Grupo"
+              :options="groupTypes"
+              option-value="url"
+              option-label="name"
+              emit-value
+              map-options/>
+          </div>
+          <div class="btn">
             <q-btn
               size="1rem"
-              label="Enviar"
+              label="Salvar"
               type="submit"
               color="primary"/>
           </div>
         </q-form>
       </div>
-      <div class="group-info" v-if="isSelectedGroup">
+      <div class="info" v-if="isSelectedGroup">
         <h3 class="login-text">
           Editar dados
         </h3>
-        <p>Id: {{group.id}}</p>
         <q-form
         class="q-gutter-md"
         @submit="putGroup()"
         >
-        <q-input
-          outlined
-          v-model="group.name"
-          label="Nome do Group"/>
-        <q-select
-          outlined
-          v-model="group.type"
-          label="Tipo do Grupo"
-          :options="groupTypes"
-          option-value="url"
-          option-label="name"
-          emit-value
-          map-options/>
+        <div class="inputDiv">
+          <label>Nome do Grupo: </label>
+          <q-input
+            class="inputField"
+            outlined
+            v-model="group.name"/>
+        </div>
+        <div class="inputDiv">
+            <label>Tipo do Grupo: </label>
+            <q-select
+              class="inputField"
+              outlined
+              v-model="group.type"
+              label="Tipo do Grupo"
+              :options="groupTypes"
+              option-value="url"
+              option-label="name"
+              emit-value
+              map-options/>
+          </div>
         <div class="text-center q-mt-lg">
+          <q-btn
+            size="1rem"
+            label="Cancelar"
+            @click="handlePressButton('cancel')"
+            color="primary"/>
           <q-btn
             size="1rem"
             label="Salvar"
             type="submit"
             color="primary"/>
-          <q-btn
-            size="1rem"
-            label="Deletar"
-            @click="deleteGroup(group.id)"
-            color="primary"/>
         </div>
       </q-form>
+      </div>
+      <div class="q-pa-md">
+        <q-table
+          title="Groups"
+          :data="groups"
+          :columns="columns"
+          row-key="name"
+        >
+          <template v-slot:body="props">
+            <q-tr :props="props">
+              <q-td key="id" :props="props">{{ props.row.id }}</q-td>
+              <q-td key="name" :props="props">{{ props.row.name }}</q-td>
+              <q-td key="type" :props="props">{{ props.row.type }}</q-td>
+              <q-td key="edit" :props="props">
+                <q-btn
+                  size="1rem"
+                  label="show"
+                  @click="handlePressButton('show', props.row.id)"
+                  color="primary"/>
+              </q-td>
+              <q-td key="delete" :props="props">
+                <q-btn
+                  size="1rem"
+                  label="Excluir"
+                  @click="handlePressButton('delete', props.row.id)"
+                  color="primary"/>
+              </q-td>
+            </q-tr>
+          </template>
+        </q-table>
       </div>
     </div>
   </div>
@@ -106,7 +135,14 @@ export default {
       isSelectedGroup: false,
       isCreatingNew: false,
       newGroup: {},
-      groupTypes: []
+      groupTypes: [],
+      columns: [
+        { name: 'id', label: 'ID', align: 'left', field: row => row.id, sortable: true, style: 'width: 55px' },
+        { name: 'name', label: 'Nome', align: 'left', field: row => row.name, sortable: true },
+        { name: 'type', label: 'Tipo', align: 'left', field: row => row.type, sortable: true },
+        { name: 'edit', label: 'Editar', align: 'center', format: () => 'Editar', sortable: false, style: 'width: 55px' },
+        { name: 'delete', label: 'Excluir', align: 'center', format: () => 'Excluir', sortable: false, style: 'width: 55px' }
+      ]
     }
   },
   created () {
@@ -125,6 +161,12 @@ export default {
           this.isCreatingNew = false
           this.getGroup(id)
             .then()
+        },
+        cancel: () => {
+          this.isSelectedGroup = false
+        },
+        delete: () => {
+          this.deleteGroup(id)
         }
       }
       if (options[type]) options[type]()
@@ -217,9 +259,8 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss" scoped>
 .container {
-  display               : grid;
   font-size             : 25px;
   grid-template-columns : 30% 1fr;
   gap                   : 10px;
@@ -227,14 +268,28 @@ export default {
   max-width             : 100vw;
   padding               : 10px;;
 }
-.groups-info {
-  padding   : 20px;
+.info {
+  border      : 1px solid $primary;
+  padding     : 20px;
+  padding-top : 0px;
 }
 .title {
-  padding-left: 20px;
+  text-align      : center;
+  padding-top     : 0px;
+  padding-bottom  : 20px;
 }
 .btn {
-  padding   : 20px;
+  margin-top  : 24px;
+  margin-left : 10px;
+  text-align  : right;
+}
+.inputDiv {
+  display     : flex;
+  align-items : center;
+}
+.inputField {
+  flex          : 1;
+  padding-left  : 10px
 }
 
 </style>
