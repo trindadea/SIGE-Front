@@ -1,28 +1,14 @@
 <template>
   <div>
-    <!-- <h3 class="title">Lista de GroupType </h3>
+    <h3 class="title">Lista de GroupType </h3>
     <div class="btn">
       <q-btn
         size="1rem"
         label="Novo"
         color="primary"
         @click="handlePressButton('new')"/>
-    </div> -->
+    </div>
     <div class="container">
-      <!-- <div class="lst-groupType">
-        <ul>
-          <li v-for="(groupType,index) in groupTypes" :key="index">
-            <p class="lst-item">
-              {{index}} - {{groupType.name}}
-            <q-btn
-              size="1rem"
-              label="show"
-              @click="handlePressButton('show', groupType.id)"
-              color="primary"/>
-              </p>
-          </li>
-        </ul>
-      </div> -->
       <div class="groupType-info" v-if="isCreatingNew">
         <h3 class="title">
           Novo GroupType
@@ -61,14 +47,15 @@
               class="inputField"
               outlined
               disabled
-              v-model="newGroupType.name"/>
+              v-model="groupType.name"/>
         </div>
         <div class="text-right q-mt-lg">
           <q-btn
             class="btn"
             size="1rem"
             label="Cancelar"
-            color="primary"/>
+            color="primary"
+            @click="handlePressButton('cancel')"/>
           <q-btn
             class="btn"
             size="1rem"
@@ -77,6 +64,35 @@
             color="primary"/>
         </div>
       </q-form>
+      </div>
+      <div class="q-pa-md">
+        <q-table
+          title="GroupTypes"
+          :data="groupTypes"
+          :columns="columns"
+          row-key="name"
+        >
+          <template v-slot:body="props">
+            <q-tr :props="props">
+              <q-td key="id" :props="props">{{ props.row.id }}</q-td>
+              <q-td key="name" :props="props">{{ props.row.name }}</q-td>
+              <q-td key="edit" :props="props">
+                <q-btn
+                  size="1rem"
+                  label="show"
+                  @click="handlePressButton('show', props.row.id)"
+                  color="primary"/>
+              </q-td>
+              <q-td key="delete" :props="props">
+                <q-btn
+                  size="1rem"
+                  label="Excluir"
+                  @click="handlePressButton('delete', props.row.id)"
+                  color="primary"/>
+              </q-td>
+            </q-tr>
+          </template>
+        </q-table>
       </div>
     </div>
   </div>
@@ -93,8 +109,14 @@ export default {
       groupTypes: [],
       groupType: {},
       isSelectedGroupType: false,
-      isCreatingNew: true,
-      newGroupType: {}
+      isCreatingNew: false,
+      newGroupType: {},
+      columns: [
+        { name: 'id', label: 'ID', align: 'left', field: row => row.id, sortable: true, style: 'width: 55px' },
+        { name: 'name', label: 'Nome', align: 'left', field: row => row.name, sortable: true },
+        { name: 'edit', label: 'Editar', align: 'center', format: () => 'Editar', sortable: false, style: 'width: 55px' },
+        { name: 'delete', label: 'Excluir', align: 'center', format: () => 'Excluir', sortable: false, style: 'width: 55px' }
+      ]
     }
   },
   created () {
@@ -111,6 +133,12 @@ export default {
           this.isSelectedGroupType = true
           this.isCreatingNew = false
           this.getGroupType(id)
+        },
+        cancel: () => {
+          this.isSelectedGroupType = false
+        },
+        delete: () => {
+          this.deleteGroupType(id)
         }
       }
       if (options[type]) options[type]()
