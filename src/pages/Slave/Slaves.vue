@@ -9,51 +9,49 @@
         @click="handlePressButton('new')"/>
     </div>
     <div class="container">
-      <div class="lst-slave">
-        <ul>
-          <li v-for="(slave,index) in slaves" :key="index">
-            <p class="lst-item">
-              {{index}} - {{slave.name}} - {{slave.acronym}}
-            <q-btn
-              size="1rem"
-              label="show"
-              @click="handlePressButton('show', slave.id)"
-              color="primary"/>
-              </p>
-          </li>
-        </ul>
-      </div>
-      <div class="slave-info" v-if="isCreatingNew">
-        <h3 class="login-text">
+      <div class="info" v-if="isCreatingNew">
+        <h3 class="title">
           Novo Slave
         </h3>
         <q-form
           class="q-gutter-md"
           @submit="postSlave()"
           >
-          <q-input
+          <div class="inputDiv">
+            <label>Endereço IP: </label>
+            <q-input
+            class="inputField"
             outlined
             v-model="newSlave.ip_address"
             label="Endereço IP"/>
-          <q-input
+          </div>
+          <div class="inputDiv">
+            <label>Porta: </label>
+            <q-input
+            class="inputField"
             outlined
             v-model="newSlave.port"
             label="Porta de Acesso IP"/>
-          <q-input
+          </div>
+          <div class="inputDiv">
+            <label>Localização: </label>
+            <q-input
+            class="inputField"
             outlined
             v-model="newSlave.name"
             label="Endereço"/>
-          <div class="text-center q-mt-lg">
+          </div>
+          <div class="btn">
             <q-btn
               size="1rem"
-              label="Enviar"
+              label="Salvar"
               type="submit"
               color="primary"/>
           </div>
         </q-form>
       </div>
-      <div class="slave-info" v-if="isSelectedSlave">
-        <h3 class="login-text">
+      <div class="info" v-if="isSelectedSlave">
+        <h3 class="title">
           Editar dados
         </h3>
         <p>Id: {{slave.id}}</p>
@@ -61,31 +59,76 @@
         class="q-gutter-md"
         @submit="putSlave()"
         >
-        <q-input
+        <div class="inputDiv">
+          <label>Endereço IP: </label>
+          <q-input
+          class="inputField"
           outlined
           v-model="slave.ip_address"
           label="Endereço IP"/>
-        <q-input
+        </div>
+        <div class="inputDiv">
+          <label>Porta: </label>
+          <q-input
+          class="inputField"
           outlined
           v-model="slave.port"
           label="Porta de Acesso IP"/>
-        <q-input
+        </div>
+        <div class="inputDiv">
+          <label>Localização: </label>
+          <q-input
+          class="inputField"
           outlined
           v-model="slave.name"
           label="Endereço"/>
-        <div class="text-center q-mt-lg">
+        </div>
+        <div class="text-right q-mt-lg">
           <q-btn
+            class="btn"
+            size="1rem"
+            label="Cancelar"
+            color="primary"
+            @click="handlePressButton('cancel')"/>
+          <q-btn
+            class="btn"
             size="1rem"
             label="Salvar"
             type="submit"
             color="primary"/>
-          <q-btn
-            size="1rem"
-            label="Deletar"
-            @click="deleteSlave(slave.id)"
-            color="primary"/>
         </div>
       </q-form>
+      </div>
+      <div class="q-pa-md">
+        <q-table
+          title="Slaves"
+          :data="slaves"
+          :columns="columns"
+          row-key="name"
+        >
+          <template v-slot:body="props">
+            <q-tr :props="props">
+              <q-td key="id" :props="props">{{ props.row.id }}</q-td>
+              <q-td key="ip" :props="props">{{ props.row.ip_address }}</q-td>
+              <q-td key="port" :props="props">{{ props.row.port }}</q-td>
+              <q-td key="location" :props="props">{{ props.row.name }}</q-td>
+              <q-td key="edit" :props="props">
+                <q-btn
+                  size="1rem"
+                  label="show"
+                  @click="handlePressButton('show', props.row.id)"
+                  color="primary"/>
+              </q-td>
+              <q-td key="delete" :props="props">
+                <q-btn
+                  size="1rem"
+                  label="Excluir"
+                  @click="handlePressButton('delete', props.row.id)"
+                  color="primary"/>
+              </q-td>
+            </q-tr>
+          </template>
+        </q-table>
       </div>
     </div>
   </div>
@@ -103,7 +146,15 @@ export default {
       slave: {},
       isSelectedSlave: false,
       isCreatingNew: false,
-      newSlave: {}
+      newSlave: {},
+      columns: [
+        { name: 'id', label: 'ID', align: 'left', field: row => row.id, sortable: true, style: 'width: 55px' },
+        { name: 'ip', label: 'Endereço IP', align: 'left', field: row => row.ip_address, sortable: true },
+        { name: 'port', label: 'Porta', align: 'center', field: row => row.port, sortable: true },
+        { name: 'location', label: 'Localização', align: 'center', field: row => row.name, sortable: true },
+        { name: 'edit', label: 'Editar', align: 'center', format: () => 'Editar', sortable: false, style: 'width: 55px' },
+        { name: 'delete', label: 'Excluir', align: 'center', format: () => 'Excluir', sortable: false, style: 'width: 55px' }
+      ]
     }
   },
   created () {
@@ -120,6 +171,12 @@ export default {
           this.isSelectedSlave = true
           this.isCreatingNew = false
           this.getSlave(id)
+        },
+        cancel: () => {
+          this.isSelectedSlave = false
+        },
+        delete: () => {
+          this.deleteSlave(id)
         }
       }
       if (options[type]) options[type]()
@@ -202,9 +259,8 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss" scoped>
 .container {
-  display               : grid;
   font-size             : 25px;
   grid-template-columns : 30% 1fr;
   gap                   : 10px;
@@ -212,14 +268,28 @@ export default {
   max-width             : 100vw;
   padding               : 10px;;
 }
-.slave-info {
-  padding   : 20px;
+.info {
+  border      : 1px solid $primary;
+  padding     : 20px;
+  padding-top : 0px;
 }
 .title {
-  padding-left: 20px;
+  text-align      : center;
+  padding-top     : 0px;
+  padding-bottom  : 20px;
 }
 .btn {
-  padding   : 20px;
+  margin-top  : 24px;
+  margin-left : 10px;
+  text-align  : right;
+}
+.inputDiv {
+  display     : flex;
+  align-items : center;
+}
+.inputField {
+  flex          : 1;
+  padding-left  : 10px
 }
 
 </style>
