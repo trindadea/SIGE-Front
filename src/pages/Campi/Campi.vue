@@ -9,21 +9,7 @@
         @click="handlePressButton('new')"/>
     </div>
     <div class="container">
-      <div class="lst-campus">
-        <ul>
-          <li v-for="(campus,index) in campi" :key="index">
-            <p class="lst-item">
-              {{index}} - {{campus.name}} - {{campus.acronym}}
-            <q-btn
-              size="1rem"
-              label="show"
-              @click="handlePressButton('show', campus.id)"
-              color="primary"/>
-              </p>
-          </li>
-        </ul>
-      </div>
-      <div class="campus-info" v-if="isCreatingNew">
+      <div class="info" v-if="isCreatingNew">
         <h3 class="login-text">
           Novo Campus
         </h3>
@@ -31,78 +17,149 @@
           class="q-gutter-md"
           @submit="postCampus()"
           >
-          <q-input
+          <div class="inputDiv">
+            <label>Nome: </label>
+            <q-input
             outlined
             v-model="newCampus.name"
             label="Nome do Campus"/>
-          <q-input
+          </div>
+          <div class="inputDiv">
+            <label>Acronimo: </label>
+            <q-input
+            class="inputField"
             outlined
             v-model="newCampus.acronym"
             label="Acronym"/>
-          <q-input
+          </div>
+          <div class="inputDiv">
+            <label>Latitude: </label>
+            <q-input
+            class="inputField"
             outlined
             v-model="newCampus.geolocation_latitude"
             label="Latitude"/>
-          <q-input
+          </div>
+          <div class="inputDiv">
+            <label>Longitude: </label>
+            <q-input
+            class="inputField"
             outlined
             v-model="newCampus.geolocation_longitude"
             label="Longitude"/>
-          <q-input
+          </div>
+          <div class="inputDiv">
+            <label>Longitude: </label>
+            <q-input
+            class="inputField"
             outlined
             v-model="newCampus.zoom_ratio"
             label="Map Zoom"/>
-          <div class="text-center q-mt-lg">
+          </div>
+          <div class="btn">
             <q-btn
               size="1rem"
-              label="Enviar"
+              label="Salvar"
               type="submit"
               color="primary"/>
           </div>
         </q-form>
       </div>
-      <div class="campus-info" v-if="isSelectedCampus">
+      <div class="info" v-if="isSelectedCampus">
         <h3 class="login-text">
           Editar dados
         </h3>
-        <p>Id: {{campus.id}}</p>
-        <p>Transductors: {{campus.transductors}}</p>
         <q-form
         class="q-gutter-md"
         @submit="putCampus()"
         >
-        <q-input
-          outlined
-          v-model="campus.name"
-          label="Nome do Campus"/>
-        <q-input
-          outlined
-          v-model="campus.acronym"
-          label="Acronym"/>
-        <q-input
-          outlined
-          v-model="campus.geolocation_latitude"
-          label="Latitude"/>
-        <q-input
-          outlined
-          v-model="campus.geolocation_longitude"
-          label="Longitude"/>
-        <q-input
-          outlined
-          v-model="campus.zoom_ratio"
-          label="Map Zoom"/>
+        <div class="inputDiv">
+            <label>Nome: </label>
+            <q-input
+            class="inputField"
+            outlined
+            v-model="campus.name"
+            label="Nome do Campus"/>
+          </div>
+          <div class="inputDiv">
+            <label>Acronimo: </label>
+            <q-input
+            class="inputField"
+            outlined
+            v-model="campus.acronym"
+            label="Acronym"/>
+          </div>
+          <div class="inputDiv">
+            <label>Latitude: </label>
+            <q-input
+            class="inputField"
+            outlined
+            v-model="campus.geolocation_latitude"
+            label="Latitude"/>
+          </div>
+          <div class="inputDiv">
+            <label>Longitude: </label>
+            <q-input
+            class="inputField"
+            outlined
+            v-model="campus.geolocation_longitude"
+            label="Longitude"/>
+          </div>
+          <div class="inputDiv">
+            <label>Longitude: </label>
+            <q-input
+            class="inputField"
+            outlined
+            v-model="campus.zoom_ratio"
+            label="Map Zoom"/>
+          </div>
         <div class="text-center q-mt-lg">
           <q-btn
+            class="btn"
+            size="1rem"
+            label="Cancelar"
+            color="primary"
+            @click="handlePressButton('cancel')"/>
+          <q-btn
+            class="btn"
             size="1rem"
             label="Salvar"
             type="submit"
             color="primary"/>
-          <q-btn
-            size="1rem"
-            label="Deletar"
-            @click="deleteCampus(campus.id)"
-            color="primary"/>
         </div>
       </q-form>
+      </div>
+      <div class="q-pa-md">
+        <q-table
+          title="Campi"
+          :data="campi"
+          :columns="columns"
+          row-key="name"
+        >
+          <template v-slot:body="props">
+            <q-tr :props="props">
+              <q-td key="id" :props="props">{{ props.row.id }}</q-td>
+              <q-td key="name" :props="props">{{ props.row.name }}</q-td>
+              <q-td key="latitude" :props="props">{{ props.row.geolocation_latitude }}</q-td>
+              <q-td key="longitude" :props="props">{{ props.row.geolocation_longitude }}</q-td>
+              <q-td key="zoom" :props="props">{{ props.row.zoom_ratio }}</q-td>
+              <q-td key="edit" :props="props">
+                <q-btn
+                  size="1rem"
+                  label="show"
+                  @click="handlePressButton('show', props.row.id)"
+                  color="primary"/>
+              </q-td>
+              <q-td key="delete" :props="props">
+                <q-btn
+                  size="1rem"
+                  label="Excluir"
+                  @click="handlePressButton('delete', props.row.id)"
+                  color="primary"/>
+              </q-td>
+            </q-tr>
+          </template>
+        </q-table>
       </div>
     </div>
   </div>
@@ -120,7 +177,16 @@ export default {
       campus: {},
       isSelectedCampus: false,
       isCreatingNew: false,
-      newCampus: {}
+      newCampus: {},
+      columns: [
+        { name: 'id', label: 'ID', align: 'left', field: row => row.id, sortable: true, style: 'width: 55px' },
+        { name: 'name', label: 'Nome', align: 'left', field: row => row.name, sortable: true },
+        { name: 'latitude', label: 'Latitude', align: 'center', field: row => row.latitude, sortable: true },
+        { name: 'longitude', label: 'Longitude', align: 'center', field: row => row.longitude, sortable: true },
+        { name: 'zoom', label: 'Zoom Ratio', align: 'center', field: row => row.zoom_ratio, sortable: true },
+        { name: 'edit', label: 'Editar', align: 'center', format: () => 'Editar', sortable: false, style: 'width: 55px' },
+        { name: 'delete', label: 'Excluir', align: 'center', format: () => 'Excluir', sortable: false, style: 'width: 55px' }
+      ]
     }
   },
   created () {
@@ -137,6 +203,12 @@ export default {
           this.isSelectedCampus = true
           this.isCreatingNew = false
           this.getCampus(id)
+        },
+        cancel: () => {
+          this.isSelectedCampus = false
+        },
+        delete: () => {
+          this.deleteCampus(id)
         }
       }
       if (options[type]) options[type]()
@@ -219,9 +291,8 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss" scoped>
 .container {
-  display               : grid;
   font-size             : 25px;
   grid-template-columns : 30% 1fr;
   gap                   : 10px;
@@ -229,14 +300,28 @@ export default {
   max-width             : 100vw;
   padding               : 10px;;
 }
-.campi-info {
-  padding   : 20px;
+.info {
+  border      : 1px solid $primary;
+  padding     : 20px;
+  padding-top : 0px;
 }
 .title {
-  padding-left: 20px;
+  text-align      : center;
+  padding-top     : 0px;
+  padding-bottom  : 20px;
 }
 .btn {
-  padding   : 20px;
+  margin-top  : 24px;
+  margin-left : 10px;
+  text-align  : right;
+}
+.inputDiv {
+  display     : flex;
+  align-items : center;
+}
+.inputField {
+  flex          : 1;
+  padding-left  : 10px
 }
 
 </style>
