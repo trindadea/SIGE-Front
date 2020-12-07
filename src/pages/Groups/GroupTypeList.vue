@@ -1,15 +1,18 @@
 <template>
   <div>
-    <!-- <h3 class="title">Lista de GroupType </h3>
-    <div class="btn">
-      <q-btn
-        size="1rem"
-        label="Novo"
-        color="primary"
-        @click="handlePressButton('new')"/>
-    </div> -->
+    <h3 class="title">Lista de GroupType </h3>
     <div class="container">
-      <!-- <div class="lst-groupType">
+      <div class="lst-groupType">
+
+          <div class="q-pa-md">
+            <q-table
+              title="GroupTypes"
+              :data="data"
+              :columns="columns"
+              row-key="name"
+            />
+          </div>
+
         <ul>
           <li v-for="(groupType,index) in groupTypes" :key="index">
             <p class="lst-item">
@@ -22,68 +25,13 @@
               </p>
           </li>
         </ul>
-      </div> -->
-      <div class="groupType-info" v-if="isCreatingNew">
-        <h3 class="title">
-          Novo GroupType
-        </h3>
-        <q-form
-          class="q-gutter-md"
-          @submit="postGroupType()"
-          >
-          <div class="inputDiv">
-            <label>Nome: </label>
-            <q-input
-              class="inputField"
-              outlined
-              v-model="newGroupType.name"/>
-          </div>
-          <div class="btn">
-            <q-btn
-              size="1rem"
-              label="Salvar"
-              type="submit"
-              color="primary"/>
-          </div>
-        </q-form>
-      </div>
-      <div class="groupType-info" v-if="isSelectedGroupType">
-        <h3 class="title">
-          Editar dados
-        </h3>
-        <q-form
-        class="q-gutter-md"
-        @submit="putGroupType()"
-        >
-        <div class="inputDiv">
-          <label>Nome: </label>
-          <q-input
-              class="inputField"
-              outlined
-              disabled
-              v-model="newGroupType.name"/>
-        </div>
-        <div class="text-right q-mt-lg">
-          <q-btn
-            class="btn"
-            size="1rem"
-            label="Cancelar"
-            color="primary"/>
-          <q-btn
-            class="btn"
-            size="1rem"
-            label="Salvar"
-            type="submit"
-            color="primary"/>
-        </div>
-      </q-form>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import MASTER from '../services/masterApi/http-common'
+import MASTER from '../../services/masterApi/http-common'
 // import { mapActions } from 'vuex'
 
 export default {
@@ -92,9 +40,13 @@ export default {
     return {
       groupTypes: [],
       groupType: {},
-      isSelectedGroupType: false,
-      isCreatingNew: true,
-      newGroupType: {}
+      columns: [
+        { 
+          name: 'name',
+          label: 'Nome',
+          align: 'left'
+        }
+      ]
     }
   },
   created () {

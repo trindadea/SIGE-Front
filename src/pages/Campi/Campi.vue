@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 class="title">Lista de Slaves </h3>
+    <h3 class="title">Lista de Campi </h3>
     <div class="btn">
       <q-btn
         size="1rem"
@@ -9,40 +9,48 @@
         @click="handlePressButton('new')"/>
     </div>
     <div class="container">
-      <div class="lst-slave">
+      <div class="lst-campus">
         <ul>
-          <li v-for="(slave,index) in slaves" :key="index">
+          <li v-for="(campus,index) in campi" :key="index">
             <p class="lst-item">
-              {{index}} - {{slave.name}} - {{slave.acronym}}
+              {{index}} - {{campus.name}} - {{campus.acronym}}
             <q-btn
               size="1rem"
               label="show"
-              @click="handlePressButton('show', slave.id)"
+              @click="handlePressButton('show', campus.id)"
               color="primary"/>
               </p>
           </li>
         </ul>
       </div>
-      <div class="slave-info" v-if="isCreatingNew">
+      <div class="campus-info" v-if="isCreatingNew">
         <h3 class="login-text">
-          Novo Slave
+          Novo Campus
         </h3>
         <q-form
           class="q-gutter-md"
-          @submit="postSlave()"
+          @submit="postCampus()"
           >
           <q-input
             outlined
-            v-model="newSlave.ip_address"
-            label="Endereço IP"/>
+            v-model="newCampus.name"
+            label="Nome do Campus"/>
           <q-input
             outlined
-            v-model="newSlave.port"
-            label="Porta de Acesso IP"/>
+            v-model="newCampus.acronym"
+            label="Acronym"/>
           <q-input
             outlined
-            v-model="newSlave.name"
-            label="Endereço"/>
+            v-model="newCampus.geolocation_latitude"
+            label="Latitude"/>
+          <q-input
+            outlined
+            v-model="newCampus.geolocation_longitude"
+            label="Longitude"/>
+          <q-input
+            outlined
+            v-model="newCampus.zoom_ratio"
+            label="Map Zoom"/>
           <div class="text-center q-mt-lg">
             <q-btn
               size="1rem"
@@ -52,27 +60,36 @@
           </div>
         </q-form>
       </div>
-      <div class="slave-info" v-if="isSelectedSlave">
+      <div class="campus-info" v-if="isSelectedCampus">
         <h3 class="login-text">
           Editar dados
         </h3>
-        <p>Id: {{slave.id}}</p>
+        <p>Id: {{campus.id}}</p>
+        <p>Transductors: {{campus.transductors}}</p>
         <q-form
         class="q-gutter-md"
-        @submit="putSlave()"
+        @submit="putCampus()"
         >
         <q-input
           outlined
-          v-model="slave.ip_address"
-          label="Endereço IP"/>
+          v-model="campus.name"
+          label="Nome do Campus"/>
         <q-input
           outlined
-          v-model="slave.port"
-          label="Porta de Acesso IP"/>
+          v-model="campus.acronym"
+          label="Acronym"/>
         <q-input
           outlined
-          v-model="slave.name"
-          label="Endereço"/>
+          v-model="campus.geolocation_latitude"
+          label="Latitude"/>
+        <q-input
+          outlined
+          v-model="campus.geolocation_longitude"
+          label="Longitude"/>
+        <q-input
+          outlined
+          v-model="campus.zoom_ratio"
+          label="Map Zoom"/>
         <div class="text-center q-mt-lg">
           <q-btn
             size="1rem"
@@ -82,7 +99,7 @@
           <q-btn
             size="1rem"
             label="Deletar"
-            @click="deleteSlave(slave.id)"
+            @click="deleteCampus(campus.id)"
             color="primary"/>
         </div>
       </q-form>
@@ -92,71 +109,71 @@
 </template>
 
 <script>
-import MASTER from '../services/masterApi/http-common'
+import MASTER from '../../services/masterApi/http-common'
 // import { mapActions } from 'vuex'
 
 export default {
-  name: 'Slaves',
+  name: 'Campi',
   data () {
     return {
-      slaves: [],
-      slave: {},
-      isSelectedSlave: false,
+      campi: [],
+      campus: {},
+      isSelectedCampus: false,
       isCreatingNew: false,
-      newSlave: {}
+      newCampus: {}
     }
   },
   created () {
-    this.getSlaves()
+    this.getCampi()
   },
   methods: {
     handlePressButton (type, id = null) {
       const options = {
         new: () => {
-          this.isSelectedSlave = false
+          this.isSelectedCampus = false
           this.isCreatingNew = !this.isCreatingNew
         },
         show: () => {
-          this.isSelectedSlave = true
+          this.isSelectedCampus = true
           this.isCreatingNew = false
-          this.getSlave(id)
+          this.getCampus(id)
         }
       }
       if (options[type]) options[type]()
     },
-    getSlaves () {
+    getCampi () {
       MASTER
-        .get('slave/', {})
+        .get('campi/', {})
         .then(res => {
           console.log(res.data)
-          this.slaves = res.data
+          this.campi = res.data
         })
         .catch(err => {
           this.err = err
           console.log('err')
         })
     },
-    getSlave (id) {
+    getCampus (id) {
       MASTER
-        .get('slave/' + id, {})
+        .get('campi/' + id, {})
         .then(res => {
           console.log(res.data)
-          this.slave = res.data
-          this.isSelectedSlave = true
+          this.campus = res.data
+          this.isSelectedCampus = true
         })
         .catch(err => {
           console.log(err)
         })
     },
-    putSlave () {
-      const { id } = this.slave
+    putCampus () {
+      const { id } = this.campus
       MASTER
-        .put('slave/' + id + '/', this.slave)
+        .put('campi/' + id + '/', this.campus)
         .then(res => {
-          this.slave = res.data
-          this.slaves = this.slaves.map((slave) => {
-            if (slave.id === id) return res.data
-            return slave
+          this.campus = res.data
+          this.campi = this.campi.map((campus) => {
+            if (campus.id === id) return res.data
+            return campus
           })
           this.$q.notify({
             type: 'positive',
@@ -171,29 +188,29 @@ export default {
           })
         })
     },
-    deleteSlave (id) {
+    deleteCampus (id) {
       MASTER
-        .delete('slave/' + id, {})
+        .delete('campi/' + id, {})
         .then(res => {
-          this.slaves = this.slaves.filter((slave) => slave.id !== id)
+          this.campi = this.campi.filter((campus) => campus.id !== id)
           this.$q.notify({
             type: 'positive',
-            message: 'Slave deletado com sucesso.'
+            message: 'Campus deletado com sucesso.'
           })
-          this.isSelectedSlave = false
-          this.slave = {}
+          this.isSelectedCampus = false
+          this.campus = {}
           console.log(res.data)
         })
         .catch(err => {
           console.log(err)
         })
     },
-    postSlave () {
+    postCampus () {
       MASTER
-        .post('slave/', this.newSlave)
+        .post('campi/', this.newCampus)
         .then(res => {
-          this.slaves.push(res.data)
-          this.newSlaves = {}
+          this.campi.push(res.data)
+          this.newCampus = {}
         })
         .catch(err => {
           console.log(err)
@@ -212,7 +229,7 @@ export default {
   max-width             : 100vw;
   padding               : 10px;;
 }
-.slave-info {
+.campi-info {
   padding   : 20px;
 }
 .title {

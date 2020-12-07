@@ -21,11 +21,12 @@ export default function (ssrContext) {
         { path: '/transductor/:id', name: 'transductor', component: () => import('pages/Transductor.vue') },
         { path: '/energy_consumption', name: 'energy_consumption', component: () => import('pages/EnergyConsumptionCurve.vue') },
         { path: '/reports', name: 'reports', component: () => import('pages/Reports.vue') },
-        { path: '/campi', name: 'campi', component: () => import('pages/Campi.vue') },
-        { path: '/group_type', name: 'group_type', component: () => import('pages/GroupType.vue') },
-        { path: '/groups', name: 'groups', component: () => import('pages/Groups.vue') },
-        { path: '/slaves', name: 'slaves', component: () => import('pages/Slaves.vue') },
-        { path: '/transductors', name: 'transductors', component: () => import('pages/TransductorsCRUD.vue') }
+        { path: '/manageInstallations', name: 'manageInstallations', component: () => import('pages/ManageInstallations.vue') },
+        { path: '/campi', name: 'campi', component: () => import('pages/Campi/Campi.vue') },
+        { path: '/group_type', name: 'group_type', component: () => import('pages/Groups/GroupTypeList.vue') },
+        { path: '/groups', name: 'groups', component: () => import('pages/Groups/Groups.vue') },
+        { path: '/slaves', name: 'slaves', component: () => import('pages/Slave/Slaves.vue') },
+        { path: '/transductors', name: 'transductors', component: () => import('pages/Transductor/TransductorsCRUD.vue') }
 
       ]
     },

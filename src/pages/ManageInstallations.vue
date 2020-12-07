@@ -21,35 +21,40 @@
 import { mapActions } from 'vuex'
 
 export default {
-  name: 'PageIndex',
+  name: 'ManageInstallations',
   data () {
     return {
       graphData: [
         {
-          image: 'statics/Medidores.png',
-          link: '/transductor_list',
-          name: 'Medidores'
-        },
-        {
-          image: 'statics/CustoTotal.png',
-          link: '/total_cost',
-          name: 'Custo Total'
-        },
-        {
-          image: 'statics/CurvaDeCarga.png',
-          link: '/energy_consumption',
-          name: 'Curva de Carga'
+          image: 'statics/Relatorios.png',
+          link: '/campi',
+          name: 'Campi'
         },
         {
           image: 'statics/Relatorios.png',
-          link: '/reports',
-          name: 'Relatórios'
+          link: '/group_type',
+          name: 'Group Type'
+        },
+        {
+          image: 'statics/Relatorios.png',
+          link: '/groups',
+          name: 'Groups'
+        },
+        {
+          image: 'statics/Relatorios.png',
+          link: '/slaves',
+          name: 'Slaves'
+        },
+        {
+          image: 'statics/Relatorios.png',
+          link: '/transductors',
+          name: 'Transductors'
         }
       ]
     }
   },
   created () {
-    this.changePage('Início')
+    this.changePage('Gerenciar Instalações')
   },
   methods: {
     ...mapActions('userStore', ['changePage'])

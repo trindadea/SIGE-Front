@@ -166,7 +166,7 @@
 </template>
 
 <script>
-import MASTER from '../services/masterApi/http-common'
+import MASTER from '../../services/masterApi/http-common'
 // import { mapActions } from 'vuex'
 
 export default {

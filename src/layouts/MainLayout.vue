@@ -97,6 +97,12 @@ export default {
           name: 'Relatórios',
           link: '/reports',
           icon: 'subject',
+          separator: true
+        },
+        {
+          name: 'Gerenciar Instalação',
+          link: '/manageInstallations',
+          icon: 'subject',
           separator: false
         }
       ]
