@@ -1,10 +1,10 @@
 <template>
   <div>
-    <h3 class="title">Lista de GroupType </h3>
-    <div class="btn">
+    <h3 class="title">Lista de Tipos de Agrupamentos </h3>
+    <div class="btn q-px-md">
       <q-btn
         size="1rem"
-        label="Novo"
+        label="Adicionar"
         color="primary"
         @click="handlePressButton('new')"/>
     </div>
@@ -78,15 +78,19 @@
               <q-td key="name" :props="props">{{ props.row.name }}</q-td>
               <q-td key="edit" :props="props">
                 <q-btn
+                  flat
+                  round
+                  icon="edit"
                   size="1rem"
-                  label="show"
                   @click="handlePressButton('show', props.row.id)"
                   color="primary"/>
               </q-td>
               <q-td key="delete" :props="props">
                 <q-btn
+                  flat
+                  round
                   size="1rem"
-                  label="Excluir"
+                  icon="delete"
                   @click="handlePressButton('delete', props.row.id)"
                   color="primary"/>
               </q-td>

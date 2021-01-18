@@ -4,7 +4,7 @@
     <div class="btn">
       <q-btn
         size="1rem"
-        label="Novo"
+        label="Adicionar"
         color="primary"
         @click="handlePressButton('new')"/>
     </div>
@@ -15,8 +15,10 @@
             <p class="lst-item">
               {{index}} - {{transductor.name}}
             <q-btn
+              flat
+              round
+              icon="edit"
               size="1rem"
-              label="show"
               @click="handlePressButton('show', transductor.id)"
               color="primary"/>
               </p>

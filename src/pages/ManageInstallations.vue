@@ -1,16 +1,23 @@
 <template>
   <q-page class="flex flex-start row q-pa-md">
     <div
-      class="col-md-3 col-sm-6 col-lg-3 q-pa-sm"
+      class="col-md-2 col-sm-8 col-lg-2 q-pa-sm"
       v-for="item in graphData"
       :key="item.name"
     >
       <a :href="item.link" style="text-decoration: none">
         <q-card>
-          <img :src="item.image">
-          <q-card-section>
-            <div class="card-text">{{ item.name }}</div>
-          </q-card-section>
+          <q-list>
+            <q-item clickable>
+              <q-item-section avatar>
+                <q-icon color="primary" name="settings" />
+              </q-item-section>
+
+              <q-item-section>
+                <q-item-label>{{ item.name }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
         </q-card>
       </a>
     </div>
@@ -26,29 +33,30 @@ export default {
     return {
       graphData: [
         {
-          image: 'statics/Relatorios.png',
+          image: 'statics/campus.png',
+          icon: 'AccountBalance',
           link: '/campi',
           name: 'Campi'
         },
         {
           image: 'statics/Relatorios.png',
           link: '/group_type',
-          name: 'Group Type'
+          name: 'Tipos de Agrupamento'
         },
         {
           image: 'statics/Relatorios.png',
           link: '/groups',
-          name: 'Groups'
+          name: 'Agrupamentos'
         },
         {
           image: 'statics/Relatorios.png',
           link: '/slaves',
-          name: 'Slaves'
+          name: 'Servidores Distribuídos'
         },
         {
           image: 'statics/Relatorios.png',
           link: '/transductors',
-          name: 'Transductors'
+          name: 'Medidores'
         }
       ]
     }

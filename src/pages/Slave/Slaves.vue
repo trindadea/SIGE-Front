@@ -1,14 +1,14 @@
 <template>
   <div>
-    <h3 class="title">Lista de Slaves </h3>
-    <div class="btn">
+    <h3 class="title">Lista de Servidores Distribuídos </h3>
+    <div class="btn q-px-md">
       <q-btn
         size="1rem"
-        label="Novo"
+        label="Adicionar"
         color="primary"
         @click="handlePressButton('new')"/>
     </div>
-    <div class="container">
+    <div class="container q-px-md">
       <div class="info" v-if="isCreatingNew">
         <h3 class="title">
           Novo Slave
@@ -51,9 +51,9 @@
         </q-form>
       </div>
       <div class="info" v-if="isSelectedSlave">
-        <h3 class="title">
+        <h4 class="title">
           Editar dados
-        </h3>
+        </h4>
         <p>Id: {{slave.id}}</p>
         <q-form
         class="q-gutter-md"
@@ -101,7 +101,7 @@
       </div>
       <div class="q-pa-md">
         <q-table
-          title="Slaves"
+          title="Servidores"
           :data="slaves"
           :columns="columns"
           row-key="name"
@@ -114,15 +114,19 @@
               <q-td key="location" :props="props">{{ props.row.name }}</q-td>
               <q-td key="edit" :props="props">
                 <q-btn
+                  flat
+                  round
+                  icon="edit"
                   size="1rem"
-                  label="show"
                   @click="handlePressButton('show', props.row.id)"
                   color="primary"/>
               </q-td>
               <q-td key="delete" :props="props">
                 <q-btn
+                  flat
+                  round
                   size="1rem"
-                  label="Excluir"
+                  icon="delete"
                   @click="handlePressButton('delete', props.row.id)"
                   color="primary"/>
               </q-td>

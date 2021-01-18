@@ -67,19 +67,13 @@ export default {
           name: 'Início',
           link: '/',
           icon: 'home',
-          separator: false
-        },
-        {
-          name: 'Sobre o Projeto',
-          link: '/about',
-          icon: 'img:statics/ic_sobre.svg',
-          separator: false
+          separator: true
         },
         {
           name: 'Medidores',
           link: '/transductor_list',
           icon: 'mdi-gauge',
-          separator: true
+          separator: false
         },
         {
           name: 'Custo Total',
@@ -100,9 +94,15 @@ export default {
           separator: true
         },
         {
-          name: 'Gerenciar Instalação',
+          name: 'Gerenciar',
           link: '/manageInstallations',
-          icon: 'subject',
+          icon: 'settings',
+          separator: false
+        },
+        {
+          name: 'Sobre o Projeto',
+          link: '/about',
+          icon: 'img:statics/ic_sobre.svg',
           separator: false
         }
       ]
