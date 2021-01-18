@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import userStore from './module-user'
 import totalCostStore from './module-totalCost'
 import transductorStore from './module-transductor'
+import consumptionCurve from './module-consumptionCurve'
 
 Vue.use(Vuex)
 
@@ -21,7 +22,8 @@ export default function (ssrContext) {
     modules: {
       userStore,
       totalCostStore,
-      transductorStore
+      transductorStore,
+      consumptionCurve
     },
 
     // enable strict mode (adds overhead!)

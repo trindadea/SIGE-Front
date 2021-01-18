@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <total-cost-filter />
+    <ConsumptionFilter />
     <div class="full-height chart-container">
       <line-chart
         unit="Wh"
@@ -10,7 +10,7 @@
 </template>
 
 <script >
-import TotalCostFilter from '../components/TotalCostFilter'
+import ConsumptionFilter from '../components/ConsumptionFilter'
 // import BarChart from '../components/charts/BarChart'
 import LineChart from '../components/charts/LineChartConsumption'
 import { mapGetters, mapActions } from 'vuex'
@@ -18,11 +18,11 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'EnergyConsumptionCurve',
   components: {
-    TotalCostFilter,
+    ConsumptionFilter,
     LineChart
   },
   computed: {
-    ...mapGetters('totalCostStore', ['getUrl'])
+    ...mapGetters('consumptionCurve', ['getUrl'])
   },
   methods: {
     ...mapActions('userStore', ['changePage'])

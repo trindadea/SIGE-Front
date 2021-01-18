@@ -67,19 +67,13 @@ export default {
           name: 'Início',
           link: '/',
           icon: 'home',
-          separator: false
-        },
-        {
-          name: 'Sobre o Projeto',
-          link: '/about',
-          icon: 'img:statics/ic_sobre.svg',
-          separator: false
+          separator: true
         },
         {
           name: 'Medidores',
           link: '/transductor_list',
           icon: 'mdi-gauge',
-          separator: true
+          separator: false
         },
         {
           name: 'Custo Total',
@@ -97,6 +91,12 @@ export default {
           name: 'Relatórios',
           link: '/reports',
           icon: 'subject',
+          separator: true
+        },
+        {
+          name: 'Sobre o Projeto',
+          link: '/about',
+          icon: 'img:statics/ic_sobre.svg',
           separator: false
         }
       ]

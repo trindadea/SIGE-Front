@@ -1,10 +1,17 @@
 <template>
   <q-no-ssr>
-      <apexcharts type="line" height="500" :options="chartOptions" :series="series" />
+      <apexcharts v-if="getSerie && getGraphNotEmpty" type="line" height="500" :options="chartOptions" :series="getSerie" />
+      <div v-if="!getGraphNotEmpty" class="no-data-warning">
+        <span>
+          Não há dados disponiveis no momento!
+        </span>
+      </div>
   </q-no-ssr>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   name: 'LineChart',
   components: {
@@ -16,10 +23,6 @@ export default {
   data () {
     return {
       min: 0,
-      series: [{
-        name: 'Consumo (Wh)',
-        data: [214.9, 192.0, 170.7, 172.2, 178.2, 170.3, 151.1, 128.8, 124.9, 125.0, 134.6, 133.3, 127.0, 137.5, 132.9, 146.9, 139.7, 130.7, 176.0, 259.3, 260.9, 241.0, 224.7, 226.0]
-      }],
       chartOptions: {
         colors: ['#00417e'],
         grid: {
@@ -47,8 +50,7 @@ export default {
         },
 
         xaxis: {
-          type: 'Hora',
-          categories: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
+          type: this.getTypeXAxis,
           labels: {
             show: true,
             formatter: this.labelFormatterX,
@@ -83,13 +85,32 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapGetters('consumptionCurve', ['getSerie', 'getFilters', 'getTypeXAxis', 'getGraphNotEmpty', 'getPeriodicity'])
+  },
   methods: {
+    ...mapActions('consumptionCurve', ['updateChartSerie']),
     labelFormatter (value) {
       return value.toFixed(2) + ' ' + this.unit
-    },
-    labelFormatterX (value) {
-      return value + 'h'
     }
-  }
+  },
+  created () {}
 }
 </script>
+
+<style lang="scss">
+    .no-data-warning {
+      width: 100%;
+      height: 60vh;
+      display:flex;
+      justify-content: center;
+      align-items: center;
+
+      span {
+        font-family: Roboto;
+        color: #00417e;
+        font-size: 2.4vh;
+        font-weight: bold;
+      }
+    }
+</style>
