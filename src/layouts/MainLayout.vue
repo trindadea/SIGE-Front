@@ -94,6 +94,12 @@ export default {
           separator: true
         },
         {
+          name: 'Gerenciar',
+          link: '/manageInstallations',
+          icon: 'settings',
+          separator: false
+        },
+        {
           name: 'Sobre o Projeto',
           link: '/about',
           icon: 'img:statics/ic_sobre.svg',
