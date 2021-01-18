@@ -20,7 +20,7 @@ const changeStartDate = (state, startDate) => {
   } else {
     state.errorStartDate = false
 
-    startDate = `${startDate.format('YYYY-MM-DD HH:mm:ss')}`
+    startDate = `${startDate.format('YYYY-MM-DD HH:mm')}`
 
     const position = state.url.indexOf('&start_date=')
 
@@ -42,7 +42,7 @@ const changeEndDate = (state, endDate) => {
   } else {
     state.errorEndDate = false
 
-    endDate = `${endDate.format('YYYY-MM-DD HH:mm:ss')}`
+    endDate = `${endDate.format('YYYY-MM-DD HH:mm')}`
 
     const position = state.url.indexOf('&end_date=')
 
@@ -92,8 +92,37 @@ const clearEndDate = (state) => {
   state.endDate = ''
 }
 
-const updateChart = (state, chart) => {
-  state.totalCostChart = chart
+const updateChartSerie = (state, serieChart) => {
+  state.thereIsConsumption = false
+  if (state.serieChart) {
+    const seriePlot = Object.values(serieChart)
+    const dataSerie = []
+
+    seriePlot.forEach(item => {
+      if (item !== 0) {
+        state.thereIsConsumption = true
+      }
+    })
+
+    Object.keys(serieChart).forEach(function (key) {
+      dataSerie.push({ x: key, y: serieChart[key] })
+    })
+
+    if (state.periodicity === 'hourly') {
+      state.typeXAxisGraph = 'HORA'
+    } else if (state.periodicity === 'daily') {
+      state.typeXAxisGraph = 'DIA'
+    } else {
+      state.typeXAxisGraph = 'MÊS'
+    }
+
+    state.serieChart = [{
+      name: 'Consumo (Wh)',
+      data: dataSerie
+    }]
+  } else {
+    state.serieChart = []
+  }
 }
 
 export {
@@ -104,5 +133,5 @@ export {
   filterByGroup,
   clearStartDate,
   clearEndDate,
-  updateChart
+  updateChartSerie
 }

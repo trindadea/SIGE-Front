@@ -29,8 +29,9 @@ const clearStartDate = ({ commit }) => {
 const clearEndDate = ({ commit }) => {
   commit('clearEndDate')
 }
-const updateChart = ({ commit }, chart) => {
-  commit('updateChart', chart)
+
+const updateChartSerie = ({ commit }, serie) => {
+  commit('updateChartSerie', serie)
 }
 
 export {
@@ -42,5 +43,5 @@ export {
   filterByGroup,
   clearStartDate,
   clearEndDate,
-  updateChart
+  updateChartSerie
 }

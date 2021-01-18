@@ -12,8 +12,6 @@
     />
     <bar-chart
       v-else-if="graphIs('barchart') && mounted"
-      unit="R$"
-      :transductorId='transductorId'
     />
     <no-data-placeholder
       v-else

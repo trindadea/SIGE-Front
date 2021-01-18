@@ -14,7 +14,7 @@
           :options="optionsCampus"
           @filter="filterCampus"
           class="col-4 elem select"
-          @input="getGroups(); filterByCampus(campusModel); getChart();"
+          @input="getGroups(); filterByCampus(campusModel)"
         >
           <template v-slot:no-option>
             <q-item>
@@ -23,7 +23,7 @@
           </template>
         </q-select>
 
-          <q-select
+        <q-select
           v-model="optionsModel"
           use-input
           map-options
@@ -35,7 +35,7 @@
           :options="optionsGroup"
           @filter="filterFn"
           class="col-4 elem select"
-          @input="filterByGroup(optionsModel); getChart();"
+          @input="filterByGroup(optionsModel)"
         >
           <template v-slot:no-option>
             <q-item>
@@ -51,18 +51,18 @@
             toggle-color="primary"
             class="elem toggle"
             :options="[
+          {label: 'HORA', value: 'hourly'},
           {label: 'DIA', value: 'daily'},
-          {label: 'MÊS', value: 'monthly'},
-          {label: 'ANO', value: 'yearly'}
+          {label: 'MES', value: 'monthly'}
         ]"
-        @input="changePeriodicity(model); getChart();"
+        @input="changePeriodicity(model)"
           />
         </div>
         <q-input v-model="startDate" :mask="mask" label="Período: Início" class="elem input" :error="errorStartDate" @input="verifyClearInput">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer calendar">
               <q-popup-proxy transition-show="scale" transition-hide="scale">
-                <q-date @input="changeStartDate(startDate); getChart();" v-model="startDate" mask="DD/MM/YYYY" />
+                <q-date @input="changeStartDate(startDate)" v-model="startDate" mask="DD/MM/YYYY" />
               </q-popup-proxy>
             </q-icon>
           </template>
@@ -71,11 +71,19 @@
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer calendar">
               <q-popup-proxy transition-show="scale" transition-hide="scale">
-                <q-date @input="changeEndDate(endDate); getChart();" v-model="endDate" mask="DD/MM/YYYY" />
+                <q-date @input="changeEndDate(endDate)" v-model="endDate" mask="DD/MM/YYYY" />
               </q-popup-proxy>
             </q-icon>
           </template>
         </q-input>
+        <q-btn
+            class="apply_button"
+            size="1rem"
+            label="Aplicar"
+            type="button"
+            @click="applyFilter()"
+            color="primary"
+        />
       </div>
     </div>
     <div class="adjust-toggle">
@@ -87,18 +95,17 @@
 
 <script>
 import MASTER from '../services/masterApi/http-common'
+import { getGraphInformation } from '../utils/graphControl'
 import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
-import { dimensions } from '../utils/transductorGraphControl'
-
 const allCampus = []
 const groups = []
 
 export default {
-  name: 'TotalCostFilter',
+  name: 'ConsumptionFilter',
   data () {
     return {
-      model: 'daily',
+      model: 'hourly',
       campusModel: null,
       optionsCampus: allCampus,
       optionsModel: null,
@@ -116,17 +123,23 @@ export default {
         res.data.forEach(elem => {
           allCampus.push(elem)
         })
+        this.campusModel = res.data[0]
       })
       .catch(err => {
         console.log(err)
       })
-    this.getChart()
+
+    this.startDate = moment().format('DD/MM/YYYY')
+    this.endDate = moment().format('DD/MM/YYYY')
+
+    const serie = await getGraphInformation(this.getFilters)
+    this.updateChartSerie(serie)
   },
   computed: {
-    ...mapGetters('totalCostStore', ['errorStartDate', 'errorEndDate', 'getUrl'])
+    ...mapGetters('consumptionCurve', ['errorStartDate', 'errorEndDate', 'getFilters'])
   },
   methods: {
-    ...mapActions('totalCostStore', ['changePeriodicity', 'changeStartDate', 'changeEndDate', 'filterByCampus', 'filterByGroup', 'clearStartDate', 'clearEndDate', 'updateChart']),
+    ...mapActions('consumptionCurve', ['changePeriodicity', 'changeStartDate', 'changeEndDate', 'filterByCampus', 'filterByGroup', 'clearStartDate', 'clearEndDate', 'updateChartSerie']),
     filterFn (val, update, abort) {
       update(() => {
         const needle = val.toLowerCase()
@@ -136,9 +149,9 @@ export default {
       })
     },
     filterCampus (val, update, abort) {
-      update(() => {
+      update(async () => {
         const needle = val.toLowerCase()
-        this.optionsCampus = allCampus.filter(
+        this.optionsCampus = await allCampus.filter(
           v => v.name.toLowerCase().indexOf(needle) > -1
         )
       })
@@ -158,41 +171,24 @@ export default {
     verifyClearInput () {
       if (!this.startDate) {
         this.clearStartDate()
-        this.getChart()
       } else {
         if (moment(this.startDate, 'DD-MM-YYYY').isValid()) {
           this.changeStartDate(this.startDate)
-          this.getChart()
         }
       }
 
       if (!this.endDate) {
         this.clearEndDate()
-        this.getChart()
       } else {
         if (moment(this.endDate, 'DD-MM-YYYY').isValid()) {
           this.changeEndDate(this.endDate)
-          this.getChart()
         }
       }
     },
-    getChart () {
-      MASTER
-        .get(this.getUrl)
-        .then((res) => {
-          var chart = {
-            values: res.data.cost,
-            min: res.data.min,
-            max: res.data.max,
-            status: true,
-            unit: 'R$',
-            dimension: dimensions[1]
-          }
-          this.updateChart(chart)
-        })
-        .catch((err) => {
-          console.log('catch', err)
-        })
+
+    async applyFilter () {
+      const serie = await getGraphInformation(this.getFilters)
+      this.updateChartSerie(serie)
     }
   }
 }
@@ -268,5 +264,12 @@ export default {
 }
 .input {
   padding-bottom: 0;
+}
+
+.apply_button {
+  height: 40px;
+  margin-top: auto;
+  margin-bottom: 1.7%;
+  margin-left: 1.7%;
 }
 </style>

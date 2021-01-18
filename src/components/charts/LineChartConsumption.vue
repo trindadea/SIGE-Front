@@ -86,10 +86,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('totalCostStore', ['getSerie', 'getFilters', 'getTypeXAxis', 'getGraphNotEmpty', 'getPeriodicity'])
+    ...mapGetters('consumptionCurve', ['getSerie', 'getFilters', 'getTypeXAxis', 'getGraphNotEmpty', 'getPeriodicity'])
   },
   methods: {
-    ...mapActions('totalCostStore', ['updateChartSerie']),
+    ...mapActions('consumptionCurve', ['updateChartSerie']),
     labelFormatter (value) {
       return value.toFixed(2) + ' ' + this.unit
     }

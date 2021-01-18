@@ -3,8 +3,8 @@
     <total-cost-filter />
     <div class="full-height chart-container">
       <bar-chart
-        unit="R$"
-        :url="getUrl"
+        v-if="totalCostChart.status"
+        :isCostPage="true"
       />
     </div>
   </div>
@@ -22,7 +22,7 @@ export default {
     BarChart
   },
   computed: {
-    ...mapGetters('totalCostStore', ['getUrl'])
+    ...mapGetters('totalCostStore', ['totalCostChart'])
   },
   methods: {
     ...mapActions('userStore', ['changePage'])
