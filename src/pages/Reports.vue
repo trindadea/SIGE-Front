@@ -18,32 +18,24 @@
 <script>
 // import MASTER from '../services/masterApi/http-common'
 import TotalCostFilter from '../components/TotalCostFilter'
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
+  name: 'Report',
   components: {
     TotalCostFilter
   },
-  created () {
-    this.changePage('Relatório')
-    // this.getTransductors()
+  computed: {
+    ...mapGetters('totalCostStore', ['totalCostChart'])
   },
   methods: {
     ...mapActions('userStore', ['changePage']),
-    // async getTransductors () {
-    //   await MASTER
-    //     .get('energy-transductors-list/')
-    //     .then((res) => {
-    //       this.transductors = res.data
-    //     })
-    //     .catch((err) => {
-    //       console.log(err)
-    //     })
-    //   this.dataLoaded = true
-    // },
     clickItem (row) {
       this.$router.push('transductor/' + row.serial_number)
     }
+  },
+  created () {
+    this.changePage('Relatório')
   },
   data () {
     return {

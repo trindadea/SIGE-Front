@@ -13,9 +13,9 @@
           <a class="data-label">MODELO</a><br/>
           <a class="data-body">{{model}}</a><br/>
           <a class="data-label">NÚM. DE SÉRIE</a><br/>
-          <a class="data-body">{{id}}</a><br/>
+          <a class="data-body">{{serial_number}}</a><br/>
           <a class="data-label">GRUPOS</a><br/>
-          <a class="data-body" v-for="(group, i) in groups" v-bind:key="i"> - {{group}}</a>
+          <a class="data-body" v-for="(group, i) in groups" v-bind:key="i"> {{group}}, </a>
         </div>
         <div class="transductor-info col-9">
           <p class="title">Histórico</p>
@@ -47,6 +47,7 @@ export default {
     return {
       id: this.$router.currentRoute.params.id,
       model: '',
+      serial_number: '',
       groups: [],
       history: ''
     }
@@ -58,6 +59,7 @@ export default {
       .then((res) => {
         this.model = res.data.model
         this.history = res.data.history
+        this.serial_number = res.data.serial_number
         res.data.grouping.forEach(group => {
           this.groupRequest(group)
         })
