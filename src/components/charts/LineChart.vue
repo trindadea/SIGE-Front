@@ -47,7 +47,7 @@ export default {
     this.mounted = true
   },
   computed: {
-    ...mapGetters('transductorStore', ['chartOptions']),
+    ...mapGetters('transductorStore', ['chartOptions', 'filterOptions']),
     series () {
       if (this.graphic_type === '1') {
         return [
@@ -105,6 +105,20 @@ export default {
             opacityFrom: 0.85,
             opacityTo: 0.55,
             stops: [0, 100, 100, 100]
+          }
+        },
+        title: {
+          text: this.filterOptions.dimension,
+          align: 'center',
+          margin: 10,
+          offsetX: 0,
+          offsetY: 0,
+          floating: false,
+          style: {
+            fontSize: '24px',
+            fontWeight: '300',
+            fontFamily: 'Roboto',
+            color: '#00417e'
           }
         },
 
@@ -177,6 +191,6 @@ export default {
 <style scoped>
   #chart {
     padding: .5rem;
-    colors: #147900;
+    color: #147900;
   }
 </style>

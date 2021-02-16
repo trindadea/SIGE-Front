@@ -7,8 +7,6 @@
       :transductorId="transductorId"
       @chart-change="updateChartOption"
     />
-
-    <h4 class="graph-title"> {{ filterOptions.dimension }} </h4>
     <line-chart
       v-if="graphIs('linechart') && mounted"
       :transductorId='transductorId'
@@ -78,18 +76,8 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-.graph-title {
-  text-align: center;
-  margin: 0px auto;
-  font-family: Roboto;
-  font-size: 24px;
-  font-weight: 300;
-  font-stretch: normal;
-  font-style: italic;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: center;
-  color: #00417e;
+<style lang="scss">
+.apexcharts-title-text {
+  font-style: italic !important;
 }
 </style>
