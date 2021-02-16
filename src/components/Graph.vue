@@ -5,7 +5,10 @@
       :filterList="dimensions"
       :visionOptions="vision"
       :transductorId="transductorId"
+      @chart-change="updateChartOption"
     />
+
+    <h4 class="graph-title"> {{ filterOptions.dimension }} </h4>
     <line-chart
       v-if="graphIs('linechart') && mounted"
       :transductorId='transductorId'
@@ -22,7 +25,7 @@
   </div>
 </template>
 <script>
-import chartFilter from './ChartFilter'
+import chartFilter from './ChartFilter.vue'
 import LineChart from './charts/LineChart.vue'
 import BarChart from './charts/BarChart.vue'
 import noDataPlaceholder from './NoDataPlaceHolder'
@@ -68,10 +71,17 @@ export default {
     graphIs (graphType) {
       const type = this.chartOptions.graphType
       return type === graphType
+    },
+    updateChartOption ({ chartOption }) {
+      console.log(`Novo chartOption:: ${chartOption}`)
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-
+.graph-title {
+  text-align: center;
+  margin: 0px auto;
+  margin-bottom: -20px;
+}
 </style>
