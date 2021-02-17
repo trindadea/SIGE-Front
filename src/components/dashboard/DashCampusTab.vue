@@ -17,7 +17,7 @@
         active-color="primary"
         indicator-color="transparent"
         align="justify"
-        class="row q-py-none q-mt-none">
+        class="row q-py-none q-mt-none disabledTab">
         <q-tab
           dense
           v-for="campus in campi" :key="campus.id"
@@ -33,7 +33,7 @@
       >
         <q-tab-panel
           animated
-          class="base q-py-md panel-wrapper"
+          class="base q-py-md panel-wrapper disabledTab"
           v-for="campus in campi" :key="campus.id"
           :name="campus.name">
           <dash-panel v-if="currentCampus" :selectedCampus="currentCampus"/>
@@ -137,5 +137,9 @@ export default {
 
   .panel-wrapper {
     min-height: 50vh;
+  }
+
+  .disabledTab{
+      pointer-events: none;
   }
 </style>
