@@ -10,9 +10,11 @@
     <line-chart
       v-if="graphIs('linechart') && mounted"
       :transductorId='transductorId'
+      :chart-title="filterOptions.dimension || ''"
     />
     <bar-chart
       v-else-if="graphIs('barchart') && mounted"
+      :chart-title="filterOptions.dimension || ''"
     />
     <no-data-placeholder
       v-else

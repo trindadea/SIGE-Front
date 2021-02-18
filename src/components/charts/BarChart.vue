@@ -17,7 +17,7 @@ export default {
     'chartTitle'
   ],
   computed: {
-    ...mapGetters('transductorStore', ['filterOptions', 'chartOptions']),
+    ...mapGetters('transductorStore', ['chartOptions']),
     ...mapGetters('totalCostStore', ['totalCostChart']),
     graph () {
       if (this.isCostPage) {
@@ -48,7 +48,7 @@ export default {
         },
 
         title: {
-          text: this.chartTitle || this.filterOptions.dimension,
+          text: this.chartTitle,
           align: 'center',
           margin: 10,
           offsetX: 0,

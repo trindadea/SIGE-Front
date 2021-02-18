@@ -48,7 +48,7 @@ export default {
     this.mounted = true
   },
   computed: {
-    ...mapGetters('transductorStore', ['chartOptions', 'filterOptions']),
+    ...mapGetters('transductorStore', ['chartOptions']),
     series () {
       if (this.graphic_type === '1') {
         return [
@@ -109,7 +109,7 @@ export default {
           }
         },
         title: {
-          text: this.chartTitle || this.filterOptions.dimension,
+          text: this.chartTitle,
           align: 'center',
           margin: 10,
           offsetX: 0,
