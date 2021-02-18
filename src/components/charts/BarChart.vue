@@ -13,7 +13,8 @@ export default {
     Apexcharts: () => import('vue-apexcharts')
   },
   props: [
-    'isCostPage'
+    'isCostPage',
+    'chartTitle'
   ],
   computed: {
     ...mapGetters('transductorStore', ['filterOptions', 'chartOptions']),
@@ -47,7 +48,7 @@ export default {
         },
 
         title: {
-          text: this.filterOptions.dimension,
+          text: this.chartTitle || this.filterOptions.dimension,
           align: 'center',
           margin: 10,
           offsetX: 0,

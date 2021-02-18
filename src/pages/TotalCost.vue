@@ -4,6 +4,7 @@
     <div class="full-height chart-container">
       <bar-chart
         v-if="totalCostChart.status"
+        :chart-title="chartTitle"
         :isCostPage="true"
       />
     </div>
@@ -20,6 +21,11 @@ export default {
   components: {
     TotalCostFilter,
     BarChart
+  },
+  data () {
+    return {
+      chartTitle: 'Custo total'
+    }
   },
   computed: {
     ...mapGetters('totalCostStore', ['totalCostChart'])

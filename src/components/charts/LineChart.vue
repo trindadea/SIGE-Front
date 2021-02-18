@@ -34,7 +34,8 @@ export default {
     'id',
     'min',
     'decimals',
-    'max'
+    'max',
+    'chartTitle'
   ],
 
   data () {
@@ -108,7 +109,7 @@ export default {
           }
         },
         title: {
-          text: this.filterOptions.dimension,
+          text: this.chartTitle || this.filterOptions.dimension,
           align: 'center',
           margin: 10,
           offsetX: 0,
