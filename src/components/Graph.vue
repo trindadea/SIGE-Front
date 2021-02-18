@@ -22,7 +22,7 @@
   </div>
 </template>
 <script>
-import chartFilter from './ChartFilter'
+import chartFilter from './ChartFilter.vue'
 import LineChart from './charts/LineChart.vue'
 import BarChart from './charts/BarChart.vue'
 import noDataPlaceholder from './NoDataPlaceHolder'

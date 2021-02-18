@@ -16,8 +16,9 @@ export default {
     'isCostPage'
   ],
   computed: {
-    ...mapGetters('transductorStore', ['chartOptions']),
+    ...mapGetters('transductorStore', ['chartOptions', 'filterOptions']),
     ...mapGetters('totalCostStore', ['totalCostChart']),
+    ...mapGetters('userStore', ['getPage']),
     graph () {
       if (this.isCostPage) {
         return this.totalCostChart
@@ -31,6 +32,8 @@ export default {
       }]
     },
     chartConf () {
+      const filename = this.getPage + ' - ' + this.filterOptions.dimension + ' - ' + this.filterOptions.startDate + '-' + this.filterOptions.endDate
+
       return {
         colors: ['#00417e'],
         grid: {
@@ -96,6 +99,23 @@ export default {
                 return ` ${this.graph.unit} ${val.toFixed(1)}`
               }
               return `${val.toFixed(1)} ${this.graph.unit}`
+            }
+          }
+        },
+        chart: {
+          toolbar: {
+            export: {
+              csv: {
+                filename: filename
+              },
+
+              svg: {
+                filename: filename
+              },
+
+              png: {
+                filename: filename
+              }
             }
           }
         }
