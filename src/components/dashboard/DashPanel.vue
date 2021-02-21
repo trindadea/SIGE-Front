@@ -13,7 +13,8 @@
       class="dash-campus"
       v-if="selectedTransductor"
       :selected-transductor="selectedTransductor"
-      :current-campus="selectedCampus"/>
+      :current-campus="selectedCampus"
+      :transductorCycleProgress="transductorCycleProgress"/>
 
   </div>
 </template>
@@ -67,8 +68,14 @@ export default {
     DashCampusInfo
   },
 
+  props: {
+    selectedCampus: Object
+  },
+
   data () {
     return {
+      cycleTime: 15000,
+      transductorCycleProgress: 0,
       transductors: [],
       occurences: [],
       unifilarDiagram: [],
@@ -77,8 +84,13 @@ export default {
     }
   },
 
-  props: {
-    selectedCampus: Object
+  created () {
+    this.getInfo()
+  },
+
+  mounted () {
+    this.selectTransductor()
+    this.interval = setInterval(this.selectTransductor, this.cycleTime)
   },
 
   methods: {
@@ -114,12 +126,23 @@ export default {
 
     selectTransductor () {
       const currentItem = this.selectedTransductor
+      const listSize = this.transductors.length
+      let index = 0
 
-      if (this.selectedTransductor === {}) {
-        this.selectedTransductor = this.transductors[0]
+      if (!currentItem || currentItem === {}) {
+        this.selectedTransductor = this.transductors[index]
       } else {
-        this.selectedTransductor = (this.transductors.indexOf(currentItem) < this.transductors.length - 1) ? this.transductors[this.transductors.indexOf(currentItem) + 1] : this.transductors[0]
+        index = this.transductors.indexOf(currentItem)
+
+        if (index < listSize - 1) {
+          index = index + 1
+          this.selectedTransductor = this.transductors[index]
+        } else {
+          this.selectedTransductor = this.transductors[0]
+          this.$emit('transductor-cycle-completed')
+        }
       }
+      this.transductorCycleProgress = index ? index / (listSize - 1) : 0
     },
 
     async getInfo () {
@@ -127,15 +150,6 @@ export default {
       await this.getCampusOccurences()
       await this.getUnifilarDiagram()
     }
-  },
-
-  created () {
-    this.getInfo()
-  },
-
-  mounted () {
-    this.selectTransductor()
-    this.interval = setInterval(this.selectTransductor, 10000)
   },
 
   beforeDestroy () {

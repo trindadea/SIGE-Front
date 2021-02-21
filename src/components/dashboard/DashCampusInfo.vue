@@ -14,35 +14,52 @@
       </div>
     </div>
 
-        <!-- style="height: 100vh!important" -->
     <div>
       <dash-charge-bar-card
         class="q-mb-md height-conf"
         :transductor="selectedTransductor"
         :campus="currentCampus"/>
 
-      <dash-last-measurement-card
-        class="q-mb-none height-conf"
-        :transductor="selectedTransductor"/>
+      <div>
+        <q-linear-progress
+          class="transductor-cycle-progess"
+          dark
+          size="10px"
+          :value="transductorCycleProgress"
+        />
+        <dash-last-measurement-card
+          class="q-mb-none height-conf"
+          :transductor="selectedTransductor"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import DashConsumptionGenerationCard from './cards/DashConsumptionGenerationCard'
 import DashLast72hCard from './cards/DashLast72hCard'
 import DashChargeBarCard from './cards/DashChargeBarCard'
 import DashLastMeasurementCard from './cards/DashLastMeasurementCard'
-import DashConsumptionGenerationCard from './cards/DashConsumptionGenerationCard'
 import MASTER from '../../services/masterApi/http-common'
 
 export default {
   name: 'DashCampusInfo',
 
   components: {
-    DashChargeBarCard,
     DashConsumptionGenerationCard,
     DashLast72hCard,
+    DashChargeBarCard,
     DashLastMeasurementCard
+  },
+
+  props: {
+    currentCampus: Object,
+    selectedTransductor: Object,
+    transductorCycleProgress: {
+      type: Number,
+      default: 0
+    }
   },
 
   data () {
@@ -51,9 +68,14 @@ export default {
     }
   },
 
-  props: {
-    currentCampus: Object,
-    selectedTransductor: Object
+  watch: {
+    currentCampus: function () {
+      this.getApiInfo()
+    }
+  },
+
+  mounted () {
+    this.getApiInfo()
   },
 
   methods: {
@@ -70,13 +92,7 @@ export default {
     async getApiInfo () {
       await this.getLast72hEvents(this.currentCampus)
     }
-  },
-
-  mounted () {
-    this.getApiInfo()
-    setInterval(this.getApiInfo, 5000)
   }
-
 }
 </script>
 
@@ -90,6 +106,10 @@ export default {
     font-size: 16px;
     font-weight: normal;
     color: rgba(255, 255, 255, 0.6);
+  }
+
+  .transductor-cycle-progess {
+    color: #339cff;
   }
 
   @media screen and (max-width: 1440px) {
