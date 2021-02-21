@@ -1,7 +1,5 @@
 <template>
   <div class="dash-content">
-  <!-- <div class="row" style="max-height: 55vh!important"> -->
-
     <dash-map
       v-if="transductors !== []"
       class="dash-map"
@@ -13,7 +11,7 @@
 
     <dash-campus-info
       class="dash-campus"
-      v-if="selectedTransductor !== {}"
+      v-if="selectedTransductor"
       :selected-transductor="selectedTransductor"
       :current-campus="selectedCampus"/>
 
@@ -74,7 +72,7 @@ export default {
       transductors: [],
       occurences: [],
       unifilarDiagram: [],
-      selectedTransductor: {},
+      selectedTransductor: undefined,
       interval: undefined
     }
   },
@@ -107,7 +105,6 @@ export default {
       MASTER
         .get(`/occurences/?type=active&campi_id=${this.selectedCampus.id}`)
         .then((res) => {
-          // in descending priority order
           this.occurences = [res.data.transductor_connection_fail, res.data.precarious_tension, res.data.phase_drop, res.data.critical_tension]
         })
         .catch((err) => {
@@ -139,7 +136,6 @@ export default {
   mounted () {
     this.selectTransductor()
     this.interval = setInterval(this.selectTransductor, 10000)
-    // setInterval(this.selectTransductor, 10000)
   },
 
   beforeDestroy () {

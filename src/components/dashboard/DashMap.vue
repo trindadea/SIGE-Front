@@ -2,9 +2,9 @@
   <div class="map-wrapper">
     <l-map
       class="rounded-borders cursor-not-allowed map-dimension"
-      :zoom="currentCampus.zoom_ratio || 16"
-      :min-zoom="currentCampus.zoom_ratio || 16"
-      :max-zoom="currentCampus.zoom_ratio || 16"
+      :zoom="zoom_ratio || 16"
+      :min-zoom="zoom_ratio || 16"
+      :max-zoom="zoom_ratio || 16"
       :options="mapOptions"
       :center="mapCenter"
       id="region-map">
@@ -14,7 +14,6 @@
         :attribution="attribution"
       />
 
-      <!-- for custom icons -->
       <l-marker
         v-for="transductor in transductors_points[1]"
         :key="transductor.id"
@@ -30,7 +29,9 @@
         :key="transductor.id"
         :lat-lng="transductor.coordinates"
         :radius="14"
-        :l-style="transductor.style"
+        :color="transductor.color"
+        :fill-color="transductor.fillColor"
+        :fill-opacity="transductor.fillOpacity"
         :hover="true"
       />
 
@@ -88,9 +89,9 @@ export default {
 
       generation: [],
 
-      // center: [-15.7650, -47.8665],
       center: [-15.7650, -47.8665],
       new_center: [-15.7658756, -47.8743207],
+      zoom_ratio: parseInt(this.currentCampus.zoom_ratio),
 
       mapOptions: {
         zoomControl: false,
@@ -98,7 +99,6 @@ export default {
       },
 
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      // url: 'https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png',
       attribution:
         '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       selectedPeriod: 'DIA'
@@ -107,7 +107,8 @@ export default {
 
   computed: {
     transductors_points () {
-      let arr = [[], []] // First array for non occurrence related and second for occurrences
+      // First array for non occurrence related and second for occurrences
+      let arr = [[], []]
       arr = [[], []]
       if (this.transductors === 0) {
         return [[], []]
@@ -138,11 +139,9 @@ export default {
             id: t.id,
             name: t.name,
             coordinates: [t.geolocation_latitude, t.geolocation_longitude],
-            style: {
-              color: !t.broken ? 'green' : '#CC0000',
-              fillColor: !t.broken ? 'lime' : '#FF0000',
-              fillOpacity: 1
-            }
+            color: !t.broken ? 'green' : '#CC0000',
+            fillColor: !t.broken ? 'lime' : '#FF0000',
+            fillOpacity: 1
           })
         }
       })
