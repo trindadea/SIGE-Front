@@ -93,12 +93,12 @@ export default {
           icon: 'subject',
           separator: true
         },
-        {
-          name: 'Gerenciar',
-          link: '/manageInstallations',
-          icon: 'settings',
-          separator: false
-        },
+        // {
+        //   name: 'Gerenciar',
+        //   link: '/manageInstallations',
+        //   icon: 'settings',
+        //   separator: false
+        // },
         {
           name: 'Sobre o Projeto',
           link: '/about',
