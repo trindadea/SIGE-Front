@@ -5,7 +5,7 @@ services:
     restart: always
     build: .
     ports:
-      - 8080:8080
+      - 80:8080
     entrypoint: ["sh", "./scripts/start.sh"]
     volumes:
       - .:/smi-front
