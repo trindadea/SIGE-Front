@@ -19,6 +19,7 @@ export default {
     ...mapGetters('transductorStore', ['chartOptions', 'filterOptions']),
     ...mapGetters('totalCostStore', ['totalCostChart']),
     ...mapGetters('userStore', ['getPage']),
+    ...mapGetters('totalCostStore', ['getStartDate', 'getEndDate']),
     graph () {
       if (this.isCostPage) {
         return this.totalCostChart
@@ -32,7 +33,14 @@ export default {
       }]
     },
     chartConf () {
-      const filename = this.getPage + ' - ' + this.filterOptions.dimension + ' - ' + this.filterOptions.startDate + '-' + this.filterOptions.endDate
+      let filename
+      if (this.$route.name === 'total_cost') {
+        const endDate = this.getEndDate.match(/(?<year>\d+)-(?<month>\d+)-(?<day>\d+)/).groups
+        const startDate = this.getStartDate.match(/(?<year>\d+)-(?<month>\d+)-(?<day>\d+)/).groups
+        filename = this.getPage + ' - ' + startDate.day + '_' + startDate.month + '_' + startDate.year + '-' + endDate.day + '_' + endDate.month + '_' + endDate.year
+      } else {
+        filename = this.getPage + ' - ' + this.filterOptions.dimension + ' - ' + this.filterOptions.startDate + '-' + this.filterOptions.endDate
+      }
 
       return {
         colors: ['#00417e'],
