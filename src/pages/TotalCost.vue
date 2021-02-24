@@ -5,6 +5,7 @@
       <bar-chart
         v-if="totalCostChart.status"
         :isCostPage="true"
+        :exportOptions="exportOptions"
       />
     </div>
   </div>
@@ -22,7 +23,17 @@ export default {
     BarChart
   },
   computed: {
-    ...mapGetters('totalCostStore', ['totalCostChart'])
+    ...mapGetters('totalCostStore', ['totalCostChart', 'getStartDate', 'getEndDate']),
+    exportOptions () {
+      const startDate = this.getStartDate.match(/(?<year>\d+)-(?<month>\d+)-(?<day>\d+)/).groups
+      const endDate = this.getEndDate.match(/(?<year>\d+)-(?<month>\d+)-(?<day>\d+)/).groups
+      return {
+        location: '',
+        dimension: 'Custo Total',
+        startDate: startDate.day + '_' + startDate.month + '_' + startDate.year,
+        endDate: endDate.day + '_' + endDate.month + '_' + endDate.year
+      }
+    }
   },
   methods: {
     ...mapActions('userStore', ['changePage'])

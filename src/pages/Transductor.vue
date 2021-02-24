@@ -5,7 +5,7 @@
         <measurements-box class="col-8" :id="id"/>
         <active-box class="col-3" :id="id"/>
       </div>
-      <graph :transductorId='id'/>
+      <graph :transductorId='id' :exportOptions="exportOptions"/>
       <q-separator spaced inset/>
       <div class="row">
         <div class="transductor-info col-3">
@@ -33,7 +33,7 @@ import measurementsBox from '../components/MeasurementsBox'
 import activeBox from '../components/ActiveBox'
 import occurences from '../components/Occurences'
 import graph from '../components/Graph'
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'Transductor',
@@ -42,6 +42,18 @@ export default {
     activeBox: activeBox,
     occurences: occurences,
     graph: graph
+  },
+  computed: {
+    ...mapGetters('transductorStore', ['filterOptions']),
+    ...mapGetters('userStore', ['getPage']),
+    exportOptions () {
+      return {
+        location: this.getPage,
+        dimension: this.filterOptions.dimension,
+        startDate: this.filterOptions.startDate,
+        endDate: this.filterOptions.endDate
+      }
+    }
   },
   data () {
     return {

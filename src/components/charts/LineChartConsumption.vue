@@ -18,14 +18,14 @@ export default {
     Apexcharts: () => import('vue-apexcharts')
   },
   props: [
-    'unit'
+    'unit',
+    'exportOptions'
   ],
   computed: {
     ...mapGetters('consumptionCurve', ['getSerie', 'getFilters', 'getTypeXAxis', 'getGraphNotEmpty', 'getPeriodicity', 'getStartDate', 'getEndDate']),
     chartConf () {
-      const endDate = this.getFilters.endDate.match(/(?<year>\d+)-(?<month>\d+)-(?<day>\d+)/).groups
-      const startDate = this.getFilters.startDate.match(/(?<year>\d+)-(?<month>\d+)-(?<day>\d+)/).groups
-      const filename = 'Curva de Carga' + ' - ' + startDate.day + '_' + startDate.month + '_' + startDate.year + '-' + endDate.day + '_' + endDate.month + '_' + endDate.year
+      const filename = (this.exportOptions.location ? (this.exportOptions.location + ' - ') : ('')) +
+      (this.exportOptions.dimension ? (this.exportOptions.dimension + ' - ') : ('')) + this.exportOptions.startDate + '-' + this.exportOptions.endDate
 
       return {
         colors: ['#00417e'],

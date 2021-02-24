@@ -9,9 +9,11 @@
     <line-chart
       v-if="graphIs('linechart') && mounted"
       :transductorId='transductorId'
+      :exportOptions="exportOptions"
     />
     <bar-chart
       v-else-if="graphIs('barchart') && mounted"
+      :exportOptions="exportOptions"
     />
     <no-data-placeholder
       v-else
@@ -38,7 +40,8 @@ export default {
     noDataPlaceholder: noDataPlaceholder
   },
   props: [
-    'transductorId'
+    'transductorId',
+    'exportOptions'
   ],
   data () {
     return {

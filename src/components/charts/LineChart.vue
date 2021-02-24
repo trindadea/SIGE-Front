@@ -34,7 +34,8 @@ export default {
     'id',
     'min',
     'decimals',
-    'max'
+    'max',
+    'exportOptions'
   ],
 
   data () {
@@ -76,7 +77,8 @@ export default {
     },
 
     chartConf () {
-      const filename = this.getPage + ' - ' + this.filterOptions.dimension + ' - ' + this.filterOptions.startDate + '-' + this.filterOptions.endDate
+      const filename = (this.exportOptions.location ? (this.exportOptions.location + ' - ') : ('')) +
+      (this.exportOptions.dimension ? (this.exportOptions.dimension + ' - ') : ('')) + this.exportOptions.startDate + '-' + this.exportOptions.endDate
 
       return {
         colors: ['#46b5d1', '#007944', '#da2d2d'],
