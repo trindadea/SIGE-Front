@@ -124,6 +124,7 @@ export default {
           allCampus.push(elem)
         })
         this.campusModel = res.data[0]
+        this.$parent.location.campus = this.campusModel.acronym
       })
       .catch(err => {
         console.log(err)
@@ -189,6 +190,17 @@ export default {
     async applyFilter () {
       const serie = await getGraphInformation(this.getFilters)
       this.updateChartSerie(serie)
+      if (isNaN(this.campusModel)) {
+        this.$parent.location.campus = this.campusModel.acronym
+      } else {
+        this.$parent.location.campus = this.optionsCampus.find(campus => campus.id === this.campusModel).acronym
+      }
+
+      if (this.optionsModel) {
+        this.$parent.location.group = this.optionsGroup.find(group => group.id === this.optionsModel).name
+      } else {
+        this.$parent.location.group = null
+      }
     }
   }
 }

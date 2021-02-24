@@ -38,7 +38,7 @@ export default {
         }
       }
       return {
-        location: '',
+        location: this.location.campus ? (this.location.campus + (this.location.group ? ' - ' + this.location.group : '')) : '',
         dimension: 'Curva de Carga',
         startDate: startDate.day + '_' + startDate.month + '_' + startDate.year,
         endDate: endDate.day + '_' + endDate.month + '_' + endDate.year
@@ -47,6 +47,14 @@ export default {
   },
   methods: {
     ...mapActions('userStore', ['changePage'])
+  },
+  data () {
+    return {
+      location: {
+        campus: '',
+        group: ''
+      }
+    }
   },
   created () {
     this.changePage('Curva de Carga')

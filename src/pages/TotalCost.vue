@@ -28,7 +28,7 @@ export default {
       const startDate = this.getStartDate.match(/(?<year>\d+)-(?<month>\d+)-(?<day>\d+)/).groups
       const endDate = this.getEndDate.match(/(?<year>\d+)-(?<month>\d+)-(?<day>\d+)/).groups
       return {
-        location: '',
+        location: this.location.campus ? (this.location.campus + (this.location.group ? ' - ' + this.location.group : '')) : '',
         dimension: 'Custo Total',
         startDate: startDate.day + '_' + startDate.month + '_' + startDate.year,
         endDate: endDate.day + '_' + endDate.month + '_' + endDate.year
@@ -37,6 +37,14 @@ export default {
   },
   methods: {
     ...mapActions('userStore', ['changePage'])
+  },
+  data () {
+    return {
+      location: {
+        campus: '',
+        group: ''
+      }
+    }
   },
   created () {
     this.changePage('Custo Total')
