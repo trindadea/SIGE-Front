@@ -74,7 +74,7 @@ export default {
 
   data () {
     return {
-      cycleTime: 15000,
+      cycleTime: 5000,
       transductorCycleProgress: 0,
       transductors: [],
       occurences: [],
