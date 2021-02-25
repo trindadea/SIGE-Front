@@ -96,7 +96,7 @@ export default {
   methods: {
     getTransductors () {
       MASTER
-        .get(`/energy-transductors/?campi_id=${this.selectedCampus.id}`)
+        .get(`/energy-transductors/?campus_id=${this.selectedCampus.id}`)
         .then((res) => {
           this.transductors = res.data
           this.selectedTransductor = this.transductors[0]
