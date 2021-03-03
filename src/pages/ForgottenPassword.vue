@@ -39,10 +39,7 @@ export default {
   },
   data () {
     return {
-      fullname: '',
-      email: '',
-      password: '',
-      password_confirmation: ''
+      email: ''
     }
   },
   methods: {

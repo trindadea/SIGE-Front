@@ -1,7 +1,7 @@
 <template>
   <q-page class="flex flex-center">
     <div class="row justify-center q-pa-xl">
-      <div class="col-9 col-lg-5 bg-white q-pa-md shadow-1">
+      <div class="col-12 col-lg-12 bg-white q-pa-md shadow-1">
         <q-form
           class="q-gutter-md form-box"
           @validation-success="register()"
