@@ -36,6 +36,7 @@ export default function (ssrContext) {
       beforeEnter (to, from, next) {
         const { store } = ssrContext
         const logged = store.getters['userStore/authStatus']
+        debugger
         if (logged) {
           next('/login')
         } else {
@@ -44,7 +45,8 @@ export default function (ssrContext) {
       },
       children: [
         { path: '/login', name: 'login', component: () => import('pages/Login.vue') },
-        { path: '/register', name: 'register', component: () => import('pages/Register.vue') }
+        { path: '/register', name: 'register', component: () => import('pages/Register.vue') },
+        { path: '/forgotten_password', name: 'register', component: () => import('pages/ForgottenPassword.vue') }
       ]
     },
     { path: '/dashboard', name: 'dashboard', component: () => import('pages/DashboardBase.vue') }
