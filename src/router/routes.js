@@ -36,7 +36,7 @@ export default function (ssrContext) {
       beforeEnter (to, from, next) {
         const { store } = ssrContext
         const logged = store.getters['userStore/authStatus']
-        debugger
+
         if (logged) {
           next('/login')
         } else {
