@@ -42,14 +42,67 @@ export default {
   data () {
     return {
       measurements: [],
-      mounted: false
+      mounted: false,
+      annotations: {
+        tensão: {
+          yaxis: [
+            {
+              y: 201,
+              label: {
+                borderColor: '#FFFF00',
+                style: {
+                  color: '#000000',
+                  background: '#FFFF00'
+                }
+              },
+              text: 'Precária'
+            },
+
+            {
+              y: 231,
+              label: {
+                borderColor: '#FFFF00',
+                style: {
+                  color: '#000000',
+                  background: '#FFFF00'
+                }
+              },
+              text: 'Precária'
+            },
+
+            {
+              y: 189,
+              label: {
+                borderColor: '#FF0000',
+                style: {
+                  color: '#000000',
+                  background: '#FF0000'
+                }
+              },
+              text: 'Crítica'
+            },
+
+            {
+              y: 233,
+              label: {
+                borderColor: '#FF0000',
+                style: {
+                  color: '#000000',
+                  background: '#FF0000'
+                }
+              },
+              text: 'Crítica'
+            }
+          ]
+        }
+      }
     }
   },
   mounted () {
     this.mounted = true
   },
   computed: {
-    ...mapGetters('transductorStore', ['chartOptions']),
+    ...mapGetters('transductorStore', ['chartOptions', 'filterOptions']),
     ...mapGetters('userStore', ['getPage']),
     series () {
       if (this.graphic_type === '1') {
@@ -83,6 +136,8 @@ export default {
 
       return {
         colors: ['#46b5d1', '#007944', '#da2d2d'],
+
+        annotations: this.annotations[this.filterOptions.dimension],
 
         chart: {
           stacked: false,
@@ -128,6 +183,7 @@ export default {
             stops: [0, 100, 100, 100]
           }
         },
+
         title: {
           text: this.chartTitle,
           align: 'center',
