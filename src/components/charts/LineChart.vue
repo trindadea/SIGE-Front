@@ -48,50 +48,66 @@ export default {
           yaxis: [
             {
               y: 201,
+              borderColor: '#d1d146',
+              borderWidth: '2px',
+              strokeDashArray: false,
               label: {
-                borderColor: '#FFFF00',
+                borderColor: '#d1d146',
                 style: {
-                  color: '#000000',
-                  background: '#FFFF00'
-                }
-              },
-              text: 'Precária'
+                  color: '#FFFFFF',
+                  background: '#d1d146',
+                  fontSize: '16px'
+                },
+                text: 'Precária'
+              }
             },
 
             {
               y: 231,
+              borderColor: '#d1d146',
+              borderWidth: '2px',
+              strokeDashArray: false,
               label: {
-                borderColor: '#FFFF00',
+                borderColor: '#d1d146',
                 style: {
-                  color: '#000000',
-                  background: '#FFFF00'
-                }
-              },
-              text: 'Precária'
+                  color: '#FFFFFF',
+                  background: '#d1d146',
+                  fontSize: '16px'
+                },
+                text: 'Precária'
+              }
             },
 
             {
               y: 189,
+              borderColor: '#d14646',
+              borderWidth: '2px',
+              strokeDashArray: false,
               label: {
-                borderColor: '#FF0000',
+                borderColor: '#d14646',
                 style: {
-                  color: '#000000',
-                  background: '#FF0000'
-                }
-              },
-              text: 'Crítica'
+                  color: '#FFFFFF',
+                  background: '#d14646',
+                  fontSize: '16px'
+                },
+                text: 'Crítica'
+              }
             },
 
             {
               y: 233,
+              borderColor: '#d14646',
+              borderWidth: '2px',
+              strokeDashArray: false,
               label: {
-                borderColor: '#FF0000',
+                borderColor: '#d14646',
                 style: {
-                  color: '#000000',
-                  background: '#FF0000'
-                }
-              },
-              text: 'Crítica'
+                  color: '#FFFFFF',
+                  background: '#d14646',
+                  fontSize: '16px'
+                },
+                text: 'Crítica'
+              }
             }
           ]
         }
@@ -137,7 +153,7 @@ export default {
       return {
         colors: ['#46b5d1', '#007944', '#da2d2d'],
 
-        annotations: this.annotations[this.filterOptions.dimension],
+        annotations: this.annotations[this.filterOptions.dimension.toLowerCase()],
 
         chart: {
           stacked: false,
