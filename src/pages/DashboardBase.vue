@@ -63,9 +63,6 @@ export default {
           console.error(err)
           this.requestsError = true
         })
-        .then(() => {
-          // console.log(this.campiList)
-        })
     },
 
     getEventsInProgress () {

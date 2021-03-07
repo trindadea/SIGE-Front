@@ -11,7 +11,6 @@
 </template>
 
 <script>
-// import axios from 'axios'
 import MASTER from '../../services/masterApi/http-common'
 
 export default {
@@ -19,7 +18,6 @@ export default {
 
   components: {
     Apexcharts: () => import('vue-apexcharts')
-    // 'no-data-placeholder': NoDataPlaceholder,
   },
 
   props: {
@@ -48,38 +46,6 @@ export default {
           data: this.consumption
         }
       ]
-
-    // return [
-    //   {
-    //     name: 'Carga',
-    //     data: [
-    //       32,
-    //       40,
-    //       42,
-    //       40,
-    //       240,
-    //       200,
-    //       420,
-    //       90,
-    //       10,
-    //       60,
-    //       400,
-    //       420,
-    //       350,
-    //       384,
-    //       70,
-    //       75,
-    //       90,
-    //       40,
-    //       70,
-    //       510,
-    //       112,
-    //       90,
-    //       35,
-    //       35
-    //     ]
-    //   }
-    // ]
     },
 
     chartOptions () {
@@ -169,26 +135,8 @@ export default {
 
   methods: {
     updateChart () {
-      // if (this.selectedTransductor !== undefined) {
-      //   const consumption = [
-      //     `/graph/quarterly-consumption-off-peak/?start_date=2019-06-01 00:00&end_date=2019-06-30 23:59`,
-      //     `/graph/quarterly-consumption-peak/?start_date=2019-06-01 00:00&end_date=2019-06-30 23:59`
-      //   ]
-
-      //   axios.all([
-      //     MASTER.get(consumption[0]),
-      //     MASTER.get(consumption[1])
-      //   ])
-      //     .then(axios.spread((consA, consB) => {
-      //       this.consumption = [...consA.data, ...consB.data]
-      //     }))
-      //     .catch(errArray => {
-      //       console.log(errArray)
-      //     })
-      // }
       MASTER
         .get(`/graph/quarterly-daily-consumption/?campus=${this.selectedCampus.id}`)
-        // .get(`/graph/quartely-daily-consumption/?start_date=2020-03-05%2000:00:00&end_date=2020-03-05%2023:59:59&campus=2`)
         .then((res) => {
           this.consumption = res.data
         })
@@ -196,14 +144,9 @@ export default {
     }
   },
 
-  beforeMount () {
-    this.updateChart()
-  },
-
-  updated () {
+  mounted () {
     this.updateChart()
   }
-
 }
 </script>
 
