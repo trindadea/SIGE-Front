@@ -14,10 +14,8 @@
     <template v-else>
       <q-tabs
         v-model="activeTab"
-        active-color="primary"
-        indicator-color="transparent"
         align="justify"
-        class="row q-py-none q-mt-none">
+        class="row q-py-none q-mt-none disabledTab">
         <q-tab
           dense
           v-for="campus in campi" :key="campus.id"
@@ -33,10 +31,14 @@
       >
         <q-tab-panel
           animated
-          class="base q-py-md panel-wrapper"
+          class="base q-py-md panel-wrapper disabledTab"
           v-for="campus in campi" :key="campus.id"
           :name="campus.name">
-          <dash-panel v-if="currentCampus" :selectedCampus="currentCampus"/>
+          <dash-panel
+            v-if="currentCampus"
+            :selectedCampus="currentCampus"
+            @transductor-cycle-completed="changeTabJob"
+          />
         </q-tab-panel>
       </q-tab-panels>
     </template>
@@ -57,8 +59,7 @@ export default {
     return {
       activeTab: '',
       campiName: [],
-      currentCampus: undefined,
-      timeout: ''
+      currentCampus: undefined
     }
   },
 
@@ -69,7 +70,9 @@ export default {
     }
   },
 
-  computed: {
+  mounted () {
+    this.setNames()
+    this.changeTabJob()
   },
 
   methods: {
@@ -89,33 +92,6 @@ export default {
         this.currentCampus = (a < this.campi.length - 1) ? this.campi[a + 1] : this.campi[0]
       }
     }
-  },
-
-  created () {
-    this.setNames()
-    this.changeTabJob()
-
-    // eslint-disable-next-line no-unused-vars
-    // let tabCron = this.$crontab.addJob({
-    //   name: 'change tab job',
-    //   interval: {
-    //     seconds: '/30'
-    //   },
-    //   job: this.changeTabJob
-    // })
-    // setInterval(this.changeTabJob, 5000)
-    // setTimeout(this.changeTabJob, 30000)
-
-    this.timeout = setTimeout(this.changeTabJob, 60000)
-  },
-
-  updated () {
-    clearTimeout(this.timeout)
-    this.timeout = setTimeout(this.changeTabJob, 60000)
-  },
-
-  beforeDestroy () {
-    clearInterval(this.timeout)
   }
 }
 </script>
@@ -137,5 +113,9 @@ export default {
 
   .panel-wrapper {
     min-height: 50vh;
+  }
+
+  .disabledTab{
+      pointer-events: none;
   }
 </style>

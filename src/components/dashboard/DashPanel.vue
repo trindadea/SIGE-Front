@@ -1,7 +1,5 @@
 <template>
   <div class="dash-content">
-  <!-- <div class="row" style="max-height: 55vh!important"> -->
-
     <dash-map
       v-if="transductors !== []"
       class="dash-map"
@@ -13,9 +11,10 @@
 
     <dash-campus-info
       class="dash-campus"
-      v-if="selectedTransductor !== {}"
+      v-if="selectedTransductor"
       :selected-transductor="selectedTransductor"
-      :current-campus="selectedCampus"/>
+      :current-campus="selectedCampus"
+      :transductorCycleProgress="transductorCycleProgress"/>
 
   </div>
 </template>
@@ -69,24 +68,35 @@ export default {
     DashCampusInfo
   },
 
+  props: {
+    selectedCampus: Object
+  },
+
   data () {
     return {
+      cycleTime: 5000,
+      transductorCycleProgress: 0,
       transductors: [],
       occurences: [],
       unifilarDiagram: [],
-      selectedTransductor: {},
+      selectedTransductor: undefined,
       interval: undefined
     }
   },
 
-  props: {
-    selectedCampus: Object
+  created () {
+    this.getInfo()
+  },
+
+  mounted () {
+    this.selectTransductor()
+    this.interval = setInterval(this.selectTransductor, this.cycleTime)
   },
 
   methods: {
     getTransductors () {
       MASTER
-        .get(`/energy-transductors/?campi_id=${this.selectedCampus.id}`)
+        .get(`/energy-transductors/?campus_id=${this.selectedCampus.id}`)
         .then((res) => {
           this.transductors = res.data
           this.selectedTransductor = this.transductors[0]
@@ -107,7 +117,6 @@ export default {
       MASTER
         .get(`/occurences/?type=active&campi_id=${this.selectedCampus.id}`)
         .then((res) => {
-          // in descending priority order
           this.occurences = [res.data.transductor_connection_fail, res.data.precarious_tension, res.data.phase_drop, res.data.critical_tension]
         })
         .catch((err) => {
@@ -117,12 +126,23 @@ export default {
 
     selectTransductor () {
       const currentItem = this.selectedTransductor
+      const listSize = this.transductors.length
+      let index = 0
 
-      if (this.selectedTransductor === {}) {
-        this.selectedTransductor = this.transductors[0]
+      if (!currentItem || currentItem === {}) {
+        this.selectedTransductor = this.transductors[index]
       } else {
-        this.selectedTransductor = (this.transductors.indexOf(currentItem) < this.transductors.length - 1) ? this.transductors[this.transductors.indexOf(currentItem) + 1] : this.transductors[0]
+        index = this.transductors.indexOf(currentItem)
+
+        if (index < listSize - 1) {
+          index = index + 1
+          this.selectedTransductor = this.transductors[index]
+        } else {
+          this.selectedTransductor = this.transductors[0]
+          this.$emit('transductor-cycle-completed')
+        }
       }
+      this.transductorCycleProgress = index ? index / (listSize - 1) : 0
     },
 
     async getInfo () {
@@ -130,16 +150,6 @@ export default {
       await this.getCampusOccurences()
       await this.getUnifilarDiagram()
     }
-  },
-
-  created () {
-    this.getInfo()
-  },
-
-  mounted () {
-    this.selectTransductor()
-    this.interval = setInterval(this.selectTransductor, 10000)
-    // setInterval(this.selectTransductor, 10000)
   },
 
   beforeDestroy () {

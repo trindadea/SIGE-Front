@@ -4,7 +4,11 @@
     <div class="full-height chart-container">
       <line-chart
         unit="Wh"
+<<<<<<< HEAD
         chart-title="Curva de carga"
+=======
+        :exportOptions="exportOptions"
+>>>>>>> development
       />
     </div>
   </div>
@@ -23,10 +27,38 @@ export default {
     LineChart
   },
   computed: {
-    ...mapGetters('consumptionCurve', ['getUrl'])
+    ...mapGetters('consumptionCurve', ['getUrl', 'getFilters']),
+    exportOptions () {
+      let startDate
+      let endDate
+      try {
+        startDate = this.getFilters.startDate.match(/(?<year>\d+)-(?<month>\d+)-(?<day>\d+)/).groups
+        endDate = this.getFilters.endDate.match(/(?<year>\d+)-(?<month>\d+)-(?<day>\d+)/).groups
+      } catch (e) {
+        endDate = startDate = {
+          day: null,
+          month: null,
+          year: null
+        }
+      }
+      return {
+        location: this.location.campus ? (this.location.campus + (this.location.group ? ' - ' + this.location.group : '')) : '',
+        dimension: 'Curva de Carga',
+        startDate: startDate.day + '_' + startDate.month + '_' + startDate.year,
+        endDate: endDate.day + '_' + endDate.month + '_' + endDate.year
+      }
+    }
   },
   methods: {
     ...mapActions('userStore', ['changePage'])
+  },
+  data () {
+    return {
+      location: {
+        campus: '',
+        group: ''
+      }
+    }
   },
   created () {
     this.changePage('Curva de Carga')

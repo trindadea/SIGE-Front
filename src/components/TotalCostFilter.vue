@@ -189,6 +189,8 @@ export default {
             dimension: dimensions[1]
           }
           this.updateChart(chart)
+          this.$parent.location.campus = this.optionsCampus.find(campus => campus.id === this.campusModel).acronym
+          this.$parent.location.group = this.optionsGroup.find(group => group.id === this.optionsModel).name
         })
         .catch((err) => {
           console.log('catch', err)

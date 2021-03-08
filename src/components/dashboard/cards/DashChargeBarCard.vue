@@ -2,7 +2,7 @@
   <q-card
     flat
     class="card-bg">
-    <q-inner-loading dark :showing="transductor === undefined">
+    <q-inner-loading dark :showing="!transductor">
       <q-spinner-ios size="50px" color="grey-4" thickness="7"/>
     </q-inner-loading>
 
