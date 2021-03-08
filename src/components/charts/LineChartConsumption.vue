@@ -1,6 +1,6 @@
 <template>
   <q-no-ssr>
-      <apexcharts v-if="getSerie && getGraphNotEmpty" type="line" height="500" :options="chartOptions" :series="getSerie" />
+      <apexcharts v-if="getSerie && getGraphNotEmpty" type="line" height="500" :options="chartConf" :series="getSerie" />
       <div v-if="!getGraphNotEmpty" class="no-data-warning">
         <span>
           Não há dados disponiveis no momento!
@@ -18,13 +18,35 @@ export default {
     Apexcharts: () => import('vue-apexcharts')
   },
   props: [
-    'unit'
+    'unit',
+    'exportOptions'
   ],
-  data () {
-    return {
-      min: 0,
-      chartOptions: {
+  computed: {
+    ...mapGetters('consumptionCurve', ['getSerie', 'getFilters', 'getTypeXAxis', 'getGraphNotEmpty', 'getPeriodicity', 'getStartDate', 'getEndDate']),
+    chartConf () {
+      const filename = (this.exportOptions.location ? (this.exportOptions.location + ' - ') : ('')) +
+      (this.exportOptions.dimension ? (this.exportOptions.dimension + ' - ') : ('')) + this.exportOptions.startDate + '-' + this.exportOptions.endDate
+
+      return {
         colors: ['#00417e'],
+        chart: {
+          stacked: false,
+          toolbar: {
+            export: {
+              csv: {
+                filename: filename
+              },
+
+              svg: {
+                filename: filename
+              },
+
+              png: {
+                filename: filename
+              }
+            }
+          }
+        },
         grid: {
           strokeDashArray: 0,
           xaxis: {
@@ -85,8 +107,10 @@ export default {
       }
     }
   },
-  computed: {
-    ...mapGetters('consumptionCurve', ['getSerie', 'getFilters', 'getTypeXAxis', 'getGraphNotEmpty', 'getPeriodicity'])
+  data () {
+    return {
+      min: 0
+    }
   },
   methods: {
     ...mapActions('consumptionCurve', ['updateChartSerie']),

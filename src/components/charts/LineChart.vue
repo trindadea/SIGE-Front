@@ -34,7 +34,8 @@ export default {
     'id',
     'min',
     'decimals',
-    'max'
+    'max',
+    'exportOptions'
   ],
 
   data () {
@@ -47,7 +48,8 @@ export default {
     this.mounted = true
   },
   computed: {
-    ...mapGetters('transductorStore', ['chartOptions']),
+    ...mapGetters('transductorStore', ['chartOptions', 'filterOptions']),
+    ...mapGetters('userStore', ['getPage']),
     series () {
       if (this.graphic_type === '1') {
         return [
@@ -75,11 +77,29 @@ export default {
     },
 
     chartConf () {
+      const filename = (this.exportOptions.location ? (this.exportOptions.location + ' - ') : ('')) +
+      (this.exportOptions.dimension ? (this.exportOptions.dimension + ' - ') : ('')) + this.exportOptions.startDate + '-' + this.exportOptions.endDate
+
       return {
         colors: ['#46b5d1', '#007944', '#da2d2d'],
 
         chart: {
-          stacked: false
+          stacked: false,
+          toolbar: {
+            export: {
+              csv: {
+                filename: filename
+              },
+
+              svg: {
+                filename: filename
+              },
+
+              png: {
+                filename: filename
+              }
+            }
+          }
         },
 
         legend: {

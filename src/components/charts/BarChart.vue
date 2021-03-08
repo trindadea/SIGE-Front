@@ -13,11 +13,14 @@ export default {
     Apexcharts: () => import('vue-apexcharts')
   },
   props: [
-    'isCostPage'
+    'isCostPage',
+    'exportOptions'
   ],
   computed: {
-    ...mapGetters('transductorStore', ['chartOptions']),
+    ...mapGetters('transductorStore', ['chartOptions', 'filterOptions']),
     ...mapGetters('totalCostStore', ['totalCostChart']),
+    ...mapGetters('userStore', ['getPage']),
+    ...mapGetters('totalCostStore', ['getStartDate', 'getEndDate']),
     graph () {
       if (this.isCostPage) {
         return this.totalCostChart
@@ -31,6 +34,9 @@ export default {
       }]
     },
     chartConf () {
+      const filename = (this.exportOptions.location ? (this.exportOptions.location + ' - ') : ('')) +
+      (this.exportOptions.dimension ? (this.exportOptions.dimension + ' - ') : ('')) + this.exportOptions.startDate + '-' + this.exportOptions.endDate
+
       return {
         colors: ['#00417e'],
         grid: {
@@ -96,6 +102,23 @@ export default {
                 return ` ${this.graph.unit} ${val.toFixed(1)}`
               }
               return `${val.toFixed(1)} ${this.graph.unit}`
+            }
+          }
+        },
+        chart: {
+          toolbar: {
+            export: {
+              csv: {
+                filename: filename
+              },
+
+              svg: {
+                filename: filename
+              },
+
+              png: {
+                filename: filename
+              }
             }
           }
         }

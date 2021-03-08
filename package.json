@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
-    "apexcharts": "^3.19.0",
+    "apexcharts": "^3.25.0",
     "axios": "^0.19.2",
     "leaflet": "^1.6.0",
     "moment": "^2.25.2",

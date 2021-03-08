@@ -9,9 +9,11 @@
     <line-chart
       v-if="graphIs('linechart') && mounted"
       :transductorId='transductorId'
+      :exportOptions="exportOptions"
     />
     <bar-chart
       v-else-if="graphIs('barchart') && mounted"
+      :exportOptions="exportOptions"
     />
     <no-data-placeholder
       v-else
@@ -22,7 +24,7 @@
   </div>
 </template>
 <script>
-import chartFilter from './ChartFilter'
+import chartFilter from './ChartFilter.vue'
 import LineChart from './charts/LineChart.vue'
 import BarChart from './charts/BarChart.vue'
 import noDataPlaceholder from './NoDataPlaceHolder'
@@ -38,7 +40,8 @@ export default {
     noDataPlaceholder: noDataPlaceholder
   },
   props: [
-    'transductorId'
+    'transductorId',
+    'exportOptions'
   ],
   data () {
     return {
