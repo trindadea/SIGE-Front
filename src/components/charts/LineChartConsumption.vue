@@ -19,11 +19,8 @@ export default {
   },
   props: [
     'unit',
-<<<<<<< HEAD
-    'chartTitle'
-=======
+    'chartTitle',
     'exportOptions'
->>>>>>> development
   ],
   computed: {
     ...mapGetters('consumptionCurve', ['getSerie', 'getFilters', 'getTypeXAxis', 'getGraphNotEmpty', 'getPeriodicity', 'getStartDate', 'getEndDate']),
@@ -33,7 +30,6 @@ export default {
 
       return {
         colors: ['#00417e'],
-<<<<<<< HEAD
         title: {
           text: this.chartTitle,
           align: 'center',
@@ -46,7 +42,8 @@ export default {
             fontWeight: '300',
             fontFamily: 'Roboto',
             color: '#00417e'
-=======
+          }
+        },
         chart: {
           stacked: false,
           toolbar: {
@@ -63,7 +60,6 @@ export default {
                 filename: filename
               }
             }
->>>>>>> development
           }
         },
         grid: {
@@ -96,15 +92,6 @@ export default {
             }
           }
         },
-        // {
-        //   x: 18,
-        //   x2: 21,
-        //   fillColor: '#B3F7CA',
-        //   label: {
-        //     text: 'Horário de Ponta'
-        //   }
-        // }
-        // ],
         yaxis: {
           min: 0,
           labels: {

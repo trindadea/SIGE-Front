@@ -23,11 +23,6 @@ export default {
     TotalCostFilter,
     BarChart
   },
-  data () {
-    return {
-      chartTitle: 'Custo total'
-    }
-  },
   computed: {
     ...mapGetters('totalCostStore', ['totalCostChart', 'getStartDate', 'getEndDate']),
     exportOptions () {
@@ -46,6 +41,7 @@ export default {
   },
   data () {
     return {
+      chartTitle: 'Custo total',
       location: {
         campus: '',
         group: ''

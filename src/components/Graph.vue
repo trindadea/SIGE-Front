@@ -10,6 +10,7 @@
     <line-chart
       v-if="graphIs('linechart') && mounted"
       :transductorId='transductorId'
+      :exportOptions="exportOptions"
       :chart-title="filterOptions.dimension || ''"
     />
     <bar-chart

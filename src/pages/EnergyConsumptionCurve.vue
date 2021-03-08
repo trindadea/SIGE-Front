@@ -4,11 +4,8 @@
     <div class="full-height chart-container">
       <line-chart
         unit="Wh"
-<<<<<<< HEAD
         chart-title="Curva de carga"
-=======
         :exportOptions="exportOptions"
->>>>>>> development
       />
     </div>
   </div>
