@@ -49,6 +49,7 @@ export default {
   },
   computed: {
     ...mapGetters('transductorStore', ['chartOptions']),
+    ...mapGetters('userStore', ['getPage']),
     series () {
       if (this.graphic_type === '1') {
         return [
