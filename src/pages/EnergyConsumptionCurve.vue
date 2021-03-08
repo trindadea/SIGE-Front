@@ -4,6 +4,7 @@
     <div class="full-height chart-container">
       <line-chart
         unit="Wh"
+        chart-title="Curva de carga"
       />
     </div>
   </div>
@@ -12,7 +13,7 @@
 <script >
 import ConsumptionFilter from '../components/ConsumptionFilter'
 // import BarChart from '../components/charts/BarChart'
-import LineChart from '../components/charts/LineChartConsumption'
+import LineChart from '../components/charts/LineChartConsumption.vue'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {

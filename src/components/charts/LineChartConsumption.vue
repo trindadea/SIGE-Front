@@ -18,13 +18,28 @@ export default {
     Apexcharts: () => import('vue-apexcharts')
   },
   props: [
-    'unit'
+    'unit',
+    'chartTitle'
   ],
   data () {
     return {
       min: 0,
       chartOptions: {
         colors: ['#00417e'],
+        title: {
+          text: this.chartTitle,
+          align: 'center',
+          margin: 10,
+          offsetX: 0,
+          offsetY: 0,
+          floating: false,
+          style: {
+            fontSize: '24px',
+            fontWeight: '300',
+            fontFamily: 'Roboto',
+            color: '#00417e'
+          }
+        },
         grid: {
           strokeDashArray: 0,
           xaxis: {
@@ -37,14 +52,6 @@ export default {
             }
           }
         },
-        title: {
-          text: 'Column',
-          align: 'left',
-          style: {
-            color: '#FFF'
-          }
-        },
-
         dataLabels: {
           enabled: false
         },
