@@ -33,7 +33,7 @@ export default function (ssrContext) {
       to.path !== '/login' &&
       to.path !== '/register' &&
       to.path !== '/forgotten_password' &&
-      to.path !== '/reset_password' &&
+      to.name !== 'reset_password' &&
       to.path !== '/dashboard') {
       next('/login')
     } else {
