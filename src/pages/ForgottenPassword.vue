@@ -18,7 +18,7 @@
           <div class="text-center q-mt-lg">
             <q-btn
               size="1rem"
-              label="Cadastrar"
+              label="Recuperar"
               type="submit"
               color="primary"/>
           </div>
@@ -29,11 +29,14 @@
 </template>
 
 <script>
-// import MASTER from '../services/masterApi/http-common'
+import ResetPasswordService from 'src/services/ResetPasswordService'
+
 import { mapActions } from 'vuex'
 
+const resetPasswordService = new ResetPasswordService()
+
 export default {
-  name: 'Register',
+  name: 'ForgottenPassword',
   created () {
     this.changePage('Esqueci minha senha')
   },
@@ -45,7 +48,17 @@ export default {
   methods: {
     ...mapActions('userStore', ['changePage', 'saveUserInfo']),
     register () {
-      // TODO
+      this.$q.loading.show()
+      resetPasswordService
+        .requestResetPasswordEmail({ email: this.email })
+        .then(() => {
+          this.$q.notify({
+            type: 'positive',
+            message: 'Um e-mail será enviado para o endereço especificado, caso o mesmo exista.'
+          })
+        })
+        .catch(console.error)
+        .finally(() => (this.$q.loading.hide()))
     }
   }
 }
