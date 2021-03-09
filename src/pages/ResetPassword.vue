@@ -2,12 +2,17 @@
   <q-page class="flex flex-center">
     <div class="row justify-center q-pa-xl">
       <div class="col-12 col-lg-12 bg-white q-pa-md shadow-1">
+        <div v-if="!validToken"
+          class="text-center helper-text">
+          Não é possível resetar sua senha: Token inválido ou expirado.
+        </div>
         <q-form
+          v-else
           class="q-gutter-md form-box"
           @validation-success="register()"
           @submit.prevent>
           <div class="text-center helper-text">
-            Cadastre uma nova senha.
+            Olá {{ userEmail }}! Por favor, cadastre uma nova senha:
           </div>
           <q-input
             outlined
@@ -40,27 +45,62 @@
 </template>
 
 <script>
-// import MASTER from '../services/masterApi/http-common'
+import ResetPasswordService from 'src/services/ResetPasswordService'
+
 import { mapActions } from 'vuex'
 
+const resetPasswordService = new ResetPasswordService()
+
 export default {
-  name: 'Register',
-  created () {
-    this.changePage('Resetar senha')
-  },
+  name: 'Reset Password',
   data () {
     return {
-      fullname: '',
-      email: '',
       password: '',
-      password_confirmation: ''
+      password_confirmation: '',
+      userName: '',
+      userEmail: '',
+      validToken: false,
+      token: ''
     }
   },
   methods: {
     ...mapActions('userStore', ['changePage', 'saveUserInfo']),
     register () {
-      // TODO
+      this.$q.loading.show()
+      resetPasswordService
+        .resetPassword({
+          token: this.token,
+          password: this.password
+        })
+        .then(() => {
+          this.$q.notify({
+            type: 'positive',
+            message: 'Senha resetada com sucesso.'
+          })
+          this.$router.push('/login')
+        })
+        .catch((err) => {
+          const errorDetails = JSON.stringify(err.response.data)
+          this.$q.notify({
+            type: 'negative',
+            message: 'Erro ao resetar sua senha' + `: ${errorDetails}`
+          })
+        })
+        .finally(() => (this.$q.loading.hide()))
     }
+  },
+  created () {
+    this.$q.loading.show()
+    this.userEmail = this.$route.query.email
+    this.token = this.$route.params.token
+
+    this.changePage('Resetar senha')
+
+    resetPasswordService
+      .validateResetPasswordToken({ token: this.token })
+      .then(() => (this.validToken = true))
+      .catch(() => (this.validToken = false))
+      .finally(() => (this.$q.loading.hide()))
   }
 }
 </script>
