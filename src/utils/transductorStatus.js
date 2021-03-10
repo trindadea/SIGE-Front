@@ -1,8 +1,6 @@
 
 export function getDateNowSelectFormat (daysBeforeToday = 0) {
   const date = new Date()
-  console.log('data', date)
-
   const day = date.getDate() - daysBeforeToday
   const month = date.getMonth() + 1
   const year = date.getFullYear()
