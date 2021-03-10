@@ -4,6 +4,7 @@
     <div class="full-height chart-container">
       <bar-chart
         v-if="totalCostChart.status"
+        :chart-title="chartTitle"
         :isCostPage="true"
         :exportOptions="exportOptions"
       />
@@ -40,6 +41,7 @@ export default {
   },
   data () {
     return {
+      chartTitle: 'Custo total',
       location: {
         campus: '',
         group: ''

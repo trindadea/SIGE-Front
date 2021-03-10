@@ -5,14 +5,17 @@
       :filterList="dimensions"
       :visionOptions="vision"
       :transductorId="transductorId"
+      @chart-change="updateChartOption"
     />
     <line-chart
       v-if="graphIs('linechart') && mounted"
       :transductorId='transductorId'
       :exportOptions="exportOptions"
+      :chart-title="filterOptions.dimension || ''"
     />
     <bar-chart
       v-else-if="graphIs('barchart') && mounted"
+      :chart-title="filterOptions.dimension || ''"
       :exportOptions="exportOptions"
     />
     <no-data-placeholder
@@ -71,10 +74,15 @@ export default {
     graphIs (graphType) {
       const type = this.chartOptions.graphType
       return type === graphType
+    },
+    updateChartOption ({ chartOption }) {
+      console.log(`Novo chartOption:: ${chartOption}`)
     }
   }
 }
 </script>
-<style lang="scss" scoped>
-
+<style lang="scss">
+.apexcharts-title-text {
+  font-style: italic !important;
+}
 </style>

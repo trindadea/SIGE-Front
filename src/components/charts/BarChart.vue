@@ -14,6 +14,7 @@ export default {
   },
   props: [
     'isCostPage',
+    'chartTitle',
     'exportOptions'
   ],
   computed: {
@@ -51,11 +52,19 @@ export default {
             }
           }
         },
+
         title: {
-          text: 'Column',
-          align: 'left',
+          text: this.chartTitle,
+          align: 'center',
+          margin: 10,
+          offsetX: 0,
+          offsetY: 0,
+          floating: false,
           style: {
-            color: '#FFF'
+            fontSize: '24px',
+            fontWeight: '300',
+            fontFamily: 'Roboto',
+            color: '#00417e'
           }
         },
 

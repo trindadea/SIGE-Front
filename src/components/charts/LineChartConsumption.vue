@@ -19,6 +19,7 @@ export default {
   },
   props: [
     'unit',
+    'chartTitle',
     'exportOptions'
   ],
   computed: {
@@ -29,6 +30,20 @@ export default {
 
       return {
         colors: ['#00417e'],
+        title: {
+          text: this.chartTitle,
+          align: 'center',
+          margin: 10,
+          offsetX: 0,
+          offsetY: 0,
+          floating: false,
+          style: {
+            fontSize: '24px',
+            fontWeight: '300',
+            fontFamily: 'Roboto',
+            color: '#00417e'
+          }
+        },
         chart: {
           stacked: false,
           toolbar: {
@@ -59,14 +74,6 @@ export default {
             }
           }
         },
-        title: {
-          text: 'Column',
-          align: 'left',
-          style: {
-            color: '#FFF'
-          }
-        },
-
         dataLabels: {
           enabled: false
         },
@@ -85,15 +92,6 @@ export default {
             }
           }
         },
-        // {
-        //   x: 18,
-        //   x2: 21,
-        //   fillColor: '#B3F7CA',
-        //   label: {
-        //     text: 'Horário de Ponta'
-        //   }
-        // }
-        // ],
         yaxis: {
           min: 0,
           labels: {

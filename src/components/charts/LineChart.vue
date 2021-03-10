@@ -35,6 +35,7 @@ export default {
     'min',
     'decimals',
     'max',
+    'chartTitle',
     'exportOptions'
   ],
 
@@ -48,7 +49,7 @@ export default {
     this.mounted = true
   },
   computed: {
-    ...mapGetters('transductorStore', ['chartOptions', 'filterOptions']),
+    ...mapGetters('transductorStore', ['chartOptions']),
     ...mapGetters('userStore', ['getPage']),
     series () {
       if (this.graphic_type === '1') {
@@ -127,6 +128,20 @@ export default {
             stops: [0, 100, 100, 100]
           }
         },
+        title: {
+          text: this.chartTitle,
+          align: 'center',
+          margin: 10,
+          offsetX: 0,
+          offsetY: 0,
+          floating: false,
+          style: {
+            fontSize: '24px',
+            fontWeight: '300',
+            fontFamily: 'Roboto',
+            color: '#00417e'
+          }
+        },
 
         dataLabels: {
           enabled: false,
@@ -197,6 +212,6 @@ export default {
 <style scoped>
   #chart {
     padding: .5rem;
-    colors: #147900;
+    color: #147900;
   }
 </style>
