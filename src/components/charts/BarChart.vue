@@ -34,6 +34,8 @@ export default {
       }]
     },
     chartConf () {
+      const tick = this.graph.max <= 10 ? this.graph.max + 1 : 11
+      const max = this.graph.max < 1 ? 1 : undefined
       const filename = (this.exportOptions.location ? (this.exportOptions.location + ' - ') : ('')) +
       (this.exportOptions.dimension ? (this.exportOptions.dimension + ' - ') : ('')) + this.exportOptions.startDate + '-' + this.exportOptions.endDate
 
@@ -86,10 +88,9 @@ export default {
               fontSize: '1rem'
             }
           },
-          min: this.min,
-          max: this.max,
+          max: max,
           decimalsInFloat: 2,
-          tickAmount: 10
+          tickAmount: tick
         },
         tooltip: {
           x: {
