@@ -16,7 +16,7 @@
 
       <!-- for custom icons -->
       <l-marker
-        v-for="transductor in transductors_points[1]"
+        v-for="transductor in transductors_points"
         :key="transductor.id"
         :lat-lng="transductor.coordinates">
         <l-icon
@@ -24,15 +24,6 @@
           <img :src="transductor.img_src">
         </l-icon>
       </l-marker>
-
-      <l-circle
-        v-for="transductor in transductors_points[0]"
-        :key="transductor.id"
-        :lat-lng="transductor.coordinates"
-        :radius="14"
-        :l-style="transductor.style"
-        :hover="true"
-      />
 
       <l-line
         v-for="line in lines"
@@ -54,7 +45,6 @@ export default {
     'l-marker': Vue2Leaflet.LMarker,
     'l-icon': Vue2Leaflet.LIcon,
     'l-map': Vue2Leaflet.LMap,
-    'l-circle': Vue2Leaflet.LCircle,
     'l-tile-layer': Vue2Leaflet.LTileLayer,
     'l-line': Vue2Leaflet.LPolyline
   },
@@ -107,15 +97,12 @@ export default {
 
   computed: {
     transductors_points () {
-      let arr = [[], []] // First array for non occurrence related and second for occurrences
-      arr = [[], []]
+      const arr = []
       if (this.transductors === 0) {
         return [[], []]
       }
 
-      let mapTrans = {}
-      mapTrans = {}
-
+      const mapTrans = {}
       let i = 4
       // Mark occurences in mapTrans
       this.occurences.forEach(occ => {
@@ -126,23 +113,20 @@ export default {
       })
 
       this.transductors.forEach(t => {
-        if (mapTrans[t.serial_number]) {
-          arr[1].push({
+        if (mapTrans[t.id]) {
+          arr.push({
             id: t.id,
             name: t.name,
             coordinates: [t.geolocation_latitude, t.geolocation_longitude],
-            img_src: mapTrans[t.serial_number]
+            img_src: mapTrans[t.id]
           })
         } else {
-          arr[0].push({
+          arr.push({
             id: t.id,
             name: t.name,
             coordinates: [t.geolocation_latitude, t.geolocation_longitude],
-            style: {
-              color: !t.broken ? 'green' : '#CC0000',
-              fillColor: !t.broken ? 'lime' : '#FF0000',
-              fillOpacity: 1
-            }
+            img_src: 'statics/ic_sem_ocorrencia.svg'
+
           })
         }
       })
