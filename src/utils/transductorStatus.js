@@ -1,10 +1,9 @@
+import moment from 'moment'
 
 export function getDateNowSelectFormat (daysBeforeToday = 0) {
   const date = new Date()
-  const day = date.getDate() - daysBeforeToday
-  const month = date.getMonth() + 1
-  const year = date.getFullYear()
-  const dateFormatted = day.toString().padStart(2, '0') + '/' + month.toString().padStart(2, '0') + '/' + year.toString()
+  date.setDate(date.getDate() - daysBeforeToday)
+  const dateFormatted = moment(date).format('DD/MM/YYYY')
   return dateFormatted
 }
 

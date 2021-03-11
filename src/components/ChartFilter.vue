@@ -96,14 +96,16 @@ export default {
       })
     },
 
-    getInitialFilterValues () {
+    async getInitialFilterValues () {
       const filterOptions = {
-        dimension: 'Tensão',
+        dimension: this.filterOptions.dimension,
         vision: '',
         startDate: getDateNowSelectFormat(1),
         endDate: getDateNowSelectFormat()
       }
+      const graphOpt = await getGraph(filterOptions)
       this.updateFilter(filterOptions)
+      await this.updateChartPhase(graphOpt)
     },
 
     async applyFilter () {
