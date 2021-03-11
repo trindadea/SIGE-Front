@@ -2,9 +2,9 @@
   <div class="map-wrapper">
     <l-map
       class="rounded-borders cursor-not-allowed map-dimension"
-      :zoom="currentCampus.zoom_ratio || 16"
-      :min-zoom="currentCampus.zoom_ratio || 16"
-      :max-zoom="currentCampus.zoom_ratio || 16"
+      :zoom="parseInt(currentCampus.zoom_ratio) || 16"
+      :min-zoom="parseInt(currentCampus.zoom_ratio) || 16"
+      :max-zoom="parseInt(currentCampus.zoom_ratio) || 16"
       :options="mapOptions"
       :center="mapCenter"
       id="region-map">
