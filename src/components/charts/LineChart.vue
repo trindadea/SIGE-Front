@@ -5,7 +5,9 @@
         <apexcharts
           v-if="mounted"
           id="chart"
+          ref="chart"
           type="line"
+          @hook:mounted="updateAnnotations"
           :options="chartConf"
           :series="series"/>
       </q-no-ssr>
@@ -114,9 +116,24 @@ export default {
       }
     }
   },
+
+  methods: {
+    updateAnnotations () {
+      const dimensionAnnotations = this.annotations[this.filterOptions.dimension.toLowerCase()]
+      this.$refs.chart.clearAnnotations()
+
+      if (dimensionAnnotations) {
+        dimensionAnnotations.yaxis.forEach((annotation) => {
+          this.$refs.chart.addYaxisAnnotation(annotation)
+        })
+      }
+    }
+  },
+
   mounted () {
     this.mounted = true
   },
+
   computed: {
     ...mapGetters('transductorStore', ['chartOptions', 'filterOptions']),
     ...mapGetters('userStore', ['getPage']),
@@ -152,8 +169,6 @@ export default {
 
       return {
         colors: ['#46b5d1', '#007944', '#da2d2d'],
-
-        annotations: this.annotations[this.filterOptions.dimension.toLowerCase()],
 
         chart: {
           stacked: false,
@@ -276,6 +291,12 @@ export default {
           }
         }
       }
+    }
+  },
+
+  watch: {
+    series: function () {
+      this.updateAnnotations()
     }
   }
 }
