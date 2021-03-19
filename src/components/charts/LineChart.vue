@@ -42,6 +42,7 @@ export default {
   ],
 
   data () {
+    const USED_VOLTAGE = 220
     return {
       measurements: [],
       mounted: false,
@@ -49,7 +50,7 @@ export default {
         tensão: {
           yaxis: [
             {
-              y: 201,
+              y: USED_VOLTAGE * 0.91,
               borderColor: '#d1d146',
               borderWidth: '2px',
               strokeDashArray: false,
@@ -65,7 +66,7 @@ export default {
             },
 
             {
-              y: 231,
+              y: USED_VOLTAGE * 1.04,
               borderColor: '#d1d146',
               borderWidth: '2px',
               strokeDashArray: false,
@@ -81,7 +82,7 @@ export default {
             },
 
             {
-              y: 189,
+              y: USED_VOLTAGE * 0.86,
               borderColor: '#d14646',
               borderWidth: '2px',
               strokeDashArray: false,
@@ -97,7 +98,7 @@ export default {
             },
 
             {
-              y: 233,
+              y: USED_VOLTAGE * 1.06,
               borderColor: '#d14646',
               borderWidth: '2px',
               strokeDashArray: false,
