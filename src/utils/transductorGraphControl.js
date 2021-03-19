@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 export const dimensions = [
   'Corrente',
   'Custo',
@@ -44,6 +46,8 @@ export async function getGraph (filter) {
           .get(url)
           .then((res) => {
             const measurements = res.data[0]
+            transformHist(measurements.phase_a)
+            measurements.phase_a[200][1] = 0
             graph.phase_a = measurements.phase_a
             graph.phase_b = measurements.phase_b
             graph.phase_c = measurements.phase_c
@@ -189,4 +193,34 @@ export function getGraphOptions (dimension) {
         graphType: ''
       }
   }
+}
+
+function transformHist (hist) {
+  if (!hist) {
+    return
+  }
+
+  const size = hist.length
+  const startDateInMinutes = getMinutesFromDateString(hist[0][0])
+  const endDateInMinutes = getMinutesFromDateString(hist[size - 1][0])
+  const newArray = []
+  let histCount = 0
+
+  for (let i = startDateInMinutes; i <= endDateInMinutes; i++) {
+    const histMinutes = getMinutesFromDateString(hist[histCount][0])
+    const histValue = histMinutes === i ? hist[histCount++][1] : 0
+
+    newArray.push([getDateStringFromMinutesTimestamp(histMinutes), histValue])
+  }
+
+  console.log('PERIODS = ', newArray)
+  return newArray
+}
+
+function getDateStringFromMinutesTimestamp (minutesTimestamp) {
+  return moment(minutesTimestamp * 1000 * 60).format('MM/DD/YYYY hh:mm:ss')
+}
+
+function getMinutesFromDateString (dateString) {
+  return Math.floor(new Date(moment(dateString, 'MM/DD/YYYY hh:mm:ss')).getTime() / 1000 / 60)
 }
