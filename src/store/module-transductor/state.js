@@ -1,5 +1,3 @@
-import { getDateNowSelectFormat } from '../../utils/transductorStatus'
-
 export default {
   openMap: false,
   chartOptions: {
@@ -17,7 +15,7 @@ export default {
   filterOptions: {
     dimension: 'Tensão',
     vision: '',
-    startDate: getDateNowSelectFormat(1),
-    endDate: getDateNowSelectFormat()
+    startDate: null,
+    endDate: null
   }
 }

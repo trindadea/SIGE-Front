@@ -55,6 +55,7 @@
 <script>
 import { getGraph } from '../utils/transductorGraphControl'
 import { mapActions, mapGetters } from 'vuex'
+import { getDateNowSelectFormat } from '../utils/transductorStatus'
 
 export default {
   name: 'ChartFilter',
@@ -73,7 +74,9 @@ export default {
       endDate: ''
     }
   },
+
   created () {
+    this.getInitialFilterValues()
     const filter = this.filterOptions
     this.option = filter.dimension
     this.vision = this.visionOptions[0].value
@@ -92,6 +95,19 @@ export default {
         this.options = this.filterList.filter(v => v.toLowerCase().indexOf(needle) > -1)
       })
     },
+
+    async getInitialFilterValues () {
+      const filterOptions = {
+        dimension: this.filterOptions.dimension,
+        vision: '',
+        startDate: getDateNowSelectFormat(1),
+        endDate: getDateNowSelectFormat()
+      }
+      const graphOpt = await getGraph(filterOptions)
+      this.updateFilter(filterOptions)
+      await this.updateChartPhase(graphOpt)
+    },
+
     async applyFilter () {
       const filter = {
         transductor: this.transductorId,
