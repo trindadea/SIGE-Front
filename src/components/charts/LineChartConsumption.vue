@@ -51,11 +51,9 @@ export default {
               csv: {
                 filename: filename
               },
-
               svg: {
                 filename: filename
               },
-
               png: {
                 filename: filename
               }
@@ -79,10 +77,8 @@ export default {
         },
 
         xaxis: {
-          type: this.getTypeXAxis,
           labels: {
             show: true,
-            formatter: this.labelFormatterX,
             style: {
               colors: [],
               fontSize: '16px',
@@ -93,7 +89,6 @@ export default {
           }
         },
         yaxis: {
-          min: 0,
           labels: {
             formatter: this.labelFormatter,
             style: {
@@ -101,6 +96,13 @@ export default {
             }
           },
           tickAmount: 10
+        },
+        tooltip: {
+          y: {
+            formatter: (val) => {
+              return `${val.toFixed(1)} ${this.unit}`
+            }
+          }
         }
       }
     }
@@ -113,7 +115,7 @@ export default {
   methods: {
     ...mapActions('consumptionCurve', ['updateChartSerie']),
     labelFormatter (value) {
-      return value.toFixed(2) + ' ' + this.unit
+      return value + ' ' + this.unit
     }
   },
   created () {}
