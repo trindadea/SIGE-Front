@@ -5,7 +5,9 @@
         <apexcharts
           v-if="mounted"
           id="chart"
+          ref="chart"
           type="line"
+          @hook:mounted="updateAnnotations"
           :options="chartConf"
           :series="series"/>
       </q-no-ssr>
@@ -40,16 +42,101 @@ export default {
   ],
 
   data () {
+    const USED_VOLTAGE = 220
     return {
       measurements: [],
-      mounted: false
+      mounted: false,
+      annotations: {
+        tensão: {
+          yaxis: [
+            {
+              y: USED_VOLTAGE * 0.91,
+              borderColor: '#d1d146',
+              borderWidth: '2px',
+              strokeDashArray: false,
+              label: {
+                borderColor: '#d1d146',
+                style: {
+                  color: '#FFFFFF',
+                  background: '#d1d146',
+                  fontSize: '16px'
+                },
+                text: 'Precária'
+              }
+            },
+
+            {
+              y: USED_VOLTAGE * 1.04,
+              borderColor: '#d1d146',
+              borderWidth: '2px',
+              strokeDashArray: false,
+              label: {
+                borderColor: '#d1d146',
+                style: {
+                  color: '#FFFFFF',
+                  background: '#d1d146',
+                  fontSize: '16px'
+                },
+                text: 'Precária'
+              }
+            },
+
+            {
+              y: USED_VOLTAGE * 0.86,
+              borderColor: '#d14646',
+              borderWidth: '2px',
+              strokeDashArray: false,
+              label: {
+                borderColor: '#d14646',
+                style: {
+                  color: '#FFFFFF',
+                  background: '#d14646',
+                  fontSize: '16px'
+                },
+                text: 'Crítica'
+              }
+            },
+
+            {
+              y: USED_VOLTAGE * 1.06,
+              borderColor: '#d14646',
+              borderWidth: '2px',
+              strokeDashArray: false,
+              label: {
+                borderColor: '#d14646',
+                style: {
+                  color: '#FFFFFF',
+                  background: '#d14646',
+                  fontSize: '16px'
+                },
+                text: 'Crítica'
+              }
+            }
+          ]
+        }
+      }
     }
   },
+
+  methods: {
+    updateAnnotations () {
+      const dimensionAnnotations = this.annotations[this.filterOptions.dimension.toLowerCase()]
+      this.$refs.chart.clearAnnotations()
+
+      if (dimensionAnnotations) {
+        dimensionAnnotations.yaxis.forEach((annotation) => {
+          this.$refs.chart.addYaxisAnnotation(annotation)
+        })
+      }
+    }
+  },
+
   mounted () {
     this.mounted = true
   },
+
   computed: {
-    ...mapGetters('transductorStore', ['chartOptions']),
+    ...mapGetters('transductorStore', ['chartOptions', 'filterOptions']),
     ...mapGetters('userStore', ['getPage']),
     series () {
       if (this.graphic_type === '1') {
@@ -128,6 +215,7 @@ export default {
             stops: [0, 100, 100, 100]
           }
         },
+
         title: {
           text: this.chartTitle,
           align: 'center',
@@ -204,6 +292,12 @@ export default {
           }
         }
       }
+    }
+  },
+
+  watch: {
+    series: function () {
+      this.updateAnnotations()
     }
   }
 }
