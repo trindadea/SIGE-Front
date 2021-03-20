@@ -46,11 +46,11 @@ export async function getGraph (filter) {
           .get(url)
           .then((res) => {
             const measurements = res.data[0]
-            transformHist(measurements.phase_a)
-            measurements.phase_a[200][1] = 0
-            graph.phase_a = measurements.phase_a
-            graph.phase_b = measurements.phase_b
-            graph.phase_c = measurements.phase_c
+            // transformMissingValues(measurements.phase_a)
+            // measurements.phase_a[200][1] = 0
+            graph.phase_a = transformMissingValues(measurements.phase_a)
+            graph.phase_b = transformMissingValues(measurements.phase_b)
+            graph.phase_c = transformMissingValues(measurements.phase_c)
             graph.status = true
           })
           .catch((err) => {
@@ -195,7 +195,7 @@ export function getGraphOptions (dimension) {
   }
 }
 
-function transformHist (hist) {
+function transformMissingValues (hist) {
   if (!hist) {
     return
   }

@@ -178,10 +178,11 @@ export default {
               fontSize: '1rem'
             }
           },
-          min: this.min,
-          max: this.max,
-          decimalsInFloat: 2,
-          tickAmount: 10
+          min: 200,
+          max: 230,
+          decimalsInFloat: 2
+          // logarithmic: true
+          // tickAmount: 10
         },
 
         grid: {
