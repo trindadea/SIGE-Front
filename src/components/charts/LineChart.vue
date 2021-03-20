@@ -128,6 +128,7 @@ export default {
             stops: [0, 100, 100, 100]
           }
         },
+
         title: {
           text: this.chartTitle,
           align: 'center',
@@ -179,10 +180,8 @@ export default {
             }
           },
           min: 200,
-          max: 230,
+          max: 250,
           decimalsInFloat: 2
-          // logarithmic: true
-          // tickAmount: 10
         },
 
         grid: {
