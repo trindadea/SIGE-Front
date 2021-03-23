@@ -20,7 +20,7 @@ export async function getGraph (filter) {
   const startDate = await getDate(filter.startDate)
   const endDate = await getDate(filter.endDate)
   const type = graphOptions.url === 'cost-consumption' ? 'daily' : 'hourly'
-  const url = `/graph/${graphOptions.url}/?id=${filter.transductor}&start_date=${startDate}&end_date=${endDate}&type=${type}`
+  const url = `/graph/${graphOptions.url}/?id=${filter.transductor}&start_date=${startDate}&end_date=${endDate}&type=${type}&is_filtered=True`
   const graph = {
     unit: graphOptions.unit,
     dimension: filter.dimension,
