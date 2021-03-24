@@ -56,6 +56,42 @@
             v-model="newCampus.zoom_ratio"
             label="Map Zoom"/>
           </div>
+          <div class="inputDiv">
+            <label>Data de início das tarifas: </label>
+            <q-input
+            class="inputField"
+            outlined
+            v-model="newCampus.tariff_start_date"
+            label="Tariff Start Date">
+              <template v-slot:append>
+                <q-icon name="event" class="cursor-pointer">
+                  <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                    <q-date v-model="newCampus.tariff_start_date" mask="YYYY-MM-DD">
+                      <div class="row items-center justify-end">
+                        <q-btn v-close-popup label="Close" color="primary" flat />
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
+          </div>
+          <div class="inputDiv">
+            <label>Tarifa Regular: </label>
+            <q-input
+            class="inputField"
+            outlined
+            v-model="newCampus.regular_tariff"
+            label="Regular Tariff"/>
+          </div>
+          <div class="inputDiv">
+            <label>Tarifa de Ponta: </label>
+            <q-input
+            class="inputField"
+            outlined
+            v-model="newCampus.high_tariff"
+            label="High Tariff"/>
+          </div>
           <div class="btn">
             <q-btn
               size="1rem"
@@ -282,11 +318,25 @@ export default {
         })
     },
     postCampus () {
+      console.log(this.newCampus)
       MASTER
         .post('campi/', this.newCampus)
         .then(res => {
-          this.campi.push(res.data)
-          this.newCampus = {}
+          const data = res.data
+
+          MASTER
+            .post(`campi/${data.id}/tariffs/`, {
+              campus: data.url,
+              start_date: this.newCampus.tariff_start_date,
+              regular_tariff: parseInt(this.newCampus.regular_tariff),
+              high_tariff: parseInt(this.newCampus.high_tariff)
+            })
+            .then(res => {
+              this.campi.push(data)
+              this.newCampus = {}
+            }).catch(err => {
+              console.log(err)
+            })
         })
         .catch(err => {
           console.log(err)
