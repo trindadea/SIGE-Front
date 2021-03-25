@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 class="title">Lista de Campi </h3>
+    <h3 class="title">Lista de Campi</h3>
     <div class="container">
       <div class="q-pa-md">
         <q-table
