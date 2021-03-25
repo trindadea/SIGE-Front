@@ -57,6 +57,11 @@ export default {
           image: 'statics/Relatorios.png',
           link: '/transductors',
           name: 'Medidores'
+        },
+        {
+          image: 'statics/Relatorios.png',
+          link: '/tariffs',
+          name: 'Tarifas'
         }
       ]
     }
