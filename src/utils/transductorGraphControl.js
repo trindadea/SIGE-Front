@@ -47,8 +47,8 @@ export async function getGraph (filter) {
             graph.phase_a = measurements.phase_a
             graph.phase_b = measurements.phase_b
             graph.phase_c = measurements.phase_c
-            graph.min = res.data.min
-            graph.max = res.data.max
+            graph.min = measurements.min
+            graph.max = measurements.max
             graph.status = true
           })
           .catch((err) => {
