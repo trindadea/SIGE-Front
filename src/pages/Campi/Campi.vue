@@ -61,12 +61,12 @@
             <q-input
             class="inputField"
             outlined
-            v-model="newCampus.tariff_start_date"
+            v-model="newTariff.tariff_start_date"
             label="Tariff Start Date">
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
                   <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                    <q-date v-model="newCampus.tariff_start_date" mask="YYYY-MM-DD">
+                    <q-date v-model="newTariff.tariff_start_date" mask="YYYY-MM-DD">
                       <div class="row items-center justify-end">
                         <q-btn v-close-popup label="Close" color="primary" flat />
                       </div>
@@ -81,7 +81,7 @@
             <q-input
             class="inputField"
             outlined
-            v-model="newCampus.regular_tariff"
+            v-model="newTariff.regular_tariff"
             label="Regular Tariff"/>
           </div>
           <div class="inputDiv">
@@ -89,7 +89,7 @@
             <q-input
             class="inputField"
             outlined
-            v-model="newCampus.high_tariff"
+            v-model="newTariff.high_tariff"
             label="High Tariff"/>
           </div>
           <div class="btn">
@@ -165,6 +165,66 @@
         </div>
       </q-form>
       </div>
+      <div class="info" v-if="isAddingTariff">
+        <h3 class="login-text">
+          Adicionar Tarifa
+        </h3>
+        <q-form
+          class="q-gutter-md"
+          @submit="postTariff()"
+          >
+          <div class="inputDiv">
+            <label>Data de início das tarifas: </label>
+            <q-input
+            class="inputField"
+            outlined
+            v-model="newTariff.tariff_start_date"
+            label="Tariff Start Date">
+              <template v-slot:append>
+                <q-icon name="event" class="cursor-pointer">
+                  <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                    <q-date v-model="newTariff.tariff_start_date" mask="YYYY-MM-DD">
+                      <div class="row items-center justify-end">
+                        <q-btn v-close-popup label="Close" color="primary" flat />
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
+          </div>
+          <div class="inputDiv">
+            <label>Tarifa Regular: </label>
+            <q-input
+            class="inputField"
+            outlined
+            v-model="newTariff.regular_tariff"
+            label="Regular Tariff"/>
+          </div>
+          <div class="inputDiv">
+            <label>Tarifa de Ponta: </label>
+            <q-input
+            class="inputField"
+            outlined
+            v-model="newTariff.high_tariff"
+            label="High Tariff"/>
+          </div>
+          <div class="text-center q-mt-lg">
+            <q-btn
+            class="btn"
+            size="1rem"
+            label="Cancelar"
+            color="primary"
+            @click="handlePressButton('cancel')"/>
+          <q-btn
+            class="btn"
+            size="1rem"
+            label="Salvar"
+            type="submit"
+            color="primary"/>
+          </div>
+        </q-form>
+      </div>
       <div class="q-pa-md">
         <q-table
           title="Campi"
@@ -179,6 +239,15 @@
               <q-td key="latitude" :props="props">{{ props.row.geolocation_latitude }}</q-td>
               <q-td key="longitude" :props="props">{{ props.row.geolocation_longitude }}</q-td>
               <q-td key="zoom" :props="props">{{ props.row.zoom_ratio }}</q-td>
+              <q-td key="add-tariff" :props="props">
+                <q-btn
+                  flat
+                  round
+                  size="1rem"
+                  icon="add"
+                  @click="handlePressButton('addTariff', props.row.id)"
+                  color="primary"/>
+              </q-td>
               <q-td key="edit" :props="props">
                 <q-btn
                   flat
@@ -217,13 +286,16 @@ export default {
       campus: {},
       isSelectedCampus: false,
       isCreatingNew: false,
+      isAddingTariff: false,
       newCampus: {},
+      newTariff: {},
       columns: [
         { name: 'id', label: 'ID', align: 'left', field: row => row.id, sortable: true, style: 'width: 55px' },
         { name: 'name', label: 'Nome', align: 'left', field: row => row.name, sortable: true },
         { name: 'latitude', label: 'Latitude', align: 'center', field: row => row.latitude, sortable: true },
         { name: 'longitude', label: 'Longitude', align: 'center', field: row => row.longitude, sortable: true },
         { name: 'zoom', label: 'Zoom Ratio', align: 'center', field: row => row.zoom_ratio, sortable: true },
+        { name: 'add-tariff', label: 'Adicionar Tarifa', align: 'center', format: () => 'Adicionar Tarifa', sortable: false, style: 'width: 55px' },
         { name: 'edit', label: 'Editar', align: 'center', format: () => 'Editar', sortable: false, style: 'width: 55px' },
         { name: 'delete', label: 'Excluir', align: 'center', format: () => 'Excluir', sortable: false, style: 'width: 55px' }
       ]
@@ -236,19 +308,25 @@ export default {
     handlePressButton (type, id = null) {
       const options = {
         new: () => {
-          this.isSelectedCampus = false
+          this.isSelectedCampus = this.isAddingTariff = false
           this.isCreatingNew = !this.isCreatingNew
         },
         show: () => {
           this.isSelectedCampus = true
-          this.isCreatingNew = false
+          this.isCreatingNew = this.isAddingTariff = false
           this.getCampus(id)
         },
         cancel: () => {
-          this.isSelectedCampus = false
+          this.isSelectedCampus = this.isAddingTariff = false
         },
         delete: () => {
           this.deleteCampus(id)
+        },
+        addTariff: () => {
+          console.log('a')
+          this.isAddingTariff = true
+          this.isCreatingNew = this.isSelectedCampus = false
+          this.getCampus(id)
         }
       }
       if (options[type]) options[type]()
@@ -271,7 +349,6 @@ export default {
         .then(res => {
           console.log(res.data)
           this.campus = res.data
-          this.isSelectedCampus = true
         })
         .catch(err => {
           console.log(err)
@@ -311,34 +388,36 @@ export default {
           })
           this.isSelectedCampus = false
           this.campus = {}
-          console.log(res.data)
         })
         .catch(err => {
           console.log(err)
         })
     },
     postCampus () {
-      console.log(this.newCampus)
       MASTER
         .post('campi/', this.newCampus)
         .then(res => {
-          const data = res.data
+          this.campus = res.data
+          this.campi.push(this.campus)
+          this.newCampus = {}
 
-          MASTER
-            .post(`campi/${data.id}/tariffs/`, {
-              campus: data.url,
-              start_date: this.newCampus.tariff_start_date,
-              regular_tariff: parseInt(this.newCampus.regular_tariff),
-              high_tariff: parseInt(this.newCampus.high_tariff)
-            })
-            .then(res => {
-              this.campi.push(data)
-              this.newCampus = {}
-            }).catch(err => {
-              console.log(err)
-            })
+          this.postTariff()
         })
         .catch(err => {
+          console.log(err)
+        })
+    },
+    postTariff () {
+      MASTER
+        .post(`campi/${this.campus.id}/tariffs/`, {
+          campus: this.campus.url,
+          start_date: this.newTariff.tariff_start_date,
+          regular_tariff: parseFloat(this.newTariff.regular_tariff),
+          high_tariff: parseFloat(this.newTariff.high_tariff)
+        })
+        .then(res => {
+          this.newTariff = {}
+        }).catch(err => {
           console.log(err)
         })
     }
