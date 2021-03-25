@@ -49,7 +49,7 @@
             label="Longitude"/>
           </div>
           <div class="inputDiv">
-            <label>Longitude: </label>
+            <label>Taxa de zoom: </label>
             <q-input
             class="inputField"
             outlined
@@ -142,7 +142,7 @@
             label="Longitude"/>
           </div>
           <div class="inputDiv">
-            <label>Longitude: </label>
+            <label>Taxa de zoom: </label>
             <q-input
             class="inputField"
             outlined
@@ -165,66 +165,6 @@
         </div>
       </q-form>
       </div>
-      <div class="info" v-if="isAddingTariff">
-        <h3 class="login-text">
-          Adicionar Tarifa
-        </h3>
-        <q-form
-          class="q-gutter-md"
-          @submit="postTariff()"
-          >
-          <div class="inputDiv">
-            <label>Data de início das tarifas: </label>
-            <q-input
-            class="inputField"
-            outlined
-            v-model="newTariff.tariff_start_date"
-            label="Tariff Start Date">
-              <template v-slot:append>
-                <q-icon name="event" class="cursor-pointer">
-                  <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                    <q-date v-model="newTariff.tariff_start_date" mask="YYYY-MM-DD">
-                      <div class="row items-center justify-end">
-                        <q-btn v-close-popup label="Close" color="primary" flat />
-                      </div>
-                    </q-date>
-                  </q-popup-proxy>
-                </q-icon>
-              </template>
-            </q-input>
-          </div>
-          <div class="inputDiv">
-            <label>Tarifa Regular: </label>
-            <q-input
-            class="inputField"
-            outlined
-            v-model="newTariff.regular_tariff"
-            label="Regular Tariff"/>
-          </div>
-          <div class="inputDiv">
-            <label>Tarifa de Ponta: </label>
-            <q-input
-            class="inputField"
-            outlined
-            v-model="newTariff.high_tariff"
-            label="High Tariff"/>
-          </div>
-          <div class="text-center q-mt-lg">
-            <q-btn
-            class="btn"
-            size="1rem"
-            label="Cancelar"
-            color="primary"
-            @click="handlePressButton('cancel')"/>
-          <q-btn
-            class="btn"
-            size="1rem"
-            label="Salvar"
-            type="submit"
-            color="primary"/>
-          </div>
-        </q-form>
-      </div>
       <div class="q-pa-md">
         <q-table
           title="Campi"
@@ -239,15 +179,6 @@
               <q-td key="latitude" :props="props">{{ props.row.geolocation_latitude }}</q-td>
               <q-td key="longitude" :props="props">{{ props.row.geolocation_longitude }}</q-td>
               <q-td key="zoom" :props="props">{{ props.row.zoom_ratio }}</q-td>
-              <q-td key="add-tariff" :props="props">
-                <q-btn
-                  flat
-                  round
-                  size="1rem"
-                  icon="add"
-                  @click="handlePressButton('addTariff', props.row.id)"
-                  color="primary"/>
-              </q-td>
               <q-td key="edit" :props="props">
                 <q-btn
                   flat
@@ -286,7 +217,6 @@ export default {
       campus: {},
       isSelectedCampus: false,
       isCreatingNew: false,
-      isAddingTariff: false,
       newCampus: {},
       newTariff: {},
       columns: [
@@ -295,7 +225,6 @@ export default {
         { name: 'latitude', label: 'Latitude', align: 'center', field: row => row.latitude, sortable: true },
         { name: 'longitude', label: 'Longitude', align: 'center', field: row => row.longitude, sortable: true },
         { name: 'zoom', label: 'Zoom Ratio', align: 'center', field: row => row.zoom_ratio, sortable: true },
-        { name: 'add-tariff', label: 'Adicionar Tarifa', align: 'center', format: () => 'Adicionar Tarifa', sortable: false, style: 'width: 55px' },
         { name: 'edit', label: 'Editar', align: 'center', format: () => 'Editar', sortable: false, style: 'width: 55px' },
         { name: 'delete', label: 'Excluir', align: 'center', format: () => 'Excluir', sortable: false, style: 'width: 55px' }
       ]
@@ -308,25 +237,19 @@ export default {
     handlePressButton (type, id = null) {
       const options = {
         new: () => {
-          this.isSelectedCampus = this.isAddingTariff = false
+          this.isSelectedCampus = false
           this.isCreatingNew = !this.isCreatingNew
         },
         show: () => {
           this.isSelectedCampus = true
-          this.isCreatingNew = this.isAddingTariff = false
+          this.isCreatingNew = false
           this.getCampus(id)
         },
         cancel: () => {
-          this.isSelectedCampus = this.isAddingTariff = false
+          this.isSelectedCampus = false
         },
         delete: () => {
           this.deleteCampus(id)
-        },
-        addTariff: () => {
-          console.log('a')
-          this.isAddingTariff = true
-          this.isCreatingNew = this.isSelectedCampus = false
-          this.getCampus(id)
         }
       }
       if (options[type]) options[type]()
@@ -335,7 +258,6 @@ export default {
       MASTER
         .get('campi/', {})
         .then(res => {
-          console.log(res.data)
           this.campi = res.data
         })
         .catch(err => {
@@ -347,7 +269,6 @@ export default {
       MASTER
         .get('campi/' + id, {})
         .then(res => {
-          console.log(res.data)
           this.campus = res.data
         })
         .catch(err => {

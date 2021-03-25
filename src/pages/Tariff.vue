@@ -389,7 +389,4 @@ export default {
   flex          : 1;
   padding-left  : 10px
 }
-.q-tr {
-  cursor: pointer !important;
-}
 </style>
