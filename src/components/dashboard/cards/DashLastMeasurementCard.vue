@@ -53,10 +53,12 @@
               Últimas 72h
             </th>
             <td class="col-12">
-              {{ countCriticalEvents() }} <q-icon :style="{opacity: 0.5}" :name="'img:statics/ic_ocorrencia_critica_mono.svg'"/>
+              {{ countCriticalEvents() }}
+              <q-icon :style="{opacity: 0.5}" :name="'img:statics/ic_ocorrencia_critica_mono.svg'"/>
             </td>
             <td class="col-12">
-              {{ countWarningEvents() }} <q-icon :style="{opacity: 0.5}" :name="'img:statics/ic_ocorrencia_precaria_mono.svg'"/>
+              {{ countWarningEvents() }}
+              <q-icon :style="{opacity: 0.5}" :name="'img:statics/ic_ocorrencia_precaria_mono.svg'"/>
             </td>
             <td class="col-12"></td>
           </span>
@@ -78,6 +80,12 @@ import MASTER from '../../../services/masterApi/http-common'
 export default {
   name: 'DashLastMeasurementCard',
 
+  props: {
+    transductor: {
+      type: Object
+    }
+  },
+
   data () {
     return {
       rtm: [],
@@ -86,10 +94,14 @@ export default {
     }
   },
 
-  props: {
-    transductor: {
-      type: Object
+  watch: {
+    transductor: function () {
+      this.getApiInfo()
     }
+  },
+
+  mounted () {
+    this.getApiInfo()
   },
 
   methods: {
@@ -136,11 +148,6 @@ export default {
       await this.getLastMeasurement()
       await this.getTransductorsLast72h()
     }
-  },
-
-  mounted () {
-    this.getApiInfo()
-    setInterval(this.getApiInfo, 5000)
   }
 }
 </script>

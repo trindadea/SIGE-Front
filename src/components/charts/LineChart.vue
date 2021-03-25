@@ -5,7 +5,9 @@
         <apexcharts
           v-if="mounted"
           id="chart"
+          ref="chart"
           type="line"
+          @hook:mounted="updateAnnotations"
           :options="chartConf"
           :series="series"/>
       </q-no-ssr>
@@ -34,20 +36,108 @@ export default {
     'id',
     'min',
     'decimals',
-    'max'
+    'max',
+    'chartTitle',
+    'exportOptions'
   ],
 
   data () {
+    const USED_VOLTAGE = 220
     return {
       measurements: [],
-      mounted: false
+      mounted: false,
+      annotations: {
+        tensão: {
+          yaxis: [
+            {
+              y: USED_VOLTAGE * 0.91,
+              borderColor: '#d1d146',
+              borderWidth: '2px',
+              strokeDashArray: false,
+              label: {
+                borderColor: '#d1d146',
+                style: {
+                  color: '#FFFFFF',
+                  background: '#d1d146',
+                  fontSize: '16px'
+                },
+                text: 'Precária'
+              }
+            },
+
+            {
+              y: USED_VOLTAGE * 1.04,
+              borderColor: '#d1d146',
+              borderWidth: '2px',
+              strokeDashArray: false,
+              label: {
+                borderColor: '#d1d146',
+                style: {
+                  color: '#FFFFFF',
+                  background: '#d1d146',
+                  fontSize: '16px'
+                },
+                text: 'Precária'
+              }
+            },
+
+            {
+              y: USED_VOLTAGE * 0.86,
+              borderColor: '#d14646',
+              borderWidth: '2px',
+              strokeDashArray: false,
+              label: {
+                borderColor: '#d14646',
+                style: {
+                  color: '#FFFFFF',
+                  background: '#d14646',
+                  fontSize: '16px'
+                },
+                text: 'Crítica'
+              }
+            },
+
+            {
+              y: USED_VOLTAGE * 1.06,
+              borderColor: '#d14646',
+              borderWidth: '2px',
+              strokeDashArray: false,
+              label: {
+                borderColor: '#d14646',
+                style: {
+                  color: '#FFFFFF',
+                  background: '#d14646',
+                  fontSize: '16px'
+                },
+                text: 'Crítica'
+              }
+            }
+          ]
+        }
+      }
     }
   },
+
+  methods: {
+    updateAnnotations () {
+      const dimensionAnnotations = this.annotations[this.filterOptions.dimension.toLowerCase()]
+      this.$refs.chart.clearAnnotations()
+
+      if (dimensionAnnotations) {
+        dimensionAnnotations.yaxis.forEach((annotation) => {
+          this.$refs.chart.addYaxisAnnotation(annotation)
+        })
+      }
+    }
+  },
+
   mounted () {
     this.mounted = true
   },
+
   computed: {
-    ...mapGetters('transductorStore', ['chartOptions']),
+    ...mapGetters('transductorStore', ['chartOptions', 'filterOptions']),
+    ...mapGetters('userStore', ['getPage']),
     series () {
       if (this.graphic_type === '1') {
         return [
@@ -75,11 +165,29 @@ export default {
     },
 
     chartConf () {
+      const filename = (this.exportOptions.location ? (this.exportOptions.location + ' - ') : ('')) +
+      (this.exportOptions.dimension ? (this.exportOptions.dimension + ' - ') : ('')) + this.exportOptions.startDate + '-' + this.exportOptions.endDate
+
       return {
         colors: ['#46b5d1', '#007944', '#da2d2d'],
 
         chart: {
-          stacked: false
+          stacked: false,
+          toolbar: {
+            export: {
+              csv: {
+                filename: filename
+              },
+
+              svg: {
+                filename: filename
+              },
+
+              png: {
+                filename: filename
+              }
+            }
+          }
         },
 
         legend: {
@@ -105,6 +213,21 @@ export default {
             opacityFrom: 0.85,
             opacityTo: 0.55,
             stops: [0, 100, 100, 100]
+          }
+        },
+
+        title: {
+          text: this.chartTitle,
+          align: 'center',
+          margin: 10,
+          offsetX: 0,
+          offsetY: 0,
+          floating: false,
+          style: {
+            fontSize: '24px',
+            fontWeight: '300',
+            fontFamily: 'Roboto',
+            color: '#00417e'
           }
         },
 
@@ -170,6 +293,12 @@ export default {
         }
       }
     }
+  },
+
+  watch: {
+    series: function () {
+      this.updateAnnotations()
+    }
   }
 }
 </script>
@@ -177,6 +306,6 @@ export default {
 <style scoped>
   #chart {
     padding: .5rem;
-    colors: #147900;
+    color: #147900;
   }
 </style>

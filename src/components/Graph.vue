@@ -5,13 +5,18 @@
       :filterList="dimensions"
       :visionOptions="vision"
       :transductorId="transductorId"
+      @chart-change="updateChartOption"
     />
     <line-chart
       v-if="graphIs('linechart') && mounted"
       :transductorId='transductorId'
+      :exportOptions="exportOptions"
+      :chart-title="filterOptions.dimension || ''"
     />
     <bar-chart
       v-else-if="graphIs('barchart') && mounted"
+      :chart-title="filterOptions.dimension || ''"
+      :exportOptions="exportOptions"
     />
     <no-data-placeholder
       v-else
@@ -22,7 +27,7 @@
   </div>
 </template>
 <script>
-import chartFilter from './ChartFilter'
+import chartFilter from './ChartFilter.vue'
 import LineChart from './charts/LineChart.vue'
 import BarChart from './charts/BarChart.vue'
 import noDataPlaceholder from './NoDataPlaceHolder'
@@ -38,7 +43,8 @@ export default {
     noDataPlaceholder: noDataPlaceholder
   },
   props: [
-    'transductorId'
+    'transductorId',
+    'exportOptions'
   ],
   data () {
     return {
@@ -68,10 +74,15 @@ export default {
     graphIs (graphType) {
       const type = this.chartOptions.graphType
       return type === graphType
+    },
+    updateChartOption ({ chartOption }) {
+      console.log(`Novo chartOption:: ${chartOption}`)
     }
   }
 }
 </script>
-<style lang="scss" scoped>
-
+<style lang="scss">
+.apexcharts-title-text {
+  font-style: italic !important;
+}
 </style>

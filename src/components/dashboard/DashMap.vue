@@ -2,9 +2,9 @@
   <div class="map-wrapper">
     <l-map
       class="rounded-borders cursor-not-allowed map-dimension"
-      :zoom="parseInt(currentCampus.zoom_ratio) || 16"
-      :min-zoom="parseInt(currentCampus.zoom_ratio) || 16"
-      :max-zoom="parseInt(currentCampus.zoom_ratio) || 16"
+      :zoom="zoom_ratio || 16"
+      :min-zoom="zoom_ratio || 16"
+      :max-zoom="zoom_ratio || 16"
       :options="mapOptions"
       :center="mapCenter"
       id="region-map">
@@ -14,7 +14,6 @@
         :attribution="attribution"
       />
 
-      <!-- for custom icons -->
       <l-marker
         v-for="transductor in transductors_points"
         :key="transductor.id"
@@ -78,9 +77,9 @@ export default {
 
       generation: [],
 
-      // center: [-15.7650, -47.8665],
       center: [-15.7650, -47.8665],
       new_center: [-15.7658756, -47.8743207],
+      zoom_ratio: parseInt(this.currentCampus.zoom_ratio),
 
       mapOptions: {
         zoomControl: false,
@@ -88,7 +87,6 @@ export default {
       },
 
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      // url: 'https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png',
       attribution:
         '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       selectedPeriod: 'DIA'

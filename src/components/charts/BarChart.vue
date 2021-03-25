@@ -13,11 +13,15 @@ export default {
     Apexcharts: () => import('vue-apexcharts')
   },
   props: [
-    'isCostPage'
+    'isCostPage',
+    'chartTitle',
+    'exportOptions'
   ],
   computed: {
-    ...mapGetters('transductorStore', ['chartOptions']),
+    ...mapGetters('transductorStore', ['chartOptions', 'filterOptions']),
     ...mapGetters('totalCostStore', ['totalCostChart']),
+    ...mapGetters('userStore', ['getPage']),
+    ...mapGetters('totalCostStore', ['getStartDate', 'getEndDate']),
     graph () {
       if (this.isCostPage) {
         return this.totalCostChart
@@ -31,6 +35,11 @@ export default {
       }]
     },
     chartConf () {
+      const tick = this.graph.max <= 10 ? this.graph.max + 1 : 11
+      const max = this.graph.max < 1 ? 1 : undefined
+      const filename = (this.exportOptions.location ? (this.exportOptions.location + ' - ') : ('')) +
+      (this.exportOptions.dimension ? (this.exportOptions.dimension + ' - ') : ('')) + this.exportOptions.startDate + '-' + this.exportOptions.endDate
+
       return {
         colors: ['#00417e'],
         grid: {
@@ -45,11 +54,19 @@ export default {
             }
           }
         },
+
         title: {
-          text: 'Column',
-          align: 'left',
+          text: this.chartTitle,
+          align: 'center',
+          margin: 10,
+          offsetX: 0,
+          offsetY: 0,
+          floating: false,
           style: {
-            color: '#FFF'
+            fontSize: '24px',
+            fontWeight: '300',
+            fontFamily: 'Roboto',
+            color: '#00417e'
           }
         },
 
@@ -80,10 +97,9 @@ export default {
               fontSize: '1rem'
             }
           },
-          min: this.min,
-          max: this.max,
+          max: max,
           decimalsInFloat: 2,
-          tickAmount: 10
+          tickAmount: tick
         },
         tooltip: {
           x: {
@@ -96,6 +112,23 @@ export default {
                 return ` ${this.graph.unit} ${val.toFixed(1)}`
               }
               return `${val.toFixed(1)} ${this.graph.unit}`
+            }
+          }
+        },
+        chart: {
+          toolbar: {
+            export: {
+              csv: {
+                filename: filename
+              },
+
+              svg: {
+                filename: filename
+              },
+
+              png: {
+                filename: filename
+              }
             }
           }
         }

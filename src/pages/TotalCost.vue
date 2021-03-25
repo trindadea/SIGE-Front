@@ -4,7 +4,9 @@
     <div class="full-height chart-container">
       <bar-chart
         v-if="totalCostChart.status"
+        :chart-title="chartTitle"
         :isCostPage="true"
+        :exportOptions="exportOptions"
       />
     </div>
   </div>
@@ -22,10 +24,29 @@ export default {
     BarChart
   },
   computed: {
-    ...mapGetters('totalCostStore', ['totalCostChart'])
+    ...mapGetters('totalCostStore', ['totalCostChart', 'getStartDate', 'getEndDate']),
+    exportOptions () {
+      const startDate = this.getStartDate.match(/(?<year>\d+)-(?<month>\d+)-(?<day>\d+)/).groups
+      const endDate = this.getEndDate.match(/(?<year>\d+)-(?<month>\d+)-(?<day>\d+)/).groups
+      return {
+        location: this.location.campus ? (this.location.campus + (this.location.group ? ' - ' + this.location.group : '')) : '',
+        dimension: 'Custo Total',
+        startDate: startDate.day + '_' + startDate.month + '_' + startDate.year,
+        endDate: endDate.day + '_' + endDate.month + '_' + endDate.year
+      }
+    }
   },
   methods: {
     ...mapActions('userStore', ['changePage'])
+  },
+  data () {
+    return {
+      chartTitle: 'Custo total',
+      location: {
+        campus: '',
+        group: ''
+      }
+    }
   },
   created () {
     this.changePage('Custo Total')
