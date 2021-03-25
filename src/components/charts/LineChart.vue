@@ -179,8 +179,8 @@ export default {
               fontSize: '1rem'
             }
           },
-          min: this.min || (this.chartOptions.min > 5 ? this.chartOptions.min - 5 : 0),
-          max: this.max || this.chartOptions.max + 10,
+          min: this.min || this.chartOptions.min - 5,
+          max: this.max || this.chartOptions.max + 5,
           decimalsInFloat: 2,
           tickAmount: 10
         },
