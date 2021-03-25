@@ -179,9 +179,10 @@ export default {
               fontSize: '1rem'
             }
           },
-          min: 200,
-          max: 250,
-          decimalsInFloat: 2
+          min: this.min,
+          max: this.max,
+          decimalsInFloat: 2,
+          tickAmount: 10
         },
 
         grid: {

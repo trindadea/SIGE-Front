@@ -9,7 +9,7 @@
       <q-separator spaced inset/>
       <div class="row">
         <div class="transductor-info col-3">
-          <p class="title">Dados do medidor Teste</p>
+          <p class="title">Dados do medidor</p>
           <a class="data-label">MODELO</a><br/>
           <a class="data-body">{{model}}</a><br/>
           <a class="data-label">NÚM. DE SÉRIE</a><br/>

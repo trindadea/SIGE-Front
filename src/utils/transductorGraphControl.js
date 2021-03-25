@@ -1,5 +1,3 @@
-import moment from 'moment'
-
 export const dimensions = [
   'Corrente',
   'Custo',
@@ -46,9 +44,9 @@ export async function getGraph (filter) {
           .get(url)
           .then((res) => {
             const measurements = res.data[0]
-            graph.phase_a = transformMissingValues(measurements.phase_a)
-            graph.phase_b = transformMissingValues(measurements.phase_b)
-            graph.phase_c = transformMissingValues(measurements.phase_c)
+            graph.phase_a = measurements.phase_a
+            graph.phase_b = measurements.phase_b
+            graph.phase_c = measurements.phase_c
             graph.status = true
           })
           .catch((err) => {
@@ -191,52 +189,4 @@ export function getGraphOptions (dimension) {
         graphType: ''
       }
   }
-}
-
-function transformMissingValues (hist) {
-  if (!hist) {
-    return
-  }
-
-  const size = hist.length
-  const startDateInMinutes = getMinutesFromDateString(hist[0][0])
-  const endDateInMinutes = getMinutesFromDateString(hist[size - 1][0])
-  const newArray = []
-  let histCount = 0
-  let missingStart = -1
-  const missingTolarance = 10
-
-  for (let minute = startDateInMinutes; minute <= endDateInMinutes; minute++) {
-    const histMinutes = getMinutesFromDateString(hist[histCount][0])
-
-    if (histMinutes === minute) {
-      const histValue = hist[histCount++][1]
-      const missingEnd = minute
-
-      if (missingStart > -1 && missingEnd > -1) {
-        if (Math.abs(missingStart - missingEnd) >= missingTolarance) {
-          for (let missingMinute = missingStart; missingMinute <= missingEnd; missingMinute++) {
-            newArray.push([getDateStringFromMinutesTimestamp(missingMinute), 0])
-          }
-        }
-        missingStart = -1
-      } else {
-        newArray.push([getDateStringFromMinutesTimestamp(minute), histValue])
-      }
-    } else {
-      if (missingStart <= -1) {
-        missingStart = minute
-      }
-    }
-  }
-
-  return newArray
-}
-
-function getDateStringFromMinutesTimestamp (minutesTimestamp) {
-  return moment(minutesTimestamp * 1000 * 60).format('MM/DD/YYYY HH:mm:ss')
-}
-
-function getMinutesFromDateString (dateString) {
-  return Math.floor(new Date(moment(dateString, 'MM/DD/YYYY HH:mm:ss')).getTime() / 1000 / 60)
 }
