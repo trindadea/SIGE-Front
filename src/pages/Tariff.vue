@@ -19,8 +19,8 @@
           <template v-slot:body="props">
               <q-tr :props="props">
                 <q-td key="id" :props="props">{{ props.row.id }}</q-td>
-                <q-td key="regular_tariff" :props="props">{{ props.row.regular_tariff }}</q-td>
-                <q-td key="high_tariff" :props="props">{{ props.row.high_tariff }}</q-td>
+                <q-td key="regular_tariff" :props="props">{{ props.row.regular_tariff.toFixed(4) }}</q-td>
+                <q-td key="high_tariff" :props="props">{{ props.row.high_tariff.toFixed(4) }}</q-td>
                 <q-td key="start_date" :props="props">{{ props.row.start_date }}</q-td>
                 <q-td key="edit" :props="props">
                   <q-btn
@@ -59,12 +59,12 @@
             id="post-form"
             >
             <div class="inputDiv">
-              <label>Data de início: </label>
+              <label>Data de vigência: </label>
               <q-input
               class="inputField"
               outlined
               v-model="newTariff.start_date"
-              label="Tariff Start Date">
+              label="Data">
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
                     <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
@@ -79,20 +79,20 @@
               </q-input>
             </div>
             <div class="inputDiv">
-              <label>Tarifa Regular: </label>
+              <label>Tarifa Fora de Ponta (R$): </label>
               <q-input
               class="inputField"
               outlined
               v-model="newTariff.regular_tariff"
-              label="Regular Tariff"/>
+              label="Valor"/>
             </div>
             <div class="inputDiv">
-              <label>Tarifa de Ponta: </label>
+              <label>Tarifa de Ponta (R$): </label>
               <q-input
               class="inputField"
               outlined
               v-model="newTariff.high_tariff"
-              label="High Tariff"/>
+              label="Valor"/>
             </div>
           </q-form>
         </q-card-section>
@@ -128,12 +128,12 @@
             id="put-form"
             >
             <div class="inputDiv">
-              <label>Data de início: </label>
+              <label>Data de vigência: </label>
               <q-input
               class="inputField"
               outlined
               v-model="tariff.start_date"
-              label="Tariff Start Date">
+              label="Data">
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
                     <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
@@ -148,20 +148,20 @@
               </q-input>
             </div>
             <div class="inputDiv">
-              <label>Tarifa Regular: </label>
+              <label>Tarifa Fora de Ponta (R$): </label>
               <q-input
               class="inputField"
               outlined
               v-model="tariff.regular_tariff"
-              label="Regular Tariff"/>
+              label="Valor"/>
             </div>
             <div class="inputDiv">
-              <label>Tarifa de Ponta: </label>
+              <label>Tarifa de Ponta (R$): </label>
               <q-input
               class="inputField"
               outlined
               v-model="tariff.high_tariff"
-              label="High Tariff"/>
+              label="Valor"/>
             </div>
           </q-form>
         </q-card-section>
@@ -226,9 +226,9 @@ export default {
       targetId: null,
       columns: [
         { name: 'id', label: 'ID', align: 'left', field: row => row.id, sortable: true, style: 'width: 55px' },
-        { name: 'regular_tariff', label: 'Tarifa Regular', align: 'center', field: row => row.regular_tariff, sortable: true },
-        { name: 'high_tariff', label: 'Tarifa de Ponta', align: 'center', field: row => row.high_tariff, sortable: true },
-        { name: 'start_date', label: 'Data de início', align: 'center', field: row => row.start_date, sortable: true },
+        { name: 'regular_tariff', label: 'Tarifa Fora de Ponta (R$)', align: 'center', field: row => row.regular_tariff, sortable: true },
+        { name: 'high_tariff', label: 'Tarifa de Ponta (R$)', align: 'center', field: row => row.high_tariff, sortable: true },
+        { name: 'start_date', label: 'Data de Vigência', align: 'center', field: row => row.start_date, sortable: true },
         { name: 'edit', label: 'Editar', align: 'center', format: () => 'Editar', sortable: false, style: 'width: 55px' },
         { name: 'delete', label: 'Deletar', align: 'center', format: () => 'Deletar', sortable: false, style: 'width: 55px' }
       ]
