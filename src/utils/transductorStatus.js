@@ -134,7 +134,7 @@ export function getOccurenceName (type) {
   }
 }
 
-export function timePassed (time) {
+export function getTimePassed (time) {
   const d = new Date(time)
   const now = new Date()
   const min = Math.floor((now - d) / (1000 * 60))

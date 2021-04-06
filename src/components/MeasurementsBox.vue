@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { timePassed } from '../utils/transductorStatus'
+import { getTimePassed } from '../utils/transductorStatus'
 import MASTER from '../services/masterApi/http-common'
 
 export default {
@@ -81,11 +81,11 @@ export default {
   },
   methods: {
     getTime (d) {
-      let ans = timePassed(d)
-      if (ans !== 'agora') {
-        ans = 'há ' + ans
+      let timePassed = getTimePassed(d)
+      if (timePassed !== 'agora') {
+        timePassed = 'há ' + timePassed
       }
-      return ans
+      return timePassed
     }
   }
 }
