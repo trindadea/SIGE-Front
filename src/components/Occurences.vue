@@ -61,46 +61,46 @@ export default {
   created () {
     MASTER.get('/occurences/?type=period&id=' + this.id)
       .then(async res => {
-        await separateInDays(
-          res.data.critical_tension,
-          'critical_tension',
-          this.today,
-          this.yesterday,
-          this.beforeYesterday,
-          this.occurrences
-        )
-        await separateInDays(
-          res.data.precarious_tension,
-          'precarious_tension',
-          this.today,
-          this.yesterday,
-          this.beforeYesterday,
-          this.occurrences
-        )
-        await separateInDays(
-          res.data.phase_drop,
-          'phase_drop',
-          this.today,
-          this.yesterday,
-          this.beforeYesterday,
-          this.occurrences
-        )
-        await separateInDays(
-          res.data.transductor_connection_fail,
-          'conection_fail',
-          this.today,
-          this.yesterday,
-          this.beforeYesterday,
-          this.occurrences
-        )
-        await separateInDays(
-          res.data.slave_connection_fail,
-          'conection_fail',
-          this.today,
-          this.yesterday,
-          this.beforeYesterday,
-          this.occurrences
-        )
+        await separateInDays({
+          eventsArray: res.data.critical_tension,
+          type: 'critical_tension',
+          today: this.today,
+          yesterday: this.yesterday,
+          beforeYesterday: this.beforeYesterday,
+          occurrences: this.occurrences
+        })
+        await separateInDays({
+          eventsArray: res.data.precarious_tension,
+          type: 'precarious_tension',
+          today: this.today,
+          yesterday: this.yesterday,
+          beforeYesterday: this.beforeYesterday,
+          occurrences: this.occurrences
+        })
+        await separateInDays({
+          eventsArray: res.data.phase_drop,
+          type: 'phase_drop',
+          today: this.today,
+          yesterday: this.yesterday,
+          beforeYesterday: this.beforeYesterday,
+          occurrences: this.occurrences
+        })
+        await separateInDays({
+          eventsArray: res.data.transductor_connection_fail,
+          type: 'conection_fail',
+          today: this.today,
+          yesterday: this.yesterday,
+          beforeYesterday: this.beforeYesterday,
+          occurrences: this.occurrences
+        })
+        await separateInDays({
+          eventsArray: res.data.slave_connection_fail,
+          type: 'conection_fail',
+          today: this.today,
+          yesterday: this.yesterday,
+          beforeYesterday: this.beforeYesterday,
+          occurrences: this.occurrences
+        })
         console.log(this.occurrences)
       })
       .catch(err => {
