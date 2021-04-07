@@ -101,7 +101,6 @@ export default {
           beforeYesterday: this.beforeYesterday,
           occurrences: this.occurrences
         })
-        console.log(this.occurrences)
       })
       .catch(err => {
         console.log(err)
