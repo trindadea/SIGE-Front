@@ -76,14 +76,15 @@ export default {
   },
 
   created () {
-    this.getInitialFilterValues()
-    const filter = this.filterOptions
-    this.option = filter.dimension
     this.vision = this.visionOptions[0].value
     this.options = this.filterList
-    this.startDate = filter.startDate
-    this.endDate = filter.endDate
+    this.option = this.filterOptions.dimension
+    this.startDate = getDateNowSelectFormat(1)
+    this.endDate = getDateNowSelectFormat()
+
+    this.applyFilter()
   },
+
   computed: {
     ...mapGetters('transductorStore', ['filterOptions'])
   },
@@ -96,18 +97,6 @@ export default {
       })
     },
 
-    async getInitialFilterValues () {
-      const filterOptions = {
-        dimension: this.filterOptions.dimension,
-        vision: '',
-        startDate: getDateNowSelectFormat(1),
-        endDate: getDateNowSelectFormat()
-      }
-      const graphOpt = await getGraph(filterOptions)
-      this.updateFilter(filterOptions)
-      await this.updateChartPhase(graphOpt)
-    },
-
     async applyFilter () {
       const filter = {
         transductor: this.transductorId,
@@ -116,6 +105,7 @@ export default {
         startDate: this.startDate,
         endDate: this.endDate
       }
+
       const graphOpt = await getGraph(filter)
       await this.updateFilter(filter)
       await this.updateChartPhase(graphOpt)
