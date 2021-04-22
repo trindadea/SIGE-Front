@@ -1,92 +1,12 @@
 <template>
   <div>
-    <h3 class="title">Lista de Agrupamentos </h3>
-    <div class="btn q-px-md">
-      <q-btn
-        size="1rem"
-        label="Adicionar"
-        color="primary"
-        @click="handlePressButton('new')"/>
-    </div>
     <div class="container">
-      <div class="info" v-if="isCreatingNew">
-        <h3 class="title">
-          Novo Grupo
-        </h3>
-        <q-form
-          class="q-gutter-md"
-          @submit="postGroup()"
-          >
-          <div class="inputDiv">
-            <label>Nome do Grupo: </label>
-            <q-input
-              class="inputField"
-              outlined
-              v-model="newGroup.name"/>
-          </div>
-          <div class="inputDiv">
-            <label>Tipo do Grupo: </label>
-            <q-select
-              class="inputField"
-              outlined
-              v-model="newGroup.type"
-              label="Tipo do Grupo"
-              :options="groupTypes"
-              option-value="url"
-              option-label="name"
-              emit-value
-              map-options/>
-          </div>
-          <div class="btn">
-            <q-btn
-              size="1rem"
-              label="Salvar"
-              type="submit"
-              color="primary"/>
-          </div>
-        </q-form>
-      </div>
-      <div class="info" v-if="isSelectedGroup">
-        <h3 class="login-text">
-          Editar dados
-        </h3>
-        <q-form
-        class="q-gutter-md"
-        @submit="putGroup()"
-        >
-        <div class="inputDiv">
-          <label>Nome do Grupo: </label>
-          <q-input
-            class="inputField"
-            outlined
-            v-model="group.name"/>
-        </div>
-        <div class="inputDiv">
-            <label>Tipo do Grupo: </label>
-            <q-select
-              class="inputField"
-              outlined
-              v-model="group.type"
-              label="Tipo do Grupo"
-              :options="groupTypes"
-              option-value="url"
-              option-label="name"
-              emit-value
-              map-options/>
-          </div>
-        <div class="text-center q-mt-lg">
-          <q-btn
-            size="1rem"
-            label="Cancelar"
-            @click="handlePressButton('cancel')"
-            color="primary"/>
-          <q-btn
-            size="1rem"
-            label="Salvar"
-            type="submit"
-            color="primary"/>
-        </div>
-      </q-form>
+      <div class="btn q-px-md">
+        <q-btn
+          size="1rem"
+          label="Adicionar"
+          color="primary"
+          @click="handlePressButton('new')"/>
       </div>
       <div class="q-pa-md">
         <q-table
@@ -99,7 +19,7 @@
             <q-tr :props="props">
               <q-td key="id" :props="props">{{ props.row.id }}</q-td>
               <q-td key="name" :props="props">{{ props.row.name }}</q-td>
-              <q-td key="type" :props="props">{{ props.row.type }}</q-td>
+              <q-td key="type" :props="props">{{ showTypeName(props.row.type) }}</q-td>
               <q-td key="edit" :props="props">
                 <q-btn
                   flat
@@ -123,22 +43,38 @@
         </q-table>
       </div>
     </div>
+    <group-dialog
+      :dialog="dialog"
+      :types="groupTypes"
+      :group="group"
+      @close="dialog = false"
+      @updateGroup="updateGroup"
+      @createGroup="createGroup"/>
   </div>
 </template>
 
 <script>
 import MASTER from '../../services/masterApi/http-common'
-// import { mapActions } from 'vuex'
+import { mapActions } from 'vuex'
+import GroupDialog from '../../components/dialogs/GroupsDialog.vue'
 
 export default {
   name: 'Groups',
+  components: {
+    'group-dialog': GroupDialog
+  },
   data () {
     return {
       groups: [],
       group: {},
+      dialog: false,
       isSelectedGroup: false,
       isCreatingNew: false,
       newGroup: {},
+      dialogProps: {
+        title: '',
+        type: ''
+      },
       groupTypes: [],
       columns: [
         { name: 'id', label: 'ID', align: 'left', field: row => row.id, sortable: true, style: 'width: 55px' },
@@ -149,22 +85,38 @@ export default {
       ]
     }
   },
-  created () {
-    this.getGroups()
-    this.getGroupTypes()
+  async created () {
+    this.changePage('Gerenciar instalações > Agrupamentos')
+    await this.getGroupTypes()
+    await this.getGroups()
   },
   methods: {
+    ...mapActions('userStore', ['changePage']),
+    showTypeName (type) {
+      return this.groupTypes.find(value => value.url === type).name
+    },
+    createGroup (payload) {
+      this.newGroup = payload
+      this.postGroup()
+      this.dialog = false
+    },
+    updateGroup (payload) {
+      this.group = payload
+      this.putGroup()
+      this.dialog = false
+    },
     handlePressButton (type, id = null) {
       const options = {
         new: () => {
-          this.isSelectedGroup = false
-          this.isCreatingNew = !this.isCreatingNew
+          this.dialog = true
+          this.group = {
+            title: '',
+            type: ''
+          }
         },
-        show: () => {
-          this.isSelectedGroup = true
-          this.isCreatingNew = false
-          this.getGroup(id)
-            .then()
+        show: async () => {
+          await this.getGroup(id)
+          this.dialog = true
         },
         cancel: () => {
           this.isSelectedGroup = false
@@ -175,8 +127,8 @@ export default {
       }
       if (options[type]) options[type]()
     },
-    getGroups () {
-      MASTER
+    async getGroups () {
+      await MASTER
         .get('groups/', {})
         .then(res => {
           console.log(res.data)
@@ -250,8 +202,8 @@ export default {
           console.log(err)
         })
     },
-    getGroupTypes () {
-      MASTER
+    async getGroupTypes () {
+      await MASTER
         .get('group-types/', this.groupTypes)
         .then(res => {
           this.groupTypes = res.data
