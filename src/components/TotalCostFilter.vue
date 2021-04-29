@@ -261,7 +261,7 @@ export default {
   color: rgba(0, 0, 0, 0.87);
 }
 .adjust-toggle {
-  display: none;
+  display: flex;
   margin-left: 39%;
   margin-top: -1.5%;
 }

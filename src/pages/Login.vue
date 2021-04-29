@@ -59,11 +59,11 @@
           password
           type="password"
           :rules="[ val => val && val.length >= 8 || 'Insira uma senha com ao menos 8 caracteres.']"/>
-        <!--<div class="text-right">
-          <a href="/users/forgotten-password/">
+        <div class="text-right">
+          <a href="/forgotten_password">
             Esqueceu sua senha?
           </a>
-        </div> -->
+        </div>
         <div class="text-center q-mt-lg">
           <q-btn
             size="1rem"
@@ -100,7 +100,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('userStore', ['saveUserInfo']),
+    ...mapActions('userStore', ['saveUserInfo', 'changePage']),
     login () {
       MASTER
         .post('login/', {
@@ -128,6 +128,9 @@ export default {
           })
         })
     }
+  },
+  created () {
+    this.changePage('Login')
   }
 }
 </script>
