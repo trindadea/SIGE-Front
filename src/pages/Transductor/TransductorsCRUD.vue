@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h3 class="title">Lista de Medidores </h3>
     <div class="btn">
       <q-btn
         size="1rem"
@@ -9,22 +8,30 @@
         @click="handlePressButton('new')"/>
     </div>
     <div class="container">
-      <div class="lst-transductor">
-        <ul>
-          <li v-for="(transductor,index) in transductors" :key="index">
-            <p class="lst-item">
-              {{index}} - {{transductor.name}}
-            <q-btn
-              flat
-              round
-              icon="edit"
-              size="1rem"
-              @click="handlePressButton('show', transductor.id)"
-              color="primary"/>
-              </p>
-          </li>
-        </ul>
+
+      <div class="q-pa-md table">
+        <q-table
+          title="Medidores"
+          :data="transductors"
+          :columns="columns"
+          row-key="name">
+
+          <template v-slot:body="props">
+            <q-tr :props="props">
+              <q-td key="campus" :props="props">{{ props.row.campus }}</q-td>
+              <q-td key="name" :props="props">{{ props.row.name }}</q-td>
+              <q-td key="groups" :props="props">{{ props.row.grouping }}</q-td>
+              <q-td key="active" :props="props">
+                <i v-if="props.row.active" class="fas fa-bolt icon icon-green"></i>
+                <i v-else class="fas fa-bolt icon icon-green"></i>
+              </q-td>
+              <q-td key="model" :props="props">{{ props.row.model }}</q-td>
+            </q-tr>
+          </template>
+
+        </q-table>
       </div>
+
       <div class="transductor-info" v-if="isCreatingNew">
         <h3 class="login-text">
           Novo Medidor
@@ -180,10 +187,18 @@ export default {
       isSelectedTransductor: false,
       isCreatingNew: false,
       newTransductor: {},
-      campi: []
+      campi: [],
+      columns: [
+        { name: 'campus', label: 'Campus', align: 'left', field: row => row.campus, sortable: true },
+        { name: 'name', label: 'Nome', align: 'center', field: row => row.name, sortable: true },
+        { name: 'groups', label: 'Grupos', align: 'center', field: row => row.grouping, sortable: true },
+        { name: 'active', label: 'Ativo', align: 'center', field: row => row.active, sortable: true },
+        { name: 'model', label: 'Modelo', align: 'center', field: row => row.model, sortable: true }
+      ]
     }
   },
   created () {
+    this.getCampi()
     this.getTransductors()
   },
   methods: {
@@ -291,13 +306,9 @@ export default {
 </script>
 <style>
 .container {
-  display               : grid;
   font-size             : 25px;
-  grid-template-columns : 30% 1fr;
-  gap                   : 10px;
-  height                : 100vh;
   max-width             : 100vw;
-  padding               : 10px;;
+  padding               : 10px;
 }
 .transductor-info {
   padding   : 20px;
@@ -305,8 +316,26 @@ export default {
 .title {
   padding-left: 20px;
 }
+
 .btn {
   padding   : 20px;
+}
+
+.icon {
+  font-size: 20px;
+}
+
+.icon-green {
+  color: #00b341;
+}
+
+.icon-red {
+  color: #b30000;
+}
+
+.q-table__top, thead tr:first-child th {
+  background-color: #014082;
+  color: white;
 }
 
 </style>
