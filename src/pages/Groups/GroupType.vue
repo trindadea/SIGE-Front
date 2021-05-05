@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h3 class="title">Lista de Tipos de Agrupamentos </h3>
     <div class="btn q-px-md">
       <q-btn
         size="1rem"
@@ -9,65 +8,81 @@
         @click="handlePressButton('new')"/>
     </div>
     <div class="container">
-      <div class="groupType-info" v-if="isCreatingNew">
-        <h3 class="title">
-          Novo GroupType
-        </h3>
-        <q-form
-          class="q-gutter-md"
-          @submit="postGroupType()"
-          >
-          <div class="inputDiv">
-            <label>Nome: </label>
-            <q-input
-              class="inputField"
-              outlined
-              v-model="newGroupType.name"/>
-          </div>
-          <div class="btn">
+      <q-dialog v-model="isCreatingNew" class="dialog">
+        <q-card>
+          <q-card-section>
+            <div class="text-h6">Novo Tipo de Agrupamento</div>
+          </q-card-section>
+          <q-card-section class="q-pt-none">
+            <q-form
+            class="q-gutter-md"
+            @submit="postGroupType()"
+            id="post-form"
+            >
+              <div class="inputDiv">
+                <label>Nome: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="newGroupType.name"/>
+              </div>
+            </q-form>
+          </q-card-section>
+          <q-card-actions align="right">
             <q-btn
               size="1rem"
               label="Salvar"
               type="submit"
-              color="primary"/>
-          </div>
-        </q-form>
-      </div>
-      <div class="groupType-info" v-if="isSelectedGroupType">
-        <h3 class="title">
-          Editar dados
-        </h3>
-        <q-form
-        class="q-gutter-md"
-        @submit="putGroupType()"
-        >
-        <div class="inputDiv">
-          <label>Nome: </label>
-          <q-input
-              class="inputField"
-              outlined
-              disabled
-              v-model="groupType.name"/>
-        </div>
-        <div class="text-right q-mt-lg">
-          <q-btn
-            class="btn"
-            size="1rem"
-            label="Cancelar"
-            color="primary"
-            @click="handlePressButton('cancel')"/>
-          <q-btn
-            class="btn"
-            size="1rem"
-            label="Salvar"
-            type="submit"
-            color="primary"/>
-        </div>
-      </q-form>
-      </div>
+              color="primary"
+              form="post-form"
+              v-close-popup/>
+            <q-btn
+              size="1rem"
+              label="Cancelar"
+              color="primary"
+              v-close-popup/>
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+      <q-dialog v-model="isSelectedGroupType">
+        <q-card>
+          <q-card-section>
+            <div class="text-h6">Editar Dados</div>
+          </q-card-section>
+          <q-card-section class="q-pt-none">
+            <q-form
+            class="q-gutter-md"
+            @submit="putGroupType()"
+            id="put-form"
+            >
+              <div class="inputDiv">
+                <label>Nome: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="groupType.name"/>
+              </div>
+            </q-form>
+          </q-card-section>
+          <q-card-actions align="right">
+            <q-btn
+              size="1rem"
+              label="Salvar"
+              type="submit"
+              color="primary"
+              form="put-form"
+              v-close-popup/>
+            <q-btn
+              size="1rem"
+              label="Cancelar"
+              color="primary"
+              v-close-popup/>
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
       <div class="q-pa-md">
         <q-table
-          title="GroupTypes"
+          title="Tipos de Agrupamentos"
           :data="groupTypes"
           :columns="columns"
           row-key="name"
@@ -104,7 +119,7 @@
 
 <script>
 import MASTER from '../../services/masterApi/http-common'
-// import { mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'GroupTypes',
@@ -124,9 +139,11 @@ export default {
     }
   },
   created () {
+    this.changePage('Gerenciar Instalações > Tipos de Agrupamentos')
     this.getGroupTypes()
   },
   methods: {
+    ...mapActions('userStore', ['changePage']),
     handlePressButton (type, id = null) {
       const options = {
         new: () => {
@@ -201,7 +218,7 @@ export default {
           this.groupTypes = this.groupTypes.filter((groupType) => groupType.id !== id)
           this.$q.notify({
             type: 'positive',
-            message: 'GroupType deletado com sucesso.'
+            message: 'Tipo de Agrupamento deletado com sucesso.'
           })
           this.isSelectedGroupType = false
           this.groupType = {}
@@ -217,6 +234,10 @@ export default {
         .then(res => {
           this.groupTypes.push(res.data)
           this.newGroupType = {}
+          this.$q.notify({
+            type: 'positive',
+            message: 'Tipo de Agrupamento criado com sucesso.'
+          })
         })
         .catch(err => {
           console.log(err)
@@ -247,6 +268,7 @@ export default {
 .btn {
   margin-top  : 24px;
   margin-left : 10px;
+  padding-right: 26px;
   text-align  : right;
 }
 .inputDiv {
@@ -255,7 +277,13 @@ export default {
 }
 .inputField {
   flex          : 1;
-  padding-left  : 10px
+  padding-left  : 10px;
+}
+.q-card {
+  width: 50% !important;
+}
+.inputDiv label {
+  width: 75px;
 }
 
 </style>
