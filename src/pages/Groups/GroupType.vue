@@ -8,11 +8,18 @@
         @click="handlePressButton('new')"/>
     </div>
     <div class="container">
-      <q-dialog v-model="isCreatingNew" class="dialog">
-        <q-card>
-          <q-card-section>
-            <div class="text-h6">Novo Tipo de Agrupamento</div>
-          </q-card-section>
+      <q-dialog
+      v-model="isCreatingNew"
+      transition-show="slide-up"
+      transition-hide="slide-down"
+      >
+        <q-card class="text-white">
+          <q-bar class="bg-primary">
+            <h5 class="title">
+              Novo Tipo de Agrupamento
+            </h5>
+            <q-space/>
+          </q-bar>
           <q-card-section class="q-pt-none">
             <q-form
             class="q-gutter-md"
@@ -20,35 +27,44 @@
             id="post-form"
             >
               <div class="inputDiv">
-                <label>Nome: </label>
                 <q-input
                 class="inputField"
                 outlined
-                v-model="newGroupType.name"/>
+                v-model="newGroupType.name"
+                label="Nome do Tipo de Agrupamento"/>
               </div>
             </q-form>
           </q-card-section>
-          <q-card-actions align="right">
+          <div class="btn">
             <q-btn
               size="1rem"
               label="Salvar"
               type="submit"
-              color="primary"
               form="post-form"
+              color="primary"
               v-close-popup/>
+            <q-space />
             <q-btn
               size="1rem"
               label="Cancelar"
               color="primary"
               v-close-popup/>
-          </q-card-actions>
+          </div>
         </q-card>
       </q-dialog>
-      <q-dialog v-model="isSelectedGroupType">
-        <q-card>
-          <q-card-section>
-            <div class="text-h6">Editar Dados</div>
-          </q-card-section>
+
+      <q-dialog
+      v-model="isSelectedGroupType"
+      transition-show="slide-up"
+      transition-hide="slide-down"
+      >
+        <q-card class="text-white">
+          <q-bar class="bg-primary">
+            <h5 class="title">
+              Editar Dados
+            </h5>
+            <q-space/>
+          </q-bar>
           <q-card-section class="q-pt-none">
             <q-form
             class="q-gutter-md"
@@ -56,30 +72,32 @@
             id="put-form"
             >
               <div class="inputDiv">
-                <label>Nome: </label>
                 <q-input
                 class="inputField"
                 outlined
-                v-model="groupType.name"/>
+                v-model="groupType.name"
+                label="Nome do Tipo de Agrupamento"/>
               </div>
             </q-form>
           </q-card-section>
-          <q-card-actions align="right">
+          <div class="btn">
             <q-btn
               size="1rem"
               label="Salvar"
               type="submit"
-              color="primary"
               form="put-form"
+              color="primary"
               v-close-popup/>
+            <q-space />
             <q-btn
               size="1rem"
               label="Cancelar"
               color="primary"
               v-close-popup/>
-          </q-card-actions>
+          </div>
         </q-card>
       </q-dialog>
+
       <div class="q-pa-md">
         <q-table
           title="Tipos de Agrupamentos"
@@ -260,30 +278,47 @@ export default {
   padding     : 20px;
   padding-top : 0px;
 }
-.title {
-  text-align      : center;
-  padding-top     : 0px;
-  padding-bottom  : 20px;
-}
 .btn {
-  margin-top  : 24px;
-  margin-left : 10px;
+  margin-top   : 24px;
+  margin-left  : 10px;
   padding-right: 26px;
-  text-align  : right;
+  text-align   : right;
 }
 .inputDiv {
+  padding-top : 20px;
   display     : flex;
   align-items : center;
 }
 .inputField {
-  flex          : 1;
-  padding-left  : 10px;
-}
-.q-card {
-  width: 50% !important;
+  flex        : 1;
 }
 .inputDiv label {
   width: 75px;
+}
+.q-card {
+  width: 50% !important;
+  min-width: 400px;
+  .title {
+    padding-left: 10px;
+    margin: 0;
+  }
+  .q-bar {
+    padding: 10px;
+    padding: 10px;
+    height: 60px;
+    border: 0;
+    border-radius: 0;
+  }
+  .info {
+    padding: 15px;
+  }
+  .btn {
+    display: flex;
+    margin-top: 1px;
+    margin-bottom: 20px;
+    padding-left: 5px;
+    padding-right: 17px;
+  }
 }
 
 </style>
