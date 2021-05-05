@@ -20,12 +20,30 @@
             <q-tr :props="props">
               <q-td key="campus" :props="props">{{ props.row.campus }}</q-td>
               <q-td key="name" :props="props">{{ props.row.name }}</q-td>
-              <q-td key="groups" :props="props">{{ props.row.grouping }}</q-td>
+              <q-td key="group" :props="props">{{ props.row.grouping }}</q-td>
               <q-td key="active" :props="props">
                 <i v-if="props.row.active" class="fas fa-bolt icon icon-green"></i>
                 <i v-else class="fas fa-bolt icon icon-green"></i>
               </q-td>
               <q-td key="model" :props="props">{{ props.row.model }}</q-td>
+              <q-td key="edit" :props="props">
+                <q-btn
+                  flat
+                  round
+                  icon="edit"
+                  size="1rem"
+                  @click="handlePressButton('show', props.row.id)"
+                  color="primary"/>
+              </q-td>
+              <q-td key="delete" :props="props">
+                <q-btn
+                  flat
+                  round
+                  icon="delete"
+                  size="1rem"
+                  @click="handlePressButton('delete', props.row.id)"
+                  color="primary"/>
+              </q-td>
             </q-tr>
           </template>
 
@@ -176,7 +194,7 @@
 
 <script>
 import MASTER from '../../services/masterApi/http-common'
-// import { mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'Transductors',
@@ -188,20 +206,26 @@ export default {
       isCreatingNew: false,
       newTransductor: {},
       campi: [],
+      groups: [],
       columns: [
         { name: 'campus', label: 'Campus', align: 'left', field: row => row.campus, sortable: true },
         { name: 'name', label: 'Nome', align: 'center', field: row => row.name, sortable: true },
-        { name: 'groups', label: 'Grupos', align: 'center', field: row => row.grouping, sortable: true },
+        { name: 'group', label: 'Grupos', align: 'center', field: row => row.grouping, sortable: true },
         { name: 'active', label: 'Ativo', align: 'center', field: row => row.active, sortable: true },
-        { name: 'model', label: 'Modelo', align: 'center', field: row => row.model, sortable: true }
+        { name: 'model', label: 'Modelo', align: 'center', field: row => row.model, sortable: true },
+        { name: 'edit', label: 'Editar', align: 'center', format: () => 'Editar', sortable: false, style: 'width: 55px' },
+        { name: 'delete', label: 'Excluir', align: 'center', format: () => 'Excluir', sortable: false, style: 'width: 55px' }
       ]
     }
   },
-  created () {
-    this.getCampi()
+  async created () {
+    this.changePage('Gerenciar Instalações - Medidores')
+    await this.getCampi()
+    await this.getGroups()
     this.getTransductors()
   },
   methods: {
+    ...mapActions('userStore', ['changePage']),
     handlePressButton (type, id = null) {
       const options = {
         new: () => {
@@ -220,19 +244,27 @@ export default {
       MASTER
         .get('energy-transductors/', {})
         .then(res => {
-          console.log(res.data)
           this.transductors = res.data
+
+          this.transductors.forEach((transductor) => {
+            const campusId = transductor.campus.match(/campi\/(?<campusId>\d+)/).groups.campusId
+            const transductorCampus = this.campi.find(campus => campus.id === parseInt(campusId))
+
+            const groupId = transductor.grouping[0].match(/groups\/(?<groupId>\d+)/).groups.groupId
+            const transductorGroup = this.groups.find(group => group.id === parseInt(groupId))
+
+            transductor.campus = transductorCampus.name
+            transductor.grouping = transductorGroup.name
+          })
         })
         .catch(err => {
-          this.err = err
-          console.log('err')
+          console.log(err)
         })
     },
     getTransductor (id) {
       MASTER
         .get('energy-transductors/' + id, {})
         .then(res => {
-          console.log(res.data)
           this.transductor = res.data
           this.isSelectedTransductor = true
         })
@@ -274,7 +306,6 @@ export default {
           })
           this.isSelectedTransductor = false
           this.transductor = {}
-          console.log(res.data)
         })
         .catch(err => {
           console.log(err)
@@ -292,14 +323,32 @@ export default {
         })
     },
     getCampi () {
-      MASTER
-        .get('campi/', this.campi)
-        .then(res => {
-          this.campi = res.data
-        })
-        .catch(err => {
-          console.log(err)
-        })
+      return new Promise((resolve, reject) => {
+        MASTER
+          .get('campi/', this.campi)
+          .then(res => {
+            this.campi = res.data
+            resolve()
+          })
+          .catch(err => {
+            console.log(err)
+            resolve()
+          })
+      })
+    },
+    getGroups () {
+      return new Promise((resolve, reject) => {
+        MASTER
+          .get('groups/')
+          .then(res => {
+            this.groups = res.data
+            resolve()
+          })
+          .catch(err => {
+            console.log(err)
+            resolve()
+          })
+      })
     }
   }
 }
@@ -313,12 +362,15 @@ export default {
 .transductor-info {
   padding   : 20px;
 }
+
 .title {
   padding-left: 20px;
 }
 
 .btn {
-  padding   : 20px;
+  margin-top  : 24px;
+  margin-right : 25px;
+  text-align  : right;
 }
 
 .icon {
