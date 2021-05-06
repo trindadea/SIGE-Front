@@ -451,6 +451,7 @@ export default {
             if (transductor.id === id) return res.data
             return transductor
           })
+          this.isSelectedTransductor = false
           this.$q.notify({
             type: 'positive',
             message: 'Seus dados foram atualizados.'
@@ -487,6 +488,11 @@ export default {
         .then(res => {
           this.transductors.push(res.data)
           this.newTransductors = {}
+          this.isCreatingNew = false
+          this.$q.notify({
+            type: 'positive',
+            message: 'Transdutor adicionado com sucesso.'
+          })
         })
         .catch(err => {
           this.$q.notify({
