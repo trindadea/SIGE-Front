@@ -2,11 +2,8 @@
   <div class="map-wrapper">
     <l-map
       class="rounded-borders cursor-not-allowed map-dimension"
-      :zoom="zoom_ratio || 16"
-      :min-zoom="zoom_ratio || 16"
-      :max-zoom="zoom_ratio || 16"
+      :bounds="mapBounds"
       :options="mapOptions"
-      :center="mapCenter"
       id="region-map">
 
       <l-tile-layer
@@ -82,8 +79,7 @@ export default {
       zoom_ratio: parseInt(this.currentCampus.zoom_ratio),
 
       mapOptions: {
-        zoomControl: false,
-        maxbounds: this.center
+        zoomControl: false
       },
 
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -148,15 +144,15 @@ export default {
 
       return arr
     },
-    mapCenter () {
-      if (!(this.currentCampus.geolocation_latitude)) {
-        if (this.currentCampus.name.toLowerCase().includes('gama')) {
-          return [15.9894 - 48.0443] // gama's geo-pos
-        } else {
-          return [-15.7636, -47.8694] // darcy's geo-pos
-        }
-      }
-      return [this.currentCampus.geolocation_latitude, this.currentCampus.geolocation_longitude]
+    mapBounds () {
+      const arr = []
+      this.transductors.forEach((point) => {
+        const latlng = []
+        latlng.push(point.geolocation_latitude)
+        latlng.push(point.geolocation_longitude)
+        arr.push(latlng)
+      })
+      return arr
     }
   },
 
