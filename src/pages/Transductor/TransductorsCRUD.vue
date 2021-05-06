@@ -50,144 +50,311 @@
         </q-table>
       </div>
 
-      <div class="transductor-info" v-if="isCreatingNew">
-        <h3 class="login-text">
-          Novo Medidor
-        </h3>
-        <q-form
-          class="q-gutter-md"
-          @submit="postTransductor()"
-          >
-          <q-input
-            outlined
-            v-model="newTransductor.serial_number"
-            label="Número de Série"/>
-          <q-input
-            outlined
-            v-model="newTransductor.ip_address"
-            label="Endereço IP"/>
-          <q-input
-            outlined
-            v-model="newTransductor.port"
-            label="Porta"/>
-          <q-input
-            outlined
-            v-model="newTransductor.geolocation_latitude"
-            label="Latitude"/>
-          <q-input
-            outlined
-            v-model="newTransductor.geolocation_longitude"
-            label="Longitude"/>
-          <q-select
-            outlined
-            v-model="newTransductor.campus"
-            label="Campus"
-            :options="campi"
-            option-value="url"
-            option-label="name"
-            emit-value
-            map-options/>
-          <q-input
-            outlined
-            v-model="newTransductor.firmware_version"
-            label="Versão do Firmware"/>
-          <q-input
-            outlined
-            v-model="newTransductor.name"
-            label="Nome"/>
-          <q-input
-            outlined
-            v-model="newTransductor.model"
-            label="Modelo"/>
-          <q-input
-            outlined
-            v-model="newTransductor.grouping"
-            label="Grouping"/>
-          <q-input
-            outlined
-            v-model="newTransductor.history"
-            label="History"/>
-          <div class="text-center q-mt-lg">
+      <q-dialog v-model="isCreatingNew" class="dialog">
+        <q-card>
+          <q-card-section>
+            <div class="text-h6">Novo Medidor</div>
+          </q-card-section>
+
+          <q-card-section class="q-pt-none">
+            <q-form
+            class="q-gutter-md"
+            @submit="postTransductor()"
+            id="post-form"
+            >
+              <div class="inputDiv">
+                <label>Número de Série: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="newTransductor.serial_number"
+                label="Número de Série"/>
+              </div>
+
+              <div class="inputDiv">
+                <label>Endereço IP: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="newTransductor.ip_address"
+                label="Endereço IP"/>
+              </div>
+
+              <div class="inputDiv">
+                <label>Porta: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="newTransductor.port"
+                label="Porta"/>
+              </div>
+
+              <div class="inputDiv">
+                <label>Latitude: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="newTransductor.geolocation_latitude"
+                label="Latitude"/>
+              </div>
+
+              <div class="inputDiv">
+                <label>Longitude: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="newTransductor.geolocation_longitude"
+                label="Longitude"/>
+              </div>
+
+              <div class="inputDiv">
+                <label>Campus: </label>
+                <q-select
+                class="inputField"
+                outlined
+                :options="campi"
+                option-value="url"
+                option-label="name"
+                emit-value
+                map-options
+                v-model="newTransductor.campus"
+                label="Campus"/>
+              </div>
+
+              <div class="inputDiv">
+                <label>Versão do Firmware: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="newTransductor.firmware_version"
+                label="Versão do Firmware"/>
+              </div>
+
+              <div class="inputDiv">
+                <label>Nome: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="newTransductor.name"
+                label="Nome"/>
+              </div>
+
+              <div class="inputDiv">
+                <label>Modelo: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="newTransductor.model"
+                label="Modelo"/>
+              </div>
+
+              <div class="inputDiv">
+                <label>Grupo: </label>
+                <q-select
+                class="inputField"
+                outlined
+                v-model="newTransductor.grouping"
+                :options="groups"
+                option-value="url"
+                option-label="name"
+                emit-value
+                map-options
+                label="Grupo"/>
+              </div>
+
+              <div class="inputDiv">
+                <label>Servidor Distribuído: </label>
+                <q-select
+                class="inputField"
+                outlined
+                v-model="newTransductor.slave_server"
+                :options="slaves"
+                option-value="url"
+                option-label="name"
+                emit-value
+                map-options
+                label="Servidor Distribuído"/>
+              </div>
+
+              <div class="inputDiv">
+                <label>History: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="newTransductor.history"
+                label="History"/>
+              </div>
+            </q-form>
+          </q-card-section>
+
+          <q-card-actions align="right">
             <q-btn
               size="1rem"
-              label="Enviar"
+              label="Salvar"
               type="submit"
-              color="primary"/>
-          </div>
-        </q-form>
-      </div>
-      <div class="transductor-info" v-if="isSelectedTransductor">
-        <h3 class="login-text">
-          Editar dados
-        </h3>
-        <p>Id: {{transductor.id}}</p>
-        <q-form
-        class="q-gutter-md"
-        @submit="putTransductor()"
-        >
-          <q-input
-            outlined
-            v-model="transductor.serial_number"
-            label="Número de Série"/>
-          <q-input
-            outlined
-            v-model="transductor.ip_address"
-            label="Endereço IP"/>
-          <q-input
-            outlined
-            v-model="transductor.port"
-            label="Porta"/>
-          <q-input
-            outlined
-            v-model="transductor.geolocation_latitude"
-            label="Latitude"/>
-          <q-input
-            outlined
-            v-model="transductor.geolocation_longitude"
-            label="Longitude"/>
-          <q-select
-            outlined
-            v-model="transductor.campus"
-            label="Campus"
-            :options="campi"
-            option-value="url"
-            option-label="name"
-            emit-value
-            map-options/>
-          <q-input
-            outlined
-            v-model="transductor.firmware_version"
-            label="Versão do Firmware"/>
-          <q-input
-            outlined
-            v-model="transductor.name"
-            label="Nome"/>
-          <q-input
-            outlined
-            v-model="transductor.model"
-            label="Modelo"/>
-          <q-input
-            outlined
-            v-model="transductor.grouping"
-            label="Grouping"/>
-          <q-input
-            outlined
-            v-model="transductor.history"
-            label="History"/>
-        <div class="text-center q-mt-lg">
-          <q-btn
-            size="1rem"
-            label="Salvar"
-            type="submit"
-            color="primary"/>
-          <q-btn
-            size="1rem"
-            label="Deletar"
-            @click="deleteTransductor(transductor.id)"
-            color="primary"/>
-        </div>
-      </q-form>
-      </div>
+              color="primary"
+              form="post-form"/>
+            <q-btn
+              size="1rem"
+              label="Cancelar"
+              color="primary"
+              v-close-popup/>
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+
+      <q-dialog v-model="isSelectedTransductor" class="dialog">
+        <q-card>
+          <q-card-section>
+            <div class="text-h6">Editar Medidor</div>
+          </q-card-section>
+
+          <q-card-section class="q-pt-none">
+            <q-form
+            class="q-gutter-md"
+            @submit="putTransductor()"
+            id="put-form"
+            >
+              <div class="inputDiv">
+                <label>Número de Série: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="transductor.serial_number"
+                label="Número de Série"/>
+              </div>
+
+              <div class="inputDiv">
+                <label>Endereço IP: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="transductor.ip_address"
+                label="Endereço IP"/>
+              </div>
+
+              <div class="inputDiv">
+                <label>Porta: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="transductor.port"
+                label="Porta"/>
+              </div>
+
+              <div class="inputDiv">
+                <label>Latitude: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="transductor.geolocation_latitude"
+                label="Latitude"/>
+              </div>
+
+              <div class="inputDiv">
+                <label>Longitude: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="transductor.geolocation_longitude"
+                label="Longitude"/>
+              </div>
+
+              <div class="inputDiv">
+                <label>Campus: </label>
+                <q-select
+                class="inputField"
+                outlined
+                :options="campi"
+                option-value="url"
+                option-label="name"
+                emit-value
+                map-options
+                v-model="transductor.campus"
+                label="Campus"/>
+              </div>
+
+              <div class="inputDiv">
+                <label>Versão do Firmware: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="transductor.firmware_version"
+                label="Versão do Firmware"/>
+              </div>
+
+              <div class="inputDiv">
+                <label>Nome: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="transductor.name"
+                label="Nome"/>
+              </div>
+
+              <div class="inputDiv">
+                <label>Modelo: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="transductor.model"
+                label="Modelo"/>
+              </div>
+
+              <div class="inputDiv">
+                <label>Grupo: </label>
+                <q-select
+                class="inputField"
+                outlined
+                v-model="transductor.grouping"
+                :options="groups"
+                option-value="url"
+                option-label="name"
+                emit-value
+                map-options
+                label="Grupo"/>
+              </div>
+
+              <div class="inputDiv">
+                <label>Servidor Distribuído: </label>
+                <q-select
+                class="inputField"
+                outlined
+                v-model="transductor.slave_server"
+                :options="slaves"
+                option-value="url"
+                option-label="name"
+                emit-value
+                map-options
+                label="Servidor Distribuído"/>
+              </div>
+
+              <div class="inputDiv">
+                <label>History: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="transductor.history"
+                label="History"/>
+              </div>
+            </q-form>
+          </q-card-section>
+
+          <q-card-actions align="right">
+            <q-btn
+              size="1rem"
+              label="Salvar"
+              type="submit"
+              color="primary"
+              form="put-form"/>
+            <q-btn
+              size="1rem"
+              label="Cancelar"
+              color="primary"
+              v-close-popup/>
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
     </div>
   </div>
 </template>
@@ -207,6 +374,7 @@ export default {
       newTransductor: {},
       campi: [],
       groups: [],
+      slaves: [],
       columns: [
         { name: 'campus', label: 'Campus', align: 'left', field: row => row.campus, sortable: true },
         { name: 'name', label: 'Nome', align: 'center', field: row => row.name, sortable: true },
@@ -222,6 +390,7 @@ export default {
     this.changePage('Gerenciar Instalações - Medidores')
     await this.getCampi()
     await this.getGroups()
+    await this.getSlaves()
     this.getTransductors()
   },
   methods: {
@@ -312,6 +481,7 @@ export default {
         })
     },
     postTransductor () {
+      this.newTransductor.grouping = [this.newTransductor.grouping]
       MASTER
         .post('energy-transductors/', this.newTransductor)
         .then(res => {
@@ -319,6 +489,10 @@ export default {
           this.newTransductors = {}
         })
         .catch(err => {
+          this.$q.notify({
+            type: 'negative',
+            message: 'Falha ao adicionar medidor. Tente novamente.'
+          })
           console.log(err)
         })
     },
@@ -342,6 +516,20 @@ export default {
           .get('groups/')
           .then(res => {
             this.groups = res.data
+            resolve()
+          })
+          .catch(err => {
+            console.log(err)
+            resolve()
+          })
+      })
+    },
+    getSlaves () {
+      return new Promise((resolve, reject) => {
+        MASTER
+          .get('slave/')
+          .then(res => {
+            this.slaves = res.data
             resolve()
           })
           .catch(err => {
@@ -390,4 +578,11 @@ export default {
   color: white;
 }
 
+.inputField {
+  padding-left: 10px;
+}
+
+.q-card {
+  width: 50% !important;
+}
 </style>
