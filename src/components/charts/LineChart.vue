@@ -266,8 +266,8 @@ export default {
               fontSize: '1rem'
             }
           },
-          min: this.min || this.chartOptions.min - 5,
-          max: this.max || this.chartOptions.max + 5,
+          min: this.min,
+          max: this.max,
           decimalsInFloat: 2,
           tickAmount: 10
         },
