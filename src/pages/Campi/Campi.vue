@@ -49,12 +49,48 @@
             label="Longitude"/>
           </div>
           <div class="inputDiv">
-            <label>Longitude: </label>
+            <label>Taxa de zoom: </label>
             <q-input
             class="inputField"
             outlined
             v-model="newCampus.zoom_ratio"
             label="Map Zoom"/>
+          </div>
+          <div class="inputDiv">
+            <label>Data de início das tarifas: </label>
+            <q-input
+            class="inputField"
+            outlined
+            v-model="newTariff.tariff_start_date"
+            label="Tariff Start Date">
+              <template v-slot:append>
+                <q-icon name="event" class="cursor-pointer">
+                  <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                    <q-date v-model="newTariff.tariff_start_date" mask="YYYY-MM-DD">
+                      <div class="row items-center justify-end">
+                        <q-btn v-close-popup label="Close" color="primary" flat />
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
+          </div>
+          <div class="inputDiv">
+            <label>Tarifa Regular: </label>
+            <q-input
+            class="inputField"
+            outlined
+            v-model="newTariff.regular_tariff"
+            label="Regular Tariff"/>
+          </div>
+          <div class="inputDiv">
+            <label>Tarifa de Ponta: </label>
+            <q-input
+            class="inputField"
+            outlined
+            v-model="newTariff.high_tariff"
+            label="High Tariff"/>
           </div>
           <div class="btn">
             <q-btn
@@ -106,7 +142,7 @@
             label="Longitude"/>
           </div>
           <div class="inputDiv">
-            <label>Longitude: </label>
+            <label>Taxa de zoom: </label>
             <q-input
             class="inputField"
             outlined
@@ -182,6 +218,7 @@ export default {
       isSelectedCampus: false,
       isCreatingNew: false,
       newCampus: {},
+      newTariff: {},
       columns: [
         { name: 'id', label: 'ID', align: 'left', field: row => row.id, sortable: true, style: 'width: 55px' },
         { name: 'name', label: 'Nome', align: 'left', field: row => row.name, sortable: true },
@@ -221,7 +258,6 @@ export default {
       MASTER
         .get('campi/', {})
         .then(res => {
-          console.log(res.data)
           this.campi = res.data
         })
         .catch(err => {
@@ -233,9 +269,7 @@ export default {
       MASTER
         .get('campi/' + id, {})
         .then(res => {
-          console.log(res.data)
           this.campus = res.data
-          this.isSelectedCampus = true
         })
         .catch(err => {
           console.log(err)
@@ -275,7 +309,6 @@ export default {
           })
           this.isSelectedCampus = false
           this.campus = {}
-          console.log(res.data)
         })
         .catch(err => {
           console.log(err)
@@ -285,10 +318,27 @@ export default {
       MASTER
         .post('campi/', this.newCampus)
         .then(res => {
-          this.campi.push(res.data)
+          this.campus = res.data
+          this.campi.push(this.campus)
           this.newCampus = {}
+
+          this.postTariff()
         })
         .catch(err => {
+          console.log(err)
+        })
+    },
+    postTariff () {
+      MASTER
+        .post(`campi/${this.campus.id}/tariffs/`, {
+          campus: this.campus.url,
+          start_date: this.newTariff.tariff_start_date,
+          regular_tariff: parseFloat(this.newTariff.regular_tariff),
+          high_tariff: parseFloat(this.newTariff.high_tariff)
+        })
+        .then(res => {
+          this.newTariff = {}
+        }).catch(err => {
           console.log(err)
         })
     }
