@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h3 class="title">Lista de Servidores Distribuídos </h3>
     <div class="btn q-px-md">
       <q-btn
         size="1rem"
@@ -9,96 +8,120 @@
         @click="handlePressButton('new')"/>
     </div>
     <div class="container q-px-md">
-      <div class="info" v-if="isCreatingNew">
-        <h3 class="title">
-          Novo Slave
-        </h3>
-        <q-form
-          class="q-gutter-md"
-          @submit="postSlave()"
-          >
-          <div class="inputDiv">
-            <label>Endereço IP: </label>
-            <q-input
-            class="inputField"
-            outlined
-            v-model="newSlave.ip_address"
-            label="Endereço IP"/>
-          </div>
-          <div class="inputDiv">
-            <label>Porta: </label>
-            <q-input
-            class="inputField"
-            outlined
-            v-model="newSlave.port"
-            label="Porta de Acesso IP"/>
-          </div>
-          <div class="inputDiv">
-            <label>Localização: </label>
-            <q-input
-            class="inputField"
-            outlined
-            v-model="newSlave.name"
-            label="Endereço"/>
-          </div>
-          <div class="btn">
+      <q-dialog v-model="isCreatingNew" class="dialog">
+        <q-card>
+          <q-card-section>
+            <div class="text-h6">Novo Slave</div>
+          </q-card-section>
+
+          <q-card-section class="q-pt-none">
+            <q-form
+            class="q-gutter-md"
+            @submit="postSlave()"
+            id="post-form"
+            >
+              <div class="inputDiv">
+                <label>Endereço IP: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="newSlave.ip_address"
+                label="Endereço IP"/>
+              </div>
+
+              <div class="inputDiv">
+                <label>Porta: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="newSlave.port"
+                label="Porta de Acesso IP"/>
+              </div>
+
+              <div class="inputDiv">
+                <label>Localização: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="newSlave.name"
+                label="Endereço"/>
+              </div>
+            </q-form>
+          </q-card-section>
+
+          <q-card-actions align="right">
             <q-btn
               size="1rem"
               label="Salvar"
               type="submit"
-              color="primary"/>
-          </div>
-        </q-form>
-      </div>
-      <div class="info" v-if="isSelectedSlave">
-        <h4 class="title">
-          Editar dados
-        </h4>
-        <p>Id: {{slave.id}}</p>
-        <q-form
-        class="q-gutter-md"
-        @submit="putSlave()"
-        >
-        <div class="inputDiv">
-          <label>Endereço IP: </label>
-          <q-input
-          class="inputField"
-          outlined
-          v-model="slave.ip_address"
-          label="Endereço IP"/>
-        </div>
-        <div class="inputDiv">
-          <label>Porta: </label>
-          <q-input
-          class="inputField"
-          outlined
-          v-model="slave.port"
-          label="Porta de Acesso IP"/>
-        </div>
-        <div class="inputDiv">
-          <label>Localização: </label>
-          <q-input
-          class="inputField"
-          outlined
-          v-model="slave.name"
-          label="Endereço"/>
-        </div>
-        <div class="text-right q-mt-lg">
-          <q-btn
-            class="btn"
-            size="1rem"
-            label="Cancelar"
-            color="primary"
-            @click="handlePressButton('cancel')"/>
-          <q-btn
-            class="btn"
-            size="1rem"
-            label="Salvar"
-            type="submit"
-            color="primary"/>
-        </div>
-      </q-form>
-      </div>
+              color="primary"
+              form="post-form"/>
+            <q-btn
+              size="1rem"
+              label="Cancelar"
+              color="primary"
+              v-close-popup/>
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+
+      <q-dialog v-model="isSelectedSlave" class="dialog">
+        <q-card>
+          <q-card-section>
+            <div class="text-h6">Novo Slave</div>
+          </q-card-section>
+
+          <q-card-section class="q-pt-none">
+            <q-form
+            class="q-gutter-md"
+            @submit="putSlave()"
+            id="put-form"
+            >
+              <div class="inputDiv">
+                <label>Endereço IP: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="slave.ip_address"
+                label="Endereço IP"/>
+              </div>
+
+              <div class="inputDiv">
+                <label>Porta: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="slave.port"
+                label="Porta de Acesso IP"/>
+              </div>
+
+              <div class="inputDiv">
+                <label>Localização: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="slave.name"
+                label="Endereço"/>
+              </div>
+            </q-form>
+          </q-card-section>
+
+          <q-card-actions align="right">
+            <q-btn
+              size="1rem"
+              label="Salvar"
+              type="submit"
+              color="primary"
+              form="put-form"/>
+            <q-btn
+              size="1rem"
+              label="Cancelar"
+              color="primary"
+              v-close-popup/>
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+
       <div class="q-pa-md">
         <q-table
           title="Servidores"
@@ -140,7 +163,7 @@
 
 <script>
 import MASTER from '../../services/masterApi/http-common'
-// import { mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'Slaves',
@@ -162,9 +185,11 @@ export default {
     }
   },
   created () {
+    this.changePage('Gerenciar Instalações - Servidores Distribuídos')
     this.getSlaves()
   },
   methods: {
+    ...mapActions('userStore', ['changePage']),
     handlePressButton (type, id = null) {
       const options = {
         new: () => {
@@ -219,6 +244,7 @@ export default {
             if (slave.id === id) return res.data
             return slave
           })
+          this.isSelectedSlave = false
           this.$q.notify({
             type: 'positive',
             message: 'Seus dados foram atualizados.'
@@ -243,7 +269,6 @@ export default {
           })
           this.isSelectedSlave = false
           this.slave = {}
-          console.log(res.data)
         })
         .catch(err => {
           console.log(err)
@@ -255,6 +280,11 @@ export default {
         .then(res => {
           this.slaves.push(res.data)
           this.newSlaves = {}
+          this.isCreatingNew = false
+          this.$q.notify({
+            type: 'positive',
+            message: 'Slave adicionado com sucesso.'
+          })
         })
         .catch(err => {
           console.log(err)
@@ -293,7 +323,13 @@ export default {
 }
 .inputField {
   flex          : 1;
-  padding-left  : 10px
+  padding-left  : 10px;
+}
+.q-card {
+  width: 50% !important;
+}
+.inputDiv label {
+  width: 75px;
 }
 
 </style>
