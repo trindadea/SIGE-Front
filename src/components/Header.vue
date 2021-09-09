@@ -11,7 +11,7 @@
       <div style="padding-left: 8%">
       <q-icon name="account_circle" class="float-right" size="sm">
         <q-popup-edit content-class="bg-white text-black q-mr-sm q-mt-sm popup" v-model="username">
-          <div v-if="userLogged" class="col text-center">
+          <div v-if="userIsLogged" class="col text-center">
             <div class="text-bold" style="font-size:1.3em">{{ username }}</div>
             <div>{{ useremail }}</div>
             <div class="q-pa-sm">
@@ -46,7 +46,7 @@ export default {
   mixins: [logoutHelper],
   data () {
     return {
-      userLogged: '',
+      userIsLogged: false,
       username: '',
       useremail: ''
     }
@@ -65,22 +65,7 @@ export default {
     goToRegister () {
       this.$router.push('/register')
     },
-
-    async loadUserData () {
-      if (await this.authStatus) {
-        this.userLogged = true
-      } else {
-        return
-      }
-      const user = this.getUser
-      let userName = user.username
-      if (userName === null) userName = ''
-      let userEmail = user.useremail
-      if (userEmail === null) userEmail = ''
-      if (userName && userEmail) {
-        this.username = userName
-        this.useremail = userEmail
-      }
+    getUsers (user) {
       MASTER
         .get('users/' + user.id + '/', {
           headers: {
@@ -96,9 +81,26 @@ export default {
           })
         })
         .catch(err => {
-          this.userLogged = false
+          this.userIsLogged = false
           console.log(err)
         })
+    },
+    async loadUserData () {
+      if (await this.authStatus) {
+        this.userIsLogged = true
+      } else {
+        return
+      }
+      const user = this.getUser
+      let userName = user.username
+      if (userName === null) userName = ''
+      let userEmail = user.useremail
+      if (userEmail === null) userEmail = ''
+      if (userName && userEmail) {
+        this.username = userName
+        this.useremail = userEmail
+      }
+      this.getUsers(user)
     }
   },
   created () {

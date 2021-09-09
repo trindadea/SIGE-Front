@@ -7,22 +7,22 @@ export function getDateNowSelectFormat (daysBeforeToday = 0) {
   return dateFormatted
 }
 
-export function separateInDays (arr, type, today, yesterday, beforeYesterday, occurrences = []) {
+export function separateInDays (event) {
   const now = new Date()
-  arr.forEach((elem) => {
+  event.eventsArray.forEach((elem) => {
     const startTime = new Date(elem.start_time)
     const endTime = elem.end_time === null ? new Date() : new Date(elem.end_time)
 
     const item = {
       ...elem,
-      originalType: type,
-      type: getOccurenceName(type),
+      originalType: event.type,
+      type: getOccurenceName(event.type),
       writtenStartTime: timePassedDays(startTime, endTime, true),
       writtenEndTime: timePassedDays(endTime, now, false),
-      info: getInfo(elem, type)
+      info: getInfo(elem, event.type)
     }
     if (item.end_time === null) {
-      occurrences.push(item)
+      event.occurrences.push(item)
     }
     endTime.setHours(0, 0, 0, 0)
     now.setHours(0, 0, 0, 0)
@@ -30,11 +30,11 @@ export function separateInDays (arr, type, today, yesterday, beforeYesterday, oc
     const diff = Math.floor((now - endTime) / (1000 * 60 * 60 * 24))
 
     if (diff === 0) {
-      today.push(item)
+      event.today.push(item)
     } else if (diff === 1) {
-      yesterday.push(item)
+      event.yesterday.push(item)
     } else if (diff === 2) {
-      beforeYesterday.push(item)
+      event.beforeYesterday.push(item)
     }
   })
 }
@@ -134,7 +134,7 @@ export function getOccurenceName (type) {
   }
 }
 
-export function timePassed (time) {
+export function getTimePassed (time) {
   const d = new Date(time)
   const now = new Date()
   const min = Math.floor((now - d) / (1000 * 60))

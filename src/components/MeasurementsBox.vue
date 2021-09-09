@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { timePassed } from '../utils/transductorStatus'
+import { getTimePassed } from '../utils/transductorStatus'
 import MASTER from '../services/masterApi/http-common'
 
 export default {
@@ -49,7 +49,6 @@ export default {
     }
   },
   async created () {
-    console.log('id:', this.id)
     await MASTER
       .get('/realtime-measurements/?id=' + this.id)
       .then(res => {
@@ -68,7 +67,7 @@ export default {
           r: Math.round(res.data[0].total_reactive_power),
           t: Math.round(res.data[0].total_power_factor)
         }
-        console.log('res', res.data)
+
         this.lastReading = this.getTime(res.data[0].collection_date)
         if (res.data[0].consumption) {
           this.generation = (Math.floor((res.data[0].consumption) / 1000)).toString() + ' kW'
@@ -81,11 +80,11 @@ export default {
   },
   methods: {
     getTime (d) {
-      let ans = timePassed(d)
-      if (ans !== 'agora') {
-        ans = 'há ' + ans
+      let timePassed = getTimePassed(d)
+      if (timePassed !== 'agora') {
+        timePassed = 'há ' + timePassed
       }
-      return ans
+      return timePassed
     }
   }
 }
