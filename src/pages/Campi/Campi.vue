@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h3 class="title">Lista de Campi </h3>
     <div class="btn q-px-md">
       <q-btn
         size="1rem"
@@ -9,126 +8,148 @@
         @click="handlePressButton('new')"/>
     </div>
     <div class="container">
-      <div class="info" v-if="isCreatingNew">
-        <h3 class="login-text">
-          Novo Campus
-        </h3>
-        <q-form
-          class="q-gutter-md"
-          @submit="postCampus()"
-          >
-          <div class="inputDiv">
-            <label>Nome: </label>
-            <q-input
-            outlined
-            v-model="newCampus.name"
-            label="Nome do Campus"/>
-          </div>
-          <div class="inputDiv">
-            <label>Acronimo: </label>
-            <q-input
-            class="inputField"
-            outlined
-            v-model="newCampus.acronym"
-            label="Acronym"/>
-          </div>
-          <div class="inputDiv">
-            <label>Latitude: </label>
-            <q-input
-            class="inputField"
-            outlined
-            v-model="newCampus.geolocation_latitude"
-            label="Latitude"/>
-          </div>
-          <div class="inputDiv">
-            <label>Longitude: </label>
-            <q-input
-            class="inputField"
-            outlined
-            v-model="newCampus.geolocation_longitude"
-            label="Longitude"/>
-          </div>
-          <div class="inputDiv">
-            <label>Longitude: </label>
-            <q-input
-            class="inputField"
-            outlined
-            v-model="newCampus.zoom_ratio"
-            label="Map Zoom"/>
-          </div>
-          <div class="btn">
+      <q-dialog v-model="isCreatingNew" class="dialog">
+        <q-card>
+          <q-card-section>
+            <div class="text-h6">Novo Campus</div>
+          </q-card-section>
+
+          <q-card-section class="q-pt-none">
+            <q-form
+            class="q-gutter-md"
+            @submit="postCampus()"
+            id="post-form"
+            >
+              <div class="inputDiv">
+                <label>Nome: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="newCampus.name"
+                label="Nome do Campus"/>
+              </div>
+              <div class="inputDiv">
+                <label>Acronimo: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="newCampus.acronym"
+                label="Acronym"/>
+              </div>
+              <div class="inputDiv">
+                <label>Latitude: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="newCampus.geolocation_latitude"
+                label="Latitude"/>
+              </div>
+              <div class="inputDiv">
+                <label>Longitude: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="newCampus.geolocation_longitude"
+                label="Longitude"/>
+              </div>
+              <div class="inputDiv">
+                <label>Nível de Zoom: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="newCampus.zoom_ratio"
+                label="Map Zoom"/>
+              </div>
+            </q-form>
+          </q-card-section>
+
+          <q-card-actions align="right">
             <q-btn
               size="1rem"
               label="Salvar"
               type="submit"
-              color="primary"/>
-          </div>
-        </q-form>
-      </div>
-      <div class="info" v-if="isSelectedCampus">
-        <h3 class="login-text">
-          Editar dados
-        </h3>
-        <q-form
-        class="q-gutter-md"
-        @submit="putCampus()"
-        >
-        <div class="inputDiv">
-            <label>Nome: </label>
-            <q-input
-            class="inputField"
-            outlined
-            v-model="campus.name"
-            label="Nome do Campus"/>
-          </div>
-          <div class="inputDiv">
-            <label>Acronimo: </label>
-            <q-input
-            class="inputField"
-            outlined
-            v-model="campus.acronym"
-            label="Acronym"/>
-          </div>
-          <div class="inputDiv">
-            <label>Latitude: </label>
-            <q-input
-            class="inputField"
-            outlined
-            v-model="campus.geolocation_latitude"
-            label="Latitude"/>
-          </div>
-          <div class="inputDiv">
-            <label>Longitude: </label>
-            <q-input
-            class="inputField"
-            outlined
-            v-model="campus.geolocation_longitude"
-            label="Longitude"/>
-          </div>
-          <div class="inputDiv">
-            <label>Longitude: </label>
-            <q-input
-            class="inputField"
-            outlined
-            v-model="campus.zoom_ratio"
-            label="Map Zoom"/>
-          </div>
-        <div class="text-center q-mt-lg">
-          <q-btn
-            class="btn"
-            size="1rem"
-            label="Cancelar"
-            color="primary"
-            @click="handlePressButton('cancel')"/>
-          <q-btn
-            class="btn"
-            size="1rem"
-            label="Salvar"
-            type="submit"
-            color="primary"/>
-        </div>
-      </q-form>
-      </div>
+              color="primary"
+              form="post-form"/>
+            <q-btn
+              size="1rem"
+              label="Cancelar"
+              color="primary"
+              v-close-popup/>
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+
+      <q-dialog v-model="isSelectedCampus">
+        <q-card>
+          <q-card-section>
+            <div class="text-h6">Editar Dados</div>
+          </q-card-section>
+
+          <q-card-section class="q-pt-none">
+            <q-form
+            class="q-gutter-md"
+            @submit="putCampus()"
+            id="put-form"
+            >
+              <div class="inputDiv">
+                <label>Nome: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="campus.name"
+                label="Nome do Campus"/>
+              </div>
+              <div class="inputDiv">
+                <label>Acronimo: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="campus.acronym"
+                label="Acronym"/>
+              </div>
+              <div class="inputDiv">
+                <label>Latitude: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="campus.geolocation_latitude"
+                label="Latitude"/>
+              </div>
+              <div class="inputDiv">
+                <label>Longitude: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="campus.geolocation_longitude"
+                label="Longitude"/>
+              </div>
+              <div class="inputDiv">
+                <label>Nìvel de Zoom: </label>
+                <q-input
+                class="inputField"
+                outlined
+                v-model="campus.zoom_ratio"
+                label="Map Zoom"/>
+              </div>
+            </q-form>
+          </q-card-section>
+
+          <q-card-actions align="right">
+            <q-btn
+              size="1rem"
+              label="Salvar"
+              type="submit"
+              color="primary"
+              form="put-form"/>
+            <q-btn
+              size="1rem"
+              label="Cancelar"
+              color="primary"
+              v-close-popup/>
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+
       <div class="q-pa-md">
         <q-table
           title="Campi"
@@ -171,7 +192,7 @@
 
 <script>
 import MASTER from '../../services/masterApi/http-common'
-// import { mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'Campi',
@@ -181,22 +202,26 @@ export default {
       campus: {},
       isSelectedCampus: false,
       isCreatingNew: false,
-      newCampus: {},
+      newCampus: {
+        zoom_ratio: 0
+      },
       columns: [
         { name: 'id', label: 'ID', align: 'left', field: row => row.id, sortable: true, style: 'width: 55px' },
         { name: 'name', label: 'Nome', align: 'left', field: row => row.name, sortable: true },
         { name: 'latitude', label: 'Latitude', align: 'center', field: row => row.latitude, sortable: true },
         { name: 'longitude', label: 'Longitude', align: 'center', field: row => row.longitude, sortable: true },
-        { name: 'zoom', label: 'Zoom Ratio', align: 'center', field: row => row.zoom_ratio, sortable: true },
+        { name: 'zoom', label: 'Zoom do Mapa', align: 'center', field: row => row.zoom_ratio, sortable: true },
         { name: 'edit', label: 'Editar', align: 'center', format: () => 'Editar', sortable: false, style: 'width: 55px' },
         { name: 'delete', label: 'Excluir', align: 'center', format: () => 'Excluir', sortable: false, style: 'width: 55px' }
       ]
     }
   },
   created () {
+    this.changePage('Gerenciar Instalações - Lista de Campi')
     this.getCampi()
   },
   methods: {
+    ...mapActions('userStore', ['changePage']),
     handlePressButton (type, id = null) {
       const options = {
         new: () => {
@@ -286,11 +311,16 @@ export default {
         .post('campi/', this.newCampus)
         .then(res => {
           this.campi.push(res.data)
-          this.newCampus = {}
+          this.resetNewCampus()
         })
         .catch(err => {
           console.log(err)
         })
+    },
+    resetNewCampus () {
+      this.newCampus = {
+        zoom_ratio: 0
+      }
     }
   }
 }
@@ -325,7 +355,12 @@ export default {
 }
 .inputField {
   flex          : 1;
-  padding-left  : 10px
+  padding-left  : 10px;
 }
-
+.q-card {
+  width: 50% !important;
+}
+.inputDiv label {
+  width: 75px;
+}
 </style>
