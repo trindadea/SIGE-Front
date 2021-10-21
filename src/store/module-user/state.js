@@ -4,6 +4,7 @@ export default function () {
     userID: '',
     username: '',
     useremail: '',
+    is_superuser: false,
     currentPage: '',
     userAuth: false
   }
