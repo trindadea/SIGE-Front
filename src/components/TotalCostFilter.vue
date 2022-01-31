@@ -14,7 +14,7 @@
           :options="optionsCampus"
           @filter="filterCampus"
           class="col-4 elem select"
-          @input="getGroups(); filterByCampus(campusModel); getChart();"
+          @input="getGroups(); filterByCampus(campusModel);"
         >
           <template v-slot:no-option>
             <q-item>
@@ -35,7 +35,7 @@
           :options="optionsGroup"
           @filter="filterFn"
           class="col-4 elem select"
-          @input="filterByGroup(optionsModel); getChart();"
+          @input="filterByGroup(optionsModel);"
         >
           <template v-slot:no-option>
             <q-item>
@@ -55,14 +55,14 @@
           {label: 'MÊS', value: 'monthly'},
           {label: 'ANO', value: 'yearly'}
         ]"
-        @input="changePeriodicity(model); getChart();"
+        @input="changePeriodicity(model);"
           />
         </div>
         <q-input v-model="startDate" :mask="mask" label="Período: Início" class="elem input" :error="errorStartDate" @input="verifyClearInput">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer calendar">
               <q-popup-proxy transition-show="scale" transition-hide="scale">
-                <q-date @input="changeStartDate(startDate); getChart();" v-model="startDate" mask="DD/MM/YYYY" />
+                <q-date @input="changeStartDate(startDate);" v-model="startDate" mask="DD/MM/YYYY" />
               </q-popup-proxy>
             </q-icon>
           </template>
@@ -71,11 +71,19 @@
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer calendar">
               <q-popup-proxy transition-show="scale" transition-hide="scale">
-                <q-date @input="changeEndDate(endDate); getChart();" v-model="endDate" mask="DD/MM/YYYY" />
+                <q-date @input="changeEndDate(endDate);" v-model="endDate" mask="DD/MM/YYYY" />
               </q-popup-proxy>
             </q-icon>
           </template>
         </q-input>
+        <q-btn
+            class="apply_button"
+            size="1rem"
+            label="Aplicar"
+            type="button"
+            @click="getChart()"
+            color="primary"
+        />
       </div>
     </div>
     <div class="adjust-toggle">
@@ -270,5 +278,11 @@ export default {
 }
 .input {
   padding-bottom: 0;
+}
+.apply_button {
+  height: 40px;
+  margin-top: auto;
+  margin-bottom: 1.7%;
+  margin-left: 1.7%;
 }
 </style>

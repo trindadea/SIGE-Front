@@ -42,18 +42,6 @@ export default {
 
       return {
         colors: ['#00417e'],
-        grid: {
-          strokeDashArray: 0,
-          xaxis: {
-            type: 'datetime',
-            show: true,
-            labels: {
-              style: {
-                fontSize: '.8rem'
-              }
-            }
-          }
-        },
 
         title: {
           text: this.chartTitle,
@@ -67,6 +55,19 @@ export default {
             fontWeight: '300',
             fontFamily: 'Roboto',
             color: '#00417e'
+          }
+        },
+
+        grid: {
+          strokeDashArray: 0,
+          xaxis: {
+            type: 'datetime',
+            show: true,
+            labels: {
+              style: {
+                fontSize: '.8rem'
+              }
+            }
           }
         },
 
@@ -115,7 +116,9 @@ export default {
             }
           }
         },
+
         chart: {
+          stacked: false,
           toolbar: {
             export: {
               csv: {
