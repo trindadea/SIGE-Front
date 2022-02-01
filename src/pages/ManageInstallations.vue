@@ -1,16 +1,16 @@
 <template>
-  <q-page class="flex flex-start row q-pa-md">
+  <q-page class="flex flex-start column q-pa-md">
     <div
-      class="col-md-2 col-sm-8 col-lg-2 q-pa-sm"
+      class="q-pa-sm"
       v-for="item in graphData"
       :key="item.name"
     >
       <a :href="item.link" style="text-decoration: none">
-        <q-card>
+        <q-card class="installation-card">
           <q-list>
             <q-item clickable>
               <q-item-section avatar>
-                <q-icon color="primary" name="settings" />
+                <q-icon color="primary" :name="`fas ${item.icon}`" />
               </q-item-section>
 
               <q-item-section>
@@ -33,30 +33,29 @@ export default {
     return {
       graphData: [
         {
-          image: 'statics/campus.png',
-          icon: 'AccountBalance',
+          icon: 'fa-landmark',
           link: '/campi',
           name: 'Campi'
         },
         {
-          image: 'statics/Relatorios.png',
           link: '/group_type',
-          name: 'Tipos de Agrupamento'
+          name: 'Tipos de Agrupamento',
+          icon: 'fa-object-group'
         },
         {
-          image: 'statics/Relatorios.png',
           link: '/groups',
-          name: 'Agrupamentos'
+          name: 'Agrupamentos',
+          icon: 'fa-object-ungroup'
         },
         {
-          image: 'statics/Relatorios.png',
           link: '/slaves',
-          name: 'Servidores Distribuídos'
+          name: 'Servidores Distribuídos',
+          icon: 'fa-server'
         },
         {
-          image: 'statics/Relatorios.png',
           link: '/transductors',
-          name: 'Medidores'
+          name: 'Medidores',
+          icon: 'fa-weight'
         }
       ]
     }
@@ -71,15 +70,7 @@ export default {
 </script>
 
 <style>
-.card-text {
-  font-family: Roboto;
-  font-size: 24px;
-  font-weight: 300;
-  font-stretch: normal;
-  font-style: italic;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: center;
-  color: rgba(0, 0, 0, 0.87);
+.installation-card {
+  width: 250px;
 }
 </style>
