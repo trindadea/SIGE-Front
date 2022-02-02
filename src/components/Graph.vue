@@ -11,6 +11,7 @@
       v-if="graphIs('linechart') && mounted"
       :transductorId='transductorId'
       :exportOptions="exportOptions"
+      :decimals='decimals'
       :chart-title="filterOptions.dimension || ''"
     />
     <bar-chart
@@ -53,6 +54,7 @@ export default {
         { label: 'Hora', value: 'hour' },
         { label: 'Dia', value: 'day' }
       ],
+      decimals: Number,
       mounted: false
     }
   },
@@ -66,6 +68,7 @@ export default {
     }
     const graphOpt = await getGraph(filter)
     await this.updateFilter(filter)
+    this.decimals = graphOpt.decimals
     await this.updateChartPhase(graphOpt)
     this.mounted = true
   },

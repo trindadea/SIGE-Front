@@ -35,7 +35,9 @@ export async function getGraph (filter) {
     max: 0,
 
     status: false,
-    graphType: graphOptions.graphType
+    graphType: graphOptions.graphType,
+
+    decimals: graphOptions.decimals
   }
   if (hasAllData(filter, graphOptions)) {
     switch (graphOptions.graphType) {
@@ -149,7 +151,8 @@ export function getGraphOptions (dimension) {
       return {
         url: 'minutely-power-factor',
         unit: ' ', // Não possui unidade, é uma grandeza adimensional
-        graphType: 'linechart'
+        graphType: 'linechart',
+        decimals: 1
       }
     case dimensions[8]: // Geração
       return {
