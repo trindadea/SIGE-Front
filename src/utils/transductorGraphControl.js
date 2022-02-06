@@ -152,7 +152,7 @@ export function getGraphOptions (dimension) {
         url: 'minutely-power-factor',
         unit: ' ', // Não possui unidade, é uma grandeza adimensional
         graphType: 'linechart',
-        decimals: 1
+        decimals: 2
       }
     case dimensions[8]: // Geração
       return {
