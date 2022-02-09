@@ -10,7 +10,8 @@ export default {
     unit: '',
     dimension: '',
     status: false,
-    graphType: ''
+    graphType: '',
+    decimals: 0
   },
   filterOptions: {
     dimension: 'Tensão',
