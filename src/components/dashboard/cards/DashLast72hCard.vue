@@ -18,10 +18,10 @@
       class="row q-col-gutter-none q-pt-lg">
       <div
         class="col text-center"
-        :class="this.last72hEvents.critical_events_count === 0 ? 'inactive' : ''">
+        :class="countCriticalEvents(last72hEvents) === 0 ? 'inactive' : ''">
         <p class="counter q-mb-none">
-          {{ this.last72hEvents.critical_events_count }}
-          <q-icon :name="this.last72hEvents.critical_events_count > 0 ? 'img:statics/icons/ic_ocorrencia_critica_color.svg' : 'img:statics/icons/ic_ocorrencia_critica_mono.svg'"/>
+          {{ countCriticalEvents(last72hEvents) }}
+          <q-icon :name="countCriticalEvents(last72hEvents) > 0 ? 'img:statics/ic_ocorrencia_critica_color.svg' : 'img:statics/ic_ocorrencia_critica_mono.svg'"/>
         </p>
         <small class="text-center">
           Graves
@@ -29,10 +29,10 @@
       </div>
       <div
         class="col text-center"
-        :class="this.last72hEvents.light_events_count === 0 ? 'inactive' : ''">
+        :class="countWarningEvents(last72hEvents) === 0 ? 'inactive' : ''">
         <p class="counter q-mb-none">
-          {{ this.last72hEvents.light_events_count }}
-          <q-icon :name="this.last72hEvents.light_events_count > 0 ? 'img:statics/icons/ic_ocorrencia_precaria_color.svg' : 'img:statics/icons/ic_ocorrencia_precaria_mono.svg'"/>
+          {{ countWarningEvents(last72hEvents) }}
+          <q-icon :name="countWarningEvents(last72hEvents) > 0 ? 'img:statics/ic_ocorrencia_precaria_color.svg' : 'img:statics/ic_ocorrencia_precaria_mono.svg'"/>
         </p>
         <small class="text-center">
           Leves
@@ -56,6 +56,16 @@ export default {
   props: {
     // vuex pras coisas? to acessando de todo lado + tem q fazer o dataset se atualizar
     last72hEvents: Object
+  },
+
+  methods: {
+    countWarningEvents (occurrences) {
+      return occurrences.precarious_tension.length + occurrences.transductor_connection_fail.length + occurrences.slave_connection_fail.length || 0
+    },
+
+    countCriticalEvents (occurrences) {
+      return occurrences.critical_tension.length + occurrences.phase_drop.length || 0
+    }
   }
 }
 </script>

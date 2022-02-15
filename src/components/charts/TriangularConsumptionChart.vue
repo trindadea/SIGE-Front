@@ -1,5 +1,6 @@
 <template>
   <div>
+    <q-no-ssr>
     <apexcharts
       id='chart'
       :series="series"
@@ -9,19 +10,18 @@
     <!-- <p class="text-center vertical-top q-pa-none">
       {{ 800 }} kW
     </p> -->
+  </q-no-ssr>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-import HTTP from '../../services/masterApi/http-common'
-import Apexcharts from '../../services/ssr-import/apexcharts'
+import MASTER from '../../services/masterApi/http-common'
 
 export default {
   name: 'TriangularConsumptionChart',
 
   components: {
-    Apexcharts
+    Apexcharts: () => import('vue-apexcharts')
   },
 
   props: [
@@ -154,15 +154,15 @@ export default {
     updateChart () {
       if (this.selectedTransductor !== undefined) {
         const consumption = [
-          `/graph/quarterly-consumption-off-peak/?start_date=2019-06-01 00:00&end_date=2019-06-30 23:59`,
-          `/graph/quarterly-consumption-peak/?start_date=2019-06-01 00:00&end_date=2019-06-30 23:59`
+          '/graph/quarterly-consumption-off-peak/?start_date=2019-06-01 00:00&end_date=2019-06-30 23:59',
+          '/graph/quarterly-consumption-peak/?start_date=2019-06-01 00:00&end_date=2019-06-30 23:59'
         ]
 
-        axios.all([
-          HTTP.get(consumption[0]),
-          HTTP.get(consumption[1])
+        MASTER.all([
+          MASTER.get(consumption[0]),
+          MASTER.get(consumption[1])
         ])
-          .then(axios.spread((consA, consB) => {
+          .then(MASTER.spread((consA, consB) => {
             this.consumption = [...consA.data, ...consB.data]
           }))
           .catch(errArray => {

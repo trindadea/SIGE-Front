@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <q-icon class="img q-mb-sm" name="img:statics/transparents/logo_smi_horizontal.svg" />
+    <q-icon class="img q-mb-sm" name="img:statics/logo_smi_horizontal.svg" />
     <div class="text-1">Projeto de Eficiência Energética CEB/FUB/FINATEC</div>
     <div class="subtitle-1">Eficiência energética em prédios públicos   da Universidade de Brasília</div>
     <div class="body-2">Sistema de monitoramento e gestão de energética de edificações da Universidade de Brasília. </div>
@@ -22,8 +22,16 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
-  name: 'About'
+  name: 'About',
+  created () {
+    this.changePage('Sobre')
+  },
+  methods: {
+    ...mapActions('userStore', ['changePage'])
+  }
 }
 </script>
 

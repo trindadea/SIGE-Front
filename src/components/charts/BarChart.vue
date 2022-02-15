@@ -1,117 +1,73 @@
 <template>
-  <div>
-    <div v-if="this.stacked" class="row q-pa-sm">
-        <q-select
-          class="col q-ma-sm"
-          label="Transdutor"
-          outlined
-          :options="this.transductorList"
-          v-model="selectedTransductor"
-          @input="updateChart()"/>
-        <q-select
-          class="col q-ma-sm"
-          label="Período"
-          outlined
-          v-model="selectedPeriod"
-          :options="['Hoje', 'Últimos 7 dias', 'Últimos 30 dias']"
-          @input="updateChart()"/>
-    </div>
-    <q-separator/>
-      <div
-      v-if="this.selectedTransductor !== '' || !this.stacked">
-      <apexcharts
-      id="chart"
-      type="bar"
-      :options="chartOptions"
-      :series="series"/>
-    </div>
-    <no-data-placeholder v-else/>
-  </div>
+  <q-no-ssr>
+      <apexcharts type="bar" height="500" :options="chartConf" :series="series" />
+  </q-no-ssr>
 </template>
 
 <script>
-import NoDataPlaceholder from './NoDataPlaceholder.vue'
-import moment from 'moment'
-import HTTP from '../../services/masterApi/http-common'
+import { mapGetters } from 'vuex'
 
 export default {
+  name: 'BarChart',
   components: {
-    'no-data-placeholder': NoDataPlaceholder
+    Apexcharts: () => import('vue-apexcharts')
   },
-
   props: [
-    'title',
-    'url',
-    'graphic_type',
-    'stacked',
-    'labels',
-    'option',
-    'unit'
+    'isCostPage',
+    'chartTitle',
+    'exportOptions'
   ],
-
-  data () {
-    return {
-      min: 0,
-      max: 5,
-      dates: [],
-      phase_a: [],
-      phase_b: [],
-      phase_c: [],
-      measurements: [],
-      transductorList: [],
-      selectedCampus: '',
-      selectedTransductor: '',
-      selectedPeriod: 'Hoje'
-    }
-  },
-
   computed: {
-    series () {
-      if (this.graphic_type === '1') {
-        return [
-          {
-            name: this.labels[0],
-            data: this.phase_a
-          }
-        ]
-      } else {
-        return [
-          {
-            name: 'Fase A',
-            data: this.phase_a
-          },
-          {
-            name: 'Fase B',
-            data: this.phase_b
-          },
-          {
-            name: 'Fase C',
-            data: this.phase_c
-          }
-        ]
+    ...mapGetters('transductorStore', ['chartOptions', 'filterOptions']),
+    ...mapGetters('totalCostStore', ['totalCostChart']),
+    ...mapGetters('userStore', ['getPage']),
+    ...mapGetters('totalCostStore', ['getStartDate', 'getEndDate']),
+    graph () {
+      if (this.isCostPage) {
+        return this.totalCostChart
       }
+      return this.chartOptions
     },
-    chartOptions () {
-      return {
-        chart: {
-          stacked: false
-        },
+    series () {
+      return [{
+        name: this.graph.dimension,
+        data: this.graph.values
+      }]
+    },
+    chartConf () {
+      const tick = this.graph.max <= 10 ? this.graph.max + 1 : 11
+      const max = this.graph.max < 1 ? 1 : undefined
+      const filename = (this.exportOptions.location ? (this.exportOptions.location + ' - ') : ('')) +
+      (this.exportOptions.dimension ? (this.exportOptions.dimension + ' - ') : ('')) + this.exportOptions.startDate + '-' + this.exportOptions.endDate
 
-        plotOptions: {
-          bar: {
-            columnWidth: '50%'
+      return {
+        colors: ['#00417e'],
+
+        title: {
+          text: this.chartTitle,
+          align: 'center',
+          margin: 10,
+          offsetX: 0,
+          offsetY: 0,
+          floating: false,
+          style: {
+            fontSize: '24px',
+            fontWeight: '300',
+            fontFamily: 'Roboto',
+            color: '#00417e'
           }
         },
 
-        fill: {
-          opacity: [0.85, 0.25, 1],
-          gradient: {
-            inverseColors: false,
-            shade: 'light',
-            type: 'vertical',
-            opacityFrom: 0.85,
-            opacityTo: 0.55,
-            stops: [0, 100, 100, 100]
+        grid: {
+          strokeDashArray: 0,
+          xaxis: {
+            type: 'datetime',
+            show: true,
+            labels: {
+              style: {
+                fontSize: '.8rem'
+              }
+            }
           }
         },
 
@@ -119,35 +75,33 @@ export default {
           enabled: false
         },
 
-        markers: {
-          size: 0
-        },
-
         xaxis: {
           type: 'datetime',
-          show: false
+          show: true,
+          labels: {
+            datetimeUTC: false,
+            style: {
+              fontSize: '.8rem'
+            }
+          }
         },
 
         yaxis: {
-          title: {
-            text: this.title
-          },
-          min: 0,
-          max: this.max + 20,
-          tickAmount: 5,
           labels: {
-            formatter: this.labelFormatter
-          }
+            formatter: (val) => {
+              if (this.graph.unit === 'R$') {
+                return this.graph.unit + ' ' + val.toFixed(this.decimals || 0)
+              }
+              return val.toFixed(this.decimals || 0) + ' ' + this.graph.unit
+            },
+            style: {
+              fontSize: '1rem'
+            }
+          },
+          max: max,
+          decimalsInFloat: 2,
+          tickAmount: tick
         },
-
-        grid: {
-          borderColor: '#e7e7e7',
-          row: {
-            colors: ['#f3f3f3', 'transparent'],
-            opacity: 0.5
-          }
-        },
-
         tooltip: {
           x: {
             format: 'dd-MM-yyyy HH:mm',
@@ -155,107 +109,34 @@ export default {
           },
           y: {
             formatter: (val) => {
-              return `${val.toFixed(3)} ${this.unit || ''}`
+              if (this.graph.unit === 'R$') {
+                return ` ${this.graph.unit} ${val.toFixed(1)}`
+              }
+              return `${val.toFixed(1)} ${this.graph.unit}`
+            }
+          }
+        },
+
+        chart: {
+          stacked: false,
+          toolbar: {
+            export: {
+              csv: {
+                filename: filename
+              },
+
+              svg: {
+                filename: filename
+              },
+
+              png: {
+                filename: filename
+              }
             }
           }
         }
       }
     }
-  },
-
-  methods: {
-    updateChart () {
-      let periods = this.periodsOptions[this.selectedPeriod]
-      let startDate = periods[0]
-      let endDate = periods[1]
-      let limit = periods[2]
-
-      this.selectedPeriod = 'DIA'
-      if (this.selectedPeriod === 'DIA') {
-        endDate = moment().endOf('day').format('YYYY-MM-DD h:mm')
-        startDate = moment().startOf('day').format('YYYY-MM-DD h:mm')
-      } else if (this.selectedPeriod === 'SEMANA') {
-        endDate = moment().endOf('isoWeek').format('YYYY-MM-DD h:mm')
-        startDate = moment().startOf('isoWeek').format('YYYY-MM-DD h:mm')
-      } else if (this.selectedPeriod === 'MÊS') {
-        endDate = moment().startOf('month').format('YYYY-MM-DD h:mm')
-        startDate = moment().startOf('month').format('YYYY-MM-DD h:mm')
-      }
-
-      if (this.selectedTransductor !== undefined) {
-        HTTP
-          .get(`graph/minutely_${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
-          .then((res) => {
-            const data = res.data.results[0]
-            console.log(data)
-            this.buildGraphInformation(data)
-          })
-          .catch((err) => console.error(err))
-      }
-    },
-
-    buildGraphInformation (data) {
-      if (this.graphic_type === '1') {
-        this.min = data.min
-        this.max = data.max
-        this.setOneFaseInformations(data.measurements)
-      } else {
-        this.min = data.min
-        this.max = data.max
-        this.setThreeFaseInformations(data.phase_a, data.phase_b, data.phase_c)
-      }
-    },
-
-    setOneFaseInformations (measurementList) {
-      this.phase_a = measurementList
-    },
-
-    setThreeFaseInformations (faseAList, faseBList, faseCList) {
-      this.phase_a = faseAList
-      this.phase_b = faseBList
-      this.phase_c = faseCList
-    },
-
-    labelFormatter (value) {
-      return value.toFixed(2)
-    },
-
-    setTransductorList (transductorList) {
-      this.transductorList = transductorList
-    },
-
-    getTransductors () {
-      HTTP
-        .get('energy_transductors')
-        .then((res) => {
-          const transductors = res.data
-
-          let transductorsList = []
-
-          for (let transductor of transductors) {
-            transductorsList.push(transductor['serial_number'])
-          }
-
-          transductorsList.sort()
-
-          this.setTransductorList(transductorsList)
-        })
-        .catch((err) => {
-          console.error(err)
-        })
-    }
-  },
-
-  created () {
-    this.getTransductors()
-
-    this.updateChart()
   }
 }
 </script>
-
-<style scoped>
-  #chart {
-    padding: .5rem;
-  }
-</style>

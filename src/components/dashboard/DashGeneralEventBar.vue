@@ -4,7 +4,7 @@
       <div
         v-for="ev in eventTypes"
         :key="ev.name"
-        class="col">
+        class="col-12 col-sm-6 col-md-4 col-lg">
         <dash-event-card
           v-if="ev.eventsList !== undefined"
           :name="ev.name"
@@ -105,13 +105,8 @@ export default {
 <style lang="scss">
 
   .evt-card-size {
-    // min-height: 34.8vh;
-    // max-height: 34.8vh;
-    // min-height: 36.3vh;
-    // max-height: 36.3vh;
-    min-height: 34.8vh;
-    max-height: 34.8vh;
-
+    min-height: 31vh;
+    max-height: 31vh;
   }
 
 </style>

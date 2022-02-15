@@ -2,7 +2,7 @@
   <q-bar class="q-py-sm q-px-md row">
     <div
       class="col">
-      <img src="statics/icons/logo_smi.svg" style="height: 28px;"/>
+      <img src="statics/logo_smi.svg" style="height: 28px;"/>
     </div>
     <div
       id="alerts"
@@ -35,7 +35,7 @@ export default {
 
   computed: {
     date () {
-      let a = new Date()
+      const a = new Date()
       return a.toLocaleDateString('pt-BR')
     }
   }

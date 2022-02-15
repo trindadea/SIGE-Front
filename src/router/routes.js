@@ -1,246 +1,65 @@
+export default function (ssrContext) {
+  const routes = [
+    {
+      path: '',
+      component: () => import('layouts/MainLayout.vue'),
+      beforeEnter (to, from, next) {
+        const { store } = ssrContext
+        const logged = store.getters['userStore/authStatus']
+        if (logged) {
+          next()
+        } else {
+          next('/login')
+        }
+      },
+      children: [
+        { path: '/', name: '/', component: () => import('pages/Index.vue') },
+        { path: '/about', name: 'about', component: () => import('pages/About.vue') },
+        { path: '/edit', name: 'edit', component: () => import('pages/UserEdit.vue') },
+        { path: '/total_cost', name: 'total_cost', component: () => import('pages/TotalCost.vue') },
+        { path: '/transductor_list', name: 'transductor_list', component: () => import('pages/TransductorList.vue') },
+        { path: '/transductor/:id', name: 'transductor', component: () => import('pages/Transductor.vue') },
+        { path: '/energy_consumption', name: 'energy_consumption', component: () => import('pages/EnergyConsumptionCurve.vue') },
+        { path: '/reports', name: 'reports', component: () => import('pages/Reports.vue') },
+        { path: '/manageInstallations', name: 'manageInstallations', component: () => import('pages/ManageInstallations.vue') },
+        { path: '/campi', name: 'campi', component: () => import('pages/Campi/Campi.vue') },
+        { path: '/group_type', name: 'group_type', component: () => import('pages/Groups/GroupType.vue') },
+        { path: '/groups', name: 'groups', component: () => import('pages/Groups/Groups.vue') },
+        { path: '/slaves', name: 'slaves', component: () => import('pages/Slave/Slaves.vue') },
+        { path: '/transductors', name: 'transductors', component: () => import('pages/Transductor/TransductorsCRUD.vue') },
+        { path: '/tariffs', name: 'tariffs', component: () => import('pages/Tariffs.vue') },
+        { path: '/tariffs/:id', name: 'tariff', component: () => import('pages/Tariff.vue') }
+      ]
+    },
+    {
+      path: '',
+      component: () => import('layouts/AuthLayout.vue'),
+      beforeEnter (to, from, next) {
+        const { store } = ssrContext
+        const logged = store.getters['userStore/authStatus']
+        if (logged) {
+          next('/login')
+        } else {
+          next()
+        }
+      },
+      children: [
+        { path: '/login', name: 'login', component: () => import('pages/Login.vue') },
+        { path: '/register', name: 'register', component: () => import('pages/Register.vue') },
+        { path: '/forgotten_password', name: 'forgotten_password', component: () => import('pages/ForgottenPassword.vue') },
+        { path: '/reset_password/:token', name: 'reset_password', component: () => import('pages/ResetPassword.vue') }
+      ]
+    },
+    { path: '/dashboard', name: 'dashboard', component: () => import('pages/DashboardBase.vue') }
+  ]
 
-import store from '../store/index'
+  // Always leave this as last one
+  if (process.env.MODE !== 'ssr') {
+    routes.push({
+      path: '*',
+      component: () => import('pages/Error404.vue')
+    })
+  }
 
-let ifAuthenticated = (to, from, next) => {
-  let isAuthenticated = store().state.authStatus()
-  if (isAuthenticated === undefined) {
-    isAuthenticated = false
-  }
-  console.log(isAuthenticated)
-  if (isAuthenticated) {
-    next()
-  } else {
-    next({ path: '/users/login' })
-  }
+  return routes
 }
-
-const routes = [
-  {
-    path: '/dashboard',
-    component: () => import('components/dashboard/DashboardBase.vue')
-  },
-  {
-    path: '/',
-    beforeEnter: ifAuthenticated,
-    component: () => import('components/home/HomeBase.vue'),
-    children: [
-      {
-        path: '',
-        component: () => import('components/home/Home.vue')
-      },
-      {
-        path: 'report',
-        component: () => import('components/home/Report.vue')
-      },
-      {
-        path: '/transductor_list',
-        component: () => import('components/transductorList/TransductorListBase.vue'),
-        children: [
-          {
-            path: '',
-            component: () => import('components/transductorList/TransductorList.vue')
-          }
-        ]
-      }
-    ]
-  },
-  {
-    path: '/users',
-    component: () => import('components/users/AuthBase.vue'),
-    children: [
-      {
-        path: 'login',
-        component: () => import('components/users/Login.vue')
-      },
-      {
-        path: 'register',
-        component: () => import('components/users/Register.vue')
-      },
-      {
-        path: 'edit',
-        beforeEnter: ifAuthenticated,
-        component: () => import('components/users/UserUpdate.vue')
-      },
-      {
-        path: 'logout',
-        component: () => import('components/users/Logout.vue')
-      }
-    ]
-  }
-  // {
-  //   path: '/presentation',
-  //   component: () => import('components/presentationDashboard/PresentationDashboard.vue'),
-  //   children: [
-  //     {
-  //       path: '',
-  //       component: () => import('components/presentationDashboard/Page1.vue')
-  //     },
-  //     {
-  //       name: 'presentation_detail',
-  //       path: ':transductor_id/detail',
-  //       props: true,
-  //       component: () => import('components/presentationDashboard/Page2.vue')
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/transductors',
-  //   component: () => import('components/transductors/TransductorsBase.vue'),
-  //   children: [
-  //     {
-  //       path: '',
-  //       component: () => import('components/transductors/Transductors.vue')
-  //     },
-  //     {
-  //       path: 'new',
-  //       component: () => import('components/transductors/Form.vue')
-  //     },
-  //     {
-  //       path: ':id',
-  //       component: () => import('components/transductors/Show.vue'),
-  //       props: true
-  //     },
-  //     {
-  //       path: ':id/edit',
-  //       component: () => import('components/transductors/Form.vue'),
-  //       props: true
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/servers',
-  //   component: () => import('components/slaves/SlavesBase.vue'),
-  //   children: [
-  //     {
-  //       path: '',
-  //       component: () => import('components/slaves/Slaves.vue')
-  //     },
-  //     {
-  //       path: 'new',
-  //       component: () => import('components/slaves/Form.vue')
-  //     },
-  //     {
-  //       path: ':id',
-  //       component: () => import('components/slaves/Show.vue'),
-  //       props: true
-  //     },
-  //     {
-  //       path: ':id/edit',
-  //       component: () => import('components/slaves/Form.vue'),
-  //       props: true
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/buildings',
-  //   component: () => import('components/buildings/BuildingsBase.vue'),
-  //   children: [
-  //     {
-  //       path: '',
-  //       component: () => import('components/buildings/Buildings.vue')
-  //     },
-  //     {
-  //       path: 'new',
-  //       component: () => import('components/buildings/Form.vue')
-  //     },
-  //     {
-  //       path: ':id',
-  //       component: () => import('components/buildings/Show.vue'),
-  //       props: true
-  //     },
-  //     {
-  //       path: ':id/edit',
-  //       component: () => import('components/buildings/Form.vue'),
-  //       props: true
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/campi',
-  //   component: () => import('components/campi/CampiBase.vue'),
-  //   children: [
-  //     {
-  //       path: '',
-  //       component: () => import('components/campi/Campi.vue')
-  //     },
-  //     {
-  //       path: 'new',
-  //       component: () => import('components/campi/Form.vue')
-  //     },
-  //     {
-  //       path: ':id',
-  //       component: () => import('components/campi/Show.vue'),
-  //       props: true
-  //     },
-  //     {
-  //       path: ':id/edit',
-  //       component: () => import('components/campi/Form.vue'),
-  //       props: true
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/transductor_models',
-  //   component: () => import('components/transductorModel/TransductorModelBase.vue'),
-  //   children: [
-  //     {
-  //       path: '',
-  //       component: () => import('components/transductorModel/TransductorModels.vue')
-  //     },
-  //     {
-  //       path: 'new',
-  //       component: () => import('components/transductorModel/Form.vue')
-  //     },
-  //     {
-  //       path: ':id',
-  //       component: () => import('components/transductorModel/Show.vue'),
-  //       props: true
-  //     },
-  //     {
-  //       path: ':id/edit',
-  //       component: () => import('components/transductorModel/Form.vue'),
-  //       props: true
-  //     }
-  //   ]
-  // }
-  // {
-  //   path: '/dashboard',
-  //   component: () => import('components/dashboard/oldDashboard/Dashboard.vue'),
-  //   children: [
-  //     {
-  //       path: '',
-  //       component: () => import('components/dashboard/oldDashboard/StatusDashboard.vue')
-  //     },
-  //     {
-  //       path: 'tension',
-  //       component: () => import('components/dashboard/oldDashboard/TensionDashboard.vue')
-  //     },
-  //     {
-  //       path: 'current',
-  //       component: () => import('components/dashboard/oldDashboard/CurrentDashboard.vue')
-  //     },
-  //     {
-  //       path: 'frequency',
-  //       component: () => import('components/dashboard/oldDashboard/FrequencyDashboard.vue')
-  //     },
-  //     {
-  //       path: 'total_apparent_power',
-  //       component: () => import('components/dashboard/oldDashboard/TotalApparentPowerDashboard.vue')
-  //     },
-  //     {
-  //       path: 'consumption',
-  //       component: () => import('components/dashboard/oldDashboard/ConsumptionDashboard.vue')
-  //     }
-  //   ]
-  // }
-]
-
-// Always leave this as last one
-if (process.env.MODE !== 'ssr') {
-  routes.push({
-    path: '*',
-    component: () => import('pages/Error404.vue')
-  })
-}
-
-export default routes

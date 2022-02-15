@@ -8,7 +8,7 @@
       <q-card-section
         class="text-center card-title q-px-none">
         <span v-if="isActive">
-          <q-icon :name="`img:statics/icons/ic_ocorrencia_${icon}.svg`"/>
+          <q-icon :name="`img:statics/ic_ocorrencia_${icon}.svg`"/>
         </span> {{name}}
       </q-card-section>
 
@@ -24,7 +24,7 @@
         </div>
 
         <div v-else>
-          <p v-for="ev in eventsList.slice(0, 8)" :key="ev.id"
+          <p v-for="ev in eventsList.slice(0, 8)" :key="ev.id + ev.location"
             class="q-my-none">
             {{ formatText(ev) }}
           </p>
@@ -71,16 +71,16 @@ export default {
       }
 
       const strBreakpoint = 100
-      let splittedLocation = eventObj.location.length > strBreakpoint ? eventObj.location.slice(0, strBreakpoint) + '...' + eventObj.location.slice(-strBreakpoint) : eventObj.location
+      const splittedLocation = eventObj.location.length > strBreakpoint ? eventObj.location.slice(0, strBreakpoint) + '...' + eventObj.location.slice(-strBreakpoint) : eventObj.location
       let formattedStr = ''
 
       switch (this.name) {
         case 'Queda de Fase':
-          formattedStr = `${splittedLocation[0].toUpperCase() + splittedLocation.slice(1)} (${eventObj.campus}) - ${Object.keys(eventObj.data)}`
+          formattedStr = `${splittedLocation[0].toUpperCase() + splittedLocation.slice(1)} (${eventObj.campus}) - ${this.formatDrops(eventObj)}`
           break
 
         case 'Falha de Comunicação':
-          formattedStr = `${splittedLocation[0].toUpperCase() + splittedLocation.slice(1)} (${eventObj.campus.toUpperCase()})`
+          formattedStr = `${splittedLocation[0].toUpperCase() + splittedLocation.slice(1)} (${eventObj.campus})`
           break
 
         case 'Máximo Consumo':
@@ -88,7 +88,7 @@ export default {
           break
 
         default:
-          formattedStr = `${splittedLocation[0].toUpperCase() + splittedLocation.slice(1)} (${eventObj.campus}) - ${Object.keys(eventObj.data)}`
+          formattedStr = `${splittedLocation[0].toUpperCase() + splittedLocation.slice(1)} (${eventObj.campus}) - ${this.formatDrops(eventObj)}`
 
           break
       }
@@ -97,8 +97,25 @@ export default {
     },
 
     formatDrops (obj) {
-      let drops = Object.keys(obj.data)
-      return drops
+      const drops = Object.keys(obj.data)
+      const d = []
+      drops.forEach(label => {
+        switch (label) {
+          case 'voltage_a':
+            d.push('A')
+            break
+          case 'voltage_b':
+            d.push('B')
+            break
+          case 'voltage_c':
+            d.push('C')
+            break
+          default:
+            d.push(label)
+            break
+        }
+      })
+      return d
     }
   }
 

@@ -1,55 +1,31 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { LocalStorage } from 'quasar'
-import VueCrontab from 'vue-crontab'
 
-// import example from './module-example'
+import userStore from './module-user'
+import totalCostStore from './module-totalCost'
+import transductorStore from './module-transductor'
+import consumptionCurve from './module-consumptionCurve'
 
-Vue.use(VueCrontab)
 Vue.use(Vuex)
 
 /*
  * If not building with SSR mode, you can
- * directly export the Store instantiation
+ * directly export the Store instantiation;
+ *
+ * The function below can be async too; either use
+ * async/await or return a Promise which resolves
+ * with the Store instance.
  */
 
-export default function (/* { ssrContext } */) {
+export default function (ssrContext) {
   const Store = new Vuex.Store({
     modules: {
-      // example
+      userStore,
+      totalCostStore,
+      transductorStore,
+      consumptionCurve
     },
-    state: {
-      page: '',
-      userAuth: false,
-      authStatus: () => {
-        let userToken = LocalStorage.getItem('userToken')
-        if (userToken == null) userToken = ''
-        let userID = LocalStorage.getItem('userID')
-        if (userID == null) userID = ''
-        return !!(userToken && userID)
-      }
-    },
-    mutations: {
-      changePage (state, page) {
-        state.page = page
-      }
-    },
-    getters: {
-      authStatus (state) {
-        let userToken = LocalStorage.getItem('userToken')
-        if (userToken == null) userToken = ''
-        let userID = LocalStorage.getItem('userID')
-        if (userID == null) userID = ''
-        return !!(userToken && userID)
-      },
-      user (state) {
-        let user = {
-          name: LocalStorage.getItem('username'),
-          email: LocalStorage.getItem('useremail')
-        }
-        return user
-      }
-    },
+
     // enable strict mode (adds overhead!)
     // for dev mode only
     strict: process.env.DEV

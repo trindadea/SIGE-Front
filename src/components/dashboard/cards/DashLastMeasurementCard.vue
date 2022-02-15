@@ -1,7 +1,7 @@
 <template>
   <q-card
     flat
-    class="card-bg">
+    class="card-bg last-card-info">
 
     <q-inner-loading dark :showing="transductor.name === undefined">
       <q-spinner-ios size="50px" color="grey-4" thickness="7"/>
@@ -12,50 +12,61 @@
     </q-card-section>
 
     <q-card-section v-if="rtm.length !== 0" class="q-pt-none q-pb-xs">
-      <table class="readings">
-        <tr class="row">
-          <th class="col h4">
-            Tensão
-          </th>
-          <th class="col h4">
-            Corrente
-          </th>
-          <th class="col h4">
-            Potência
-          </th>
-          <th class="col h4">
-            Últimas 72h
-          </th>
+
+      <table class="readings row">
+        <tr class="col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+          <span class="row">
+            <th class="col-12 h4">
+              Tensão
+            </th>
+            <td class="col-12 reading-measurement">A: {{ rtm.voltage_a.toFixed(0) }}V</td>
+            <td class="col-12 reading-measurement">B: {{ rtm.voltage_b.toFixed(0) }}V</td>
+            <td class="col-12 reading-measurement">C: {{ rtm.voltage_c.toFixed(0) }}V</td>
+          </span>
         </tr>
 
-        <tr class="row">
-          <td class="col">A - {{ rtm.tension_a }}V</td>
-          <td class="col">A - {{ rtm.current_a }}A</td>
-          <td class="col">A - {{ rtm.active_power_a }}W</td>
-          <td class="col">
-            {{ 0 }} <q-icon :style="{opacity: 0.5}" :name="'img:statics/icons/ic_ocorrencia_critica_mono.svg'"/>
-          </td>
+        <tr class="col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+          <span class="row">
+            <th class="col-12 h4">
+              Corrente
+            </th>
+            <td class="col-12 reading-measurement">A: {{ rtm.current_a.toFixed(0) }}A</td>
+            <td class="col-12 reading-measurement">B: {{ rtm.current_b.toFixed(0) }}A</td>
+            <td class="col-12 reading-measurement">C: {{ rtm.current_c.toFixed(0) }}A</td>
+          </span>
         </tr>
 
-        <tr class="row">
-          <td class="col">B - {{ rtm.tension_b }}V</td>
-          <td class="col">B - {{ rtm.current_b }}A</td>
-          <td class="col">B - {{ rtm.active_power_b }}kVAr</td>
-          <td class="col">
-            {{ 0 }} <q-icon :style="{opacity: 0.5}" :name="'img:statics/icons/ic_ocorrencia_precaria_mono.svg'"/>
-          </td>
+        <tr class="col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+          <span class="row">
+            <th class="col-12 h4">
+              Potência
+            </th>
+            <td class="col-12 reading-measurement">Ativa: {{ rtm.total_active_power.toFixed(0) }}W</td>
+            <td class="col-12 reading-measurement">Reativa: {{ rtm.total_reactive_power.toFixed(0) }}kVAr</td>
+            <td class="col-12 reading-measurement">Total: {{ rtm.total_power_factor.toFixed(0) }}kVa</td>
+          </span>
         </tr>
 
-        <tr class="row">
-          <td class="col">C - {{ rtm.tension_c }}V</td>
-          <td class="col">C - {{ rtm.current_c }}A</td>
-          <td class="col">T - {{ rtm.active_power_c }}kVa</td>
-          <td class="col"></td>
+        <tr class="col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+          <span class="row">
+            <th class="col-12 h4">
+              Últimas 72h
+            </th>
+            <td class="col-12">
+              {{ countCriticalEvents() }}
+              <q-icon :style="{opacity: 0.5}" :name="'img:statics/ic_ocorrencia_critica_mono.svg'"/>
+            </td>
+            <td class="col-12">
+              {{ countWarningEvents() }}
+              <q-icon :style="{opacity: 0.5}" :name="'img:statics/ic_ocorrencia_precaria_mono.svg'"/>
+            </td>
+            <td class="col-12"></td>
+          </span>
         </tr>
       </table>
     </q-card-section>
 
-    <q-card-section v-if="transductor.name" class="q-pt-xs">
+    <q-card-section v-if="transductor.name && rtm.length === 0" class="q-pt-xs">
       <h6 class="text-center" style="color: rgba(255, 255, 255, 0.6)">
         Última medida não disponível
       </h6>
@@ -64,50 +75,28 @@
 </template>
 
 <script>
-import HTTP from '../../../services/masterApi/http-common'
+import MASTER from '../../../services/masterApi/http-common'
 
 export default {
   name: 'DashLastMeasurementCard',
 
+  props: {
+    transductor: {
+      type: Object
+    }
+  },
+
   data () {
     return {
       rtm: [],
-      transductor_occurences: {}
+      transductor_occurences: {},
+      errors: []
     }
   },
 
-  props: {
-    transductor: {
-      // type: Object,
-      required: true
-    }
-  },
-
-  methods: {
-    getLastMeasurement () {
-      HTTP
-        .get(`/realtime-measurements/?serial_number=${this.transductor.serial_number}`)
-        .then((res) => {
-          this.rtm = res.data
-        })
-        .catch((err) => {
-          console.error(err)
-        })
-    },
-    getTransductorsLast72h () {
-      HTTP
-        .get(`/occurences/?type=period&serial_number=${this.transductor.serial_number}`)
-        .then((res) => {
-          this.transductor_occurences = res.data
-        })
-        .catch((err) => {
-          console.error(err)
-        })
-    },
-
-    async getApiInfo () {
-      await this.getLastMeasurement()
-      await this.getTransductorsLast72h()
+  watch: {
+    transductor: function () {
+      this.getApiInfo()
     }
   },
 
@@ -115,8 +104,50 @@ export default {
     this.getApiInfo()
   },
 
-  async beforeUpdate () {
-    this.getApiInfo()
+  methods: {
+    getLastMeasurement () {
+      MASTER
+        .get(`/realtime-measurements/?id=${this.transductor.id}`)
+        .then((res) => {
+          this.rtm = res.data[0]
+        })
+        .catch((err) => {
+          this.errors.push(err)
+          console.error(err)
+        })
+    },
+    getTransductorsLast72h () {
+      MASTER
+        .get(`/occurences/?type=period&id=${this.transductor.id}`)
+        .then((res) => {
+          this.transductor_occurences = res.data
+        })
+        .catch((err) => {
+          this.errors.push(err)
+          console.error(err)
+        })
+    },
+
+    countWarningEvents () {
+      if (this.transductor_occurences.count !== undefined) {
+        return this.transductor_occurences.slave_connection_fail.length + this.transductor_occurences.transductor_connection_fail.length
+      }
+
+      return 0
+    },
+
+    countCriticalEvents () {
+      if (this.transductor_occurences.count !== undefined) {
+        return this.transductor_occurences.critical_tension.length + this.transductor_occurences.phase_drop.length + this.transductor_occurences.precarious_tension.length
+      }
+
+      return 0
+    },
+
+    async getApiInfo () {
+      await this.getLastMeasurement()
+      await this.getTransductorsLast72h()
+    }
   }
 }
 </script>
@@ -135,8 +166,17 @@ export default {
     text-transform: uppercase;
   }
 
+  .reading-measurement {
+    font-size: 0.8em;
+  }
+
   td {
     font-size: 20px;
   }
 
+  @media screen and (max-width: 800px) {
+    .last-card-info {
+      margin-bottom: 20px;
+    }
+  }
 </style>

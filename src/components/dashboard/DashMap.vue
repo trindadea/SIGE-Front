@@ -1,13 +1,8 @@
 <template>
-  <div class="q-pr-md q-ma-none">
-      <!-- :center="mapCenter" -->
+  <div class="map-wrapper">
     <l-map
-      style="height: 53.9vh!important"
-      class="rounded-borders cursor-not-allowed"
-      :zoom="currentCampus.zoom_ratio"
-      :min-zoom="currentCampus.zoom_ratio"
-      :max-zoom="currentCampus.zoom_ratio"
-      :center="[currentCampus.geolocation_latitude, currentCampus.geolocation_longitude]"
+      class="rounded-borders cursor-not-allowed map-dimension"
+      :bounds="mapBounds"
       :options="mapOptions"
       id="region-map">
 
@@ -16,25 +11,21 @@
         :attribution="attribution"
       />
 
-      <!-- for custom icons -->
-      <!-- <l-marker
+      <l-marker
         v-for="transductor in transductors_points"
         :key="transductor.id"
         :lat-lng="transductor.coordinates">
         <l-icon
-          :icon-anchor="transductor.coordinates"
-          :icon-size="[120, 120]">
-          <img src="statics/icons/ic_ocorrencia_1.svg">
+          :icon-size="[16, 16]">
+          <img :src="transductor.img_src">
         </l-icon>
-      </l-marker> -->
+      </l-marker>
 
-      <l-circle
-        v-for="transductor in transductors_points"
-        :key="transductor.id"
-        :lat-lng="transductor.coordinates"
-        :radius="14"
-        :l-style="transductor.style"
-        :hover="true"
+      <l-line
+        v-for="line in lines"
+        :key="line.id"
+        :lat-lngs="line.coordinates"
+        :color="line.color"
       />
 
     </l-map>
@@ -47,15 +38,23 @@ import 'leaflet/dist/leaflet.css'
 
 export default {
   components: {
-    // 'l-marker': Vue2Leaflet.LMarker,
-    // 'l-icon': Vue2Leaflet.LIcon,
+    'l-marker': Vue2Leaflet.LMarker,
+    'l-icon': Vue2Leaflet.LIcon,
     'l-map': Vue2Leaflet.LMap,
-    'l-circle': Vue2Leaflet.LCircle,
-    'l-tile-layer': Vue2Leaflet.LTileLayer
+    'l-tile-layer': Vue2Leaflet.LTileLayer,
+    'l-line': Vue2Leaflet.LPolyline
   },
 
   props: {
     transductors: {
+      type: Array,
+      required: true
+    },
+    occurences: {
+      type: Array,
+      required: true
+    },
+    unifilarDiagram: {
       type: Array,
       required: true
     },
@@ -75,17 +74,15 @@ export default {
 
       generation: [],
 
-      // center: [-15.7650, -47.8665],
       center: [-15.7650, -47.8665],
-      new_center: [0, 0],
+      new_center: [-15.7658756, -47.8743207],
+      zoom_ratio: parseInt(this.currentCampus.zoom_ratio),
 
       mapOptions: {
-        zoomControl: false,
-        maxbounds: this.center
+        zoomControl: false
       },
 
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      // url: 'https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png',
       attribution:
         '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       selectedPeriod: 'DIA'
@@ -94,43 +91,69 @@ export default {
 
   computed: {
     transductors_points () {
-      let arr = []
-
+      const arr = []
       if (this.transductors === 0) {
-        return []
+        return [[], []]
       }
 
+      const mapTrans = {}
+      let i = 4
+      // Mark occurences in mapTrans
+      this.occurences.forEach(occ => {
+        occ.forEach(o => {
+          mapTrans[o.transductor] = `statics/ic_ocorrencia_${i}.svg`
+        })
+        i -= 1
+      })
+
       this.transductors.forEach(t => {
-        arr.push(
-          {
+        if (mapTrans[t.id]) {
+          arr.push({
             id: t.id,
             name: t.name,
             coordinates: [t.geolocation_latitude, t.geolocation_longitude],
-            style: {
-              color: !t.broken ? 'green' : 'silver',
-              fillColor: !t.broken ? 'lime' : '#FF0000',
-              fillOpacity: 1
-            }
-          }
-        )
+            img_src: mapTrans[t.id]
+          })
+        } else {
+          arr.push({
+            id: t.id,
+            name: t.name,
+            coordinates: [t.geolocation_latitude, t.geolocation_longitude],
+            img_src: 'statics/ic_sem_ocorrencia.svg'
+
+          })
+        }
       })
+
       return arr
     },
-    mapCenter () {
-      const arrOfTransductorPoints = this.transductors_points
-
-      if (arrOfTransductorPoints.length !== 0) {
-        return arrOfTransductorPoints[Math.floor(Math.random() * arrOfTransductorPoints.length)].coordinates
+    lines () {
+      let arr = []
+      arr = []
+      if (this.unifilarDiagram === 0) {
+        return []
       }
-      // let current = this.selectedTransductor
 
-      // if (current) {
-      //   return [current.geolocation_latitude, current.geolocation_longitude]
-      // }
+      this.unifilarDiagram.forEach(point => {
+        arr.push({
+          id: point.id,
+          coordinates: [[point.start_lat, point.start_lng], [point.end_lat, point.end_lng]],
+          color: '#98274d'
+        })
+      })
 
-      return [-15.9895825, -48.0447814]
+      return arr
+    },
+    mapBounds () {
+      const arr = []
+      this.transductors.forEach((point) => {
+        const latlng = []
+        latlng.push(point.geolocation_latitude)
+        latlng.push(point.geolocation_longitude)
+        arr.push(latlng)
+      })
+      return arr
     }
-
   },
 
   methods: {
@@ -143,4 +166,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .map-dimension {
+    height: 53.9vh;
+  }
+
+  .map-wrapper {
+    padding-right: 16px;
+  }
+
+  @media screen and (max-width: 1440px) {
+    .map-dimension {
+      height: 100% !important;
+    }
+  }
+
+  @media screen and (max-width: 800px) {
+    .map-wrapper {
+      padding-right: 0 !important;
+    }
+
+    .map-dimension {
+      height: 53.9vh !important;
+    }
+  }
 </style>

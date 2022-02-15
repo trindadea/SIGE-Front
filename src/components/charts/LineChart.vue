@@ -1,98 +1,192 @@
 <template>
   <div>
-    <div class="row q-pa-sm">
-        <q-select
-          class="col q-ma-sm"
-          label="Transdutor"
-          outlined
-          :options="this.transductorList"
-          v-model="selectedTransductor"
-          @input="updateChart()"/>
-        <q-select
-          class="col q-ma-sm"
-          label="Período"
-          outlined
-          v-model="selectedPeriod"
-          :options="['Hoje', 'Últimos 7 dias', 'Últimos 30 dias']"
-          @input="updateChart()"/>
+    <div style="padding: 1.5em;" v-if="this.chartOptions.status">
+      <q-no-ssr>
+        <apexcharts
+          v-if="mounted"
+          id="chart"
+          ref="chart"
+          type="line"
+          @hook:mounted="updateAnnotations"
+          :options="chartConf"
+          :series="series"/>
+      </q-no-ssr>
     </div>
-    <q-separator/>
-      <div
-      v-if="this.selectedTransductor !== ''">
-      <apexcharts
-      id="chart"
-      type="line"
-      :options="chartOptions"
-      :series="series"/>
-    </div>
-    <no-data-placeholder v-else/>
+    <no-data-placeholder
+      style="padding: 1.5em;"
+      v-else
+      info="Para visualizar os dados é necessária a seleção de uma dimensão,
+        assim como um intervalo de dados."
+    />
   </div>
 </template>
 
 <script>
-import NoDataPlaceholder from './NoDataPlaceholder.vue'
-import moment from 'moment'
-import HTTP from '../../services/masterApi/http-common'
+import noDataPlaceholder from '../NoDataPlaceHolder.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
-    'no-data-placeholder': NoDataPlaceholder
+    Apexcharts: () => import('vue-apexcharts'),
+    noDataPlaceholder: noDataPlaceholder
   },
-
   props: [
-    'title',
-    'url',
     'graphic_type',
-    'y_min',
-    'y_max',
     'show_legend',
-    'unit'
+    'id',
+    'min',
+    'max',
+    'chartTitle',
+    'exportOptions'
   ],
 
   data () {
+    const USED_VOLTAGE = 220
     return {
-      phase_a: [],
-      phase_b: [],
-      phase_c: [],
       measurements: [],
-      transductorList: [],
-      selectedCampus: '',
-      selectedTransductor: '',
-      selectedPeriod: 'Hoje',
-      periodsOptions: {}
+      mounted: false,
+      annotations: {
+        tensão: {
+          yaxis: [
+            {
+              y: USED_VOLTAGE * 0.91,
+              borderColor: '#d1d146',
+              borderWidth: '2px',
+              strokeDashArray: false,
+              label: {
+                borderColor: '#d1d146',
+                style: {
+                  color: '#FFFFFF',
+                  background: '#d1d146',
+                  fontSize: '16px'
+                },
+                text: 'Precária'
+              }
+            },
+
+            {
+              y: USED_VOLTAGE * 1.04,
+              borderColor: '#d1d146',
+              borderWidth: '2px',
+              strokeDashArray: false,
+              label: {
+                borderColor: '#d1d146',
+                style: {
+                  color: '#FFFFFF',
+                  background: '#d1d146',
+                  fontSize: '16px'
+                },
+                text: 'Precária'
+              }
+            },
+
+            {
+              y: USED_VOLTAGE * 0.86,
+              borderColor: '#d14646',
+              borderWidth: '2px',
+              strokeDashArray: false,
+              label: {
+                borderColor: '#d14646',
+                style: {
+                  color: '#FFFFFF',
+                  background: '#d14646',
+                  fontSize: '16px'
+                },
+                text: 'Crítica'
+              }
+            },
+
+            {
+              y: USED_VOLTAGE * 1.06,
+              borderColor: '#d14646',
+              borderWidth: '2px',
+              strokeDashArray: false,
+              label: {
+                borderColor: '#d14646',
+                style: {
+                  color: '#FFFFFF',
+                  background: '#d14646',
+                  fontSize: '16px'
+                },
+                text: 'Crítica'
+              }
+            }
+          ]
+        }
+      }
     }
   },
 
+  methods: {
+    updateAnnotations () {
+      const dimensionAnnotations = this.annotations[this.filterOptions.dimension.toLowerCase()]
+      this.$refs.chart.clearAnnotations()
+
+      if (dimensionAnnotations) {
+        dimensionAnnotations.yaxis.forEach((annotation) => {
+          this.$refs.chart.addYaxisAnnotation(annotation)
+        })
+      }
+    }
+  },
+
+  mounted () {
+    this.mounted = true
+  },
+
   computed: {
+    ...mapGetters('transductorStore', ['chartOptions', 'filterOptions']),
+    ...mapGetters('userStore', ['getPage']),
     series () {
       if (this.graphic_type === '1') {
         return [
           {
-            name: this.title,
-            data: this.phase_a
+            name: 'asdfadsf',
+            data: this.chartOptions.phase_a
           }
         ]
       } else {
         return [
           {
             name: 'Fase A',
-            data: this.phase_a
+            data: this.chartOptions.phase_a
           },
           {
             name: 'Fase B',
-            data: this.phase_b
+            data: this.chartOptions.phase_b
           },
           {
             name: 'Fase C',
-            data: this.phase_c
+            data: this.chartOptions.phase_c
           }
         ]
       }
     },
-    chartOptions () {
+
+    chartConf () {
+      const filename = (this.exportOptions.location ? (this.exportOptions.location + ' - ') : ('')) +
+      (this.exportOptions.dimension ? (this.exportOptions.dimension + ' - ') : ('')) + this.exportOptions.startDate + '-' + this.exportOptions.endDate
+
       return {
+        colors: ['#46b5d1', '#007944', '#da2d2d'],
+
         chart: {
-          stacked: false
+          stacked: false,
+          toolbar: {
+            export: {
+              csv: {
+                filename: filename
+              },
+
+              svg: {
+                filename: filename
+              },
+
+              png: {
+                filename: filename
+              }
+            }
+          }
         },
 
         legend: {
@@ -111,7 +205,6 @@ export default {
         },
 
         fill: {
-          opacity: [0.85, 0.25, 1],
           gradient: {
             inverseColors: false,
             shade: 'light',
@@ -122,8 +215,30 @@ export default {
           }
         },
 
+        title: {
+          text: this.chartTitle,
+          align: 'center',
+          margin: 10,
+          offsetX: 0,
+          offsetY: 0,
+          floating: false,
+          style: {
+            fontSize: '24px',
+            fontWeight: '300',
+            fontFamily: 'Roboto',
+            color: '#00417e'
+          }
+        },
+
         dataLabels: {
-          enabled: false
+          enabled: false,
+          formatter: (val) => {
+            return `${val.toFixed(0)} ${this.chartOptions.unit}`
+          },
+          style: {
+            fontSize: '1rem'
+          },
+          offsetY: 20
         },
 
         markers: {
@@ -132,17 +247,28 @@ export default {
 
         xaxis: {
           type: 'datetime',
-          show: false
+          show: true,
+          labels: {
+            datetimeUTC: false,
+            style: {
+              fontSize: '.8rem'
+            }
+          }
         },
 
         yaxis: {
-          title: {
-            text: this.title
+          labels: {
+            formatter: (val) => {
+              return val.toFixed(this.chartOptions.decimals || 0) + ' ' + this.chartOptions.unit
+            },
+            style: {
+              fontSize: '1rem'
+            }
           },
-          min: parseInt(this.y_min, 10),
-          max: parseInt(this.y_max, 10),
-          tickAmount: 5,
-          decimalsInFloat: 2
+          min: this.min,
+          max: this.max,
+          decimalsInFloat: 2,
+          tickAmount: 10
         },
 
         grid: {
@@ -160,7 +286,7 @@ export default {
           },
           y: {
             formatter: (val) => {
-              return `${val.toFixed(3)} ${this.unit}`
+              return `${val.toFixed(1)} ${this.chartOptions.unit}`
             }
           }
         }
@@ -168,123 +294,17 @@ export default {
     }
   },
 
-  methods: {
-    updateChart () {
-      let periods = this.periodsOptions[this.selectedPeriod]
-      let startDate = periods[0]
-      let endDate = periods[1]
-      let limit = periods[2]
-
-      console.log(`http://127.0.0.1:8001/graph/${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
-
-      if (this.selectedTransductor !== undefined) {
-        HTTP
-          .get(`graph/minutely_${this.url}/?limit=${limit}&serial_number=${this.selectedTransductor}&start_date=${startDate}&end_date=${endDate}`)
-          .then((res) => {
-            const measurements = res.data.results[0]
-            this.buildGraphInformation(measurements)
-            console.log(measurements)
-          })
-          .catch((err) => console.error(err))
-      }
-    },
-
-    getTodayInterval () {
-      let now = new Date()
-      let oneDayAgo = new Date()
-
-      oneDayAgo.setDate(oneDayAgo.getDate() - 1)
-
-      let startDate = moment(oneDayAgo).format('YYYY-MM-DD HH:mm')
-      let endDate = moment(now).format('YYYY-MM-DD HH:mm')
-
-      return [startDate, endDate, 1440]
-    },
-
-    getLastWeek () {
-      let now = new Date()
-      let oneWeekAgo = new Date()
-
-      oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
-
-      let startDate = moment(oneWeekAgo).format('YYYY-MM-DD h:mm')
-      let endDate = moment(now).format('YYYY-MM-DD h:mm')
-
-      return [startDate, endDate, 10080]
-    },
-
-    getLastMonth () {
-      let now = new Date()
-      let oneMonthAgo = new Date()
-
-      oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1)
-
-      let startDate = moment(oneMonthAgo).format('YYYY-MM-DD h:mm')
-      let endDate = moment(now).format('YYYY-MM-DD h:mm')
-
-      return [startDate, endDate, 43200]
-    },
-
-    buildGraphInformation (data) {
-      if (this.graphic_type === '1') {
-        this.setOneFaseInformations(data.measurements)
-      } else {
-        let phaseAList = data['phase_a']
-        let phaseBList = data['phase_b']
-        let phaseCList = data['phase_c']
-
-        this.setThreeFaseInformations(phaseAList, phaseBList, phaseCList)
-      }
-    },
-
-    setOneFaseInformations (measurementList) {
-      this.phase_a = measurementList
-    },
-
-    setThreeFaseInformations (measurementListA, measurementListB, measurementListC) {
-      this.phase_a = measurementListA
-      this.phase_b = measurementListB
-      this.phase_c = measurementListC
-    },
-
-    setTransductorList (transductorList) {
-      this.transductorList = transductorList
-    },
-
-    getTransductors () {
-      HTTP
-        .get('energy_transductors')
-        .then((res) => {
-          const transductors = res.data
-
-          let transductorsList = []
-
-          for (let transductor of transductors) {
-            transductorsList.push(transductor['serial_number'])
-          }
-
-          transductorsList.sort()
-
-          this.setTransductorList(transductorsList)
-        })
-        .catch((err) => {
-          console.error(err)
-        })
+  watch: {
+    series: function () {
+      this.updateAnnotations()
     }
-  },
-
-  created () {
-    this.getTransductors()
-
-    this.periodsOptions['Hoje'] = this.getTodayInterval()
-    this.periodsOptions['Últimos 7 dias'] = this.getLastWeek()
-    this.periodsOptions['Últimos 30 dias'] = this.getLastMonth()
   }
 }
 </script>
 
 <style scoped>
   #chart {
-    padding: .5rem
+    padding: .5rem;
+    color: #147900;
   }
 </style>
