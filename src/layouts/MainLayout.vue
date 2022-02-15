@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Header from '../components/Header'
 import logoutHelper from '../mixins/logoutHelper.js'
 
@@ -62,7 +63,15 @@ export default {
     return {
       drawer: false,
       miniState: true,
-      menuItems: [
+      menuItems: []
+    }
+  },
+  computed: {
+    ...mapGetters('userStore', ['getUser'])
+  },
+  methods: {
+    loadTabData () {
+      this.menuItems = [
         {
           name: 'Início',
           link: '/',
@@ -92,21 +101,30 @@ export default {
           link: '/reports',
           icon: 'subject',
           separator: true
-        },
-        {
+        }
+      ]
+
+      const user = this.getUser
+      console.log(user)
+      if (user.is_superuser) {
+        this.menuItems.push({
           name: 'Gerenciar',
           link: '/manageInstallations',
           icon: 'settings',
           separator: false
-        },
-        {
-          name: 'Sobre o Projeto',
-          link: '/about',
-          icon: 'img:statics/ic_sobre.svg',
-          separator: false
-        }
-      ]
+        })
+      }
+
+      this.menuItems.push({
+        name: 'Sobre o Projeto',
+        link: '/about',
+        icon: 'img:statics/ic_sobre.svg',
+        separator: false
+      })
     }
+  },
+  created () {
+    this.loadTabData()
   }
 }
 </script>
