@@ -35,7 +35,6 @@ export default {
     'show_legend',
     'id',
     'min',
-    'decimals',
     'max',
     'chartTitle',
     'exportOptions'
@@ -260,7 +259,7 @@ export default {
         yaxis: {
           labels: {
             formatter: (val) => {
-              return val.toFixed(this.decimals || 0) + ' ' + this.chartOptions.unit
+              return val.toFixed(this.chartOptions.decimals || 0) + ' ' + this.chartOptions.unit
             },
             style: {
               fontSize: '1rem'

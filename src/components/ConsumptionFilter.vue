@@ -51,9 +51,9 @@
             toggle-color="primary"
             class="elem toggle"
             :options="[
-          {label: 'HORA', value: 'hourly'},
           {label: 'DIA', value: 'daily'},
-          {label: 'MES', value: 'monthly'}
+          {label: 'MES', value: 'monthly'},
+          {label: 'ANO', value: 'yearly'}
         ]"
         @input="changePeriodicity(model)"
           />
@@ -105,7 +105,7 @@ export default {
   name: 'ConsumptionFilter',
   data () {
     return {
-      model: 'hourly',
+      model: 'daily',
       campusModel: null,
       optionsCampus: allCampus,
       optionsModel: null,
@@ -123,8 +123,6 @@ export default {
         res.data.forEach(elem => {
           allCampus.push(elem)
         })
-        this.campusModel = res.data[0]
-        this.$parent.location.campus = this.campusModel.acronym
       })
       .catch(err => {
         console.log(err)

@@ -30,6 +30,7 @@ export default {
 
       return {
         colors: ['#00417e'],
+
         title: {
           text: this.chartTitle,
           align: 'center',
@@ -44,22 +45,7 @@ export default {
             color: '#00417e'
           }
         },
-        chart: {
-          stacked: false,
-          toolbar: {
-            export: {
-              csv: {
-                filename: filename
-              },
-              svg: {
-                filename: filename
-              },
-              png: {
-                filename: filename
-              }
-            }
-          }
-        },
+
         grid: {
           strokeDashArray: 0,
           xaxis: {
@@ -72,12 +58,14 @@ export default {
             }
           }
         },
+
         dataLabels: {
           enabled: false
         },
 
         xaxis: {
           labels: {
+            datetimeUTC: false,
             show: true,
             style: {
               colors: [],
@@ -98,9 +86,30 @@ export default {
           tickAmount: 10
         },
         tooltip: {
+          x: {
+            format: 'dd-MM-yyyy HH:mm',
+            formatter: undefined
+          },
           y: {
             formatter: (val) => {
               return `${val.toFixed(1)} ${this.unit}`
+            }
+          }
+        },
+
+        chart: {
+          stacked: false,
+          toolbar: {
+            export: {
+              csv: {
+                filename: filename
+              },
+              svg: {
+                filename: filename
+              },
+              png: {
+                filename: filename
+              }
             }
           }
         }

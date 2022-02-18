@@ -5,7 +5,6 @@
       :filterList="dimensions"
       :visionOptions="vision"
       :transductorId="transductorId"
-      @chart-change="updateChartOption"
     />
     <line-chart
       v-if="graphIs('linechart') && mounted"
@@ -74,9 +73,6 @@ export default {
     graphIs (graphType) {
       const type = this.chartOptions.graphType
       return type === graphType
-    },
-    updateChartOption ({ chartOption }) {
-      console.log(`Novo chartOption:: ${chartOption}`)
     }
   }
 }

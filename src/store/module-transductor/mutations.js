@@ -12,6 +12,7 @@ const updateChartPhase = (state, options) => {
   state.chartOptions.dimension = options.dimension
   state.chartOptions.status = options.status
   state.chartOptions.graphType = options.graphType
+  state.chartOptions.decimals = options.decimals
 }
 const updateFilter = (state, filter) => {
   state.filterOptions.dimension = filter.dimension

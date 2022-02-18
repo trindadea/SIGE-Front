@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h3 class="title">Lista de Tipos de Agrupamentos </h3>
     <div class="btn q-px-md">
       <q-btn
         size="1rem"
@@ -9,65 +8,99 @@
         @click="handlePressButton('new')"/>
     </div>
     <div class="container">
-      <div class="groupType-info" v-if="isCreatingNew">
-        <h3 class="title">
-          Novo GroupType
-        </h3>
-        <q-form
-          class="q-gutter-md"
-          @submit="postGroupType()"
-          >
-          <div class="inputDiv">
-            <label>Nome: </label>
-            <q-input
-              class="inputField"
-              outlined
-              v-model="newGroupType.name"/>
-          </div>
+      <q-dialog
+      v-model="isCreatingNew"
+      transition-show="slide-up"
+      transition-hide="slide-down"
+      >
+        <q-card class="text-white">
+          <q-bar class="bg-primary">
+            <h5 class="title">
+              Novo Tipo de Agrupamento
+            </h5>
+            <q-space/>
+          </q-bar>
+          <q-card-section class="q-pt-none">
+            <q-form
+            class="q-gutter-md"
+            @submit="postGroupType()"
+            id="post-form"
+            >
+              <div class="inputDiv">
+                <q-input
+                class="inputField"
+                outlined
+                v-model="newGroupType.name"
+                label="Nome do Tipo de Agrupamento"/>
+              </div>
+            </q-form>
+          </q-card-section>
           <div class="btn">
             <q-btn
               size="1rem"
               label="Salvar"
               type="submit"
-              color="primary"/>
+              form="post-form"
+              color="primary"
+              v-close-popup/>
+            <q-space />
+            <q-btn
+              size="1rem"
+              label="Cancelar"
+              color="primary"
+              v-close-popup/>
           </div>
-        </q-form>
-      </div>
-      <div class="groupType-info" v-if="isSelectedGroupType">
-        <h3 class="title">
-          Editar dados
-        </h3>
-        <q-form
-        class="q-gutter-md"
-        @submit="putGroupType()"
-        >
-        <div class="inputDiv">
-          <label>Nome: </label>
-          <q-input
-              class="inputField"
-              outlined
-              disabled
-              v-model="groupType.name"/>
-        </div>
-        <div class="text-right q-mt-lg">
-          <q-btn
-            class="btn"
-            size="1rem"
-            label="Cancelar"
-            color="primary"
-            @click="handlePressButton('cancel')"/>
-          <q-btn
-            class="btn"
-            size="1rem"
-            label="Salvar"
-            type="submit"
-            color="primary"/>
-        </div>
-      </q-form>
-      </div>
+        </q-card>
+      </q-dialog>
+
+      <q-dialog
+      v-model="isSelectedGroupType"
+      transition-show="slide-up"
+      transition-hide="slide-down"
+      >
+        <q-card class="text-white">
+          <q-bar class="bg-primary">
+            <h5 class="title">
+              Editar Dados
+            </h5>
+            <q-space/>
+          </q-bar>
+          <q-card-section class="q-pt-none">
+            <q-form
+            class="q-gutter-md"
+            @submit="putGroupType()"
+            id="put-form"
+            >
+              <div class="inputDiv">
+                <q-input
+                class="inputField"
+                outlined
+                v-model="groupType.name"
+                label="Nome do Tipo de Agrupamento"/>
+              </div>
+            </q-form>
+          </q-card-section>
+          <div class="btn">
+            <q-btn
+              size="1rem"
+              label="Salvar"
+              type="submit"
+              form="put-form"
+              color="primary"
+              v-close-popup/>
+            <q-space />
+            <q-btn
+              size="1rem"
+              label="Cancelar"
+              color="primary"
+              v-close-popup/>
+          </div>
+        </q-card>
+      </q-dialog>
+
       <div class="q-pa-md">
         <q-table
-          title="GroupTypes"
+          title="Tipos de Agrupamentos"
           :data="groupTypes"
           :columns="columns"
           row-key="name"
@@ -104,7 +137,7 @@
 
 <script>
 import MASTER from '../../services/masterApi/http-common'
-// import { mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'GroupTypes',
@@ -124,9 +157,11 @@ export default {
     }
   },
   created () {
+    this.changePage('Gerenciar Instalações > Tipos de Agrupamentos')
     this.getGroupTypes()
   },
   methods: {
+    ...mapActions('userStore', ['changePage']),
     handlePressButton (type, id = null) {
       const options = {
         new: () => {
@@ -201,7 +236,7 @@ export default {
           this.groupTypes = this.groupTypes.filter((groupType) => groupType.id !== id)
           this.$q.notify({
             type: 'positive',
-            message: 'GroupType deletado com sucesso.'
+            message: 'Tipo de Agrupamento deletado com sucesso.'
           })
           this.isSelectedGroupType = false
           this.groupType = {}
@@ -217,6 +252,10 @@ export default {
         .then(res => {
           this.groupTypes.push(res.data)
           this.newGroupType = {}
+          this.$q.notify({
+            type: 'positive',
+            message: 'Tipo de Agrupamento criado com sucesso.'
+          })
         })
         .catch(err => {
           console.log(err)
@@ -239,23 +278,47 @@ export default {
   padding     : 20px;
   padding-top : 0px;
 }
-.title {
-  text-align      : center;
-  padding-top     : 0px;
-  padding-bottom  : 20px;
-}
 .btn {
-  margin-top  : 24px;
-  margin-left : 10px;
-  text-align  : right;
+  margin-top   : 24px;
+  margin-left  : 10px;
+  padding-right: 26px;
+  text-align   : right;
 }
 .inputDiv {
+  padding-top : 20px;
   display     : flex;
   align-items : center;
 }
 .inputField {
-  flex          : 1;
-  padding-left  : 10px
+  flex        : 1;
+}
+.inputDiv label {
+  width: 75px;
+}
+.q-card {
+  width: 50% !important;
+  min-width: 400px;
+  .title {
+    padding-left: 10px;
+    margin: 0;
+  }
+  .q-bar {
+    padding: 10px;
+    padding: 10px;
+    height: 60px;
+    border: 0;
+    border-radius: 0;
+  }
+  .info {
+    padding: 15px;
+  }
+  .btn {
+    display: flex;
+    margin-top: 1px;
+    margin-bottom: 20px;
+    padding-left: 5px;
+    padding-right: 17px;
+  }
 }
 
 </style>

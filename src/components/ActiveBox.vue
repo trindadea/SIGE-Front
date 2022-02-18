@@ -9,14 +9,14 @@
     <div class="card-content">
       <p class="campus" v-if="this.campusName !== ''">Campus {{this.campusName}}</p>
       <q-btn
-        v-if="lat !== null && long !== null"
+        v-if="latitude !== null && longitude !== null"
         outline
         class="map-button"
         label="Ver no mapa"
         @click="map()"
       />
     </div>
-    <map-modal :center='[lat, long]'/>
+    <map-modal :center='[latitude, longitude]'/>
   </q-card>
 </template>
 <script>
@@ -35,39 +35,53 @@ export default {
   data () {
     return {
       active: false,
-      lat: null,
-      long: null,
+      latitude: null,
+      longitude: null,
       name: '',
       campusName: '',
       campusId: ''
     }
   },
   async created () {
-    await MASTER
-      .get('/energy-transductors/' + this.id)
-      .then((res) => {
-        this.active = res.data.active
-        this.lat = res.data.geolocation_latitude
-        this.long = res.data.geolocation_longitude
-        this.name = res.data.name
-        this.campusId = parseInt(res.data.campus.split('/')[4], 10)
-      })
-      .catch(err => {
-        console.log(err)
-      })
-    await MASTER
-      .get('/campi/' + this.campusId)
-      .then((res) => {
-        this.campusName = res.data.name
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    await this.getTransductors()
+    this.getCampi()
   },
   methods: {
     ...mapActions('transductorStore', ['changeMapStatus']),
     map () {
       this.changeMapStatus()
+    },
+    getTransductors () {
+      return new Promise((resolve, reject) => {
+        MASTER
+          .get('/energy-transductors/' + this.id)
+          .then((res) => {
+            this.active = res.data.active
+            this.latitude = res.data.geolocation_latitude
+            this.longitude = res.data.geolocation_longitude
+            this.name = res.data.name
+            this.campusId = parseInt(res.data.campus.split('/')[4], 10)
+            resolve()
+          })
+          .catch(err => {
+            console.log(err)
+            resolve()
+          })
+      })
+    },
+    getCampi () {
+      return new Promise((resolve, reject) => {
+        MASTER
+          .get('/campi/' + this.campusId)
+          .then((res) => {
+            this.campusName = res.data.name
+            resolve()
+          })
+          .catch(err => {
+            console.log(err)
+            resolve()
+          })
+      })
     }
   }
 }
