@@ -10,6 +10,7 @@
   "scripts": {
     "lint": "eslint --ext .js,.vue src",
     "test": "echo \"No test specified\" && exit 0",
+    "pretty": "prettier --write \"./**/*.{vue}\"",
     "cl": "auto-changelog",
     "start": "quasar dev -m ssr",
     "build": "quasar build",
@@ -36,10 +37,9 @@
     "eslint-loader": "^3.0.3",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^11.0.0",
-    "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
-    "eslint-plugin-vue": "^6.1.2",
+    "eslint-plugin-vue": "^8.4.1",
     "prettier": "2.5.1"
   },
   "engines": {
