@@ -42,11 +42,12 @@ module.exports = {
     'import/export': 'error',
     'import/extensions': 'off',
     'import/no-unresolved': 'off',
-    'vue/no-unused-vars': 'error',
     'import/no-extraneous-dependencies': 'off',
     'prefer-promise-reject-errors': 'off',
     "vue/require-default-prop": "off",
     'vue/multi-word-component-names': 'off',
+    'vue/no-unused-vars': 'warn',
+    'no-unused-vars': 'warn',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
   }
 }
