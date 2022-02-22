@@ -21,6 +21,7 @@
     "@quasar/extras": "^1.0.0",
     "apexcharts": "^3.25.0",
     "axios": "^0.19.2",
+    "eslint-plugin-prettier": "^4.0.0",
     "leaflet": "^1.6.0",
     "moment": "^2.25.2",
     "quasar": "^1.0.0",

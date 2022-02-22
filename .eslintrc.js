@@ -14,12 +14,12 @@ module.exports = {
   extends: [
     'plugin:vue/essential',
     'eslint:recommended',
-    // "plugin:vue/vue3-recommended",
     "prettier"
   ],
   plugins: [
     'vue',
-    'prettier'
+    'prettier',
+    'import'
   ],
 
   globals: {
@@ -46,6 +46,7 @@ module.exports = {
     'import/no-extraneous-dependencies': 'off',
     'prefer-promise-reject-errors': 'off',
     "vue/require-default-prop": "off",
+    'vue/multi-word-component-names': 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
   }
 }
