@@ -99,7 +99,7 @@ import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
 import { dimensions } from '../utils/transductorGraphControl'
 
-const allCampus = []
+let allCampus = []
 
 export default {
   name: 'TotalCostFilter',
@@ -118,15 +118,8 @@ export default {
   },
   props: {},
   async created () {
-    await MASTER.get('campi/')
-      .then(res => {
-        res.data.forEach(elem => {
-          allCampus.push(elem)
-        })
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    allCampus = await this.getAllCampiInfo()
+    this.optionsCampus = allCampus
     this.getChart()
   },
   computed: {
@@ -142,6 +135,7 @@ export default {
         )
       })
     },
+
     filterCampus (val, update, abort) {
       update(() => {
         const needle = val.toLowerCase()
@@ -150,6 +144,17 @@ export default {
         )
       })
     },
+
+    async getAllCampiInfo () {
+      try {
+        const { data: campiData } = await MASTER.get('campi/')
+        console.log('da função asyncrona ->', campiData)
+        return campiData
+      } catch (error) {
+        return []
+      }
+    },
+
     getGroups () {
       const updatedGroups = []
       const selectedCampus = allCampus.find(campus => campus.id === this.campusModel)
