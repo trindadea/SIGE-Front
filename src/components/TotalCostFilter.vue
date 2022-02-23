@@ -100,7 +100,6 @@ import moment from 'moment'
 import { dimensions } from '../utils/transductorGraphControl'
 
 const allCampus = []
-const groups = []
 
 export default {
   name: 'TotalCostFilter',
@@ -110,7 +109,7 @@ export default {
       campusModel: null,
       optionsCampus: allCampus,
       optionsModel: null,
-      optionsGroup: groups,
+      optionsGroup: [],
       startDate: '',
       endDate: '',
       mask: '##/##/####',
@@ -152,15 +151,16 @@ export default {
       })
     },
     getGroups () {
-      while (groups.length) {
-        groups.pop()
-      }
-      this.optionsModel = null
-      allCampus.filter(campus => campus.id === this.campusModel)[0].groups_related.map(group => {
-        if (groups.filter(subGroup => subGroup.name === group.name).length === 0) {
-          groups.push(group)
+      const updatedGroups = []
+      const selectedCampus = allCampus.find(campus => campus.id === this.campusModel)
+      selectedCampus.groups_related.forEach(group => {
+        const alreadyInUpdatedGroups = updatedGroups.find(subGroup => subGroup.name === group.name)
+        if (!alreadyInUpdatedGroups) {
+          updatedGroups.push(group)
         }
       })
+      this.optionsModel = null
+      this.optionsGroup = updatedGroups
     },
 
     verifyClearInput () {
@@ -210,7 +210,6 @@ export default {
 
 <style lang="scss" scoped>
 .containerFilter {
-  background-color: white;
   display: flex;
   align-items: center;
   justify-content: center;
