@@ -135,7 +135,7 @@ export default {
 
   methods: {
     updateChart () {
-      ChartService.getQuartelyDailyConsumption()
+      ChartService.getQuartelyDailyConsumption(this.selectedCampus.id)
         .then((res) => {
           this.consumption = res.data
         })
