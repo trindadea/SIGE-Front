@@ -7,7 +7,7 @@
 // https://quasar.dev/quasar-cli/quasar-conf-js
 /* eslint-env node */
 
-const extendWebpack = require('../webpack-config.js')
+const extendWebpack = require('./webpack-config.js')
 
 module.exports = function (/* ctx */) {
   return {
