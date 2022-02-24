@@ -94,12 +94,16 @@
 </template>
 
 <script>
-import MASTER from '../services/masterApi/http-common'
+
 import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
 import { dimensions } from '../utils/transductorGraphControl'
+import CampiService from '../services/CampiService'
+import ChartService from '../services/ChartService'
 
 let allCampus = []
+const campiService = new CampiService()
+const chartService = new ChartService()
 
 export default {
   name: 'TotalCostFilter',
@@ -118,7 +122,7 @@ export default {
   },
   props: {},
   async created () {
-    allCampus = await this.getAllCampiInfo()
+    allCampus = await campiService.getAllCampiInfo()
     this.optionsCampus = allCampus
     this.getChart()
   },
@@ -143,16 +147,6 @@ export default {
           v => v.name.toLowerCase().indexOf(needle) > -1
         )
       })
-    },
-
-    async getAllCampiInfo () {
-      try {
-        const { data: campiData } = await MASTER.get('campi/')
-        console.log('da função asyncrona ->', campiData)
-        return campiData
-      } catch (error) {
-        return []
-      }
     },
 
     getGroups () {
@@ -190,27 +184,17 @@ export default {
       }
     },
     getChart () {
-      MASTER
-        .get(this.getUrl)
-        .then((res) => {
-          var chart = {
-            values: res.data.cost,
-            min: res.data.min,
-            max: res.data.max,
-            status: true,
-            unit: 'R$',
-            dimension: dimensions[1]
-          }
+      chartService.getChartData(this.getUrl, 'R$', dimensions[1])
+        .then((chart) => {
           this.updateChart(chart)
           this.$parent.location.campus = this.optionsCampus.find(campus => campus.id === this.campusModel).acronym
           this.$parent.location.group = this.optionsGroup.find(group => group.id === this.optionsModel).name
         })
-        .catch((err) => {
-          console.log('catch', err)
-        })
+        .catch(() => console.log('Falha ao atualizar o gráfico!'))
     }
   }
 }
+
 </script>
 
 <style lang="scss" scoped>
