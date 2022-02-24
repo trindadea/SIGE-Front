@@ -14,6 +14,6 @@ const Template = (args, { argTypes }) => ({
 
 export const ChargeBarChartComponent = Template.bind({})
 ChargeBarChartComponent.args = {
-  selectedCampus: {id: 2},
+  selectedCampus: { id: 2 },
   selectedTransductor: undefined
 }
