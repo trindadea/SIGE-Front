@@ -119,7 +119,6 @@ export default {
   props: {},
   async created () {
     allCampus = await campiService.getAllCampiInfo()
-    console.log(allCampus)
     this.startDate = moment().format('DD/MM/YYYY')
     this.endDate = moment().format('DD/MM/YYYY')
     const serie = () => getGraphInformation(this.getFilters)
