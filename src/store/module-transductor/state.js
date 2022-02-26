@@ -18,5 +18,6 @@ export default {
     vision: '',
     startDate: null,
     endDate: null
-  }
+  },
+  isLoadingPhaseChart: false
 }

@@ -1,3 +1,4 @@
+/* eslint-disable */
 const getUrl = (state) => {
   return state.url
 }
@@ -36,6 +37,10 @@ const getGraphNotEmpty = (state) => {
   return state.thereIsConsumption
 }
 
+const getChartLoadingStatus = (state) => {
+  return state.isLoadingChart
+}
+
 const getPeriodicity = (state) => {
   return state.periodicity
 }
@@ -49,5 +54,6 @@ export {
   getCategoryXAxis,
   getTypeXAxis,
   getGraphNotEmpty,
-  getPeriodicity
+  getPeriodicity, 
+  getChartLoadingStatus
 }

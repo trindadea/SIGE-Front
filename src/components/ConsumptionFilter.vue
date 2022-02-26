@@ -81,6 +81,7 @@
             size="1rem"
             label="Aplicar"
             type="button"
+            v-bind:loading="getChartLoadingStatus"
             @click="applyFilter()"
             color="primary"
         />
@@ -131,14 +132,14 @@ export default {
     this.startDate = moment().format('DD/MM/YYYY')
     this.endDate = moment().format('DD/MM/YYYY')
 
-    const serie = await getGraphInformation(this.getFilters)
+    const serie = () => getGraphInformation(this.getFilters)
     this.updateChartSerie(serie)
   },
   computed: {
-    ...mapGetters('consumptionCurve', ['errorStartDate', 'errorEndDate', 'getFilters'])
+    ...mapGetters('consumptionCurve', ['errorStartDate', 'errorEndDate', 'getFilters', 'getChartLoadingStatus'])
   },
   methods: {
-    ...mapActions('consumptionCurve', ['changePeriodicity', 'changeStartDate', 'changeEndDate', 'filterByCampus', 'filterByGroup', 'clearStartDate', 'clearEndDate', 'updateChartSerie']),
+    ...mapActions('consumptionCurve', ['changePeriodicity', 'changeStartDate', 'changeEndDate', 'filterByCampus', 'filterByGroup', 'clearStartDate', 'clearEndDate', 'updateChartSerie', 'getChartLoadingStatus']),
     filterFn (val, update, abort) {
       update(() => {
         const needle = val.toLowerCase()
@@ -186,7 +187,7 @@ export default {
     },
 
     async applyFilter () {
-      const serie = await getGraphInformation(this.getFilters)
+      const serie = () => getGraphInformation(this.getFilters)
       this.updateChartSerie(serie)
       if (isNaN(this.campusModel)) {
         this.$parent.location.campus = this.campusModel.acronym
