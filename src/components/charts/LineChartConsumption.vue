@@ -1,21 +1,25 @@
 <template>
   <q-no-ssr>
-      <apexcharts v-if="getSerie && getGraphNotEmpty" type="line" height="500" :options="chartConf" :series="getSerie" />
-      <div v-if="!getGraphNotEmpty" class="no-data-warning">
-        <span>
-          Não há dados disponiveis no momento!
-        </span>
-      </div>
+      <chart-container v-bind:loadingStatus="getChartLoadingStatus">
+        <apexcharts v-if="getSerie && getGraphNotEmpty" type="line" height="500" :options="chartConf" :series="getSerie" />
+        <div v-if="!getGraphNotEmpty && !getChartLoadingStatus" class="no-data-warning">
+          <span>
+            Não há dados disponiveis no momento!
+          </span>
+        </div>
+      </chart-container>
   </q-no-ssr>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import ChartContainer from './ChartContainer.vue'
 
 export default {
   name: 'LineChart',
   components: {
-    Apexcharts: () => import('vue-apexcharts')
+    Apexcharts: () => import('vue-apexcharts'),
+    ChartContainer
   },
   props: [
     'unit',
@@ -23,7 +27,7 @@ export default {
     'exportOptions'
   ],
   computed: {
-    ...mapGetters('consumptionCurve', ['getSerie', 'getFilters', 'getTypeXAxis', 'getGraphNotEmpty', 'getPeriodicity', 'getStartDate', 'getEndDate']),
+    ...mapGetters('consumptionCurve', ['getSerie', 'getFilters', 'getTypeXAxis', 'getGraphNotEmpty', 'getPeriodicity', 'getStartDate', 'getEndDate', 'getChartLoadingStatus']),
     chartConf () {
       const filename = (this.exportOptions.location ? (this.exportOptions.location + ' - ') : ('')) +
       (this.exportOptions.dimension ? (this.exportOptions.dimension + ' - ') : ('')) + this.exportOptions.startDate + '-' + this.exportOptions.endDate
@@ -134,7 +138,7 @@ export default {
 <style lang="scss">
     .no-data-warning {
       width: 100%;
-      height: 60vh;
+      min-height: 500px;
       display:flex;
       justify-content: center;
       align-items: center;

@@ -21,8 +21,13 @@ const updateFilter = (state, filter) => {
   state.filterOptions.endDate = filter.endDate
 }
 
+const isLoadingPhaseChart = (state, loadingChartStatus) => {
+  state.isLoadingPhaseChart = loadingChartStatus
+}
+
 export {
   changeMapStatus,
   updateChartPhase,
-  updateFilter
+  updateFilter,
+  isLoadingPhaseChart
 }

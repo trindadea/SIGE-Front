@@ -124,6 +124,9 @@ const updateChartSerie = (state, serieChart) => {
     state.serieChart = []
   }
 }
+const isLoadingChart = (state, loadingChartStatus) => {
+  state.isLoadingChart = loadingChartStatus
+}
 
 export {
   changePeriodicity,
@@ -133,5 +136,6 @@ export {
   filterByGroup,
   clearStartDate,
   clearEndDate,
-  updateChartSerie
+  updateChartSerie,
+  isLoadingChart
 }
