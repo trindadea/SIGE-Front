@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import MASTER from '../../services/masterApi/http-common'
+import MASTER from '../../../services/masterApi/http-common'
 
 export default {
   name: 'TriangularConsumptionChart',
@@ -178,7 +178,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
   #chart {
     padding: none;
     margin: none;
