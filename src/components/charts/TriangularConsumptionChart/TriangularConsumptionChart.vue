@@ -179,5 +179,12 @@ export default {
 </script>
 
 <style scoped>
+<<<<<<< HEAD:src/components/charts/TriangularConsumptionChart/TriangularConsumptionChart.vue
   @import './style.scss';
+=======
+  #chart {
+    padding: none;
+    margin: none;
+  }
+>>>>>>> 3c52385 (#56 - 'TriangularConsumptionChart' component refactoring):src/components/charts/TriangularConsumptionChart.vue
 </style>
