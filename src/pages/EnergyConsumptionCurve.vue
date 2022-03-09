@@ -12,7 +12,7 @@
 </template>
 
 <script >
-import ConsumptionFilter from '../components/ConsumptionFilter'
+import ConsumptionFilter from '../components/ConsumptionFilter/ConsumptionFilter.vue'
 // import BarChart from '../components/charts/BarChart'
 import LineChart from '../components/charts/LineChartConsumption.vue'
 import { mapGetters, mapActions } from 'vuex'
