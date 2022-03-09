@@ -35,6 +35,7 @@ module.exports = {
     // https://eslint.vuejs.org/user-guide/#why-doesn-t-it-work-on-vue-file
     // required to lint *.vue files
     'vue',
+    'plugin:jest/recommended',
 
   ],
 
