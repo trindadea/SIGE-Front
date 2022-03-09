@@ -1,6 +1,6 @@
 // YourComponent.stories.js
 
-import ConsumptionFilter from '../components/ConsumptionFilter.vue'
+import ConsumptionFilter from '../components/ConsumptionFilter/ConsumptionFilter.vue'
 import Vuex from 'vuex'
 import vue from 'vue'
 
