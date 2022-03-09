@@ -9,16 +9,16 @@
 <script>
 export default {
   name: 'QBUTTON',
-  data () {
+  data() {
     return {
       counter: 0,
-      input: 'rocket muffin'
-    }
+      input: 'rocket muffin',
+    };
   },
   methods: {
-    increment () {
-      this.counter++
-    }
-  }
-}
+    increment() {
+      this.counter++;
+    },
+  },
+};
 </script>

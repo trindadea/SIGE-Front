@@ -18,8 +18,13 @@ module.exports = {
   ],
   plugins: [
     'vue',
+<<<<<<< HEAD
     'prettier',
     'import'
+=======
+    'plugin:jest/recommended',
+
+>>>>>>> 05dacaf (#64-Update tests config)
   ],
 
   globals: {
