@@ -19,7 +19,9 @@ module.exports = {
   plugins: [
     'vue',
     'prettier',
-    'import'
+    'import',
+    'plugin:jest/recommended'
+
   ],
 
   globals: {
