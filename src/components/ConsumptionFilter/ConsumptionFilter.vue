@@ -94,10 +94,11 @@
 </template>
 
 <script>
-import { getGraphInformation } from '../utils/graphControl'
+import { getGraphInformation } from '../../utils/graphControl'
 import { mapActions, mapGetters } from 'vuex'
-import CampiService from '../services/CampiService'
+import CampiService from '../../services/CampiService'
 import moment from 'moment'
+
 let allCampus = []
 const campiService = new CampiService()
 export default {
@@ -193,60 +194,10 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.containerFilter {
-  padding: 2rem;
-}
-.filter {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  align-items: center;
-  gap: 1rem;
-  width: 100%;
-}
-.input {
-  padding-bottom: 0;
-}
-.calendar {
-  color: rgba(0, 0, 0, 0.54);
-}
 
-.caption {
-  font-family: Roboto;
-  letter-spacing: 0.4px;
-  font-size: 12px; /* same of inputs label*/
-  color: rgba(0, 0, 0, 0.6);
-}
-.toggle {
-  margin-top: 1%;
-  border: 1px solid $primary;
-  border-color: $primary;
-}
+<style lang="scss">
+// $
 
-.campus {
-  width: 18%;
-}
-.subtitle {
-  font-family: Roboto;
-  font-size: 1.8vh;
-  line-height: 1.33;
-  letter-spacing: 0.4px;
-  color: rgba(0, 0, 0, 0.87);
-}
-.adjust-toggle {
-  display: none;
-  margin-left: 39%;
-  margin-top: -1.5%;
-}
-.select {
-  width: 240px;
-}
-.input {
-  padding-bottom: 0;
-}
+@import './styles.scss'
 
-.apply_button {
-  height: 40px;
-}
 </style>
