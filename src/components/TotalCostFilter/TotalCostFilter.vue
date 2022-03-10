@@ -97,9 +97,9 @@
 
 import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
-import { dimensions } from '../utils/transductorGraphControl'
-import CampiService from '../services/CampiService'
-import ChartService from '../services/ChartService'
+import { dimensions } from '../../utils/transductorGraphControl'
+import CampiService from '../../services/CampiService'
+import ChartService from '../../services/ChartService'
 
 let allCampus = []
 const campiService = new CampiService()
@@ -197,80 +197,4 @@ export default {
 
 </script>
 
-<style lang="scss" scoped>
-.containerFilter {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin: 0;
-}
-.adjust {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  justify-content: center;
-}
-.filter {
-  background-color: white;
-  display: flex;
-  align-items: initial;
-  justify-content: space-around;
-  flex-direction: row;
-  margin-top: 1%;
-  width: 100%;
-  padding: 0;
-}
-.input {
-  padding-bottom: 0;
-}
-.calendar {
-  color: rgba(0, 0, 0, 0.54);
-}
-.elem {
-  margin: 1.7%;
-}
-.caption {
-  font-family: Roboto;
-  font-size: 1.8vh;
-  line-height: 1.33;
-  letter-spacing: 0.4px;
-  color: rgba(0, 0, 0, 0.6);
-  margin-right: 3.5%;
-}
-.toggle {
-  margin-top: 1%;
-  border: 1px solid $primary;
-  border-color: $primary;
-}
-.vision {
-  align-self: center;
-}
-.campus {
-  width: 18%;
-}
-.subtitle {
-  font-family: Roboto;
-  font-size: 1.8vh;
-  line-height: 1.33;
-  letter-spacing: 0.4px;
-  color: rgba(0, 0, 0, 0.87);
-}
-.adjust-toggle {
-  display: flex;
-  margin-left: 39%;
-  margin-top: -1.5%;
-}
-.select {
-  max-width: 20%;
-}
-.input {
-  padding-bottom: 0;
-}
-.apply_button {
-  height: 40px;
-  margin-top: auto;
-  margin-bottom: 1.7%;
-  margin-left: 1.7%;
-}
-</style>
+<style lang="scss" scoped src='./styles.scss'/>
