@@ -9,6 +9,7 @@ module.exports = {
     "@storybook/addon-links",
     "@storybook/addon-essentials"
   ],
+  "staticDirs": [{from: '../src/statics', to:'/statics'}],
   "framework": "@storybook/vue",
   // webpackFinal,
 }
