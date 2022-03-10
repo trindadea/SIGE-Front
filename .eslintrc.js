@@ -7,8 +7,13 @@ module.exports = {
   },
 
   env: {
+<<<<<<< HEAD
     node: true,
     browser: true
+=======
+    browser: true,
+    "jest/globals": true
+>>>>>>> 89415e0 (Update lint config)
   },
 
   extends: [
@@ -19,12 +24,16 @@ module.exports = {
   plugins: [
     'vue',
 <<<<<<< HEAD
+<<<<<<< HEAD
     'prettier',
     'import'
 =======
     'plugin:jest/recommended',
 
 >>>>>>> 05dacaf (#64-Update tests config)
+=======
+    'jest'
+>>>>>>> 89415e0 (Update lint config)
   ],
 
   globals: {
