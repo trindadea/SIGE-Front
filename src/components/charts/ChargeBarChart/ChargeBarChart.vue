@@ -152,7 +152,5 @@ export default {
 </script>
 
 <style scoped>
-  #chart {
-    size: 100px;
-  }
+  @import './style.scss';
 </style>

@@ -179,8 +179,5 @@ export default {
 </script>
 
 <style scoped>
-  #chart {
-    padding: none;
-    margin: none;
-  }
+  @import './style.scss';
 </style>
