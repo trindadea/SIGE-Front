@@ -1,4 +1,4 @@
-import ConsumptionFilter from './ConsumptionFilter.vue'
+import ChargeBarChart from './ChargeBarChart.vue'
 import { createLocalVue, shallowMount } from '@vue/test-utils'
 import Vuex from 'vuex'
 import * as All from 'quasar'
@@ -18,10 +18,14 @@ localVue.use(Quasar, { components })
 
 const store = new Vuex.Store({})
 
-describe('ConsumptionFilter', async () => {
-  const wrapper = shallowMount(ConsumptionFilter, {
+describe('ChargeBarChart', async () => {
+  const wrapper = shallowMount(ChargeBarChart, {
     store,
-    localVue
+    localVue,
+    propsData: {
+      selectedCampus: { id: 2 },
+      selectedTransductor: undefined
+    }
   })
 
   void it('exists', () => {

@@ -1,5 +1,5 @@
-import ConsumptionFilter from './ConsumptionFilter.vue'
-import { createLocalVue, shallowMount } from '@vue/test-utils'
+import TriangularConsumptionChart from './TriangularConsumptionChart.vue'
+import { createLocalVue, mount } from '@vue/test-utils'
 import Vuex from 'vuex'
 import * as All from 'quasar'
 const { Quasar } = All
@@ -18,13 +18,13 @@ localVue.use(Quasar, { components })
 
 const store = new Vuex.Store({})
 
-describe('ConsumptionFilter', async () => {
-  const wrapper = shallowMount(ConsumptionFilter, {
+describe('TriangularConsumptionChart', () => {
+  const wrapper = mount(TriangularConsumptionChart, {
     store,
     localVue
   })
 
-  void it('exists', () => {
+  it('exists', () => {
     expect(wrapper).toBeTruthy()
   })
 })
