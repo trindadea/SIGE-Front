@@ -10,7 +10,7 @@ const components = Object.keys(All).reduce((object, key) => {
     object[key] = val
   }
   return object
-}, {});
+}, {})
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
@@ -28,7 +28,7 @@ describe('ChargeBarChart', async () => {
     }
   })
 
-  void it('exists', () => {
+  it('exists', () => {
     expect(wrapper).toBeTruthy()
   })
 })

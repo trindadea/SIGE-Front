@@ -10,7 +10,7 @@ const components = Object.keys(All).reduce((object, key) => {
     object[key] = val
   }
   return object
-}, {});
+}, {})
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
@@ -24,7 +24,7 @@ describe('ConsumptionFilter', async () => {
     localVue
   })
 
-  void it('exists', () => {
+  it('exists', () => {
     expect(wrapper).toBeTruthy()
   })
 })
