@@ -10,6 +10,7 @@
   "scripts": {
     "lint": "eslint --ext .js,.vue src",
     "test": "echo \"No test specified\" && exit 0",
+    "pretty": "prettier --write \"./**/*.{vue}\"",
     "cl": "auto-changelog",
     "start": "quasar dev -m ssr",
     "build": "quasar build",
@@ -23,6 +24,7 @@
     "@quasar/extras": "^1.0.0",
     "apexcharts": "^3.25.0",
     "axios": "^0.19.2",
+    "eslint-plugin-prettier": "^4.0.0",
     "leaflet": "^1.6.0",
     "moment": "^2.25.2",
     "quasar": "^1.0.0",
@@ -41,13 +43,15 @@
     "babel-loader": "^8.2.3",
     "core-js": "^2.0.0",
     "eslint": "^6.8.0",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-loader": "^3.0.3",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
-    "eslint-plugin-vue": "^6.1.2",
+    "eslint-plugin-vue": "^8.4.1",
+    "prettier": "2.5.1"
     "vue-loader": "^15.9.8"
   },
   "engines": {
