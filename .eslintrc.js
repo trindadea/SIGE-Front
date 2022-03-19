@@ -8,7 +8,8 @@ module.exports = {
 
   env: {
     node: true,
-    browser: true
+    browser: true,
+    "jest/globals": true
   },
 
   extends: [
@@ -19,7 +20,8 @@ module.exports = {
   plugins: [
     'vue',
     'prettier',
-    'import'
+    'import',
+    'jest'
   ],
 
   globals: {
