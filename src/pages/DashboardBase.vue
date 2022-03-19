@@ -27,7 +27,7 @@
 <script>
 import MASTER from '../services/masterApi/http-common'
 
-import DashBottomBar from 'components/dashboard/DashBottomBar'
+import DashBottomBar from 'components/dashboard/DashBottomBar/DashBottomBar.vue'
 import DashCampusTab from 'components/dashboard/DashCampusTab'
 import DashGeneralEventBar from 'components/dashboard/DashGeneralEventBar'
 
