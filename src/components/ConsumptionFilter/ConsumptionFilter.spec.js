@@ -1,8 +1,8 @@
 import ConsumptionFilter from './ConsumptionFilter.vue'
-import { createLocalVue, shallowMount } from '@vue/test-utils'
+import { createLocalVue, mount } from '@vue/test-utils'
 import Vuex from 'vuex'
-import * as All from 'quasar'
-const { Quasar } = All
+/* eslint import/namespace: ['error', { allowComputed: true }] */
+import Quasar, * as All from 'quasar'
 
 const components = Object.keys(All).reduce((object, key) => {
   const val = All[key]
@@ -18,8 +18,8 @@ localVue.use(Quasar, { components })
 
 const store = new Vuex.Store({})
 
-describe('ConsumptionFilter', async () => {
-  const wrapper = shallowMount(ConsumptionFilter, {
+describe('ConsumptionFilter', () => {
+  const wrapper = mount(ConsumptionFilter, {
     store,
     localVue
   })

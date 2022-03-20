@@ -1,8 +1,8 @@
 import TriangularConsumptionChart from './TriangularConsumptionChart.vue'
 import { createLocalVue, mount } from '@vue/test-utils'
 import Vuex from 'vuex'
-import * as All from 'quasar'
-const { Quasar } = All
+/* eslint import/namespace: ['error', { allowComputed: true }] */
+import Quasar, * as All from 'quasar'
 
 const components = Object.keys(All).reduce((object, key) => {
   const val = All[key]

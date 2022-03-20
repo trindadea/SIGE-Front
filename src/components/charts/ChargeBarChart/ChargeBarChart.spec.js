@@ -1,8 +1,8 @@
 import ChargeBarChart from './ChargeBarChart.vue'
-import { createLocalVue, shallowMount } from '@vue/test-utils'
+import { createLocalVue, mount } from '@vue/test-utils'
 import Vuex from 'vuex'
-import * as All from 'quasar'
-const { Quasar } = All
+/* eslint import/namespace: ['error', { allowComputed: true }] */
+import Quasar, * as All from 'quasar'
 
 const components = Object.keys(All).reduce((object, key) => {
   const val = All[key]
@@ -19,7 +19,7 @@ localVue.use(Quasar, { components })
 const store = new Vuex.Store({})
 
 describe('ChargeBarChart', async () => {
-  const wrapper = shallowMount(ChargeBarChart, {
+  const wrapper = mount(ChargeBarChart, {
     store,
     localVue,
     propsData: {
