@@ -35,8 +35,8 @@ export default {
 
   computed: {
     date () {
-      const a = new Date()
-      return a.toLocaleDateString('pt-BR')
+      const currentDate = new Date()
+      return currentDate.toLocaleDateString('pt-BR')
     }
   }
 
