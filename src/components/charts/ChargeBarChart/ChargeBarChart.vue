@@ -135,15 +135,7 @@ export default {
 
   methods: {
     updateChart () {
-<<<<<<< HEAD
-<<<<<<< HEAD:src/components/charts/ChargeBarChart/ChargeBarChart.vue
       ChartService.getQuartelyDailyConsumption(this.selectedCampus.id)
-=======
-      ChartService.getQuartelyDailyConsumption()
->>>>>>> 08273da (#53 - 'ChargeBarChart' component refactoring):src/components/charts/ChargeBarChart.vue
-=======
-      ChartService.getQuartelyDailyConsumption(this.selectedCampus.id)
->>>>>>> 763afcc (#53 - Addition of the 'ChargeBarChart' component storybook)
         .then((res) => {
           this.consumption = res.data
         })

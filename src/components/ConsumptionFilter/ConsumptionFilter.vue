@@ -122,10 +122,6 @@ export default {
     allCampus = await campiService.getAllCampiInfo()
     this.startDate = moment().format('DD/MM/YYYY')
     this.endDate = moment().format('DD/MM/YYYY')
-<<<<<<< HEAD
-
-=======
->>>>>>> daa9d99 (Clean code: refactor ConsumptionFilter component)
     const serie = () => getGraphInformation(this.getFilters)
     this.updateChartSerie(serie)
   },

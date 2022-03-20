@@ -79,17 +79,17 @@ export default {
       })
     }
   },
-  data() {
+  data () {
     return {
       name: '',
       type: ''
     }
   },
   methods: {
-    close() {
+    close () {
       this.$emit('close')
     },
-    handleGroup() {
+    handleGroup () {
       if (this.group.id) {
         this.$emit('updateGroup', {
           ...this.group,
