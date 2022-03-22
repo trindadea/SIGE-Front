@@ -27,24 +27,22 @@ export default {
     series() {
       return [
         {
-          name: this.graph.dimension,
-          data: this.graph.values,
+          name: dimension,
+          data: values,
         },
       ];
     },
     chartConf() {
-      const tick = this.graph.max <= 10 ? this.graph.max + 1 : 11;
-      const max = this.graph.max < 1 ? 1 : undefined;
-      const filename =
-        (this.exportOptions.location
-          ? this.exportOptions.location + " - "
-          : "") +
-        (this.exportOptions.dimension
-          ? this.exportOptions.dimension + " - "
-          : "") +
-        this.exportOptions.startDate +
-        "-" +
-        this.exportOptions.endDate;
+      const {location, dimension, startDate, endDate} = this.exportOptions
+      const { unit, max } = this.graph
+      
+      const tick = max <= 10 ? max + 1 : 11;
+      const _max = max < 1 ? 1 : undefined;
+      
+      const filename = 
+        (location ? location + " - " : "") +
+        (dimension ? dimension + " - " : "") +
+        (startDate + "-" + endDate);
 
       return {
         colors: ["#00417e"],
@@ -95,16 +93,16 @@ export default {
         yaxis: {
           labels: {
             formatter: (val) => {
-              if (this.graph.unit === "R$") {
-                return this.graph.unit + " " + val.toFixed(this.decimals || 0);
+              if (unit === "R$") {
+                return unit + " " + val.toFixed(this.decimals || 0);
               }
-              return val.toFixed(this.decimals || 0) + " " + this.graph.unit;
+              return val.toFixed(this.decimals || 0) + " " + unit;
             },
             style: {
               fontSize: "1rem",
             },
           },
-          max: max,
+          max: _max,
           decimalsInFloat: 2,
           tickAmount: tick,
         },
@@ -116,10 +114,10 @@ export default {
           },
           y: {
             formatter: (val) => {
-              if (this.graph.unit === "R$") {
-                return ` ${this.graph.unit} ${val.toFixed(1)}`;
+              if (unit === "R$") {
+                return ` ${unit} ${val.toFixed(1)}`;
               }
-              return `${val.toFixed(1)} ${this.graph.unit}`;
+              return `${val.toFixed(1)} ${unit}`;
             },
           },
         },
