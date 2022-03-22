@@ -14,6 +14,7 @@ module.exports = {
 
   extends: [
     'plugin:vue/essential',
+    'plugin:jest/recommended',
     'eslint:recommended',
     "prettier"
   ],
@@ -51,5 +52,6 @@ module.exports = {
     'vue/no-unused-vars': 'warn',
     'no-unused-vars': 'warn',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-  }
+  },
+  "ignorePatterns":["**/stories"]
 }
