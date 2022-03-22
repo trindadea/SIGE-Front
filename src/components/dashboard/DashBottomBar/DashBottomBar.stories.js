@@ -9,12 +9,12 @@ export default {
   title: 'Components/DashBottomBar'
 }
 
-const Template = (args, { argTypes }) => ({
+const Template = (args, { argTypes, alerts=2 }) => ({
   props: Object.keys(argTypes),
   components: { DashBottomBar },
-  // template: '<transducer-alert :occurrence="occurrence" :serious="serious" />'
-  template: '<DashBottomBar />'
+  template: '<DashBottomBar v-bind=$props />'
 })
+
 export const DashBottomBarComponent = Template.bind({})
 DashBottomBarComponent.args = {
   alerts: 3,
