@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import DashPanel from './DashPanel'
+import DashPanel from '../DashPanel'
 
 export default {
   name: 'DashCampusTab',
@@ -96,26 +96,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-
-  .tabs {
-    border-radius: 0px 0px 5px 5px;
-    border: transparent solid 1px;
-  }
-
-  .campus-bar {
-    font-size: 1.45em;
-    .q-tab--active {
-      color: white !important;
-      background-color: #00101f;
-    }
-  }
-
-  .panel-wrapper {
-    min-height: 50vh;
-  }
-
-  .disabledTab{
-      pointer-events: none;
-  }
-</style>
+<style lang="scss" scoped src='./styles.scss'/>
