@@ -1,17 +1,14 @@
 <template>
-  <q-bar class="q-py-sm q-px-md row">
-    <div
-      class="col">
+  <q-bar class="dash-bottom-bar-container">
       <img src="statics/logo_smi.svg" style="height: 28px;"/>
-    </div>
     <div
       id="alerts"
-      class="col text-center">
+      >
       {{ alerts }} ocorrências em andamento
     </div>
     <div
       id="datetime"
-      class="col text-right">
+      >
       {{ date }}
     </div>
   </q-bar>

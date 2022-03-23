@@ -2,3 +2,16 @@
   background-color: #00080f;
   color: white;
 }
+
+.dash-bottom-bar-container {
+  display: flex;
+  align-items: center;
+  justify-content:  space-between;
+}
+
+@media screen and (max-width: 550px) {
+  .dash-bottom-bar-container {
+    flex-direction: column;
+    height: 85px;
+  }
+}
