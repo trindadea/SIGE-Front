@@ -26,4 +26,13 @@ describe('ConsumptionFilter', () => {
   it('exists', () => {
     expect(wrapper).toBeTruthy()
   })
+
+  it('clicks in button', async () => {
+    const button = wrapper.find('button')
+    expect(button.classes()).toContain('q-btn')
+
+    await button.trigger('click')
+
+    expect(button).toBeTruthy()
+  })
 })
