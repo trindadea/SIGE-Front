@@ -9,7 +9,7 @@ export default {
   title: 'Components/DashBottomBar'
 }
 
-const Template = (args, { argTypes, alerts=2 }) => ({
+const Template = (args, { argTypes, alerts = 2 }) => ({
   props: Object.keys(argTypes),
   components: { DashBottomBar },
   template: '<DashBottomBar v-bind=$props />'
