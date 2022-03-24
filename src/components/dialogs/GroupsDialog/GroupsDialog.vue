@@ -114,31 +114,6 @@ export default {
 }
 </script>
 
-<style lang="scss">
-#groups-dialog {
-  .q-card {
-    min-width: 400px;
-
-    .title {
-      margin: 0;
-    }
-
-    .q-bar {
-      padding: 10px;
-      padding: 10px;
-      height: 60px;
-      border: 0;
-      border-radius: 0;
-    }
-
-    .info {
-      padding: 15px;
-    }
-
-    .btn {
-      display: flex;
-      margin-top: 15px;
-    }
-  }
-}
+<style>
+  @import './style.scss';
 </style>
