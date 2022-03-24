@@ -87,9 +87,10 @@ export default {
         this.activeTab = this.campi[0].name
         this.currentCampus = this.campi[0]
       } else {
-        const a = this.campiName.indexOf(this.activeTab)
-        this.activeTab = (a < this.campi.length - 1) ? this.campiName[a + 1] : this.campiName[0]
-        this.currentCampus = (a < this.campi.length - 1) ? this.campi[a + 1] : this.campi[0]
+        const currentTabIndex = this.campiName.indexOf(this.activeTab)
+        const nextTabIndex = (currentTabIndex + 1) % this.campiName.length
+        this.activeTab = this.campiName[nextTabIndex]
+        this.currentCampus = this.campi[nextTabIndex]
       }
     }
   }
