@@ -1,8 +1,8 @@
 <template>
-  <div class="base">
+  <div class="base ">
     <q-card
       flat
-      class="evt-card-size"
+      class="evt-card-size card"
       :class="isActive ? activeClass : 'card-inactive'">
 
       <q-card-section
@@ -23,7 +23,7 @@
           </p>
         </div>
 
-        <div v-else>
+        <div v-else class="evt-card-size">
           <p v-for="ev in eventsList.slice(0, 8)" :key="ev.id + ev.location"
             class="q-my-none">
             {{ formatText(ev) }}
@@ -97,25 +97,15 @@ export default {
     },
 
     formatDrops (obj) {
-      const drops = Object.keys(obj.data)
-      const d = []
-      drops.forEach(label => {
-        switch (label) {
-          case 'voltage_a':
-            d.push('A')
-            break
-          case 'voltage_b':
-            d.push('B')
-            break
-          case 'voltage_c':
-            d.push('C')
-            break
-          default:
-            d.push(label)
-            break
-        }
-      })
-      return d
+      const crumbs = Object.keys(obj.data);
+      
+      const voltageTypes = []
+      
+      if(crumbs.includes('voltage_a')) voltageTypes.push('A')
+      if(crumbs.includes('voltage_b')) voltageTypes.push('B')
+      if(crumbs.includes('voltage_c')) voltageTypes.push('C')
+
+      return voltageTypes
     }
   }
 
@@ -123,6 +113,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .card {
+    overflow-y: auto;
+  }
+  
   .card-inactive {
     background-color: #00080f;
     border: 2px solid #001324;

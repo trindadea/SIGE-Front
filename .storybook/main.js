@@ -1,5 +1,3 @@
-const webpackFinal = require('../webpack-config.js');
-
 module.exports = {
   "stories": [
     "../src/**/*.stories.mdx",
@@ -11,5 +9,4 @@ module.exports = {
   ],
   "staticDirs": [{from: '../src/statics', to:'/statics'}],
   "framework": "@storybook/vue",
-  // webpackFinal,
 }

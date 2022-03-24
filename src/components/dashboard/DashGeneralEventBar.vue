@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import DashEventCard from './cards/DashEventCard'
+import DashEventCard from '../DashEventCard'
 
 export default {
   name: 'DashGeneralEventBar',
