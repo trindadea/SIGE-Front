@@ -1,35 +1,23 @@
-
 <template>
   <div class="base" id="DashEventCard">
-    <q-card
-      flat
-      class="evt-card-size card-overflow"
-      :class="isActive ? activeClass : 'card-inactive'">
-
-      <q-card-section class="text-center card-title q-px-none">
-        <span v-if="isActive">
-          <q-icon :name="`${ICON_PATH}${icon}.svg`"/>
-        </span> 
-        <strong class="card-title">{{name}}</strong>
+    <q-card flat class="evt-card-size card-overflow" :class="IS_ACTIVE ? cardTypeStyle : 'card-inactive'">
+      <q-card-section class="text-center card-title">
+        <span v-if="IS_ACTIVE">
+          <q-icon :name="`${ICON_PATH}${icon}.svg`" />
+        </span>
+        <strong class="card-title">{{ eventTile }}</strong>
       </q-card-section>
-
-      <q-card-section class="text-center q-px-xs q-pt-none" v-if="isActive">
-        <p v-for="event in eventsList.slice(0, MAX_LOCATION_POSSIBLE)" :key="event.id" class="q-my-xs">
-          {{ formatText(event) }}
+      <q-card-section class="text-center q-px-xs" v-if="IS_ACTIVE">
+        <p v-for="event in campusEvents.slice(0, MAX_LOCATION_POSSIBLE)" :key="event.id" class="q-my-xs">
+          {{ getCampusInformation(event) }}
         </p>
-        <p v-if="eventsList.length > MAX_LOCATION_POSSIBLE" class="bottom q-mt-sm">
-          <strong>
-            E mais {{ eventsList.length - MAX_LOCATION_POSSIBLE }} outro(s)
-          </strong>
+        <p v-if="campusEvents.length > MAX_LOCATION_POSSIBLE" class="bottom q-mt-sm">
+          <strong> E mais {{ campusEvents.length - MAX_LOCATION_POSSIBLE }} outro(s) </strong>
         </p>
       </q-card-section>
-
       <q-card-section v-else class="absolute-center">
-        <h6 class="text-center">
-          Nenhum ponto
-        </h6>
+        <strong>Nenhum ponto</strong>
       </q-card-section>
-
     </q-card>
   </div>
 </template>
@@ -38,53 +26,59 @@
 export default {
   name: 'DashEventCard',
 
-  data () {
+  data() {
     return {
-      isActive: this.eventsList.length !== 0,
+      IS_ACTIVE: this.campusEvents.length !== 0,
       MAX_LOCATION_POSSIBLE: 8,
-      ICON_PATH: "img:statics/ic_ocorrencia_"
+      ICON_PATH: 'img:statics/ic_ocorrencia_',
+      ACCEPTED_VOLTAGES: /^voltage_[abc]/,
+      LOCATION_NAME_MAX_CHAR: 15
     }
   },
 
   props: {
-    name: String,
-    activeClass: String,
-    eventsList: Array,
+    eventTile: String,
+    cardTypeStyle: String,
+    campusEvents: Array,
     icon: Number
   },
 
   methods: {
-    formatText (eventObj) {
+    getCampusInformation(campusInformation) {
+      const { data: voltages, location } = campusInformation
 
-      const {location, campus} = eventObj
+      if (location === '') return 'Sem localização';
 
-      if (location === '') return 'Sem localização'
-
-      const lineBreaker = 15
-      const locationFormated = location.length > lineBreaker ? location.slice(0, lineBreaker) + '...' + location.slice(-lineBreaker) : location
-     
-      const finalLocationFormat = `${locationFormated[0].toUpperCase() + locationFormated.slice(1)} (${campus})`
-      
-      if(this.name !== "Falha de Comunicação") return finalLocationFormat + ` - ${this.concatVoltageTypes(eventObj)}`
-      else return finalLocationFormat;
+      let locationAndCampus = this.formatLocationName(campusInformation);
+      if (this.name !== 'Falha de Comunicação') locationAndCampus += ` - ${this.concatVoltageTypes(voltages)}`;
+      return locationAndCampus;
     },
 
-    concatVoltageTypes (event) {
-      const voltageKey = Object.keys(event.data);
-      
+    formatLocationName(campusInformation) {
+      const { location, campus } = campusInformation
+
+      const _location =
+        location.length > this.LOCATION_NAME_MAX_CHAR
+          ? location.slice(0, this.LOCATION_NAME_MAX_CHAR) + '...'
+          : location
+
+      return `${_location[0].toUpperCase() + _location.slice(1)} (${campus})`
+    },
+
+    concatVoltageTypes(voltages) {
       const voltageTypes = []
-      
-      if(voltageKey.includes('voltage_a')) voltageTypes.push('A')
-      if(voltageKey.includes('voltage_b')) voltageTypes.push('B')
-      if(voltageKey.includes('voltage_c')) voltageTypes.push('C')
+
+      Object.keys(voltages).forEach((voltageType) => {
+        const lastChar = voltageType[voltageType.length - 1]
+        if (voltageType.match(this.ACCEPTED_VOLTAGES)) voltageTypes.push(lastChar.toUpperCase())
+      })
 
       return voltageTypes
     }
   }
-
 }
 </script>
 
 <style>
-  @import './DashEventCard.css';
+@import './DashEventCard.css';
 </style>
