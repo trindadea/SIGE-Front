@@ -8,18 +8,21 @@ module.exports = {
 
   env: {
     node: true,
-    browser: true
+    browser: true,
+    "jest/globals": true
   },
 
   extends: [
     'plugin:vue/essential',
+    'plugin:jest/recommended',
     'eslint:recommended',
     "prettier"
   ],
   plugins: [
     'vue',
     'prettier',
-    'import'
+    'import',
+    'jest'
   ],
 
   globals: {
@@ -49,5 +52,6 @@ module.exports = {
     'vue/no-unused-vars': 'warn',
     'no-unused-vars': 'warn',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-  }
+  },
+  "ignorePatterns":["**/stories"]
 }

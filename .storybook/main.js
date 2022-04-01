@@ -9,4 +9,8 @@ module.exports = {
   ],
   "staticDirs": [{from: '../src/statics', to:'/statics'}],
   "framework": "@storybook/vue",
+<<<<<<< HEAD
+=======
+  webpackFinal
+>>>>>>> 20f8e39cbd5b2bfb72725009337141294da66010
 }
