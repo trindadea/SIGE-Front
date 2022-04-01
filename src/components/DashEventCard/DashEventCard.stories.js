@@ -4,9 +4,9 @@ export default {
   title: 'Dash Event Card',
   component: DashEventCard,
   argTypes: {
-    name: { type: 'string' },
-    activeClass: { type: 'string' },
-    eventsList: { type: 'array' },
+    eventTile: { type: 'string' },
+    cardTypeStyle: { type: 'string' },
+    campusEvents: { type: 'array' },
     icon: { type: 'number' },
   }
 }
@@ -19,9 +19,9 @@ const Template = (args, { argTypes }) => ({
 
 export const Default = Template.bind({})
 Default.args = {
-  name: 'Queda de Fase',
-  activeClass: 'Eventos',
-  eventsList: [
+  eventTile: 'Queda de Fase',
+  cardTypeStyle: 'card-active-warning',
+  campusEvents: [
     {
       id: 1,
       location: 'Gama',
