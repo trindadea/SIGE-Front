@@ -8,7 +8,7 @@
         <strong class="card-title">{{ eventTile }}</strong>
       </q-card-section>
       <q-card-section class="text-center q-px-xs" v-if="IS_ACTIVE">
-        <p v-for="event in campusEvents.slice(0, MAX_LOCATION_POSSIBLE)" :key="event.id" class="q-my-xs">
+        <p v-for="event in campusEvents.slice(0, MAX_LOCATION_POSSIBLE)" :key="event.id" class="q-my-xs" id="DashEventCardCampus">
           {{ getCampusInformation(event) }}
         </p>
         <p v-if="campusEvents.length > MAX_LOCATION_POSSIBLE" class="bottom q-mt-sm">
@@ -16,7 +16,7 @@
         </p>
       </q-card-section>
       <q-card-section v-else class="absolute-center">
-        <strong>Nenhum ponto</strong>
+        <h6>Nenhum ponto</h6>
       </q-card-section>
     </q-card>
   </div>
@@ -31,7 +31,7 @@ export default {
       IS_ACTIVE: this.campusEvents.length !== 0,
       MAX_LOCATION_POSSIBLE: 8,
       ICON_PATH: 'img:statics/ic_ocorrencia_',
-      ACCEPTED_VOLTAGES: /^voltage_[abc]/,
+      ACCEPTED_VOLTAGES: /^voltage_[aAbBcC]/,
       LOCATION_NAME_MAX_CHAR: 15
     }
   },
@@ -45,33 +45,38 @@ export default {
 
   methods: {
     getCampusInformation(campusInformation) {
-      const { data: voltages, location } = campusInformation
-
-      if (location === '') return 'Sem localização';
-
+      const voltagesType = this.concatVoltageTypes(campusInformation);
       let locationAndCampus = this.formatLocationName(campusInformation);
-      if (this.name !== 'Falha de Comunicação') locationAndCampus += ` - ${this.concatVoltageTypes(voltages)}`;
+
+      if (voltagesType.length > 0) locationAndCampus += ` - ${voltagesType}`;
       return locationAndCampus;
     },
 
     formatLocationName(campusInformation) {
       const { location, campus } = campusInformation
+      
+      if (!location || location === '') return 'Sem localização';
 
       const _location =
         location.length > this.LOCATION_NAME_MAX_CHAR
           ? location.slice(0, this.LOCATION_NAME_MAX_CHAR) + '...'
           : location
 
-      return `${_location[0].toUpperCase() + _location.slice(1)} (${campus})`
+      const _campus = campus ? ` (${campus})` : '';
+
+      return `${_location[0].toUpperCase() + _location.slice(1)}${_campus}`
     },
 
-    concatVoltageTypes(voltages) {
+    concatVoltageTypes(campusInformation) {
+      const { data } = campusInformation
       const voltageTypes = []
-
-      Object.keys(voltages).forEach((voltageType) => {
-        const lastChar = voltageType[voltageType.length - 1]
-        if (voltageType.match(this.ACCEPTED_VOLTAGES)) voltageTypes.push(lastChar.toUpperCase())
-      })
+      
+      if(data) {
+        Object.keys(data).forEach((voltageType) => {
+          const lastChar = voltageType[voltageType.length - 1]
+          if (voltageType.match(this.ACCEPTED_VOLTAGES)) voltageTypes.push(lastChar.toUpperCase())
+        })
+      }
 
       return voltageTypes
     }
