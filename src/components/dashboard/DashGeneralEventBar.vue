@@ -7,9 +7,9 @@
         class="col-12 col-sm-6 col-md-4 col-lg">
         <dash-event-card
           v-if="ev.eventsList !== undefined"
-          :name="ev.name"
-          :active-class="ev.activeClass"
-          :eventsList="ev.eventsList"
+          :eventTile="ev.name"
+          :cardTypeStyle="ev.activeClass"
+          :campusEvents="ev.eventsList"
           :icon="ev.icon"/>
       </div>
     </div>
