@@ -18,7 +18,7 @@ localVue.use(Quasar, { components })
 
 const store = new Vuex.Store({})
 
-describe('ChargeBarChart', async () => {
+describe('ChargeBarChart', () => {
   const wrapper = mount(ChargeBarChart, {
     store,
     localVue,

@@ -9,7 +9,8 @@
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue src",
-    "test": "yarn test:unit:ci",
+    "pretty": "prettier --write \"./**/*.{vue}\"",
+    "test": "yarn jest --watchAll",
     "cl": "auto-changelog",
     "start": "quasar dev -m ssr",
     "build": "quasar build",
@@ -17,23 +18,17 @@
     "start:ssr": "node dist/ssr/index.js",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "test:unit": "jest --updateSnapshot",
-    "test:unit:ci": "jest --ci",
-    "test:unit:coverage": "jest --coverage",
-    "test:unit:watch": "jest --watch",
-    "test:unit:watchAll": "jest --watchAll",
-    "serve:test:coverage": "quasar serve test/jest/coverage/lcov-report/ --port 8788",
-    "concurrently:dev:jest": "concurrently \"quasar dev\" \"jest --watch\""
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
     "@babel/plugin-transform-runtime": "^7.17.0",
     "@quasar/extras": "^1.0.0",
     "apexcharts": "^3.25.0",
     "axios": "^0.19.2",
+    "eslint-plugin-prettier": "^4.0.0",
     "leaflet": "^1.6.0",
     "moment": "^2.25.2",
     "quasar": "^1.0.0",
-    "style-loader": "^3.3.1",
     "vue-apexcharts": "^1.5.3",
     "vue2-leaflet": "^2.5.2",
     "vuex-persistedstate": "^3.0.1"
@@ -50,6 +45,7 @@
     "babel-loader": "^8.2.3",
     "core-js": "^2.0.0",
     "eslint": "^6.8.0",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-loader": "^3.0.3",
     "eslint-plugin-import": "^2.14.0",
@@ -57,7 +53,8 @@
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
-    "eslint-plugin-vue": "^6.1.2",
+    "eslint-plugin-vue": "^8.4.1",
+    "prettier": "2.5.1",
     "vue-loader": "^15.9.8"
   },
   "engines": {
