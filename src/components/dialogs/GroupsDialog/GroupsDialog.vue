@@ -90,6 +90,9 @@ export default {
       this.$emit('close')
     },
     handleGroup () {
+      console.log(this.group)
+      console.log(this.types)
+      console.log(this.dialog)
       if (this.group.id) {
         this.$emit('updateGroup', {
           ...this.group,
