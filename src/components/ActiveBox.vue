@@ -1,13 +1,15 @@
 <template>
   <q-card class="status-card">
-    <q-card-section :class="this.active? 'active': 'inactive'">
+    <q-card-section :class="this.active ? 'active' : 'inactive'">
       <div class="status-title">
-        <q-icon :name="this.active? 'flash_on' : 'flash_off'" />
-        {{this.active?"Ativo" : "Inativo"}}
+        <q-icon :name="this.active ? 'flash_on' : 'flash_off'" />
+        {{ this.active ? 'Ativo' : 'Inativo' }}
       </div>
     </q-card-section>
     <div class="card-content">
-      <p class="campus" v-if="this.campusName !== ''">Campus {{this.campusName}}</p>
+      <p class="campus" v-if="this.campusName !== ''">
+        Campus {{ this.campusName }}
+      </p>
       <q-btn
         v-if="latitude !== null && longitude !== null"
         outline
@@ -16,7 +18,7 @@
         @click="map()"
       />
     </div>
-    <map-modal :center='[latitude, longitude]'/>
+    <map-modal :center="[latitude, longitude]" />
   </q-card>
 </template>
 <script>
@@ -29,10 +31,8 @@ export default {
   components: {
     mapModal: mapModal
   },
-  props: [
-    'id'
-  ],
-  data () {
+  props: ['id'],
+  data() {
     return {
       active: false,
       latitude: null,
@@ -42,53 +42,44 @@ export default {
       campusId: ''
     }
   },
-  async created () {
+  async created() {
     await this.getTransductors()
-    this.getCampi()
+    await this.getCampus()
   },
   methods: {
     ...mapActions('transductorStore', ['changeMapStatus']),
-    map () {
+    map() {
       this.changeMapStatus()
     },
-    getTransductors () {
-      return new Promise((resolve, reject) => {
-        MASTER
-          .get('/energy-transductors/' + this.id)
-          .then((res) => {
-            this.active = res.data.active
-            this.latitude = res.data.geolocation_latitude
-            this.longitude = res.data.geolocation_longitude
-            this.name = res.data.name
-            this.campusId = parseInt(res.data.campus.split('/')[4], 10)
-            resolve()
-          })
-          .catch(err => {
-            console.log(err)
-            resolve()
-          })
-      })
+    async getTransductors() {
+      try {
+        const response = await MASTER.get(`/energy-transductors/${this.id}`)
+
+        const { active, latitude, geolocation_longitude, name } = response?.data
+        const campusId = response.data.campus?.split('/')?.[4] //  response.data.campus ->  http://164.41.98.3:443/campi/1/
+        this.active = active
+        this.latitude = latitude
+        this.longitude = geolocation_longitude
+        this.name = name
+        this.campusId = parseInt(campusId, 10)
+      } catch (error) {
+        console.log(error)
+      }
     },
-    getCampi () {
-      return new Promise((resolve, reject) => {
-        MASTER
-          .get('/campi/' + this.campusId)
-          .then((res) => {
-            this.campusName = res.data.name
-            resolve()
-          })
-          .catch(err => {
-            console.log(err)
-            resolve()
-          })
-      })
+    async getCampus() {
+      try {
+        const response = await MASTER.get(`/campi/${this.campusId}`)
+        this.campusName = response.data.name
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 }
 </script>
 <style lang="scss" scoped>
 .status-card {
-  text-align: center;
+  text-align: center; 
   margin: 10px;
 }
 
@@ -121,5 +112,4 @@ export default {
 .campus {
   font-size: 16px;
 }
-
 </style>
