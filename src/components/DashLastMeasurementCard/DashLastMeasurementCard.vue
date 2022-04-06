@@ -11,42 +11,27 @@
       {{ transductor.name[0].toUpperCase() + transductor.name.slice(1) }}
     </q-card-section>
 
-    <q-card-section v-if="rtm.length !== 0" class="q-pt-none q-pb-xs">
+    <q-card-section v-if="realTimeMeasurements.length !== 0" class="q-pt-none q-pb-xs">
 
       <table class="readings row">
-        <tr class="col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-          <span class="row">
-            <th class="col-12 h4">
-              Tensão
-            </th>
-            <td class="col-12 reading-measurement">A: {{ rtm.voltage_a.toFixed(0) }}V</td>
-            <td class="col-12 reading-measurement">B: {{ rtm.voltage_b.toFixed(0) }}V</td>
-            <td class="col-12 reading-measurement">C: {{ rtm.voltage_c.toFixed(0) }}V</td>
-          </span>
-        </tr>
-
-        <tr class="col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-          <span class="row">
-            <th class="col-12 h4">
-              Corrente
-            </th>
-            <td class="col-12 reading-measurement">A: {{ rtm.current_a.toFixed(0) }}A</td>
-            <td class="col-12 reading-measurement">B: {{ rtm.current_b.toFixed(0) }}A</td>
-            <td class="col-12 reading-measurement">C: {{ rtm.current_c.toFixed(0) }}A</td>
-          </span>
-        </tr>
-
-        <tr class="col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-          <span class="row">
-            <th class="col-12 h4">
-              Potência
-            </th>
-            <td class="col-12 reading-measurement">Ativa: {{ rtm.total_active_power.toFixed(0) }}W</td>
-            <td class="col-12 reading-measurement">Reativa: {{ rtm.total_reactive_power.toFixed(0) }}kVAr</td>
-            <td class="col-12 reading-measurement">Total: {{ rtm.total_power_factor.toFixed(0) }}kVa</td>
-          </span>
-        </tr>
-
+        <measurements-table 
+          :title="'Tensão'" 
+          :keyNames="{A:'voltage_a',B:'voltage_b',C:'voltage_c'}"
+          :tableData="realTimeMeasurements"
+          :unit="'V'"
+        />
+        <measurements-table 
+          :title="'Corrente'" 
+          :keyNames="{A:'current_a',B:'current_b',C:'current_c'}"
+          :tableData="realTimeMeasurements"
+          :unit="'A'"
+        />
+        <!-- <measurements-table 
+          :title="'Potência'" 
+          :keyNames="{Ativa:'total_active_power',B:'total_reactive_power',C:'total_power_factor'}"
+          :tableData="realTimeMeasurements"
+          :unit="['W', 'kVAr', 'kVa']"
+        /> -->
         <tr class="col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3">
           <span class="row">
             <th class="col-12 h4">
@@ -66,7 +51,7 @@
       </table>
     </q-card-section>
 
-    <q-card-section v-if="transductor.name && rtm.length === 0" class="q-pt-xs">
+    <q-card-section v-if="transductor.name && realTimeMeasurements.length === 0" class="q-pt-xs">
       <h6 class="text-center" style="color: rgba(255, 255, 255, 0.6)">
         Última medida não disponível
       </h6>
@@ -75,8 +60,10 @@
 </template>
 
 <script>
+import MeasurementsTable from './MeasurementsTable'
 
 export default {
+  components: { MeasurementsTable },
   name: 'DashLastMeasurementCard',
 
   props: {
@@ -86,7 +73,7 @@ export default {
     transductor_occurences: {
       type: Object
     },
-    rtm: {
+    realTimeMeasurements: {
       type: Array
     },
     measurementsCallback: {
@@ -131,30 +118,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .readings{
-    width: 100%;
-    text-align: center;
-  }
-
-  .h4 {
-    font-weight: 600;
-    color: #339cff;
-    line-height: 36px;
-    size: 24px;
-    text-transform: uppercase;
-  }
-
-  .reading-measurement {
-    font-size: 0.8em;
-  }
-
-  td {
-    font-size: 20px;
-  }
-
-  @media screen and (max-width: 800px) {
-    .last-card-info {
-      margin-bottom: 20px;
-    }
-  }
+  @import "./DashLastMeasurementCard.css";
 </style>

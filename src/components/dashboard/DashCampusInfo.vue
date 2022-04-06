@@ -29,7 +29,7 @@
         />
         <dash-last-measurement-card
           class="q-mb-none height-conf"
-          :rtm="this.rtm"
+          :realTimeMeasurements="this.realTimeMeasurements"
           :measurementsCallback="measurementsFromTransductor"
           :transductor="selectedTransductor"
           :transductor_occurences="this.transductor_occurences"
@@ -70,7 +70,7 @@ export default {
     return {
       last72hEvents: undefined,
       transductor_occurences: {},
-      rtm: []
+      realTimeMeasurements: []
     }
   },
 
@@ -90,7 +90,7 @@ export default {
     },
 
     async measurementsFromTransductor () {
-      this.rtm = await getRealTimeMeasurement(this.selectedTransductor.id)
+      this.realTimeMeasurements = await getRealTimeMeasurement(this.selectedTransductor.id)
       this.transductor_occurences = await getTransductorsLast72h(this.selectedTransductor.id)
     }
   }
