@@ -29,7 +29,10 @@
         />
         <dash-last-measurement-card
           class="q-mb-none height-conf"
+          :rtm="this.rtm"
+          :measurementsCallback="measurementsFromTransductor"
           :transductor="selectedTransductor"
+          :transductor_occurences="this.transductor_occurences"
         />
       </div>
     </div>
@@ -40,8 +43,9 @@
 import DashConsumptionGenerationCard from './cards/DashConsumptionGenerationCard'
 import DashLast72hCard from './cards/DashLast72hCard'
 import DashChargeBarCard from './cards/DashChargeBarCard'
-import DashLastMeasurementCard from './cards/DashLastMeasurementCard'
-import MASTER from '../../services/masterApi/http-common'
+import DashLastMeasurementCard from '../DashLastMeasurementCard'
+import { getCampusLast72hEvents, getTransductorsLast72h } from '../../services/api/occurences'
+import { getRealTimeMeasurement } from '../../services/api/realTimeMeasurements'
 
 export default {
   name: 'DashCampusInfo',
@@ -64,14 +68,16 @@ export default {
 
   data () {
     return {
-      last72hEvents: undefined
+      last72hEvents: undefined,
+      transductor_occurences: {},
+      rtm: []
     }
   },
 
   watch: {
     currentCampus: function () {
       this.getApiInfo()
-    }
+    },
   },
 
   mounted () {
@@ -79,18 +85,13 @@ export default {
   },
 
   methods: {
-    getLast72hEvents (campus) {
-      MASTER
-        .get(`/occurences/?type=period&campus=${campus.id}`)
-        .then((res) => {
-          this.last72hEvents = res.data
-          this.last72hEvents.campus_name = this.currentCampus.name
-        })
-        .catch((err) => { console.error(err) })
+    async getApiInfo () {
+      this.last72hEvents = await getCampusLast72hEvents(this.currentCampus);
     },
 
-    async getApiInfo () {
-      await this.getLast72hEvents(this.currentCampus)
+    async measurementsFromTransductor () {
+      this.rtm = await getRealTimeMeasurement(this.selectedTransductor.id)
+      this.transductor_occurences = await getTransductorsLast72h(this.selectedTransductor.id)
     }
   }
 }
