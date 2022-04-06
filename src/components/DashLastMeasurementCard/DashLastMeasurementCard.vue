@@ -26,12 +26,12 @@
           :tableData="realTimeMeasurements"
           :unit="'A'"
         />
-        <!-- <measurements-table 
+        <measurements-table 
           :title="'Potência'" 
           :keyNames="{Ativa:'total_active_power',B:'total_reactive_power',C:'total_power_factor'}"
           :tableData="realTimeMeasurements"
           :unit="['W', 'kVAr', 'kVa']"
-        /> -->
+        />
         <tr class="col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3">
           <span class="row">
             <th class="col-12 h4">
@@ -81,12 +81,6 @@ export default {
     }
   },
 
-  data () {
-    return {
-      errors: []
-    }
-  },
-
   watch: {
     transductor: function () {
       this.measurementsCallback()
@@ -99,18 +93,18 @@ export default {
 
   methods: {
     countWarningEvents () {
-      if (this.transductor_occurences.count !== undefined) {
-        return this.transductor_occurences.slave_connection_fail.length + this.transductor_occurences.transductor_connection_fail.length
+      if (this.transductor_occurences.count) {
+        const { slave_connection_fail, transductor_connection_fail } = this.transductor_occurences;
+        return slave_connection_fail.length + transductor_connection_fail.length;
       }
-
       return 0
     },
 
     countCriticalEvents () {
-      if (this.transductor_occurences.count !== undefined) {
-        return this.transductor_occurences.critical_tension.length + this.transductor_occurences.phase_drop.length + this.transductor_occurences.precarious_tension.length
+      if (this.transductor_occurences.count) {
+        const {critical_tension, phase_drop, precarious_tension} = this.transductor_occurences;
+        return critical_tension.length + phase_drop.length + precarious_tension.length;
       }
-
       return 0
     },
   }

@@ -5,7 +5,7 @@
         {{ title }}
       </th>
       <td v-for="(key, index) in tableKeys" class="col-12 reading-measurement" v-bind:key="index">
-        {{key}}: {{tableData[tableValues[index]].toFixed(0)}}{{unit}}
+        {{key}}: {{tableData[tableValues[index]].toFixed(0)}} {{getUnit(index)}}
       </td>
     </span>
   </tr>
@@ -23,7 +23,7 @@ export default {
       type: Object
     },
     unit: {
-      type: String
+      type: [Array,String]
     },
     tableData: {
       type: Object
@@ -36,5 +36,11 @@ export default {
       tableValues: Object.values(this.keyNames),
     }
   },
+
+  methods:{
+    getUnit(index){
+      return Array.isArray(this.unit) ? this.unit[index] : this.unit;
+    }
+  }
 }
 </script>
