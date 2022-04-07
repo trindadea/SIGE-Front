@@ -130,7 +130,7 @@ export default {
   },
   methods: {
     ...mapActions('consumptionCurve', ['changePeriodicity', 'changeStartDate', 'changeEndDate', 'filterByCampus', 'filterByGroup', 'clearStartDate', 'clearEndDate', 'updateChartSerie', 'getChartLoadingStatus']),
-    filterFn (val, update, abort) {
+    filterFn (val, update) {
       update(() => {
         const needle = val.toLowerCase()
         this.optionsCampus = allCampus.filter(
@@ -138,7 +138,7 @@ export default {
         )
       })
     },
-    filterCampus (val, update, abort) {
+    filterCampus (val, update) {
       update(async () => {
         const needle = val.toLowerCase()
         this.optionsCampus = await allCampus.filter(
@@ -195,6 +195,6 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   @import './style.scss';
 </style>

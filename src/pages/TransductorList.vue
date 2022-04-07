@@ -76,7 +76,7 @@
               <q-icon v-else name="flash_off" size="sm" class="text-red"></q-icon>
             </q-td>
           </template>
-          <template v-slot:no-data="{ icon, message }">
+          <template v-slot:no-data="{ message }">
             <div class="full-width row flex-center q-gutter-sm">{{ message }}</div>
           </template>
         </q-table>

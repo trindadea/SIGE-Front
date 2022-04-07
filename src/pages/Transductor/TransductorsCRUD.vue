@@ -468,7 +468,7 @@ export default {
     deleteTransductor (id) {
       MASTER
         .delete('energy-transductors/' + id, {})
-        .then(res => {
+        .then(function () {
           this.transductors = this.transductors.filter((transductor) => transductor.id !== id)
           this.$q.notify({
             type: 'positive',
@@ -503,11 +503,12 @@ export default {
         })
     },
     getCampi () {
-      return new Promise((resolve, reject) => {
+      const that = this
+      return new Promise((resolve) => {
         MASTER
           .get('campi/', this.campi)
           .then(res => {
-            this.campi = res.data
+            that.campi = res.data
             resolve()
           })
           .catch(err => {
@@ -517,11 +518,12 @@ export default {
       })
     },
     getGroups () {
-      return new Promise((resolve, reject) => {
+      const that = this
+      return new Promise((resolve) => {
         MASTER
           .get('groups/')
           .then(res => {
-            this.groups = res.data
+            that.groups = res.data
             resolve()
           })
           .catch(err => {
@@ -531,11 +533,12 @@ export default {
       })
     },
     getSlaves () {
-      return new Promise((resolve, reject) => {
+      const that = this
+      return new Promise((resolve) => {
         MASTER
           .get('slave/')
           .then(res => {
-            this.slaves = res.data
+            that.slaves = res.data
             resolve()
           })
           .catch(err => {
