@@ -12,42 +12,30 @@
     </q-card-section>
 
     <q-card-section v-if="realTimeMeasurements.length !== 0" class="q-pt-none q-pb-xs">
-
       <table class="readings row">
         <measurements-table 
           :title="'Tensão'" 
-          :keyNames="{A:'voltage_a',B:'voltage_b',C:'voltage_c'}"
-          :tableData="realTimeMeasurements"
+          :tableObject="{A:'voltage_a',B:'voltage_b',C:'voltage_c'}"
+          :realTimeMesure="realTimeMeasurements"
           :unit="'V'"
         />
         <measurements-table 
           :title="'Corrente'" 
-          :keyNames="{A:'current_a',B:'current_b',C:'current_c'}"
-          :tableData="realTimeMeasurements"
+          :tableObject="{A:'current_a',B:'current_b',C:'current_c'}"
+          :realTimeMesure="realTimeMeasurements"
           :unit="'A'"
         />
         <measurements-table 
           :title="'Potência'" 
-          :keyNames="{Ativa:'total_active_power',B:'total_reactive_power',C:'total_power_factor'}"
-          :tableData="realTimeMeasurements"
+          :tableObject="{Ativa:'total_active_power',Reativa:'total_reactive_power',Total:'total_power_factor'}"
+          :realTimeMesure="realTimeMeasurements"
           :unit="['W', 'kVAr', 'kVa']"
         />
-        <tr class="col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-          <span class="row">
-            <th class="col-12 h4">
-              Últimas 72h
-            </th>
-            <td class="col-12">
-              {{ countCriticalEvents() }}
-              <q-icon :style="{opacity: 0.5}" :name="'img:statics/ic_ocorrencia_critica_mono.svg'"/>
-            </td>
-            <td class="col-12">
-              {{ countWarningEvents() }}
-              <q-icon :style="{opacity: 0.5}" :name="'img:statics/ic_ocorrencia_precaria_mono.svg'"/>
-            </td>
-            <td class="col-12"></td>
-          </span>
-        </tr>
+        <measurements-table 
+          :title="'Últimas 72h'" 
+          :tableObject="{A: this.countCriticalEvents(), B: this.countWarningEvents()}"
+          :icons="[`${IMAGE_PATH}critica_mono.svg`, `${IMAGE_PATH}precaria_mono.svg`]"
+        />
       </table>
     </q-card-section>
 
@@ -78,6 +66,12 @@ export default {
     },
     measurementsCallback: {
       type: Function
+    }
+  },
+
+  data() {
+    return {
+      IMAGE_PATH: 'img:statics/ic_ocorrencia_',
     }
   },
 
