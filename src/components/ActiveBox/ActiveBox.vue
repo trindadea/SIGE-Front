@@ -22,8 +22,8 @@
   </q-card>
 </template>
 <script>
-import MASTER from '../services/masterApi/http-common'
-import mapModal from './MapModal'
+import MASTER from '../../services/masterApi/http-common'
+import mapModal from '../MapModal'
 import { mapActions } from 'vuex'
 
 export default {
@@ -77,39 +77,6 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-.status-card {
-  text-align: center; 
-  margin: 10px;
-}
+<style lang="scss" src="./styles.scss" scoped />
 
-.active {
-  background-color: #06984d;
-  text-align: center;
-  padding: 10px;
-}
-.inactive {
-  background-color: #f13209;
-  text-align: center;
-  padding: 10px;
-}
 
-.status-title {
-  font-family: Roboto;
-  font-size: 20px;
-  font-weight: 500;
-  letter-spacing: 0.25px;
-  color: #ffffff;
-}
-
-.card-content {
-  padding: 10px;
-}
-
-.map-button {
-  color: $primary;
-}
-.campus {
-  font-size: 16px;
-}
-</style>
