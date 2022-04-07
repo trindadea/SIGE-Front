@@ -105,6 +105,6 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style>
   @import "./DashLastMeasurementCard.css";
 </style>

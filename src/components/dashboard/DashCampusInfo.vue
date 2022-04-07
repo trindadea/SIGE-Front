@@ -44,8 +44,8 @@ import DashConsumptionGenerationCard from './cards/DashConsumptionGenerationCard
 import DashLast72hCard from './cards/DashLast72hCard'
 import DashChargeBarCard from './cards/DashChargeBarCard'
 import DashLastMeasurementCard from '../DashLastMeasurementCard'
-import { getCampusLast72hEvents, getTransductorsLast72h } from '../../services/api/occurences'
-import { getRealTimeMeasurement } from '../../services/api/realTimeMeasurements'
+import Occurence from '../../services/api/Occurence'
+import RealTimeMeasurement from '../../services/api/RealTimeMeasurement'
 
 export default {
   name: 'DashCampusInfo',
@@ -86,12 +86,12 @@ export default {
 
   methods: {
     async getApiInfo () {
-      this.last72hEvents = await getCampusLast72hEvents(this.currentCampus);
+      this.last72hEvents = await Occurence.getCampusLast72hEvents(this.currentCampus);
     },
 
     async measurementsFromTransductor () {
-      this.realTimeMeasurements = await getRealTimeMeasurement(this.selectedTransductor.id)
-      this.transductor_occurences = await getTransductorsLast72h(this.selectedTransductor.id)
+      this.realTimeMeasurements = await RealTimeMeasurement.getRealTimeMeasurements(this.selectedTransductor.id)
+      this.transductor_occurences = await Occurence.getTransductorsLast72h(this.selectedTransductor.id)
     }
   }
 }
