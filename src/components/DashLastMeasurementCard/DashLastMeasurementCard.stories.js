@@ -4,9 +4,10 @@ export default {
   title: 'Dash Last Measurement Card',
   component: DashLastMeasurementCard,
   argTypes: {
-    label: { type: 'string' },
-    reports: { type: 'object' },
-    critical: { type: 'boolean' }
+    transductor: {type: Object},
+    transductor_occurences: {type: Object},
+    realTimeMeasurements: {type: Array},
+    measurementsCallback: {type: Function}
   }
 }
 
@@ -18,8 +19,12 @@ const Template = (args, { argTypes }) => ({
 
 export const Default = Template.bind({})
 Default.args = {
-  label: 'Leves',
-  critical: false,
+  transductor: {
+    name: 'FGA - Gama'
+  },
+  transductor_occurences: {},
+  realTimeMeasurements: [{voltage_a: 134 ,voltage_b: 32, voltage_c: 131}],
+  measurementsCallback: () => {},
   reports: {
     precarious_tension: [1, 23, 4, 6],
     transductor_connection_fail: [1, 23, 4, 6],

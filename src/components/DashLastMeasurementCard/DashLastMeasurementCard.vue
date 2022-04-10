@@ -19,7 +19,7 @@
           :realTimeMesure="realTimeMeasurements"
           :unit="'V'"
         />
-        <measurements-table 
+        <!-- <measurements-table 
           :title="'Corrente'" 
           :tableObject="{A:'current_a',B:'current_b',C:'current_c'}"
           :realTimeMesure="realTimeMeasurements"
@@ -35,7 +35,7 @@
           :title="'Últimas 72h'" 
           :tableObject="{A: this.countCriticalEvents(), B: this.countWarningEvents()}"
           :icons="[`${IMAGE_PATH}critica_mono.svg`, `${IMAGE_PATH}precaria_mono.svg`]"
-        />
+        /> -->
       </table>
     </q-card-section>
 
@@ -78,6 +78,7 @@ export default {
   watch: {
     transductor: function () {
       this.measurementsCallback()
+      console.log('---->', this.realTimeMeasurements);
     }
   },
 
