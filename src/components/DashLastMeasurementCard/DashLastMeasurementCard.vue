@@ -2,7 +2,6 @@
   <q-card
     flat
     class="card-bg last-card-info">
-
     <q-inner-loading dark :showing="transductor.name === undefined">
       <q-spinner-ios size="50px" color="grey-4" thickness="7"/>
     </q-inner-loading>
@@ -19,7 +18,7 @@
           :realTimeMesure="realTimeMeasurements"
           :unit="'V'"
         />
-        <!-- <measurements-table 
+        <measurements-table 
           :title="'Corrente'" 
           :tableObject="{A:'current_a',B:'current_b',C:'current_c'}"
           :realTimeMesure="realTimeMeasurements"
@@ -35,7 +34,7 @@
           :title="'Últimas 72h'" 
           :tableObject="{A: this.countCriticalEvents(), B: this.countWarningEvents()}"
           :icons="[`${IMAGE_PATH}critica_mono.svg`, `${IMAGE_PATH}precaria_mono.svg`]"
-        /> -->
+        />
       </table>
     </q-card-section>
 
@@ -62,7 +61,7 @@ export default {
       type: Object
     },
     realTimeMeasurements: {
-      type: Array
+      type: Object
     },
     measurementsCallback: {
       type: Function
@@ -77,8 +76,8 @@ export default {
 
   watch: {
     transductor: function () {
+      console.log("---->", this.transductor_occurences);
       this.measurementsCallback()
-      console.log('---->', this.realTimeMeasurements);
     }
   },
 
@@ -97,7 +96,7 @@ export default {
 
     countCriticalEvents () {
       if (this.transductor_occurences.count) {
-        const {critical_tension, phase_drop, precarious_tension} = this.transductor_occurences;
+        const { critical_tension, phase_drop, precarious_tension } = this.transductor_occurences;
         return critical_tension.length + phase_drop.length + precarious_tension.length;
       }
       return 0
