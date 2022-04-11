@@ -1,0 +1,198 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dash Last Measurement Card Teste de snapshot Componente formato Default 1`] = `
+<div
+  class="card-bg last-card-info q-card q-card--flat no-shadow"
+>
+  <transition-stub
+    appear="true"
+    name="q-transition--fade"
+  />
+   
+  <div
+    class="q-pt-xs q-pb-none text-center card-title q-card__section q-card__section--vert"
+  >
+    
+    FGA - Gama
+  
+  </div>
+   
+  <div
+    class="q-pt-none q-pb-xs q-card__section q-card__section--vert"
+  >
+    <table
+      class="readings row"
+    >
+      <tr
+        class="col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3"
+      >
+        <span
+          class="row"
+        >
+          <th
+            class="col-12 h4"
+          >
+            
+      Tensão
+    
+          </th>
+           
+          <td
+            class="col-12 reading-measurement"
+          >
+            
+      A: 123 V
+      
+            <!---->
+          </td>
+          <td
+            class="col-12 reading-measurement"
+          >
+            
+      B: 32 V
+      
+            <!---->
+          </td>
+          <td
+            class="col-12 reading-measurement"
+          >
+            
+      C: 131 V
+      
+            <!---->
+          </td>
+        </span>
+      </tr>
+       
+      <tr
+        class="col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3"
+      >
+        <span
+          class="row"
+        >
+          <th
+            class="col-12 h4"
+          >
+            
+      Corrente
+    
+          </th>
+           
+          <td
+            class="col-12 reading-measurement"
+          >
+            
+      A: 113 A
+      
+            <!---->
+          </td>
+          <td
+            class="col-12 reading-measurement"
+          >
+            
+      B: 332 A
+      
+            <!---->
+          </td>
+          <td
+            class="col-12 reading-measurement"
+          >
+            
+      C: 151 A
+      
+            <!---->
+          </td>
+        </span>
+      </tr>
+       
+      <tr
+        class="col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3"
+      >
+        <span
+          class="row"
+        >
+          <th
+            class="col-12 h4"
+          >
+            
+      Potência
+    
+          </th>
+           
+          <td
+            class="col-12 reading-measurement"
+          >
+            
+      Ativa: 312 W
+      
+            <!---->
+          </td>
+          <td
+            class="col-12 reading-measurement"
+          >
+            
+      Reativa: 3214 kVAr
+      
+            <!---->
+          </td>
+          <td
+            class="col-12 reading-measurement"
+          >
+            
+      Total: 6541 kVa
+      
+            <!---->
+          </td>
+        </span>
+      </tr>
+       
+      <tr
+        class="col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3"
+      >
+        <span
+          class="row"
+        >
+          <th
+            class="col-12 h4"
+          >
+            
+      Últimas 72h
+    
+          </th>
+           
+          <td
+            class="col-12 reading-measurement"
+          >
+            
+       6 
+      
+            <img
+              aria-hidden="true"
+              class="q-icon notranslate"
+              role="presentation"
+              src="statics/ic_ocorrencia_critica_mono.svg"
+              style="opacity: 0.5;"
+            />
+          </td>
+          <td
+            class="col-12 reading-measurement"
+          >
+            
+       7 
+      
+            <img
+              aria-hidden="true"
+              class="q-icon notranslate"
+              role="presentation"
+              src="statics/ic_ocorrencia_precaria_mono.svg"
+              style="opacity: 0.5;"
+            />
+          </td>
+        </span>
+      </tr>
+    </table>
+  </div>
+   
+  <!---->
+</div>
+`;

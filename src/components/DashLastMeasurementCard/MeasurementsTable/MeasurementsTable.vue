@@ -45,7 +45,6 @@ export default {
     getUnit(index){
       return Array.isArray(this.unit) ? this.unit[index] : this.unit;
     },
-    
     getTableValues(index){
       if(!this.icons) return this.realTimeMesure[this.tableValues[index]].toFixed(0)
       return this.tableValues[index];

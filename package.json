@@ -72,6 +72,9 @@
   "browserslist": [
     "last 1 version, not dead, ie >= 11"
   ],
+  "jest": {
+    "testPathIgnorePatterns": ["**.stories.js"]
+  },
   "resolutions": {
     "@babel/parser": "7.7.5"
   }

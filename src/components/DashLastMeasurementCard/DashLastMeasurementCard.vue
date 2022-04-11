@@ -76,7 +76,6 @@ export default {
 
   watch: {
     transductor: function () {
-      console.log("---->", this.transductor_occurences);
       this.measurementsCallback()
     }
   },
