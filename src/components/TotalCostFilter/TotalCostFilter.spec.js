@@ -53,7 +53,7 @@ describe('TotalCostFilter', () => {
     expect(inputNumber).toBe(expectedInputsNumebr)
   })
 
-  it('should have a placeholder on the second input', () => {
+  it('should have a placeholder on the first input', () => {
     const campusInput = TotalCostFilterComponent.findAll('.q-field__label ').at(0)
     expect(campusInput.text()).not.toBe('')
   })
