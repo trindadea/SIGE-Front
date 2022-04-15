@@ -1,5 +1,4 @@
 module.exports = {
-
   parserOptions: {
     parser: 'babel-eslint',
     ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
@@ -9,29 +8,24 @@ module.exports = {
   env: {
     node: true,
     browser: true,
-    "jest/globals": true
+    'jest/globals': true
   },
 
   extends: [
     'plugin:vue/essential',
     'plugin:jest/recommended',
     'eslint:recommended',
-    "prettier"
+    'prettier'
   ],
-  plugins: [
-    'vue',
-    'prettier',
-    'import',
-    'jest'
-  ],
+  plugins: ['vue', 'prettier', 'import', 'jest'],
 
   globals: {
-    'ga': true, // Google Analytics
-    'cordova': true,
-    '__statics': true,
-    'process': true,
-    'Capacitor': true,
-    'chrome': true
+    ga: true, // Google Analytics
+    cordova: true,
+    __statics: true,
+    process: true,
+    Capacitor: true,
+    chrome: true
   },
 
   rules: {
@@ -47,11 +41,11 @@ module.exports = {
     'import/no-unresolved': 'off',
     'import/no-extraneous-dependencies': 'off',
     'prefer-promise-reject-errors': 'off',
-    "vue/require-default-prop": "off",
+    'vue/require-default-prop': 'off',
     'vue/multi-word-component-names': 'off',
     'vue/no-unused-vars': 'warn',
     'no-unused-vars': 'warn',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   },
-  "ignorePatterns":["**/stories"]
+  ignorePatterns: ['**/stories']
 }
