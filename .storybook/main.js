@@ -9,6 +9,7 @@ module.exports = {
     "@storybook/addon-links",
     "@storybook/addon-essentials"
   ],
+  "staticDirs": [{from: '../src/statics', to:'/statics'}],
   "framework": "@storybook/vue",
   webpackFinal: async (config) => {
 
@@ -18,7 +19,6 @@ module.exports = {
         use: [
             require.resolve("style-loader"),
             require.resolve("css-loader"),
-            //require.resolve("sass-loader"),
         ],
     });
 

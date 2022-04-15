@@ -81,6 +81,7 @@
             size="1rem"
             label="Aplicar"
             type="button"
+            v-bind:loading="getChartLoadingStatus"
             @click="applyFilter()"
             color="primary"
         />
@@ -94,13 +95,13 @@
 </template>
 
 <script>
-import MASTER from '../services/masterApi/http-common'
-import { getGraphInformation } from '../utils/graphControl'
+import { getGraphInformation } from '../../utils/graphControl'
 import { mapActions, mapGetters } from 'vuex'
+import CampiService from '../../services/CampiService'
 import moment from 'moment'
-const allCampus = []
-const groups = []
 
+let allCampus = []
+const campiService = new CampiService()
 export default {
   name: 'ConsumptionFilter',
   data () {
@@ -109,7 +110,7 @@ export default {
       campusModel: null,
       optionsCampus: allCampus,
       optionsModel: null,
-      optionsGroup: groups,
+      optionsGroup: [],
       startDate: '',
       endDate: '',
       mask: '##/##/####',
@@ -118,27 +119,17 @@ export default {
   },
   props: {},
   async created () {
-    await MASTER.get('campi/')
-      .then(res => {
-        res.data.forEach(elem => {
-          allCampus.push(elem)
-        })
-      })
-      .catch(err => {
-        console.log(err)
-      })
-
+    allCampus = await campiService.getAllCampiInfo()
     this.startDate = moment().format('DD/MM/YYYY')
     this.endDate = moment().format('DD/MM/YYYY')
-
-    const serie = await getGraphInformation(this.getFilters)
+    const serie = () => getGraphInformation(this.getFilters)
     this.updateChartSerie(serie)
   },
   computed: {
-    ...mapGetters('consumptionCurve', ['errorStartDate', 'errorEndDate', 'getFilters'])
+    ...mapGetters('consumptionCurve', ['errorStartDate', 'errorEndDate', 'getFilters', 'getChartLoadingStatus'])
   },
   methods: {
-    ...mapActions('consumptionCurve', ['changePeriodicity', 'changeStartDate', 'changeEndDate', 'filterByCampus', 'filterByGroup', 'clearStartDate', 'clearEndDate', 'updateChartSerie']),
+    ...mapActions('consumptionCurve', ['changePeriodicity', 'changeStartDate', 'changeEndDate', 'filterByCampus', 'filterByGroup', 'clearStartDate', 'clearEndDate', 'updateChartSerie', 'getChartLoadingStatus']),
     filterFn (val, update, abort) {
       update(() => {
         const needle = val.toLowerCase()
@@ -156,13 +147,13 @@ export default {
       })
     },
     getGroups () {
-      while (groups.length) {
-        groups.pop()
-      }
+      this.optionsGroup = []
       this.optionsModel = null
-      allCampus.filter(campus => campus.id === this.campusModel)[0].groups_related.map(group => {
-        if (groups.filter(subGroup => subGroup.name === group.name).length === 0) {
-          groups.push(group)
+      const filteredCampus = allCampus.find(campus => campus.id === this.campusModel)
+      filteredCampus.groups_related.forEach(group => {
+        const campusExistsInGroup = this.optionsGroup.find(subGroup => subGroup.name === group.name)
+        if (!campusExistsInGroup) {
+          this.optionsGroup.push(group)
         }
       })
     },
@@ -186,7 +177,7 @@ export default {
     },
 
     async applyFilter () {
-      const serie = await getGraphInformation(this.getFilters)
+      const serie = () => getGraphInformation(this.getFilters)
       this.updateChartSerie(serie)
       if (isNaN(this.campusModel)) {
         this.$parent.location.campus = this.campusModel.acronym
@@ -204,82 +195,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.containerFilter {
-  background-color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin: 0;
-}
-.adjust {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  justify-content: center;
-}
-.filter {
-  background-color: white;
-  display: flex;
-  align-items: initial;
-  justify-content: space-around;
-  flex-direction: row;
-  margin-top: 1%;
-  width: 100%;
-  padding: 0;
-}
-.input {
-  padding-bottom: 0;
-}
-.calendar {
-  color: rgba(0, 0, 0, 0.54);
-}
-.elem {
-  margin: 1.7%;
-}
-.caption {
-  font-family: Roboto;
-  font-size: 1.8vh;
-  line-height: 1.33;
-  letter-spacing: 0.4px;
-  color: rgba(0, 0, 0, 0.6);
-  margin-right: 3.5%;
-}
-.toggle {
-  margin-top: 1%;
-  border: 1px solid $primary;
-  border-color: $primary;
-}
-.vision {
-  align-self: center;
-}
-.campus {
-  width: 18%;
-}
-.subtitle {
-  font-family: Roboto;
-  font-size: 1.8vh;
-  line-height: 1.33;
-  letter-spacing: 0.4px;
-  color: rgba(0, 0, 0, 0.87);
-}
-.adjust-toggle {
-  display: none;
-  margin-left: 39%;
-  margin-top: -1.5%;
-}
-.select {
-  max-width: 20%;
-}
-.input {
-  padding-bottom: 0;
-}
-
-.apply_button {
-  height: 40px;
-  margin-top: auto;
-  margin-bottom: 1.7%;
-  margin-left: 1.7%;
-}
-</style>
+<style lang="scss" src="./styles.scss" scoped />

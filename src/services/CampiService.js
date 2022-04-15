@@ -1,18 +1,19 @@
 import MASTER from './masterApi/http-common'
 
-class CampiService {
+class ChartService {
   constructor () {
-    this.api = MASTER
+    this.client = MASTER
   }
 
   async getAllCampiInfo () {
     try {
-      const { data: campiData } = await this.api.get('campi/')
-      return campiData
+      const response = await this.client.get('campi/')
+      return response?.data
     } catch (error) {
+      console.log(error)
       return []
     }
   }
 }
 
-export default CampiService
+export default ChartService

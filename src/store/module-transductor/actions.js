@@ -6,8 +6,16 @@ const updateFilter = ({ commit }, options) => {
   commit('updateFilter', options)
 }
 
-const updateChartPhase = ({ commit }, filter) => {
-  commit('updateChartPhase', filter)
+const updateChartPhase = async ({ commit }, filterCallback) => {
+  try {
+    commit('isLoadingPhaseChart', true)
+    const filter = await filterCallback()
+    commit('updateChartPhase', filter)
+  } catch (err) {
+    console.log(err)
+  } finally {
+    commit('isLoadingPhaseChart', false)
+  }
 }
 
 export {

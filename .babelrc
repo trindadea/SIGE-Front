@@ -5,22 +5,30 @@
       "targets": {
         "browsers": ["> 1%", "last 2 versions", "not ie <= 8"]
       }
-    }],
+    }]
   ],
-  "plugins": [
-    [
-      "@babel/plugin-transform-runtime",
-      {
-        "corejs": 2,
-        "regenerator": true,
-        "helpers": true
-      },
-    ]
-  ],
+  "plugins": ["@babel/plugin-syntax-dynamic-import", [
+    "@babel/plugin-transform-runtime",
+    {
+      "corejs": 2,
+      "regenerator": true,
+      "helpers": true
+    }
+  ] ],
   "env": {
     "test": {
-      "presets": ["@babel/preset-env"],
-      "plugins": [ "istanbul" ]
+      "plugins": ["dynamic-import-node"],
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "modules": "commonjs",
+            "targets": {
+              "node": "current"
+            }
+          }
+        ]
+      ]
     }
   }
 }

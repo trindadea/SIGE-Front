@@ -1,16 +1,20 @@
 <template>
-  <q-no-ssr>
-      <apexcharts type="bar" height="500" :options="chartConf" :series="series" />
-  </q-no-ssr>
+  <chart-container  v-bind:loadingStatus="getPhaseChartLoadingStatus">
+    <q-no-ssr>
+        <apexcharts type="bar" height="500" :options="chartConf" :series="series" />
+    </q-no-ssr>
+  </chart-container>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import ChartContainer from './ChartContainer.vue'
 
 export default {
   name: 'BarChart',
   components: {
-    Apexcharts: () => import('vue-apexcharts')
+    Apexcharts: () => import('vue-apexcharts'),
+    ChartContainer
   },
   props: [
     'isCostPage',
@@ -18,7 +22,7 @@ export default {
     'exportOptions'
   ],
   computed: {
-    ...mapGetters('transductorStore', ['chartOptions', 'filterOptions']),
+    ...mapGetters('transductorStore', ['chartOptions', 'filterOptions', 'getPhaseChartLoadingStatus']),
     ...mapGetters('totalCostStore', ['totalCostChart']),
     ...mapGetters('userStore', ['getPage']),
     ...mapGetters('totalCostStore', ['getStartDate', 'getEndDate']),

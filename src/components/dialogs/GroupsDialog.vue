@@ -1,6 +1,6 @@
 <template>
   <q-dialog
-    v-model="dialog"
+    :value="dialog"
     persistent
     id="groups-dialog"
     transition-show="slide-up"
@@ -9,23 +9,22 @@
     <q-card class="text-white">
       <q-bar class="bg-primary">
         <h5 class="title">
-          {{ group.id? 'Editar grupo' : 'Novo grupo' }}
+          {{ group.id ? 'Editar grupo' : 'Novo grupo' }}
         </h5>
-        <q-space/>
+        <q-space />
         <q-btn dense flat icon="close" @click="close">
-        <q-tooltip content-class="bg-white text-primary">Fechar</q-tooltip>
+          <q-tooltip content-class="bg-white text-primary">Fechar</q-tooltip>
         </q-btn>
       </q-bar>
       <div class="info">
-        <q-form
-          @submit="handleGroup"
-          >
+        <q-form @submit="handleGroup">
           <div class="inputDiv">
             <q-input
               label="Nome do grupo"
               class="inputField"
               outlined
-              v-model="name"/>
+              v-model="name"
+            />
           </div>
           <div class="inputDiv">
             <label>Tipo do Grupo: </label>
@@ -38,20 +37,18 @@
               option-value="url"
               option-label="name"
               emit-value
-              map-options/>
+              map-options
+            />
           </div>
           <div class="btn">
             <q-btn
               size="1rem"
-              :label=" group.id? 'Editar' : 'Salvar'"
+              :label="group.id ? 'Editar' : 'Salvar'"
               type="submit"
-              color="primary"/>
+              color="primary"
+            />
             <q-space />
-            <q-btn
-              size="1rem"
-              label="Fechar"
-              @click="close"
-              color="primary"/>
+            <q-btn size="1rem" label="Fechar" @click="close" color="primary" />
           </div>
         </q-form>
       </div>
@@ -82,17 +79,17 @@ export default {
       })
     }
   },
-  data () {
+  data() {
     return {
       name: '',
       type: ''
     }
   },
   methods: {
-    close () {
+    close() {
       this.$emit('close')
     },
-    handleGroup () {
+    handleGroup() {
       if (this.group.id) {
         this.$emit('updateGroup', {
           ...this.group,
@@ -119,30 +116,29 @@ export default {
 
 <style lang="scss">
 #groups-dialog {
+  .q-card {
+    min-width: 400px;
 
-    .q-card {
-        min-width: 400px;
-
-        .title {
-            margin: 0;
-        }
-
-        .q-bar {
-            padding: 10px;
-            padding: 10px;
-            height: 60px;
-            border: 0;
-            border-radius: 0;
-        }
-
-        .info {
-            padding: 15px;
-        }
-
-        .btn {
-            display: flex;
-            margin-top: 15px;
-        }
+    .title {
+      margin: 0;
     }
+
+    .q-bar {
+      padding: 10px;
+      padding: 10px;
+      height: 60px;
+      border: 0;
+      border-radius: 0;
+    }
+
+    .info {
+      padding: 15px;
+    }
+
+    .btn {
+      display: flex;
+      margin-top: 15px;
+    }
+  }
 }
 </style>
