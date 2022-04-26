@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import ChargeBarChart from '../../charts/ChargeBarChart.vue'
+import ChargeBarChart from '../../../charts/ChargeBarChart.vue'
 
 export default {
   components: {
@@ -30,5 +30,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" src="./styles.scss" scoped />

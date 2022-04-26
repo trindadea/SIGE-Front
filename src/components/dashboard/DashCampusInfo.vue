@@ -39,7 +39,7 @@
 <script>
 import DashConsumptionGenerationCard from './cards/DashConsumptionGenerationCard'
 import DashLast72hCard from './cards/DashLast72hCard'
-import DashChargeBarCard from './cards/DashChargeBarCard'
+import DashChargeBarCard from './cards/DashChargeBarCard/DashChargeBarCard'
 import DashLastMeasurementCard from './cards/DashLastMeasurementCard'
 import MASTER from '../../services/masterApi/http-common'
 
