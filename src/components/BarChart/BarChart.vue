@@ -27,8 +27,8 @@ export default {
     series() {
       return [
         {
-          name: dimension,
-          data: values,
+          name: this.graph.dimension,
+          data: this.graph.values,
         },
       ];
     },
