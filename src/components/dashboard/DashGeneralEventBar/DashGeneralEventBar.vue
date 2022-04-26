@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import DashEventCard from './cards/DashEventCard'
+import DashEventCard from '../cards/DashEventCard'
 
 export default {
   name: 'DashGeneralEventBar',
@@ -26,57 +26,24 @@ export default {
     DashEventCard
   },
 
-  data () {
+  data() {
     return {
       eventTypes: [
         {
           name: 'Tensão Crítica',
           activeClass: 'card-active-critical',
-          // eventsList: [
-          //   {
-          //     id: 1,
-          //     location: 'somewhere in the distance',
-          //     campus: '',
-          //     transductor: '',
-          //     data: '',
-          //     start_time: '',
-          //     end_time: ''
-          //   },
-          // ],
           eventsList: this.otherEvents.critical_tension,
           icon: 1
         },
         {
           name: 'Queda de Fase',
           activeClass: 'card-active-critical',
-          // eventsList: [
-          //   {
-          //     id: 1,
-          //     location: 'somewhere in the distance',
-          //     campus: '',
-          //     transductor: '',
-          //     data: '',
-          //     start_time: '',
-          //     end_time: ''
-          //   },
-          // ],
           eventsList: this.otherEvents.phase_drop,
           icon: 2
         },
         {
           name: 'Tensão Precária',
           activeClass: 'card-active-warning',
-          // eventsList: [
-          //   {
-          //     id: 1567,
-          //     location: 'somewhere in the distance',
-          //     campus: '',
-          //     transductor: '',
-          //     data: '',
-          //     start_time: '',
-          //     end_time: ''
-          //   },
-          // ],
           eventsList: this.otherEvents.precarious_tension,
           icon: 3
         },
@@ -102,11 +69,6 @@ export default {
 }
 </script>
 
-<style lang="scss">
-
-  .evt-card-size {
-    min-height: 31vh;
-    max-height: 31vh;
-  }
-
+<style>
+@import "./styles.scss";
 </style>
