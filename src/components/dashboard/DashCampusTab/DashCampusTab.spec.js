@@ -1,35 +1,94 @@
 import DashCampusTab from './DashCampusTab.vue'
-import { createLocalVue, mount, shallowMount } from '@vue/test-utils'
-// import Vuex from 'vuex'
-// import Quasar, * as All from 'quasar'
+import { mount } from '@vue/test-utils'
 
-// const components = Object.keys(All).reduce((object, key) => {
-//   const val = All[key]
-//   if (val && val.component && val.component.name != null) {
-//     object[key] = val
-//   }
-//   return object
-// }, {})
 
-// const localVue = createLocalVue()
-// localVue.use(Vuex)
-// localVue.use(Quasar, { components })
-
-// const store = new Vuex.Store({})
-
-const DashCampusTabComponent = shallowMount(DashCampusTab, {
-  // store,
-  // localVue,
-  data () {
-    return {
-      campus: ['Faculdade do  Gama', 'Darcy Ribeiro - Gleba A']
-    }
+const campi = [
+  {
+    "id":2,
+    "name":"Faculdade do Gama",
+    "acronym":"FGA",
+    "transductors":2,
+    "geolocation_latitude":-15.9894,
+    "geolocation_longitude":-48.0443,
+    "zoom_ratio":"16",
+    "groups_related":[
+      {
+      "id":6,
+      "name":"UED"
+      },
+      {
+      "id":6,
+      "name":"UED"
+      }
+    ],
+    "url":"http://164.41.98.3:443/campi/2/"
   },
-  stubs:['DashMap', 'dash-map']
+  {
+    "id":1,
+    "name":"Darcy Ribeiro - Gleba A",
+    "acronym":"Darcy A",
+    "transductors":11,
+    "geolocation_latitude":-15.7636,
+    "geolocation_longitude":-47.8694,
+    "zoom_ratio":"16",
+    "groups_related":[
+      {
+      "id":2,
+      "name":"CPD"
+      },
+      {
+      "id":2,
+      "name":"CPD"
+      },
+      {
+      "id":3,
+      "name":"FT"
+      },
+      {
+      "id":4,
+      "name":"PAT"
+      },
+      {
+      "id":3,
+      "name":"FT"
+      },
+      {
+      "id":3,
+      "name":"FT"
+      },
+      {
+      "id":1,
+      "name":"ICC"
+      },
+      {
+      "id":1,
+      "name":"ICC"
+      },
+      {
+      "id":1,
+      "name":"ICC"
+      },
+      {
+      "id":7,
+      "name":"BSAN"
+      },
+      {
+      "id":5,
+      "name":"CEU"
+      }
+    ],
+    "url":"http://164.41.98.3:443/campi/1/"
+  }
+]
+const DashCampusTabComponent = mount(DashCampusTab, {
+  propsData: {
+    campi
+  },
+  stubs:['q-tabs', 'q-tab', 'q-tab-panels', 'q-tab-panel' ]
 })
 
 describe('DashCampusTab', () => {
-  it('should exists', async () => {
+  it('should exists', () => {
     expect(DashCampusTabComponent).toBeTruthy()
   })
 
@@ -40,4 +99,18 @@ describe('DashCampusTab', () => {
     expect(child.isVisible()).toBe(true)
   })
 
+  it('Should have the correct data', () => {
+    expect(DashCampusTabComponent.vm.campi).toEqual(campi)
+  })
+
+  it('Should have the correct number of campus', () => {
+    expect(DashCampusTabComponent.vm.campi.length).toEqual(campi.length)
+  })
+
+  it('Should have all given campus names', () => {
+    const textComponent = DashCampusTabComponent.text()
+    campi.forEach(campus => {
+      expect(textComponent).toContain(campus.name)
+    })
+  })
 })
