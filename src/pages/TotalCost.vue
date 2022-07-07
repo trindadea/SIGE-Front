@@ -12,56 +12,67 @@
   </div>
 </template>
 
-<script >
-import TotalCostFilter from '../components/TotalCostFilter/TotalCostFilter.vue'
-import BarChart from '../components/charts/BarChart'
-import { mapGetters, mapActions } from 'vuex'
+<script>
+import TotalCostFilter from "../components/TotalCostFilter";
+import BarChart from "../components/BarChart/BarChart";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
-  name: 'TotalCost',
+  name: "TotalCost",
   components: {
     TotalCostFilter,
-    BarChart
+    BarChart,
   },
   computed: {
-    ...mapGetters('totalCostStore', ['totalCostChart', 'getStartDate', 'getEndDate']),
-    exportOptions () {
-      const startDate = this.getStartDate.match(/(?<year>\d+)-(?<month>\d+)-(?<day>\d+)/).groups
-      const endDate = this.getEndDate.match(/(?<year>\d+)-(?<month>\d+)-(?<day>\d+)/).groups
+    ...mapGetters("totalCostStore", [
+      "totalCostChart",
+      "getStartDate",
+      "getEndDate",
+    ]),
+    exportOptions() {
+      const startDate = this.getStartDate.match(
+        /(?<year>\d+)-(?<month>\d+)-(?<day>\d+)/
+      ).groups;
+      const endDate = this.getEndDate.match(
+        /(?<year>\d+)-(?<month>\d+)-(?<day>\d+)/
+      ).groups;
       return {
-        location: this.location.campus ? (this.location.campus + (this.location.group ? ' - ' + this.location.group : '')) : '',
-        dimension: 'Custo Total',
-        startDate: startDate.day + '_' + startDate.month + '_' + startDate.year,
-        endDate: endDate.day + '_' + endDate.month + '_' + endDate.year
-      }
-    }
+        location: this.location.campus
+          ? this.location.campus +
+            (this.location.group ? " - " + this.location.group : "")
+          : "",
+        dimension: "Custo Total",
+        startDate: startDate.day + "_" + startDate.month + "_" + startDate.year,
+        endDate: endDate.day + "_" + endDate.month + "_" + endDate.year,
+      };
+    },
   },
   methods: {
-    ...mapActions('userStore', ['changePage'])
+    ...mapActions("userStore", ["changePage"]),
   },
-  data () {
+  data() {
     return {
-      chartTitle: 'Custo total',
+      chartTitle: "Custo total",
       location: {
-        campus: '',
-        group: ''
-      }
-    }
+        campus: "",
+        group: "",
+      },
+    };
   },
-  created () {
-    this.changePage('Custo Total')
-  }
-}
+  created() {
+    this.changePage("Custo Total");
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-  .container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-  }
-  .chart-container {
-    width: 80%;
-  }
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.chart-container {
+  width: 80%;
+}
 </style>
