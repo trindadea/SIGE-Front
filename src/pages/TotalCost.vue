@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import TotalCostFilter from "../components/TotalCostFilter";
+import TotalCostFilter from "../components/TotalCostFilter/TotalCostFilter";
 import BarChart from "../components/BarChart/BarChart";
 import { mapGetters, mapActions } from "vuex";
 
