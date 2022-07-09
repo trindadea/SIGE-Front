@@ -235,53 +235,56 @@ export default {
         })
     },
     putSlave () {
+      const that = this
       const { id } = this.slave
       MASTER
-        .put('slave/' + id + '/', this.slave)
+        .put('slave/' + id + '/', that.slave)
         .then(res => {
-          this.slave = res.data
-          this.slaves = this.slaves.map((slave) => {
+          that.slave = res.data
+          that.slaves = that.slaves.map((slave) => {
             if (slave.id === id) return res.data
             return slave
           })
-          this.isSelectedSlave = false
-          this.$q.notify({
+          that.isSelectedSlave = false
+          that.$q.notify({
             type: 'positive',
             message: 'Seus dados foram atualizados.'
           })
         })
         .catch(err => {
           console.log(err)
-          this.$q.notify({
+          that.$q.notify({
             type: 'negative',
             message: 'Falha ao editar seus dados. Tente novamente.'
           })
         })
     },
     deleteSlave (id) {
+      const that = this
       MASTER
         .delete('slave/' + id, {})
-        .then(res => {
-          this.slaves = this.slaves.filter((slave) => slave.id !== id)
-          this.$q.notify({
+        .then(function () {
+          that.slaves = that.slaves.filter((slave) => slave.id !== id)
+          that.$q.notify({
             type: 'positive',
             message: 'Slave deletado com sucesso.'
           })
-          this.isSelectedSlave = false
-          this.slave = {}
+          that.isSelectedSlave = false
+          that.slave = {}
         })
         .catch(err => {
           console.log(err)
         })
     },
     postSlave () {
+      const that = this
       MASTER
-        .post('slave/', this.newSlave)
+        .post('slave/', that.newSlave)
         .then(res => {
-          this.slaves.push(res.data)
-          this.newSlaves = {}
-          this.isCreatingNew = false
-          this.$q.notify({
+          that.slaves.push(res.data)
+          that.newSlaves = {}
+          that.isCreatingNew = false
+          that.$q.notify({
             type: 'positive',
             message: 'Slave adicionado com sucesso.'
           })

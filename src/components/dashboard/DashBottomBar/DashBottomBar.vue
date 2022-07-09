@@ -1,17 +1,10 @@
 <template>
-  <q-bar class="q-py-sm q-px-md row">
-    <div
-      class="col">
+  <q-bar class="dash-bottom-bar-container">
       <img src="statics/logo_smi.svg" style="height: 28px;"/>
-    </div>
-    <div
-      id="alerts"
-      class="col text-center">
+    <div id="alerts" >
       {{ alerts }} ocorrências em andamento
     </div>
-    <div
-      id="datetime"
-      class="col text-right">
+    <div id="datetime">
       {{ date }}
     </div>
   </q-bar>
@@ -35,18 +28,12 @@ export default {
 
   computed: {
     date () {
-      const a = new Date()
-      return a.toLocaleDateString('pt-BR')
+      const currentDate = new Date()
+      return currentDate.toLocaleDateString('pt-BR')
     }
   }
 
 }
 </script>
 
-<style lang="scss" scoped>
-  .q-bar {
-    background-color: #00080f;
-    color: white;
-  }
-
-</style>
+<style lang="scss" scoped src='./styles.scss'/>

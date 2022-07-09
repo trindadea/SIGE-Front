@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Report Icon Teste de snapshot Componente critico 1`] = `
+<q-card-section-stub
+  tag="div"
+>
+  <div
+    class="col text-center ReportIconAlignCenter"
+  >
+    <p
+      class="ReportIconCounter q-mb-none"
+      id="ReportIconEvents"
+    >
+      
+      2
+      
+      <q-icon-stub
+        name="img:statics/ic_ocorrencia_critica_color.svg"
+        tag="i"
+      />
+    </p>
+     
+    <small
+      class="text-center q-mb-none"
+    >
+      
+      Leve
+    
+    </small>
+  </div>
+</q-card-section-stub>
+`;
+
+exports[`Report Icon Teste de snapshot Componente precario 1`] = `
+<q-card-section-stub
+  tag="div"
+>
+  <div
+    class="col text-center ReportIconAlignCenter"
+  >
+    <p
+      class="ReportIconCounter q-mb-none"
+      id="ReportIconEvents"
+    >
+      
+      12
+      
+      <q-icon-stub
+        name="img:statics/ic_ocorrencia_precaria_color.svg"
+        tag="i"
+      />
+    </p>
+     
+    <small
+      class="text-center q-mb-none"
+    >
+      
+      Leve
+    
+    </small>
+  </div>
+</q-card-section-stub>
+`;

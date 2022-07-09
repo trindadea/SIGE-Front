@@ -4,13 +4,25 @@
       <div class="col-12 col-md-12 col-lg-6">
         <dash-consumption-generation-card
           class="height-conf"
-          :transductor="selectedTransductor"/>
+          :transductor="selectedTransductor"
+        />
       </div>
 
-      <div class="col-12 col-sm-12 col-lg-6">
-        <dash-last-72h-card
-          class="height-conf"
-          :last72hEvents="last72hEvents"/>
+      <div class="col-lg-6 q-pb-md alignCenterColumn">
+        <q-card class="col card-base card-bg">
+          <q-card-section
+            v-if="last72hEvents"
+            class="q-py-xs card-title text-center">
+            Últimas 72h
+          </q-card-section>
+          <q-inner-loading dark :showing="last72hEvents === undefined" class="q-mb-none">
+            <q-spinner-ios  color="grey-4" thickness="7"/>
+          </q-inner-loading>
+          <div class="alignCenterRow">
+            <report-icon :reports="last72hEvents" critical :label="'Graves'"/>
+            <report-icon :reports="last72hEvents" :label="'Leves'"/>
+          </div>
+        </q-card>
       </div>
     </div>
 
@@ -18,7 +30,8 @@
       <dash-charge-bar-card
         class="q-mb-md height-conf"
         :transductor="selectedTransductor"
-        :campus="currentCampus"/>
+        :campus="currentCampus"
+      />
 
       <div>
         <q-linear-progress
@@ -29,7 +42,10 @@
         />
         <dash-last-measurement-card
           class="q-mb-none height-conf"
+          :realTimeMeasurements="this.realTimeMeasurements"
+          :measurementsCallback="measurementsFromTransductor"
           :transductor="selectedTransductor"
+          :transductor_occurences="this.transductor_occurences"
         />
       </div>
     </div>
@@ -38,9 +54,11 @@
 
 <script>
 import DashConsumptionGenerationCard from './cards/DashConsumptionGenerationCard'
-import DashLast72hCard from './cards/DashLast72hCard'
+import ReportIcon from '../ReportIcon'
 import DashChargeBarCard from './cards/DashChargeBarCard'
-import DashLastMeasurementCard from './cards/DashLastMeasurementCard'
+import DashLastMeasurementCard from '../DashLastMeasurementCard'
+import Occurence from '../../services/api/Occurence'
+import RealTimeMeasurement from '../../services/api/RealTimeMeasurement'
 import MASTER from '../../services/masterApi/http-common'
 
 export default {
@@ -48,7 +66,7 @@ export default {
 
   components: {
     DashConsumptionGenerationCard,
-    DashLast72hCard,
+    ReportIcon,
     DashChargeBarCard,
     DashLastMeasurementCard
   },
@@ -64,14 +82,16 @@ export default {
 
   data () {
     return {
-      last72hEvents: undefined
+      last72hEvents: undefined,
+      transductor_occurences: {},
+      realTimeMeasurements: []
     }
   },
 
   watch: {
     currentCampus: function () {
       this.getApiInfo()
-    }
+    },
   },
 
   mounted () {
@@ -80,42 +100,58 @@ export default {
 
   methods: {
     getLast72hEvents (campus) {
-      MASTER
-        .get(`/occurences/?type=period&campus=${campus.id}`)
+      MASTER.get(`/occurences/?type=period&campus=${campus.id}`)
         .then((res) => {
           this.last72hEvents = res.data
           this.last72hEvents.campus_name = this.currentCampus.name
         })
-        .catch((err) => { console.error(err) })
+        .catch((err) => {
+          console.error(err)
+        })
     },
 
-    async getApiInfo () {
-      await this.getLast72hEvents(this.currentCampus)
+    async measurementsFromTransductor () {
+      this.realTimeMeasurements = await RealTimeMeasurement.getRealTimeMeasurements(this.selectedTransductor.id)
+      this.transductor_occurences = await Occurence.getTransductorsLast72h(this.selectedTransductor.id)
     }
   }
 }
 </script>
 
 <style lang="scss">
+.height-conf {
+  min-height: 17.5vh;
+  max-height: 17.5vh;
+}
+
+.alignCenterRow {
+  justify-content: center;
+  align-content: center;
+  display: flex;
+  flex-direction: row;
+}
+
+.alignCenterColumn {
+  justify-content: center;
+  align-content: center;
+  display: flex;
+  flex-direction: column;
+}
+
+small {
+  font-size: 16px;
+  font-weight: normal;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.transductor-cycle-progess {
+  color: #339cff;
+}
+
+@media screen and (max-width: 1440px) {
   .height-conf {
-    min-height: 17.5vh;
-    max-height: 17.5vh;
+    min-height: 170px !important;
+    max-height: 100% !important;
   }
-
-  small {
-    font-size: 16px;
-    font-weight: normal;
-    color: rgba(255, 255, 255, 0.6);
-  }
-
-  .transductor-cycle-progess {
-    color: #339cff;
-  }
-
-  @media screen and (max-width: 1440px) {
-    .height-conf {
-      min-height: 170px !important;
-      max-height: 100% !important;
-    }
-  }
+}
 </style>

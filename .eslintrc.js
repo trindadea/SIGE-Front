@@ -47,5 +47,5 @@ module.exports = {
     'no-unused-vars': 'warn',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   },
-  ignorePatterns: ['**/stories']
+  'ignorePatterns': ['**/stories']
 }
