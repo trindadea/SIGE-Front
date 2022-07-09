@@ -8,6 +8,7 @@
     }]
   ],
   "plugins": ["@babel/plugin-syntax-dynamic-import", "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-proposal-optional-chaining",
   [
     "@babel/plugin-transform-runtime",
     {
@@ -18,7 +19,7 @@
   ] ],
   "env": {
     "test": {
-      "plugins": ["dynamic-import-node", "@babel/plugin-proposal-class-properties"],
+      "plugins": ["dynamic-import-node", "@babel/plugin-proposal-class-properties","@babel/plugin-proposal-optional-chaining"],
       "presets": [
         [
           "@babel/preset-env",

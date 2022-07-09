@@ -29,7 +29,7 @@ module.exports = {
       //  functions: 50,
       //  lines: 50,
       //  statements: 50
-    },
+    }
   },
   testMatch: [
     '<rootDir>/test/jest/__tests__/**/*.(spec|test).js',
