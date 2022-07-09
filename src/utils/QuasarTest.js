@@ -5,7 +5,7 @@ import Quasar from 'quasar';
 
 class QuasarTest {
   
-  _localVue;
+  _localVue = undefined
 
   constructor(){
     this.setUpQuasar()

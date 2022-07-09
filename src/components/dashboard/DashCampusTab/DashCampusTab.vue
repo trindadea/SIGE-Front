@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import DashPanel from './DashPanel'
+import DashPanel from '../DashPanel'
 
 export default {
   name: 'DashCampusTab',
@@ -87,35 +87,14 @@ export default {
         this.activeTab = this.campi[0].name
         this.currentCampus = this.campi[0]
       } else {
-        const a = this.campiName.indexOf(this.activeTab)
-        this.activeTab = (a < this.campi.length - 1) ? this.campiName[a + 1] : this.campiName[0]
-        this.currentCampus = (a < this.campi.length - 1) ? this.campi[a + 1] : this.campi[0]
+        const currentTabIndex = this.campiName.indexOf(this.activeTab)
+        const nextTabIndex = (currentTabIndex + 1) % this.campiName.length
+        this.activeTab = this.campiName[nextTabIndex]
+        this.currentCampus = this.campi[nextTabIndex]
       }
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
-
-  .tabs {
-    border-radius: 0px 0px 5px 5px;
-    border: transparent solid 1px;
-  }
-
-  .campus-bar {
-    font-size: 1.45em;
-    .q-tab--active {
-      color: white !important;
-      background-color: #00101f;
-    }
-  }
-
-  .panel-wrapper {
-    min-height: 50vh;
-  }
-
-  .disabledTab{
-      pointer-events: none;
-  }
-</style>
+<style lang="scss" scoped src='./styles.scss'/>
