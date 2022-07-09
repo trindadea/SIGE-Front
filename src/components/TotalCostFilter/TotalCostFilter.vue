@@ -94,13 +94,16 @@
 </template>
 
 <script>
-import MASTER from '../services/masterApi/http-common'
+
 import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
-import { dimensions } from '../utils/transductorGraphControl'
+import { dimensions } from '../../utils/transductorGraphControl'
+import CampiService from '../../services/CampiService'
+import ChartService from '../../services/ChartService'
 
-const allCampus = []
-const groups = []
+let allCampus = []
+const campiService = new CampiService()
+const chartService = new ChartService()
 
 export default {
   name: 'TotalCostFilter',
@@ -110,7 +113,7 @@ export default {
       campusModel: null,
       optionsCampus: allCampus,
       optionsModel: null,
-      optionsGroup: groups,
+      optionsGroup: [],
       startDate: '',
       endDate: '',
       mask: '##/##/####',
@@ -119,15 +122,8 @@ export default {
   },
   props: {},
   async created () {
-    await MASTER.get('campi/')
-      .then(res => {
-        res.data.forEach(elem => {
-          allCampus.push(elem)
-        })
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    allCampus = await campiService.getAllCampiInfo()
+    this.optionsCampus = allCampus
     this.getChart()
   },
   computed: {
@@ -151,16 +147,18 @@ export default {
         )
       })
     },
+
     getGroups () {
-      while (groups.length) {
-        groups.pop()
-      }
-      this.optionsModel = null
-      allCampus.filter(campus => campus.id === this.campusModel)[0].groups_related.map(group => {
-        if (groups.filter(subGroup => subGroup.name === group.name).length === 0) {
-          groups.push(group)
+      const updatedGroups = []
+      const selectedCampus = allCampus.find(campus => campus.id === this.campusModel)
+      selectedCampus.groups_related.forEach(group => {
+        const alreadyInUpdatedGroups = updatedGroups.find(subGroup => subGroup.name === group.name)
+        if (!alreadyInUpdatedGroups) {
+          updatedGroups.push(group)
         }
       })
+      this.optionsModel = null
+      this.optionsGroup = updatedGroups
     },
 
     verifyClearInput () {
@@ -185,104 +183,17 @@ export default {
       }
     },
     getChart () {
-      MASTER
-        .get(this.getUrl)
-        .then((res) => {
-          var chart = {
-            values: res.data.cost,
-            min: res.data.min,
-            max: res.data.max,
-            status: true,
-            unit: 'R$',
-            dimension: dimensions[1]
-          }
+      chartService.getChartData(this.getUrl, 'R$', dimensions[1])
+        .then((chart) => {
           this.updateChart(chart)
           this.$parent.location.campus = this.optionsCampus.find(campus => campus.id === this.campusModel).acronym
           this.$parent.location.group = this.optionsGroup.find(group => group.id === this.optionsModel).name
         })
-        .catch((err) => {
-          console.log('catch', err)
-        })
+        .catch(() => console.log('Falha ao atualizar o gráfico!'))
     }
   }
 }
+
 </script>
 
-<style lang="scss" scoped>
-.containerFilter {
-  background-color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin: 0;
-}
-.adjust {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  justify-content: center;
-}
-.filter {
-  background-color: white;
-  display: flex;
-  align-items: initial;
-  justify-content: space-around;
-  flex-direction: row;
-  margin-top: 1%;
-  width: 100%;
-  padding: 0;
-}
-.input {
-  padding-bottom: 0;
-}
-.calendar {
-  color: rgba(0, 0, 0, 0.54);
-}
-.elem {
-  margin: 1.7%;
-}
-.caption {
-  font-family: Roboto;
-  font-size: 1.8vh;
-  line-height: 1.33;
-  letter-spacing: 0.4px;
-  color: rgba(0, 0, 0, 0.6);
-  margin-right: 3.5%;
-}
-.toggle {
-  margin-top: 1%;
-  border: 1px solid $primary;
-  border-color: $primary;
-}
-.vision {
-  align-self: center;
-}
-.campus {
-  width: 18%;
-}
-.subtitle {
-  font-family: Roboto;
-  font-size: 1.8vh;
-  line-height: 1.33;
-  letter-spacing: 0.4px;
-  color: rgba(0, 0, 0, 0.87);
-}
-.adjust-toggle {
-  display: flex;
-  margin-left: 39%;
-  margin-top: -1.5%;
-}
-.select {
-  max-width: 20%;
-}
-.input {
-  padding-bottom: 0;
-}
-.apply_button {
-  height: 40px;
-  margin-top: auto;
-  margin-bottom: 1.7%;
-  margin-left: 1.7%;
-}
-</style>
+<style lang="scss" scoped src='./styles.scss'/>

@@ -17,7 +17,7 @@
 
 <script>
 // import MASTER from '../services/masterApi/http-common'
-import TotalCostFilter from '../components/TotalCostFilter'
+import TotalCostFilter from '../components/TotalCostFilter/TotalCostFilter.vue'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
