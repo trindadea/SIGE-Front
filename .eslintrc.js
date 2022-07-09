@@ -8,7 +8,7 @@ module.exports = {
   env: {
     node: true,
     browser: true,
-    "jest/globals": true
+    'jest/globals': true
   },
 
   extends: [
@@ -51,7 +51,7 @@ module.exports = {
     'vue/multi-word-component-names': 'off',
     'vue/no-unused-vars': 'warn',
     'no-unused-vars': 'warn',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   },
-  "ignorePatterns":["**/stories"]
+  ignorePatterns: ['**/stories']
 }
