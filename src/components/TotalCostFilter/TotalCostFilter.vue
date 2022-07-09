@@ -131,7 +131,7 @@ export default {
   },
   methods: {
     ...mapActions('totalCostStore', ['changePeriodicity', 'changeStartDate', 'changeEndDate', 'filterByCampus', 'filterByGroup', 'clearStartDate', 'clearEndDate', 'updateChart']),
-    filterFn (val, update, abort) {
+    filterFn (val, update) {
       update(() => {
         const needle = val.toLowerCase()
         this.optionsCampus = allCampus.filter(
@@ -139,8 +139,7 @@ export default {
         )
       })
     },
-
-    filterCampus (val, update, abort) {
+    filterCampus (val, update) {
       update(() => {
         const needle = val.toLowerCase()
         this.optionsCampus = allCampus.filter(

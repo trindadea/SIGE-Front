@@ -1,8 +1,9 @@
 import TotalCostFilter from './TotalCostFilter.vue'
 import { createLocalVue, mount } from '@vue/test-utils'
 import Vuex from 'vuex'
+/* eslint import/namespace: ['error', { allowComputed: true }] */
 import Quasar, * as All from 'quasar'
-import totalCostStore from 'src/store/module-totalCost'
+import * as totalCostStore from 'src/store/module-totalCost'
 
 
 const components = Object.keys(All).reduce((object, key) => {

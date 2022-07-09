@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import ChargeBarChart from '../../charts/ChargeBarChart.vue'
+import ChargeBarChart from '../../charts/ChargeBarChart/ChargeBarChart.vue'
 
 export default {
   components: {
