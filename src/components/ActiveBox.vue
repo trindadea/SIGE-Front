@@ -52,7 +52,7 @@ export default {
       this.changeMapStatus()
     },
     getTransductors () {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         MASTER
           .get('/energy-transductors/' + this.id)
           .then((res) => {
@@ -70,7 +70,7 @@ export default {
       })
     },
     getCampi () {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         MASTER
           .get('/campi/' + this.campusId)
           .then((res) => {

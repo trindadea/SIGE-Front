@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import MASTER from '../../services/masterApi/http-common'
+import ChartService from '../../../services/masterApi/ChartService'
 
 export default {
   name: 'ChargeBarChart',
@@ -135,12 +135,13 @@ export default {
 
   methods: {
     updateChart () {
-      MASTER
-        .get(`/graph/quarterly-daily-consumption/?campus=${this.selectedCampus.id}`)
+      ChartService.getQuartelyDailyConsumption(this.selectedCampus.id)
         .then((res) => {
           this.consumption = res.data
         })
-        .catch(err => { console.error(err) })
+        .catch(err => {
+          console.error(err)
+        })
     }
   },
 
@@ -150,8 +151,6 @@ export default {
 }
 </script>
 
-<style scoped>
-  #chart {
-    size: 100px;
-  }
+<style scoped lang="scss">
+  @import './style.scss';
 </style>

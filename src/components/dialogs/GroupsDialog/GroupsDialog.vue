@@ -79,17 +79,17 @@ export default {
       })
     }
   },
-  data() {
+  data () {
     return {
       name: '',
       type: ''
     }
   },
   methods: {
-    close() {
+    close () {
       this.$emit('close')
     },
-    handleGroup() {
+    handleGroup () {
       if (this.group.id) {
         this.$emit('updateGroup', {
           ...this.group,
@@ -115,30 +115,5 @@ export default {
 </script>
 
 <style lang="scss">
-#groups-dialog {
-  .q-card {
-    min-width: 400px;
-
-    .title {
-      margin: 0;
-    }
-
-    .q-bar {
-      padding: 10px;
-      padding: 10px;
-      height: 60px;
-      border: 0;
-      border-radius: 0;
-    }
-
-    .info {
-      padding: 15px;
-    }
-
-    .btn {
-      display: flex;
-      margin-top: 15px;
-    }
-  }
-}
+  @import './style.scss';
 </style>
