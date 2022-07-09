@@ -42,7 +42,10 @@
         />
         <dash-last-measurement-card
           class="q-mb-none height-conf"
+          :realTimeMeasurements="this.realTimeMeasurements"
+          :measurementsCallback="measurementsFromTransductor"
           :transductor="selectedTransductor"
+          :transductor_occurences="this.transductor_occurences"
         />
       </div>
     </div>
@@ -53,7 +56,9 @@
 import DashConsumptionGenerationCard from './cards/DashConsumptionGenerationCard'
 import ReportIcon from '../ReportIcon'
 import DashChargeBarCard from './cards/DashChargeBarCard'
-import DashLastMeasurementCard from './cards/DashLastMeasurementCard'
+import DashLastMeasurementCard from '../DashLastMeasurementCard'
+import Occurence from '../../services/api/Occurence'
+import RealTimeMeasurement from '../../services/api/RealTimeMeasurement'
 import MASTER from '../../services/masterApi/http-common'
 
 export default {
@@ -77,14 +82,16 @@ export default {
 
   data () {
     return {
-      last72hEvents: undefined
+      last72hEvents: undefined,
+      transductor_occurences: {},
+      realTimeMeasurements: []
     }
   },
 
   watch: {
     currentCampus: function () {
       this.getApiInfo()
-    }
+    },
   },
 
   mounted () {
@@ -103,8 +110,9 @@ export default {
         })
     },
 
-    async getApiInfo () {
-      await this.getLast72hEvents(this.currentCampus)
+    async measurementsFromTransductor () {
+      this.realTimeMeasurements = await RealTimeMeasurement.getRealTimeMeasurements(this.selectedTransductor.id)
+      this.transductor_occurences = await Occurence.getTransductorsLast72h(this.selectedTransductor.id)
     }
   }
 }

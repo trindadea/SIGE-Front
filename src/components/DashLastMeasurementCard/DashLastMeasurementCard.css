@@ -1,0 +1,26 @@
+.readings {
+  width: 100%;
+  text-align: center;
+}
+
+.h4 {
+  font-weight: 600;
+  color: #339cff;
+  line-height: 36px;
+  size: 24px;
+  text-transform: uppercase;
+}
+
+.reading-measurement {
+  font-size: 0.8em;
+}
+
+td {
+  font-size: 20px;
+}
+
+@media screen and (max-width: 800px) {
+  .last-card-info {
+    margin-bottom: 20px;
+  }
+}

@@ -3,18 +3,34 @@ const esModules = ['quasar/lang', 'lodash-es'].join('|')
 module.exports = {
   globals: {
     __DEV__: true,
+    // TODO: Remove if resolved natively https://github.com/vuejs/vue-jest/issues/175
     'vue-jest': {
       pug: { doctype: 'html' }
     }
   },
+  setupFilesAfterEnv: ['<rootDir>/test/jest/jest.setup.js'],
+  // noStackTrace: true,
+  // bail: true,
+  // cache: false,
+  // verbose: true,
+  // watch: true,
   collectCoverage: false,
-  coverageDirectory: '<rootDir>/test/coverage',
+  coverageDirectory: '<rootDir>/test/jest/coverage',
   collectCoverageFrom: [
     '<rootDir>/src/**/*.vue',
     '<rootDir>/src/**/*.js',
     '<rootDir>/src/**/*.jsx'
   ],
+  // Needed in JS codebases too because of feature flags
   coveragePathIgnorePatterns: ['/node_modules/', '.d.ts$'],
+  coverageThreshold: {
+    global: {
+      //  branches: 50,
+      //  functions: 50,
+      //  lines: 50,
+      //  statements: 50
+    },
+  },
   testMatch: [
     '<rootDir>/test/jest/__tests__/**/*.(spec|test).js',
     '<rootDir>/test/jest/components/**/*.(spec|test).js',
