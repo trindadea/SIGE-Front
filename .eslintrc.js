@@ -15,7 +15,13 @@ module.exports = {
     'plugin:vue/essential',
     'plugin:jest/recommended',
     'eslint:recommended',
-    'prettier'
+    "prettier"
+  ],
+  plugins: [
+    'vue',
+    'prettier',
+    'import',
+    'jest'
   ],
   plugins: ['vue', 'prettier', 'import', 'jest'],
 

@@ -1,5 +1,3 @@
-const webpackFinal = require('../webpack-config.js');
-
 module.exports = {
   "stories": [
     "../src/**/*.stories.mdx",
