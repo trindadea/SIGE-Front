@@ -1,0 +1,34 @@
+#DashEventCard p {
+  font-size: 20px;
+}
+
+.card-title {
+  margin-left: 8px;
+}
+
+.card-overflow {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.card-inactive {
+  background-color: #00080f;
+  border: 2px solid #001324;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.card-active-critical {
+  background-color: #3d0202;
+  color: white;
+}
+
+.card-active-warning {
+  background-color: #4d3e00;
+  color: white;
+}
+
+.card-title {
+  font-size: 30px;
+  line-height: 40px;
+  letter-spacing: 0.24px;
+}
