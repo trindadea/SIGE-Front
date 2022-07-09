@@ -59,6 +59,7 @@ import DashChargeBarCard from './cards/DashChargeBarCard'
 import DashLastMeasurementCard from '../DashLastMeasurementCard'
 import Occurence from '../../services/api/Occurence'
 import RealTimeMeasurement from '../../services/api/RealTimeMeasurement'
+import MASTER from '../../services/masterApi/http-common'
 
 export default {
   name: 'DashCampusInfo',
