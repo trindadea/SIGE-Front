@@ -49,7 +49,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Header from '../components/Header'
+import Header from '../components/Header/Header.vue'
 import logoutHelper from '../mixins/logoutHelper.js'
 
 export default {
