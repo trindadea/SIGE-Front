@@ -90,7 +90,7 @@ export default {
   },
   methods: {
     ...mapActions('transductorStore', ['updateFilter', 'updateChartPhase']),
-    filterFn (val, update, abort) {
+    filterFn (val, update) {
       update(() => {
         const needle = val.toLowerCase()
         this.options = this.filterList.filter(v => v.toLowerCase().indexOf(needle) > -1)

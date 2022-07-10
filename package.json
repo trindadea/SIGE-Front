@@ -10,7 +10,7 @@
   "scripts": {
     "lint": "eslint --ext .js,.vue src",
     "pretty": "prettier --write \"./**/*.{vue}\"",
-    "test": "yarn test:unit:ci",
+    "test": "yarn jest --watchAll",
     "cl": "auto-changelog",
     "start": "quasar dev -m ssr",
     "build": "quasar build",
@@ -18,13 +18,7 @@
     "start:ssr": "node dist/ssr/index.js",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "test:unit": "jest --updateSnapshot",
-    "test:unit:ci": "jest --ci",
-    "test:unit:coverage": "jest --coverage",
-    "test:unit:watch": "jest --watch",
-    "test:unit:watchAll": "jest --watchAll",
-    "serve:test:coverage": "quasar serve test/jest/coverage/lcov-report/ --port 8788",
-    "concurrently:dev:jest": "concurrently \"quasar dev\" \"jest --watch\""
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
     "@babel/plugin-transform-runtime": "^7.17.0",
@@ -41,6 +35,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.17.5",
+    "@babel/plugin-proposal-class-properties": "^7.16.7",
+    "@babel/plugin-proposal-optional-chaining": "^7.18.6",
     "@quasar/app": "^1.0.0",
     "@quasar/quasar-app-extension-testing-unit-jest": "^2.2.3",
     "@storybook/addon-actions": "^6.4.19",
@@ -60,6 +56,7 @@
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^8.4.1",
+    "identity-obj-proxy": "^3.0.0",
     "prettier": "2.5.1",
     "vue-loader": "^15.9.8"
   },
@@ -71,6 +68,11 @@
   "browserslist": [
     "last 1 version, not dead, ie >= 11"
   ],
+  "jest": {
+    "testPathIgnorePatterns": [
+      "**.stories.js"
+    ]
+  },
   "resolutions": {
     "@babel/parser": "7.7.5"
   }

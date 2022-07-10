@@ -74,6 +74,7 @@ export default {
   methods: {
     ...mapActions('userStore', ['changePage', 'saveUserInfo']),
     retrieveUserInformation () {
+      const that = this
       const { user } = this
       MASTER
         .get('users/' + user.id + '/', {
@@ -83,18 +84,19 @@ export default {
         })
         .then(res => {
           console.log(res)
-          this.fullname = res.data.name
-          this.email = res.data.email
+          that.fullname = res.data.name
+          that.email = res.data.email
         })
         .catch(err => {
           console.log(err)
-          this.$q.notify({
+          that.$q.notify({
             type: 'negative',
             message: 'Falha ao recuperar seus dados. Tente novamente.'
           })
         })
     },
     putUserInfo () {
+      const that = this
       const { user } = this
       const data = {}
       data.name = this.fullname
@@ -107,20 +109,20 @@ export default {
               authorization: 'Token ' + user.token
             }
           })
-        .then(res => {
-          this.saveUserInfo({
-            username: this.fullname,
-            useremail: this.useremail
+        .then(function () {
+          that.saveUserInfo({
+            username: that.fullname,
+            useremail: that.useremail
           })
-          this.$q.notify({
+          that.$q.notify({
             type: 'positive',
             message: 'Seus dados foram atualizados.'
           })
-          this.$router.replace({ name: '/', force: true })
+          that.$router.replace({ name: '/', force: true })
         })
         .catch(err => {
           console.log(err)
-          this.$q.notify({
+          that.$q.notify({
             type: 'negative',
             message: 'Falha ao editar seus dados. Tente novamente.'
           })

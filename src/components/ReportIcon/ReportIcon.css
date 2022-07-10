@@ -1,0 +1,14 @@
+.ReportIconCounter {
+  font-size: 42px;
+  font-weight: bold;
+  line-height: 3px;
+}
+
+.ReportIconInactive {
+  opacity: 0.6;
+}
+
+.ReportIconAlignCenter {
+  align-content: center;
+  justify-content: center;
+}
