@@ -54,9 +54,10 @@
 
 <script>
 import DashConsumptionGenerationCard from './cards/DashConsumptionGenerationCard'
+import DashLast72hCard from './cards/DashLast72hCard'
+import DashChargeBarCard from './cards/DashChargeBarCard/DashChargeBarCard'
 import ReportIcon from '../ReportIcon'
-import DashChargeBarCard from './cards/DashChargeBarCard'
-import DashLastMeasurementCard from '../DashLastMeasurementCard'
+import DashLastMeasurementCard from '../DashLastMeasurementCard/DashLastMeasurementCard'
 import Occurence from '../../services/api/Occurence'
 import RealTimeMeasurement from '../../services/api/RealTimeMeasurement'
 import MASTER from '../../services/masterApi/http-common'
