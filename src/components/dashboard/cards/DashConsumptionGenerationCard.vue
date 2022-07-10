@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import TriangularConsumptionChart from '../../charts/TriangularConsumptionChart'
+import TriangularConsumptionChart from '../../charts/TriangularConsumptionChart/TriangularConsumptionChart'
 
 export default {
   components: {
