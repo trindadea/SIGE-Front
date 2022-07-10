@@ -29,7 +29,7 @@ import MASTER from '../services/masterApi/http-common'
 
 import DashCampusTab from 'components/dashboard/DashCampusTab/DashCampusTab'
 import DashBottomBar from 'components/dashboard/DashBottomBar/DashBottomBar.vue'
-import DashGeneralEventBar from 'components/dashboard/DashGeneralEventBar'
+import DashGeneralEventBar from 'components/dashboard/DashGeneralEventBar/DashGeneralEventBar'
 
 export default {
   name: 'DashboardBase',
