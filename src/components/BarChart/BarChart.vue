@@ -1,125 +1,124 @@
 <template>
-  <q-no-ssr>
-    <apexcharts type="bar" height="500" :options="chartConf" :series="series" />
-  </q-no-ssr>
+  <chart-container  v-bind:loadingStatus="getPhaseChartLoadingStatus">
+    <q-no-ssr>
+        <apexcharts type="bar" height="500" :options="chartConf" :series="series" />
+    </q-no-ssr>
+  </chart-container>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import ChartContainer from '../charts/ChartContainer.vue'
+
 export default {
-  name: "BarChart",
+  name: 'BarChart',
   components: {
-    Apexcharts: () => import("vue-apexcharts"),
+    Apexcharts: () => import('vue-apexcharts'),
+    ChartContainer
   },
   props: [
-    "isCostPage",
-    "chartTitle",
-    "exportOptions",
-    "chartOptions",
-    "totalCostChart",
+    'isCostPage',
+    'chartTitle',
+    'exportOptions',
   ],
   computed: {
-    graph() {
+    ...mapGetters('transductorStore', ['chartOptions', 'filterOptions', 'getPhaseChartLoadingStatus']),
+    ...mapGetters('totalCostStore', ['totalCostChart']),
+    ...mapGetters('userStore', ['getPage']),
+    ...mapGetters('totalCostStore', ['getStartDate', 'getEndDate']),
+    graph () {
       if (this.isCostPage) {
-        return this.totalCostChart;
+        return this.totalCostChart
       }
-      return this.chartOptions;
+      return this.chartOptions
     },
-    series() {
-      return [
-        {
-          name: this.graph.dimension,
-          data: this.graph.values,
-        },
-      ];
+    series () {
+      return [{
+        name: this.graph.dimension,
+        data: this.graph.values
+      }]
     },
-    chartConf() {
-      const {location, dimension, startDate, endDate} = this.exportOptions
-      const { unit, max } = this.graph
-      
-      const tick = max <= 10 ? max + 1 : 11;
-      const _max = max < 1 ? 1 : undefined;
-      
-      const filename = 
-        (location ? location + " - " : "") +
-        (dimension ? dimension + " - " : "") +
-        (startDate + "-" + endDate);
+    chartConf () {
+      const tick = this.graph.max <= 10 ? this.graph.max + 1 : 11
+      const max = this.graph.max < 1 ? 1 : undefined
+      const filename = (this.exportOptions.location ? (this.exportOptions.location + ' - ') : ('')) +
+      (this.exportOptions.dimension ? (this.exportOptions.dimension + ' - ') : ('')) + this.exportOptions.startDate + '-' + this.exportOptions.endDate
 
       return {
-        colors: ["#00417e"],
+        colors: ['#00417e'],
 
         title: {
           text: this.chartTitle,
-          align: "center",
+          align: 'center',
           margin: 10,
           offsetX: 0,
           offsetY: 0,
           floating: false,
           style: {
-            fontSize: "24px",
-            fontWeight: "300",
-            fontFamily: "Roboto",
-            color: "#00417e",
-          },
+            fontSize: '24px',
+            fontWeight: '300',
+            fontFamily: 'Roboto',
+            color: '#00417e'
+          }
         },
 
         grid: {
           strokeDashArray: 0,
           xaxis: {
-            type: "datetime",
+            type: 'datetime',
             show: true,
             labels: {
               style: {
-                fontSize: ".8rem",
-              },
-            },
-          },
+                fontSize: '.8rem'
+              }
+            }
+          }
         },
 
         dataLabels: {
-          enabled: false,
+          enabled: false
         },
 
         xaxis: {
-          type: "datetime",
+          type: 'datetime',
           show: true,
           labels: {
             datetimeUTC: false,
             style: {
-              fontSize: ".8rem",
-            },
-          },
+              fontSize: '.8rem'
+            }
+          }
         },
 
         yaxis: {
           labels: {
             formatter: (val) => {
-              if (unit === "R$") {
-                return unit + " " + val.toFixed(this.decimals || 0);
+              if (this.graph.unit === 'R$') {
+                return this.graph.unit + ' ' + val.toFixed(this.decimals || 0)
               }
-              return val.toFixed(this.decimals || 0) + " " + unit;
+              return val.toFixed(this.decimals || 0) + ' ' + this.graph.unit
             },
             style: {
-              fontSize: "1rem",
-            },
+              fontSize: '1rem'
+            }
           },
-          max: _max,
+          max: max,
           decimalsInFloat: 2,
-          tickAmount: tick,
+          tickAmount: tick
         },
-
         tooltip: {
           x: {
-            format: "dd-MM-yyyy HH:mm",
-            formatter: undefined,
+            format: 'dd-MM-yyyy HH:mm',
+            formatter: undefined
           },
           y: {
             formatter: (val) => {
-              if (unit === "R$") {
-                return ` ${unit} ${val.toFixed(1)}`;
+              if (this.graph.unit === 'R$') {
+                return ` ${this.graph.unit} ${val.toFixed(1)}`
               }
-              return `${val.toFixed(1)} ${unit}`;
-            },
-          },
+              return `${val.toFixed(1)} ${this.graph.unit}`
+            }
+          }
         },
 
         chart: {
@@ -127,21 +126,21 @@ export default {
           toolbar: {
             export: {
               csv: {
-                filename: filename,
+                filename: filename
               },
 
               svg: {
-                filename: filename,
+                filename: filename
               },
 
               png: {
-                filename: filename,
-              },
-            },
-          },
-        },
-      };
-    },
-  },
-};
+                filename: filename
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
 </script>
