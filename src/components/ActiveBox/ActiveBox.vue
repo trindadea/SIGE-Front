@@ -54,7 +54,6 @@ export default {
     async getTransductors() {
       try {
         const response = await MASTER.get(`/energy-transductors/${this.id}`)
-        console.log("Response: ", response)
         if (response) {
           const { active, geolocation_latitude, geolocation_longitude, name } = response.data
           const campusId = response.data.campus.split('/')[4] //  response.data.campus ->  http://164.41.98.3:443/campi/1/
