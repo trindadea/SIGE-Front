@@ -30,7 +30,6 @@ code_quality:
   variables:
     DOCKER_DRIVER: overlay2
     SP_VERSION: 0.85.6
-    TIMEOUT_SECONDS: 3600
   allow_failure: true
   services:
     - docker:stable-dind
