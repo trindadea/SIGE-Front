@@ -7,7 +7,7 @@ stages:
 
 cache:
   untracked: true
-  key: "$CI_BUILD_REF_NAME"
+  key: '$CI_BUILD_REF_NAME'
   paths:
     - node_modules/
 
@@ -35,10 +35,10 @@ code_quality:
     - docker:stable-dind
   script:
     - docker run
-        --env SOURCE_CODE="$PWD"
-        --volume "$PWD":/code
-        --volume /var/run/docker.sock:/var/run/docker.sock
-        "registry.gitlab.com/gitlab-org/ci-cd/codequality:$SP_VERSION" /code
+      --env SOURCE_CODE="$PWD"
+      --volume "$PWD":/code
+      --volume /var/run/docker.sock:/var/run/docker.sock
+      "registry.gitlab.com/gitlab-org/ci-cd/codequality:$SP_VERSION" /code
   artifacts:
     reports:
       codequality: gl-code-quality-report.json

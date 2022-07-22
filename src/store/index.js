@@ -17,7 +17,7 @@ Vue.use(Vuex)
  * with the Store instance.
  */
 
-export default function (ssrContext) {
+export default function () {
   const Store = new Vuex.Store({
     modules: {
       userStore,

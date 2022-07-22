@@ -261,6 +261,7 @@ export default {
         })
     },
     postTariff () {
+      const that = this
       MASTER
         .post(`campi/${this.$route.params.id}/tariffs/`, {
           campus: this.campus.url,
@@ -268,18 +269,18 @@ export default {
           regular_tariff: parseFloat(this.newTariff.regular_tariff),
           high_tariff: parseFloat(this.newTariff.high_tariff)
         })
-        .then(res => {
-          this.newTariff = {}
-          this.getTariffs()
-          this.handleAction('togglePostModal')
-          this.$q.notify({
+        .then(function () {
+          that.newTariff = {}
+          that.getTariffs()
+          that.handleAction('togglePostModal')
+          that.$q.notify({
             type: 'positive',
             message: 'Tarifa adicionada com sucesso.'
           })
         })
         .catch(err => {
           console.log(err)
-          this.$q.notify({
+          that.$q.notify({
             type: 'negative',
             message: 'Falha ao adicionar tarifa. Verifique o console para mais detalhes.'
           })
@@ -288,7 +289,7 @@ export default {
     putTariff () {
       MASTER
         .put(`campi/${this.$route.params.id}/tariffs/${this.tariff.id}/`, this.tariff)
-        .then(res => {
+        .then(function () {
           this.getTariffs()
           this.handleAction('togglePutModal')
           this.$q.notify({
@@ -307,7 +308,7 @@ export default {
     deleteTariff () {
       MASTER
         .delete(`campi/${this.$route.params.id}/tariffs/${this.targetId}/`)
-        .then(res => {
+        .then(function () {
           this.getTariffs()
           this.$q.notify({
             type: 'positive',

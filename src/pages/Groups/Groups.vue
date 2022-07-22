@@ -56,7 +56,7 @@
 <script>
 import MASTER from '../../services/masterApi/http-common'
 import { mapActions } from 'vuex'
-import GroupDialog from '../../components/dialogs/GroupsDialog.vue'
+import GroupDialog from '../../components/dialogs/GroupsDialog/GroupsDialog.vue'
 
 export default {
   name: 'Groups',

@@ -7,7 +7,9 @@
       }
     }]
   ],
-  "plugins": ["@babel/plugin-syntax-dynamic-import", [
+  "plugins": ["@babel/plugin-syntax-dynamic-import", "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-proposal-optional-chaining",
+  [
     "@babel/plugin-transform-runtime",
     {
       "corejs": 2,
@@ -17,7 +19,7 @@
   ] ],
   "env": {
     "test": {
-      "plugins": ["dynamic-import-node"],
+      "plugins": ["dynamic-import-node", "@babel/plugin-proposal-class-properties","@babel/plugin-proposal-optional-chaining"],
       "presets": [
         [
           "@babel/preset-env",
