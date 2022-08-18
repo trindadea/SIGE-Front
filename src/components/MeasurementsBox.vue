@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { getDataAndHourFormatted } from '../utils/transductorStatus'
+import { getDateAndHourFormatted } from '../utils/transductorStatus'
 import MASTER from '../services/masterApi/http-common'
 
 export default {
@@ -79,7 +79,7 @@ export default {
   },
   methods: {
     getTime (d) {
-      return getDataAndHourFormatted(d)
+      return getDateAndHourFormatted(d)
     }
   }
 }

@@ -7,7 +7,7 @@ export function getDateNowSelectFormat (daysBeforeToday = 0) {
   return dateFormatted
 }
 
-export function getDataAndHourFormatted(date) {
+export function getDateAndHourFormatted(date) {
   
   var dateUTC = new Date(date);
 
