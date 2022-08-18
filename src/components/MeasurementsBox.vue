@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { getTimePassed } from '../utils/transductorStatus'
+import { getDataAndHourFormatted } from '../utils/transductorStatus'
 import MASTER from '../services/masterApi/http-common'
 
 export default {
@@ -67,7 +67,6 @@ export default {
           r: Math.round(res.data[0].total_reactive_power),
           t: Math.round(res.data[0].total_power_factor)
         }
-
         this.lastReading = this.getTime(res.data[0].collection_date)
         if (res.data[0].consumption) {
           this.generation = (Math.floor((res.data[0].consumption) / 1000)).toString() + ' kW'
@@ -80,11 +79,7 @@ export default {
   },
   methods: {
     getTime (d) {
-      let timePassed = getTimePassed(d)
-      if (timePassed !== 'agora') {
-        timePassed = 'há ' + timePassed
-      }
-      return timePassed
+      return getDataAndHourFormatted(d)
     }
   }
 }
