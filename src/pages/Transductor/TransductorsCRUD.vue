@@ -360,238 +360,195 @@
 </template>
 
 <script>
-import MASTER from '../../services/masterApi/http-common'
-import { mapActions } from 'vuex'
+  import MASTER from '../../services/masterApi/http-common'
+  import { mapActions } from 'vuex'
 
-export default {
-  name: 'Transductors',
-  data () {
-    return {
-      transductors: [],
-      transductor: {},
-      isSelectedTransductor: false,
-      isCreatingNew: false,
-      newTransductor: {},
-      campi: [],
-      groups: [],
-      slaves: [],
-      columns: [
-        { name: 'campus', label: 'Campus', align: 'left', field: row => row.campus, sortable: true },
-        { name: 'name', label: 'Nome', align: 'center', field: row => row.name, sortable: true },
-        { name: 'group', label: 'Grupos', align: 'center', field: row => row.grouping, sortable: true },
-        { name: 'active', label: 'Ativo', align: 'center', field: row => row.active, sortable: true },
-        { name: 'model', label: 'Modelo', align: 'center', field: row => row.model, sortable: true },
-        { name: 'edit', label: 'Editar', align: 'center', format: () => 'Editar', sortable: false, style: 'width: 55px' },
-        { name: 'delete', label: 'Excluir', align: 'center', format: () => 'Excluir', sortable: false, style: 'width: 55px' }
-      ]
-    }
-  },
-  async created () {
-    this.changePage('Gerenciar Instalações - Medidores')
-    await this.getCampi()
-    await this.getGroups()
-    await this.getSlaves()
-    this.getTransductors()
-  },
-  methods: {
-    ...mapActions('userStore', ['changePage']),
-    handlePressButton (type, id = null) {
-      const options = {
-        new: () => {
-          this.isSelectedTransductor = false
-          this.isCreatingNew = !this.isCreatingNew
-        },
-        show: () => {
-          this.isSelectedTransductor = true
-          this.isCreatingNew = false
-          this.getTransductor(id)
-        }
+  export default {
+    name: 'Transductors',
+    data () {
+      return {
+        transductors: [],
+        transductor: {},
+        isSelectedTransductor: false,
+        isCreatingNew: false,
+        newTransductor: {},
+        campi: [],
+        groups: [],
+        slaves: [],
+        columns: [
+          { name: 'campus', label: 'Campus', align: 'left', field: row => row.campus, sortable: true },
+          { name: 'name', label: 'Nome', align: 'center', field: row => row.name, sortable: true },
+          { name: 'group', label: 'Grupos', align: 'center', field: row => row.grouping, sortable: true },
+          { name: 'active', label: 'Ativo', align: 'center', field: row => row.active, sortable: true },
+          { name: 'model', label: 'Modelo', align: 'center', field: row => row.model, sortable: true },
+          { name: 'edit', label: 'Editar', align: 'center', format: () => 'Editar', sortable: false, style: 'width: 55px' },
+          { name: 'delete', label: 'Excluir', align: 'center', format: () => 'Excluir', sortable: false, style: 'width: 55px' }
+        ]
       }
-      if (options[type]) options[type]()
     },
-    getTransductors () {
-      MASTER
-        .get('energy-transductors/', {})
-        .then(res => {
-          this.transductors = res.data
-
-          this.transductors.forEach((transductor) => {
-            const campusId = transductor.campus.match(/campi\/(?<campusId>\d+)/).groups.campusId
-            const transductorCampus = this.campi.find(campus => campus.id === parseInt(campusId))
-
-            const groupId = transductor.grouping[0].match(/groups\/(?<groupId>\d+)/).groups.groupId
-            const transductorGroup = this.groups.find(group => group.id === parseInt(groupId))
-
-            transductor.campus = transductorCampus.name
-            transductor.grouping = transductorGroup.name
-          })
-        })
-        .catch(err => {
-          console.log(err)
-        })
+    async created () {
+      this.changePage('Gerenciar Instalações - Medidores')
+      await this.getCampi()
+      await this.getGroups()
+      await this.getSlaves()
+      this.getTransductors()
     },
-    getTransductor (id) {
-      MASTER
-        .get('energy-transductors/' + id, {})
-        .then(res => {
-          this.transductor = res.data
-          this.isSelectedTransductor = true
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
-    putTransductor () {
-      const { id } = this.transductor
-      MASTER
-        .put('energy-transductors/' + id + '/', this.transductor)
-        .then(res => {
-          this.transductor = res.data
-          this.transductors = this.transductors.map((transductor) => {
-            if (transductor.id === id) return res.data
-            return transductor
-          })
-          this.isSelectedTransductor = false
-          this.$q.notify({
-            type: 'positive',
-            message: 'Seus dados foram atualizados.'
-          })
-        })
-        .catch(err => {
-          console.log(err)
-          this.$q.notify({
-            type: 'negative',
-            message: 'Falha ao editar seus dados. Tente novamente.'
-          })
-        })
-    },
-    deleteTransductor (id) {
-      MASTER
-        .delete('energy-transductors/' + id, {})
-        .then(function () {
-          this.transductors = this.transductors.filter((transductor) => transductor.id !== id)
-          this.$q.notify({
-            type: 'positive',
-            message: 'Medidor deletado com sucesso.'
-          })
-          this.isSelectedTransductor = false
-          this.transductor = {}
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
-    postTransductor () {
-      this.newTransductor.grouping = [this.newTransductor.grouping]
-      MASTER
-        .post('energy-transductors/', this.newTransductor)
-        .then(res => {
-          this.transductors.push(res.data)
-          this.newTransductors = {}
-          this.isCreatingNew = false
-          this.$q.notify({
-            type: 'positive',
-            message: 'Transdutor adicionado com sucesso.'
-          })
-        })
-        .catch(err => {
-          this.$q.notify({
-            type: 'negative',
-            message: 'Falha ao adicionar medidor. Tente novamente.'
-          })
-          console.log(err)
-        })
-    },
-    getCampi () {
-      const that = this
-      return new Promise((resolve) => {
+    methods: {
+      ...mapActions('userStore', ['changePage']),
+      handlePressButton (type, id = null) {
+        const options = {
+          new: () => {
+            this.isSelectedTransductor = false
+            this.isCreatingNew = !this.isCreatingNew
+          },
+          show: () => {
+            this.isSelectedTransductor = true
+            this.isCreatingNew = false
+            this.getTransductor(id)
+          }
+        }
+        if (options[type]) options[type]()
+      },
+      getTransductors () {
         MASTER
-          .get('campi/', this.campi)
+          .get('energy-transductors/', {})
           .then(res => {
-            that.campi = res.data
-            resolve()
+            this.transductors = res.data
+
+            this.transductors.forEach((transductor) => {
+              const campusId = transductor.campus.match(/campi\/(?<campusId>\d+)/).groups.campusId
+              const transductorCampus = this.campi.find(campus => campus.id === parseInt(campusId))
+
+              const groupId = transductor.grouping[0].match(/groups\/(?<groupId>\d+)/).groups.groupId
+              const transductorGroup = this.groups.find(group => group.id === parseInt(groupId))
+
+              transductor.campus = transductorCampus.name
+              transductor.grouping = transductorGroup.name
+            })
           })
           .catch(err => {
             console.log(err)
-            resolve()
           })
-      })
-    },
-    getGroups () {
-      const that = this
-      return new Promise((resolve) => {
+      },
+      getTransductor (id) {
         MASTER
-          .get('groups/')
+          .get('energy-transductors/' + id, {})
           .then(res => {
-            that.groups = res.data
-            resolve()
+            this.transductor = res.data
+            this.isSelectedTransductor = true
           })
           .catch(err => {
             console.log(err)
-            resolve()
           })
-      })
-    },
-    getSlaves () {
-      const that = this
-      return new Promise((resolve) => {
+      },
+      putTransductor () {
+        const { id } = this.transductor
         MASTER
-          .get('slave/')
+          .put('energy-transductors/' + id + '/', this.transductor)
           .then(res => {
-            that.slaves = res.data
-            resolve()
+            this.transductor = res.data
+            this.transductors = this.transductors.map((transductor) => {
+              if (transductor.id === id) return res.data
+              return transductor
+            })
+            this.isSelectedTransductor = false
+            this.$q.notify({
+              type: 'positive',
+              message: 'Seus dados foram atualizados.'
+            })
           })
           .catch(err => {
             console.log(err)
-            resolve()
+            this.$q.notify({
+              type: 'negative',
+              message: 'Falha ao editar seus dados. Tente novamente.'
+            })
           })
-      })
+      },
+      deleteTransductor (id) {
+        MASTER
+          .delete('energy-transductors/' + id, {})
+          .then(function () {
+            this.transductors = this.transductors.filter((transductor) => transductor.id !== id)
+            this.$q.notify({
+              type: 'positive',
+              message: 'Medidor deletado com sucesso.'
+            })
+            this.isSelectedTransductor = false
+            this.transductor = {}
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      },
+      postTransductor () {
+        this.newTransductor.grouping = [this.newTransductor.grouping]
+        MASTER
+          .post('energy-transductors/', this.newTransductor)
+          .then(res => {
+            this.transductors.push(res.data)
+            this.newTransductors = {}
+            this.isCreatingNew = false
+            this.$q.notify({
+              type: 'positive',
+              message: 'Transdutor adicionado com sucesso.'
+            })
+          })
+          .catch(err => {
+            this.$q.notify({
+              type: 'negative',
+              message: 'Falha ao adicionar medidor. Tente novamente.'
+            })
+            console.log(err)
+          })
+      },
+      getCampi () {
+        const that = this
+        return new Promise((resolve) => {
+          MASTER
+            .get('campi/', this.campi)
+            .then(res => {
+              that.campi = res.data
+              resolve()
+            })
+            .catch(err => {
+              console.log(err)
+              resolve()
+            })
+        })
+      },
+      getGroups () {
+        const that = this
+        return new Promise((resolve) => {
+          MASTER
+            .get('groups/')
+            .then(res => {
+              that.groups = res.data
+              resolve()
+            })
+            .catch(err => {
+              console.log(err)
+              resolve()
+            })
+        })
+      },
+      getSlaves () {
+        const that = this
+        return new Promise((resolve) => {
+          MASTER
+            .get('slave/')
+            .then(res => {
+              that.slaves = res.data
+              resolve()
+            })
+            .catch(err => {
+              console.log(err)
+              resolve()
+            })
+        })
+      }
     }
   }
-}
 </script>
-<style>
-.container {
-  font-size             : 25px;
-  max-width             : 100vw;
-  padding               : 10px;
-}
-.transductor-info {
-  padding   : 20px;
-}
 
-.title {
-  padding-left: 20px;
-}
-
-.btn {
-  margin-top  : 24px;
-  margin-right : 25px;
-  text-align  : right;
-}
-
-.icon {
-  font-size: 20px;
-}
-
-.icon-green {
-  color: #00b341;
-}
-
-.icon-red {
-  color: #b30000;
-}
-
-.q-table__top, thead tr:first-child th {
-  background-color: #014082;
-  color: white;
-}
-
-.inputField {
-  padding-left: 10px;
-}
-
-.q-card {
-  width: 50% !important;
-}
-</style>
+<style lang="scss" scoped src='./styles.scss'/>
