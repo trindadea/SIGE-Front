@@ -1,0 +1,43 @@
+.container {
+  font-size             : 25px;
+  max-width             : 100vw;
+  padding               : 10px;
+}
+.transductor-info {
+  padding   : 20px;
+}
+
+.title {
+  padding-left: 20px;
+}
+
+.btn {
+  margin-top  : 24px;
+  margin-right : 25px;
+  text-align  : right;
+}
+
+.icon {
+  font-size: 20px;
+}
+
+.icon-green {
+  color: #00b341;
+}
+
+.icon-red {
+  color: #b30000;
+}
+
+.q-table__top, thead tr:first-child th {
+  background-color: #014082;
+  color: white;
+}
+
+.inputField {
+  padding-left: 10px;
+}
+
+.q-card {
+  width: 50% !important;
+}
