@@ -59,9 +59,9 @@ First install Docker following the instructions according to your Operational Sy
 
 After installing Docker, you can install Docker-Compose, also according to your Operational System [here](https://docs.docker.com/compose/install/).
 
-### Runnning SMI Master
+### Runnning SIGE Master
 
-If you have already lifted up [SMI Slave's API](https://gitlab.com/lappis-unb/projects/SMI/smi-slave). All you have to do is:
+If you have already lifted up [SIGE Slave's API](https://gitlab.com/lappis-unb/projects/SMI/smi-slave). All you have to do is:
 
 ``` bash
 sudo docker-compose up
@@ -79,33 +79,33 @@ and you can lift up you Master environment with:
 sudo docker-compose up
 ```
 
-And, that's it! You have SMI up and running!
+And, that's it! You have SIGE up and running!
 
 ### Team
 
 |        Member       |            E-mail            |     Contribution Period      |
 |:-------------------:|:----------------------------:|:----------------------------:|
-|   	Alax Alves    | 	alaxallves@gmail.com   	|	        19 - 20           	|
+|   Alax Alves    | 	alaxallves@gmail.com   	|	        19 - 20           	|
 |	Andre Filho	|	andre.filho001@outlook.com	|	18	-	20	|
 |	Andre Lucas de Sousa Pinto	|	andrelucax@gmail.com	|	20	-	20	|
 |	Arthur Assis	|	arthur120496@gmail.com	|	19	-	19	|
-|	Caio	|	caiooliv97@gmail.com	|	21	-	21	|
+|	Caio Oliveira de Moraes	|	caiooliv97@gmail.com	|	21	-	21	|
 |	Clarissa Borges	|	clarissalimab08@gmail.com	|	20	-	20	|
 |	Elias Bernardo	|	ebmm01@gmail.com	|	21	-	21	|
 |	Ezequiel De Oliveira	|	ezequiel1de1oliveira@gmail.com	|	20	-	20	|
-|	Gabi	|	gabrielabguedes@gmail.com	|	19	-	20	|
+|	Gabriela Barrozo Guedes	|	gabrielabguedes@gmail.com	|	19	-	20	|
 |	Guilherme Augusto	|	guilherme.francais@gmail.com	|	19	-	21	|
 |	João Vitor	|	joaovytor0@gmail.com	|	19	-	19	|
 |	Joberth Rogers	|	joberth.rogers18@gmail.com	|	20	-	20	|
 |	Larissa Sales	|	larissa.s.sales@outlook.com	|	20	-	20	|
 |	Leonardo Medeiros	|	leonardomedeiros.6@gmail.com	|	20	-	20	|
-|	lucas	|	lucasmacielaguiar@gmail.com	|	21	-	21	|
+|	Lucas Maciel Aguiar	|	lucasmacielaguiar@gmail.com	|	21	-	21	|
 |	Luciano Santos	|	luciano_z7@hotmail.com	|	21	-	21	|
 |	Mateus Nóbrega	|	mateus@nobrega.dev	|	20	-	20	|
-|	murilo-dan	|	murilo.loiola.dan@gmail.com	|	21	-	21	|
+|	Murilo Loiola Dantas|	murilo.loiola.dan@gmail.com	|	21	-	21	|
 |	Rafael Makaha	|	rafael.makaha@gmail.com	|	20	-	20	|
 |	Rafaella Junqueira	|	rafaellafjunqueira@gmail.com	|	21	-	21	|
-|	Renato Sampaio	|	renatocoral@gmail.com	|	20	-	21	|
-|	RenatoBrittoAraujo	|	renatomwbbritto@gmail.com	|	20	-	20	|
-|	Sam Buters	|	sambuters@gmail.com	|	21	-	21	|
-|	ThalissonMelo	|	tallisonmelo46@gmail.com	|	19	-	19	|
+|	Renato Coral Sampaio	|	renatocoral@gmail.com	|	20	-	21	|
+|	Renato Britto Araujo	|	renatomwbbritto@gmail.com	|	20	-	20	|
+|	Samuel de Souza Buters Pereira	|	sambuters@gmail.com	|	21	-	21	|
+|	Thalisson Melo	|	tallisonmelo46@gmail.com	|	19	-	19	|
