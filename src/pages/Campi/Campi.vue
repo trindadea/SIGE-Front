@@ -249,10 +249,9 @@ export default {
           })
         })
         .catch(err => {
-          console.log(err)
           this.$q.notify({
             type: 'negative',
-            message: 'Falha ao editar seus dados. Tente novamente.'
+            message: 'Falha ao editar seus dados. Tente novamente.\n' + err
           })
         })
     },
@@ -272,7 +271,7 @@ export default {
         .catch(err => {
           this.$q.notify({
             type: 'negative',
-            message: 'Falha ao deletar o campus. Tente novamente.'
+            message: 'Falha ao deletar o campus. Tente novamente.\n' + err
           })
         })
     },
@@ -293,7 +292,7 @@ export default {
         .catch(err => {
           this.$q.notify({
             type: 'negative',
-            message: 'Falha ao criar o campus. Tente novamente.'
+            message: 'Falha ao criar o campus. Tente novamente.\n' + err
           })
         })
     },
