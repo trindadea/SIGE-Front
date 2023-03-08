@@ -54,7 +54,6 @@
 
 <script>
 import DashConsumptionGenerationCard from './cards/DashConsumptionGenerationCard'
-import DashLast72hCard from './cards/DashLast72hCard'
 import DashChargeBarCard from './cards/DashChargeBarCard/DashChargeBarCard'
 import ReportIcon from '../ReportIcon'
 import DashLastMeasurementCard from '../DashLastMeasurementCard/DashLastMeasurementCard'
