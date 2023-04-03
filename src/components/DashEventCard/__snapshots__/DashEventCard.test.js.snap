@@ -1,0 +1,189 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DashEventCard Snapshot cardTypeStyle Teste da quando prop de estilo é card-active 1`] = `
+<div
+  class="base"
+  id="DashEventCard"
+>
+  <q-card-stub
+    class="evt-card-size card-overflow card-active"
+    flat="true"
+    tag="div"
+  >
+    <q-card-section-stub
+      class="text-center card-title"
+      tag="div"
+    >
+      <span>
+        <q-icon-stub
+          name="img:statics/ic_ocorrencia_1.svg"
+          tag="i"
+        />
+      </span>
+       
+      <strong
+        class="card-title"
+      >
+        Queda de Fase Teste
+      </strong>
+    </q-card-section-stub>
+     
+    <q-card-section-stub
+      class="text-center q-px-xs"
+      tag="div"
+    >
+      <p
+        class="q-my-xs"
+        id="DashEventCardCampus"
+      >
+        
+        Gama (FGA) - A,B,C
+      
+      </p>
+       
+      <!---->
+    </q-card-section-stub>
+  </q-card-stub>
+</div>
+`;
+
+exports[`DashEventCard Snapshot cardTypeStyle Teste da quando prop de estilo é card-active-critical 1`] = `
+<div
+  class="base"
+  id="DashEventCard"
+>
+  <q-card-stub
+    class="evt-card-size card-overflow card-active-critical"
+    flat="true"
+    tag="div"
+  >
+    <q-card-section-stub
+      class="text-center card-title"
+      tag="div"
+    >
+      <span>
+        <q-icon-stub
+          name="img:statics/ic_ocorrencia_1.svg"
+          tag="i"
+        />
+      </span>
+       
+      <strong
+        class="card-title"
+      >
+        Queda de Fase Teste
+      </strong>
+    </q-card-section-stub>
+     
+    <q-card-section-stub
+      class="text-center q-px-xs"
+      tag="div"
+    >
+      <p
+        class="q-my-xs"
+        id="DashEventCardCampus"
+      >
+        
+        Gama (FGA) - A,B,C
+      
+      </p>
+       
+      <!---->
+    </q-card-section-stub>
+  </q-card-stub>
+</div>
+`;
+
+exports[`DashEventCard Snapshot cardTypeStyle Teste da quando prop de estilo é card-active-warning 1`] = `
+<div
+  class="base"
+  id="DashEventCard"
+>
+  <q-card-stub
+    class="evt-card-size card-overflow card-active-warning"
+    flat="true"
+    tag="div"
+  >
+    <q-card-section-stub
+      class="text-center card-title"
+      tag="div"
+    >
+      <span>
+        <q-icon-stub
+          name="img:statics/ic_ocorrencia_1.svg"
+          tag="i"
+        />
+      </span>
+       
+      <strong
+        class="card-title"
+      >
+        Queda de Fase Teste
+      </strong>
+    </q-card-section-stub>
+     
+    <q-card-section-stub
+      class="text-center q-px-xs"
+      tag="div"
+    >
+      <p
+        class="q-my-xs"
+        id="DashEventCardCampus"
+      >
+        
+        Gama (FGA) - A,B,C
+      
+      </p>
+       
+      <!---->
+    </q-card-section-stub>
+  </q-card-stub>
+</div>
+`;
+
+exports[`DashEventCard Snapshot cardTypeStyle Teste da quando prop de estilo é card-inactive 1`] = `
+<div
+  class="base"
+  id="DashEventCard"
+>
+  <q-card-stub
+    class="evt-card-size card-overflow card-inactive"
+    flat="true"
+    tag="div"
+  >
+    <q-card-section-stub
+      class="text-center card-title"
+      tag="div"
+    >
+      <span>
+        <q-icon-stub
+          name="img:statics/ic_ocorrencia_1.svg"
+          tag="i"
+        />
+      </span>
+       
+      <strong
+        class="card-title"
+      >
+        Queda de Fase Teste
+      </strong>
+    </q-card-section-stub>
+     
+    <q-card-section-stub
+      class="text-center q-px-xs"
+      tag="div"
+    >
+      <p
+        class="q-my-xs"
+        id="DashEventCardCampus"
+      >
+        
+        Gama (FGA) - A,B,C
+      
+      </p>
+       
+      <!---->
+    </q-card-section-stub>
+  </q-card-stub>
+</div>
+`;

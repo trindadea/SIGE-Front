@@ -1,0 +1,34 @@
+.status-card {
+    text-align: center; 
+    margin: 10px;
+  }
+  
+  .active {
+    background-color: #06984d;
+    text-align: center;
+    padding: 10px;
+  }
+  .inactive {
+    background-color: #f13209;
+    text-align: center;
+    padding: 10px;
+  }
+  
+  .status-title {
+    font-family: Roboto;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 0.25px;
+    color: #ffffff;
+  }
+  
+  .card-content {
+    padding: 10px;
+  }
+  
+  .map-button {
+    color: $primary;
+  }
+  .campus {
+    font-size: 16px;
+  }

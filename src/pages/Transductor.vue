@@ -30,7 +30,7 @@
 <script>
 import MASTER from '../services/masterApi/http-common'
 import measurementsBox from '../components/MeasurementsBox'
-import activeBox from '../components/ActiveBox'
+import activeBox from '../components/ActiveBox/ActiveBox'
 import occurences from '../components/Occurences'
 import graph from '../components/Graph'
 import { mapGetters, mapActions } from 'vuex'

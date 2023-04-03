@@ -7,6 +7,13 @@ export function getDateNowSelectFormat (daysBeforeToday = 0) {
   return dateFormatted
 }
 
+export function getDateAndHourFormatted(date) {
+  
+  var dateUTC = new Date(date);
+
+  return `${dateUTC.toLocaleDateString('pt-BR')} às ${dateUTC.toLocaleTimeString()}`
+}
+
 export function separateInDays (event) {
   const now = new Date()
   event.eventsArray.forEach((elem) => {

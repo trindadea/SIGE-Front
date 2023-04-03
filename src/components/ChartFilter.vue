@@ -48,7 +48,7 @@
       </template>
     </q-input>
     <div class="col-1 elem">
-    <q-btn color="primary" text-color="white" label="Aplicar" class="apply-button" v-on:click="applyFilter()"/>
+    <q-btn color="primary" text-color="white" label="Aplicar" v-bind:loading="getPhaseChartLoadingStatus" lass="apply-button" v-on:click="applyFilter()"/>
     </div>
   </div>
 </template>
@@ -86,11 +86,11 @@ export default {
   },
 
   computed: {
-    ...mapGetters('transductorStore', ['filterOptions'])
+    ...mapGetters('transductorStore', ['filterOptions', 'getPhaseChartLoadingStatus'])
   },
   methods: {
     ...mapActions('transductorStore', ['updateFilter', 'updateChartPhase']),
-    filterFn (val, update, abort) {
+    filterFn (val, update) {
       update(() => {
         const needle = val.toLowerCase()
         this.options = this.filterList.filter(v => v.toLowerCase().indexOf(needle) > -1)
@@ -106,9 +106,9 @@ export default {
         endDate: this.endDate
       }
 
-      const graphOpt = await getGraph(filter)
+      const graphOptCallback = () => getGraph(filter)
       await this.updateFilter(filter)
-      await this.updateChartPhase(graphOpt)
+      await this.updateChartPhase(graphOptCallback)
     }
   }
 }

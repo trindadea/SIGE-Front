@@ -10,5 +10,7 @@ export default {
   errorStartDate: false,
   errorEndDate: false,
   serieChart: [],
-  thereIsConsumption: false
+  typeXAxisGraph: 'Hora',
+  thereIsConsumption: false,
+  isLoadingChart: false
 }

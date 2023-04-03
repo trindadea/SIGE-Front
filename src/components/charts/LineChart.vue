@@ -1,15 +1,16 @@
 <template>
-  <div>
     <div style="padding: 1.5em;" v-if="this.chartOptions.status">
       <q-no-ssr>
-        <apexcharts
-          v-if="mounted"
-          id="chart"
-          ref="chart"
-          type="line"
-          @hook:mounted="updateAnnotations"
-          :options="chartConf"
-          :series="series"/>
+        <chart-container v-bind:loadingStatus="getPhaseChartLoadingStatus">
+          <apexcharts
+            v-if="mounted"
+            id="chart"
+            ref="chart"
+            type="line"
+            @hook:mounted="updateAnnotations"
+            :options="chartConf"
+            :series="series"/>
+        </chart-container>
       </q-no-ssr>
     </div>
     <no-data-placeholder
@@ -18,17 +19,18 @@
       info="Para visualizar os dados é necessária a seleção de uma dimensão,
         assim como um intervalo de dados."
     />
-  </div>
 </template>
 
 <script>
 import noDataPlaceholder from '../NoDataPlaceHolder.vue'
 import { mapGetters } from 'vuex'
+import ChartContainer from './ChartContainer.vue'
 
 export default {
   components: {
     Apexcharts: () => import('vue-apexcharts'),
-    noDataPlaceholder: noDataPlaceholder
+    noDataPlaceholder: noDataPlaceholder,
+    ChartContainer
   },
   props: [
     'graphic_type',
@@ -135,7 +137,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('transductorStore', ['chartOptions', 'filterOptions']),
+    ...mapGetters('transductorStore', ['chartOptions', 'filterOptions', 'getPhaseChartLoadingStatus']),
     ...mapGetters('userStore', ['getPage']),
     series () {
       if (this.graphic_type === '1') {

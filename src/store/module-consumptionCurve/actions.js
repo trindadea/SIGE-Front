@@ -30,8 +30,16 @@ const clearEndDate = ({ commit }) => {
   commit('clearEndDate')
 }
 
-const updateChartSerie = ({ commit }, serie) => {
-  commit('updateChartSerie', serie)
+const updateChartSerie = async ({ commit }, serieChartCallback) => {
+  try {
+    commit('isLoadingChart', true)
+    const serieChart = await serieChartCallback()
+    commit('updateChartSerie', serieChart)
+  } catch (err) {
+    console.log(err)
+  } finally {
+    commit('isLoadingChart', false)
+  }
 }
 
 export {

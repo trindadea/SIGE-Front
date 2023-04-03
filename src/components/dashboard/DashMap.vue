@@ -189,4 +189,12 @@ export default {
       height: 53.9vh !important;
     }
   }
+
+  ::v-deep .leaflet-layer {
+    filter: invert(100%) hue-rotate(180deg) brightness(100%) contrast(85%);
+  }
+
+  .vue2leaflet-map {
+    background: #23201C;
+  }
 </style>
