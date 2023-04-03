@@ -3,7 +3,7 @@
     <div class="row justify-center q-pa-xl">
       <div class="col-9 col-lg-5 bg-white q-pa-md shadow-1">
         <q-form
-          class="q-gutter-md form-box"
+          class="q-gutter-sm form-box"
           @validation-success="register()"
           @submit.prevent>
           <div class="text-center helper-text">
@@ -21,6 +21,14 @@
             label="Email"
             lazy-rules
             :rules="[  val => val.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) || 'Insira um email válido.']"/>
+          <q-select
+            outlined
+            v-model="user_type"
+            :options="user_type_list"
+            label="Tipo do Usuário"
+            transition-show="jump-up"
+            transition-hide="jump-up"
+            class="select-input"/>
           <q-input
             outlined
             v-model="password"
@@ -58,15 +66,21 @@
 import MASTER from '../services/masterApi/http-common'
 import { mapActions } from 'vuex'
 
+import { getUserTypeLabelsList } from '../utils/userType'
+
 export default {
   name: 'Register',
   created () {
     this.changePage('Cadastro')
+
+    this.user_type_list = getUserTypeLabelsList()
+    this.user_type = this.user_type_list[0]
   },
   data () {
     return {
       fullname: '',
       email: '',
+      user_type: '',
       password: '',
       password_confirmation: ''
     }
@@ -149,5 +163,8 @@ export default {
     letter-spacing: 0.25px;
     text-align: center;
     color: rgba(0, 0, 0, 0.6);
+  }
+  .select-input {
+    margin-bottom: calc(20px + 8px);
   }
 </style>

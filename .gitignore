@@ -35,3 +35,6 @@ yarn-error.log*
 src-ssr/ssr-flag.d.ts
 src/store/store-flag.d.ts
 **/coverage/*
+
+# VSCode
+.vscode/
