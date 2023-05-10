@@ -25,7 +25,7 @@ All SIGE source code is licensed under [GPL v3](https://gitlab.com/lappis-unb/pr
 
 ### Install the dependencies
 
-Instal Yarn using [this link](https://yarnpkg.com/lang/pt-br/docs/install/#debian-stable), and:
+Instal Yarn using [this link](https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable), and:
 
 ```bash
 yarn install
