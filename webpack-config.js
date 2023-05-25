@@ -4,8 +4,5 @@ module.exports = cfg => {
     test: /\.(js|vue)$/,
     loader: 'eslint-loader',
     exclude: /node_modules/,
-    options: {
-      formatter: require('eslint').CLIEngine.getFormatter('stylish')
-    }
   })
 }
