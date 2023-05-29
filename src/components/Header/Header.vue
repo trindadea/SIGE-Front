@@ -2,10 +2,7 @@
   <q-header class="q-pa-none unb-blue" elevated>
     <q-toolbar class="text-white">
       <a href="/">
-        <q-img
-          src="statics/logo_smi_horizontal_header.svg"
-          style="height: 30px; width: 140px"
-        />
+        <img style="height: 30px; width: 140px" src="../../statics/logo_smi_horizontal_header.svg" alt="Minha Figura">
       </a>
       <q-toolbar-title class="text-bold text-center">{{
         getPage
@@ -34,7 +31,7 @@
             </div>
             <div v-else class="col text-center">
               <div class="text-bold" style="font-size: 1.3em">
-                Você não está autenticado
+                Você não está autenticado3
               </div>
               <div class="q-pa-sm">
                 <q-btn outline style="color: #0055aa" @click="goToLogin"

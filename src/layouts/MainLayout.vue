@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh Lpr lff" class="shadow-2 rounded-borders">
-    <Header />
+    <HeaderPage />
       <q-drawer
         v-model="drawer"
         show-if-above
@@ -56,7 +56,7 @@ export default {
   name: 'MainLayout',
   mixins: [logoutHelper],
   components: {
-    Header: Header
+    HeaderPage: Header
   },
 
   data () {
@@ -80,25 +80,25 @@ export default {
         },
         {
           name: 'Medidores',
-          link: '/transductor_list',
+          link: '/#/transductor_list',
           icon: 'mdi-gauge',
           separator: false
         },
         {
           name: 'Custo Total',
-          link: '/total_cost',
+          link: '/#/total_cost',
           icon: 'equalizer',
           separator: false
         },
         {
           name: 'Curva de Carga',
-          link: '/energy_consumption',
+          link: '/#/energy_consumption',
           icon: 'show_chart',
           separator: false
         },
         {
           name: 'Relatórios',
-          link: '/reports',
+          link: '/#/reports',
           icon: 'subject',
           separator: true
         }
@@ -109,7 +109,7 @@ export default {
       if (user.is_superuser) {
         this.menuItems.push({
           name: 'Gerenciar',
-          link: '/manageInstallations',
+          link: '/#/manageInstallations',
           icon: 'settings',
           separator: false
         })
@@ -117,8 +117,8 @@ export default {
 
       this.menuItems.push({
         name: 'Sobre o Projeto',
-        link: '/about',
-        icon: 'img:statics/ic_sobre.svg',
+        link: '/#/about',
+        icon: 'statics/ic_sobre.svg',
         separator: false
       })
     }

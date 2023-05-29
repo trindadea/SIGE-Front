@@ -27,22 +27,22 @@ export default {
       graphData: [
         {
           image: 'statics/Medidores.png',
-          link: '/transductor_list',
+          link: '/#/transductor_list',
           name: 'Medidores'
         },
         {
           image: 'statics/CustoTotal.png',
-          link: '/total_cost',
+          link: '/#/ttotal_cost',
           name: 'Custo Total'
         },
         {
           image: 'statics/CurvaDeCarga.png',
-          link: '/energy_consumption',
+          link: '/#/tenergy_consumption',
           name: 'Curva de Carga'
         },
         {
           image: 'statics/Relatorios.png',
-          link: '/reports',
+          link: '/#/treports',
           name: 'Relatórios'
         }
       ]

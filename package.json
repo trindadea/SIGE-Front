@@ -1,10 +1,8 @@
 {
   "name": "smi-front",
   "version": "1.0.0",
-  "description": "A Quasar Framework app",
+  "description": "A Quasar Project",
   "productName": "SIGE - Sistema de Gestão Energética",
-  "cordovaId": "org.cordova.quasar.app",
-  "capacitorId": "",
   "author": "",
   "private": true,
   "scripts": {
@@ -12,7 +10,7 @@
     "pretty": "prettier --write \"./**/*.{vue}\"",
     "test": "yarn jest --watchAll",
     "cl": "auto-changelog",
-    "start": "quasar dev -m ssr",
+    "start": "quasar dev",
     "dev": "quasar dev",
     "build": "quasar build",
     "build:ssr": "quasar build -m ssr",
@@ -20,43 +18,42 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "test:coverage": "jest --coverage"
+
   },
   "dependencies": {
-    "@babel/plugin-transform-runtime": "^7.21.4",
     "@quasar/extras": "^1.0.0",
     "apexcharts": "^3.40.0",
-    "autoprefixer": "^9.0.0",
-    "axios": "^0.21.1",
-    "core-js": "^3.6.5",
+    "axios": "^1.4.0",
+    "core-js": "^3.30.2",
     "leaflet": "^1.9.4",
-    "moment": "^2.29.4",
-    "quasar": "^2.6.0",
-    "vue": "^3.0.0",
-    "vue-router": "^4.0.0"
+    "quasar": "^1.0.0",
+    "vue-apexcharts": "^1.6.2",
+    "vue2-leaflet": "^2.7.1",
+    "vuex-persistedstate": "^4.1.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.13.14",
     "eslint": "^8.10.0",
     "eslint-plugin-vue": "^9.0.0",
-    "eslint-webpack-plugin": "^3.1.1",
+    "eslint-webpack-plugin": "^2.0.0",
     "eslint-config-prettier": "^8.1.0",
     "prettier": "^2.5.1",
-    "@quasar/app-webpack": "^3.0.0"
-  },
-  "engines": {
-    "node": ">= 14.21.3",
-    "npm": ">= 9.5.1",
-    "yarn": ">= 3.5.1"
+    "@quasar/app": "^2.0.0"
   },
   "browserslist": [
-    "last 1 version, not dead, ie >= 11"
+    "last 10 Chrome versions",
+    "last 10 Firefox versions",
+    "last 4 Edge versions",
+    "last 7 Safari versions",
+    "last 8 Android versions",
+    "last 8 ChromeAndroid versions",
+    "last 8 FirefoxAndroid versions",
+    "last 10 iOS versions",
+    "last 5 Opera versions"
   ],
-  "jest": {
-    "testPathIgnorePatterns": [
-      "**.stories.js"
-    ]
-  },
-  "resolutions": {
-    "@babel/parser": "7.21.9"
+  "engines": {
+    "node": ">= 10.18.1",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
   }
 }
