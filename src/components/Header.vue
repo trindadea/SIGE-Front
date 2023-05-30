@@ -22,7 +22,7 @@
             </div>
           </div>
           <div v-else class="col text-center">
-            <div class="text-bold" style="font-size: 1.3em">Você não está autenticado1</div>
+            <div class="text-bold" style="font-size: 1.3em">Você não está autenticado</div>
             <div class="q-pa-sm">
               <q-btn outline style="color: #0055aa;" @click="goToLogin">Login</q-btn>
             </div>
