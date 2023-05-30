@@ -9,7 +9,7 @@ export default function (ssrContext) {
         if (logged) {
           next()
         } else {
-          next('login')
+          next('/login')
         }
       },
       children: [
@@ -38,13 +38,13 @@ export default function (ssrContext) {
         const { store } = ssrContext
         const logged = store.getters['userStore/authStatus']
         if (logged) {
-          next('login')
+          next('/login')
         } else {
           next()
         }
       },
       children: [
-        { path: 'login', name: 'login', component: () => import('pages/Login.vue') },
+        { path: '/login', name: 'login', component: () => import('pages/Login.vue') },
         { path: '/register', name: 'register', component: () => import('pages/Register.vue') },
         { path: '/forgotten_password', name: 'forgotten_password', component: () => import('pages/ForgottenPassword.vue') },
         { path: '/reset_password/:token', name: 'reset_password', component: () => import('pages/ResetPassword.vue') }

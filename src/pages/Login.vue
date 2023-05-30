@@ -67,7 +67,7 @@
       </q-form>
       <div class="col-12 q-pa-md text-center">
         Não possui uma conta?
-        <a href="#/register">Cadastre-se</a>
+        <a href="/register">Cadastre-se</a>
       </div>
     </div>
   </div>
