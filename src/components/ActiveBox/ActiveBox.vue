@@ -1,9 +1,9 @@
 <template>
   <q-card class="status-card">
-    <q-card-section :class="this.active ? 'active' : 'inactive'">
+    <q-card-section :class="this.active ? 'inactive' : 'active'">
       <div class="status-title">
-        <q-icon :name="this.active ? 'flash_on' : 'flash_off'" />
-        {{ this.active ? 'Ativo' : 'Inativo' }}
+        <q-icon :name="this.active ? 'flash_off' : 'flash_on'" />
+        {{ this.active ? 'Inativo' : 'Ativo' }}
       </div>
     </q-card-section>
     <div class="card-content">
