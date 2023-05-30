@@ -32,7 +32,7 @@ export default {
         },
         {
           image: require('../statics/CustoTotal.png'),
-          link: '/ttotal_cost',
+          link: '/total_cost',
           name: 'Custo Total'
         },
         {
