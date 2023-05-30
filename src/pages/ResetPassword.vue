@@ -57,6 +57,7 @@ export default {
     return {
       password: '',
       password_confirmation: '',
+      user_type: 'general_user',
       userName: '',
       userEmail: '',
       validToken: false,

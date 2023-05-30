@@ -68,7 +68,8 @@ export default {
       fullname: '',
       email: '',
       password: '',
-      password_confirmation: ''
+      password_confirmation: '',
+      user_type: 'general'
     }
   },
   methods: {
@@ -78,7 +79,8 @@ export default {
         .post('users/', {
           email: this.email,
           password: this.password,
-          name: this.fullname
+          name: this.fullname,
+          user_type: this.user_type
         })
         .then(res => {
           console.log(res)
