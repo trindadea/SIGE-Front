@@ -34,7 +34,7 @@
           <a style="text-decoration: none" class="text-grey-10">
             <q-item clickable v-ripple @click="logout">
               <q-item-section avatar>
-                <q-icon class="icon" name="img:/statics/ic_sair.svg" />
+                <q-icon class="icon" name="mdi-exit-to-app" />
               </q-item-section>
               <q-item-section>Sair</q-item-section>
             </q-item>
@@ -118,7 +118,7 @@ export default {
       this.menuItems.push({
         name: 'Sobre o Projeto',
         link: '/about',
-        icon: 'statics/ic_sobre.svg',
+        icon: 'mdi-tooltip-text',
         separator: false
       })
     }

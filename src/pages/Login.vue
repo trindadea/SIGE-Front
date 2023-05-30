@@ -83,13 +83,6 @@ export default {
     return {
       email: '',
       password: '',
-      partners: [
-        'https://www.infoescola.com/wp-content/uploads/2016/02/unb.png',
-        'statics/logo_ceb.svg',
-        'statics/logo_aneel.svg',
-        'statics/logo_finatec@4x.svg'
-      ],
-      unbenergia: 'statics/proj_trans_l.png'
     }
   },
   methods: {

@@ -7,7 +7,7 @@
     >
       <a :href="item.link" style="text-decoration: none">
         <q-card>
-          <img :src="item.image">
+          <img :src=item.image>
           <q-card-section>
             <div class="card-text">{{ item.name }}</div>
           </q-card-section>
@@ -26,22 +26,22 @@ export default {
     return {
       graphData: [
         {
-          image: 'statics/Medidores.png',
+          image: require('../statics/Medidores.png'),
           link: '/transductor_list',
           name: 'Medidores'
         },
         {
-          image: 'statics/CustoTotal.png',
+          image: require('../statics/CustoTotal.png'),
           link: '/ttotal_cost',
           name: 'Custo Total'
         },
         {
-          image: 'statics/CurvaDeCarga.png',
+          image: require('../statics/CurvaDeCarga.png'),
           link: '/tenergy_consumption',
           name: 'Curva de Carga'
         },
         {
-          image: 'statics/Relatorios.png',
+          image: require('../statics/Relatorios.png'),
           link: '/treports',
           name: 'Relatórios'
         }
