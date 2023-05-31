@@ -3,7 +3,6 @@ const authStatus = (state) => {
 }
 
 const getUser = (state) => {
-  console.log(state)
   const user = {
     name: state.username,
     email: state.useremail,

@@ -105,7 +105,6 @@ export default {
       ]
 
       const user = this.getUser
-      console.log(user)
       if (user.is_superuser) {
         this.menuItems.push({
           name: 'Gerenciar',
