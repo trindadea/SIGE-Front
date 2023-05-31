@@ -41,7 +41,7 @@ export default {
         },
         {
           image: require('../statics/Relatorios.png'),
-          link: '/treports',
+          link: '/reports',
           name: 'Relatórios'
         }
       ]
