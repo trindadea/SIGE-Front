@@ -186,7 +186,6 @@ export default {
       MASTER
         .get('group-types/', {})
         .then(res => {
-          console.log(res.data)
           this.groupTypes = res.data
         })
         .catch(err => {
@@ -196,9 +195,8 @@ export default {
     },
     getGroupType (id) {
       MASTER
-        .get('group-types/' + id, {})
+        .get(`group-types/${id}/`, {})
         .then(res => {
-          console.log(res.data)
           this.groupType = res.data
           this.isSelectedGroupType = true
         })
@@ -209,7 +207,7 @@ export default {
     putGroupType () {
       const { id } = this.groupType
       MASTER
-        .put('group-types/' + id + '/', this.groupType)
+        .put(`group-types/${id}/`, this.groupType)
         .then(res => {
           this.groupType = res.data
           this.groupTypes = this.groupTypes.map((groupType) => {
@@ -231,7 +229,7 @@ export default {
     },
     deleteGroupType (id) {
       MASTER
-        .delete('group-types/' + id, {})
+        .delete(`group-types/${id}/`, {})
         .then(res => {
           this.groupTypes = this.groupTypes.filter((groupType) => groupType.id !== id)
           this.$q.notify({
@@ -240,7 +238,6 @@ export default {
           })
           this.isSelectedGroupType = false
           this.groupType = {}
-          console.log(res.data)
         })
         .catch(err => {
           console.log(err)

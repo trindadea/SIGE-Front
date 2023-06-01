@@ -81,7 +81,7 @@ export default {
     },
     async getUsers(user) {
       try {
-        const response = await MASTER.get('users/' + user.id + '/', {
+        const response = await MASTER.get(`users/${user.id}/`, {
           headers: {
             authorization: 'Token ' + user.token
           }

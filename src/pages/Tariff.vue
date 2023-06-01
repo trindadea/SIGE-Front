@@ -241,7 +241,7 @@ export default {
   methods: {
     getTariffs () {
       MASTER
-        .get(`campi/${this.$route.params.id}/tariffs`, {})
+        .get(`campi/${this.$route.params.id}/tariffs/`, {})
         .then(res => {
           this.tariffs = res.data
         })
@@ -347,7 +347,7 @@ export default {
     },
     getCampus () {
       MASTER
-        .get(`campi/${this.$route.params.id}`, {})
+        .get(`campi/${this.$route.params.id}/`, {})
         .then(res => {
           this.campus = res.data
         })

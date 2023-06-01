@@ -83,7 +83,6 @@ export default {
           user_type: this.user_type
         })
         .then(res => {
-          console.log(res)
           MASTER
             .post('login/', {
               email: this.email,

@@ -44,7 +44,6 @@ export default {
       MASTER
         .get('campi/', {})
         .then(res => {
-          console.log(res.data)
           this.campi = res.data
         })
         .catch(err => {

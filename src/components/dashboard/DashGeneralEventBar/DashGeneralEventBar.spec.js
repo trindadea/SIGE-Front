@@ -16,8 +16,6 @@ const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Quasar, {components})
 
-console.log(components)
-
 const store = new Vuex.Store({})
 
 const propsData = {

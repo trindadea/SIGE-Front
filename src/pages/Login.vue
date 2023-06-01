@@ -97,7 +97,6 @@ export default {
           password: this.password
         })
         .then(res => {
-          console.log(res)
           this.saveUserInfo({
             userToken: res.data.token,
             userID: res.data.user.id,

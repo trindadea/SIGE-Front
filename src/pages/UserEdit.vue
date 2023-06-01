@@ -77,13 +77,12 @@ export default {
       const that = this
       const { user } = this
       MASTER
-        .get('users/' + user.id + '/', {
+        .get(`users/${user.id}/`, {
           headers: {
             authorization: 'Token ' + user.token
           }
         })
         .then(res => {
-          console.log(res)
           that.fullname = res.data.name
           that.email = res.data.email
         })
@@ -103,8 +102,7 @@ export default {
       data.email = this.email
       data.password = this.password
       MASTER
-        .put('users/' + user.id + '/', data,
-          {
+        .put(`users/${user.id}/`, data, {
             headers: {
               authorization: 'Token ' + user.token
             }
