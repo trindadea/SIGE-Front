@@ -5,6 +5,8 @@
 node_modules
 package.json
 yarn.lock
+.yarnrc.yml
+.yarn
 
 # Quasar core related directories
 .quasar
