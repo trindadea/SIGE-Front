@@ -8,30 +8,30 @@
         />
       </a>
       <q-toolbar-title class="text-bold text-center">{{ getPage }}</q-toolbar-title>
-      <div style="padding-left: 8%">
-      <q-icon name="account_circle" class="float-right" size="sm">
-        <q-popup-edit content-class="bg-white text-black q-mr-sm q-mt-sm popup" v-model="username">
-          <div v-if="userIsLogged" class="col text-center">
-            <div class="text-bold" style="font-size:1.3em">{{ username }}</div>
-            <div>{{ useremail }}</div>
-            <div class="q-pa-sm">
-              <q-btn outline style="color: #0055aa;" @click="goToEdit">Alterar dados</q-btn>
+      <div>
+        <q-icon name="account_circle" class="float-right" size="sm">
+          <q-popup-edit content-class="bg-white text-black popup" v-model="username">
+            <div v-if="userIsLogged" class="col text-center">
+              <div class="text-bold" style="font-size:1.3em">{{ username }}</div>
+              <div>{{ useremail }}</div>
+              <div class="q-pa-sm">
+                <q-btn outline class="header-button" @click="goToEdit">Alterar dados</q-btn>
+              </div>
+              <div class="q-pa-sm">
+                <q-btn outline class="header-button" @click="logout">Sair</q-btn>
+              </div>
             </div>
-            <div class="q-pa-sm">
-              <q-btn outline style="color: #0055aa;" @click="logout">Sair</q-btn>
+            <div v-else class="col text-center">
+              <div class="text-bold" style="font-size: 1.3em">Você não está autenticado</div>
+              <div class="q-pa-sm">
+                <q-btn outline style="color: #0055aa;" @click="goToLogin">Login</q-btn>
+              </div>
+              <div class="q-pa-sm">
+                <q-btn outline style="color: #0055aa;" @click="goToRegister">Registro</q-btn>
+              </div>
             </div>
-          </div>
-          <div v-else class="col text-center">
-            <div class="text-bold" style="font-size: 1.3em">Você não está autenticado</div>
-            <div class="q-pa-sm">
-              <q-btn outline style="color: #0055aa;" @click="goToLogin">Login</q-btn>
-            </div>
-            <div class="q-pa-sm">
-              <q-btn outline style="color: #0055aa;" @click="goToRegister">Registro</q-btn>
-            </div>
-          </div>
-        </q-popup-edit>
-      </q-icon>
+          </q-popup-edit>
+        </q-icon>
       </div>
     </q-toolbar>
   </q-header>
@@ -116,8 +116,8 @@ export default {
 .unb-blue {
   background-color: rgba(0, 64, 126, 100%);
 }
-.popup {
-  min-width: '30%';
-  min-height: '10%';
+.header-button {
+  width: 150px;
+  color: #0055aa
 }
 </style>
