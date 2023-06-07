@@ -24,6 +24,9 @@ build:
   script:
     - yarn build:ssr
 
+include:
+  - template: Code-Quality.gitlab-ci.yml
+
 code_quality:
   stage: quality
   image: docker:stable
