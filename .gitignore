@@ -4,6 +4,7 @@
 # npm & yarn
 node_modules
 package.json
+package-lock.json
 yarn.lock
 .yarnrc.yml
 .yarn
