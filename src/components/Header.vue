@@ -24,10 +24,10 @@
             <div v-else class="col text-center">
               <div class="text-bold" style="font-size: 1.3em">Você não está autenticado</div>
               <div class="q-pa-sm">
-                <q-btn outline style="color: #0055aa;" @click="goToLogin">Login</q-btn>
+                <q-btn outline class="header-button" @click="goToLogin">Login</q-btn>
               </div>
               <div class="q-pa-sm">
-                <q-btn outline style="color: #0055aa;" @click="goToRegister">Registro</q-btn>
+                <q-btn outline class="header-button" @click="goToRegister">Registro</q-btn>
               </div>
             </div>
           </q-popup-edit>
