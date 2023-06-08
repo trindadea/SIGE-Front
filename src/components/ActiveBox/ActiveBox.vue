@@ -53,10 +53,10 @@ export default {
     },
     async getTransductors() {
       try {
-        const response = await MASTER.get(`/energy-transductors/${this.id}`)
+        const response = await MASTER.get(`/energy-transductors/${this.id}/`)
         if (response) {
           const { active, geolocation_latitude, geolocation_longitude, name } = response.data
-          const campusId = response.data.campus.split('/')[4] //  response.data.campus ->  http://164.41.98.3:443/campi/1/
+          const campusId = response.data.campus //  response.data.campus ->  http://164.41.98.3:443/campi/1/
           this.active = active
           this.latitude = geolocation_latitude
           this.longitude = geolocation_longitude
@@ -69,7 +69,7 @@ export default {
     },
     async getCampus() {
       try {
-        const response = await MASTER.get(`/campi/${this.campusId}`)
+        const response = await MASTER.get(`/campi/${this.campusId}/`)
         this.campusName = response.data.name
       } catch (error) {
         console.log(error)

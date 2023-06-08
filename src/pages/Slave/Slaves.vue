@@ -214,7 +214,6 @@ export default {
       MASTER
         .get('slave/', {})
         .then(res => {
-          console.log(res.data)
           this.slaves = res.data
         })
         .catch(err => {
@@ -226,7 +225,6 @@ export default {
       MASTER
         .get('slave/' + id, {})
         .then(res => {
-          console.log(res.data)
           this.slave = res.data
           this.isSelectedSlave = true
         })

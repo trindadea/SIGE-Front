@@ -1,7 +1,6 @@
 import GroupsDialog from './GroupsDialog.vue'
 import { createLocalVue, mount } from '@vue/test-utils'
 import Vuex from 'vuex'
-/* eslint import/namespace: ['error', { allowComputed: true }] */
 import Quasar, * as All from 'quasar'
 
 const components = Object.keys(All).reduce((object, key) => {

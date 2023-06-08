@@ -210,7 +210,6 @@ export default {
       MASTER
         .get('campi/', {})
         .then(res => {
-          console.log(res.data)
           this.campi = res.data
         })
         .catch(err => {
@@ -220,9 +219,8 @@ export default {
     },
     getCampus(id) {
       MASTER
-        .get('campi/' + id, {})
+        .get(`campi/${id}/`, {})
         .then(res => {
-          console.log(res.data)
           this.campus = res.data
           this.isSelectedCampus = true
         })
@@ -236,7 +234,7 @@ export default {
       }
       const { id } = this.campus
       MASTER
-        .put('campi/' + id + '/', this.campus)
+        .put(`campi/${id}/`, this.campus)
         .then(res => {
           this.campus = res.data
           this.campi = this.campi.map((campus) => {
@@ -257,7 +255,7 @@ export default {
     },
     deleteCampus(id) {
       MASTER
-        .delete('campi/' + id, {})
+        .delete(`campi/${id}/`, {})
         .then(res => {
           this.campi = this.campi.filter((campus) => campus.id !== id)
           this.$q.notify({
@@ -266,7 +264,6 @@ export default {
           })
           this.isSelectedCampus = false
           this.campus = {}
-          console.log(res.data)
         })
         .catch(err => {
           this.$q.notify({

@@ -2,11 +2,7 @@
   <q-page class="flex flex-center">
       <div class="row justify-center q-pa-md">
     <div class="col-md-4 col-lg-5 q-pa-sm">
-      <q-img
-        contain
-        :src="unbenergia"
-        style="max-height: 300px; max-width: 100%; min-width: 100px"
-      />
+      <img style="max-height: 300px; max-width: 100%; min-width: 100px" src="../statics/proj_trans_l.png" alt="Minha Figura">
       <div class="driver-text q-mb-sm">
         Projeto de Eficiência Energética CEB/FUB/FINATEC
       </div>
@@ -25,14 +21,11 @@
         bordered
       >
         <div class="row q-mb-lg q-pr-md" id="partners">
-          <div
-            v-for="partner in partners" :key="partner.id"
-            class="col-6 col-md-3">
-            <q-img
-              contain
-              :src="partner"
-              style="height: 180px;"
-            />
+          <div class="collaborators">
+            <img class="logo-unb" src="../statics/logo_unb.svg" alt="Minha Figura">
+            <img class="logo-unb" src="../statics/logo_ceb.svg" alt="Minha Figura">
+            <img class="logo-unb" src="../statics/logo_aneel.svg" alt="Minha Figura">
+            <img class="logo-unb" src="../statics/logo_finatec@4x.png" alt="Minha Figura">
           </div>
         </div>
       </span>
@@ -90,17 +83,13 @@ export default {
     return {
       email: '',
       password: '',
-      partners: [
-        'https://www.infoescola.com/wp-content/uploads/2016/02/unb.png',
-        'statics/ceb_partner.jpg',
-        'statics/logo_PED_vertical_com_sigla.png',
-        'statics/logo_finatec@3x.png'
-      ],
-      unbenergia: 'statics/proj_trans_l.png'
     }
   },
   methods: {
     ...mapActions('userStore', ['saveUserInfo', 'changePage']),
+    goToRegister() {
+      this.$router.push('/register')
+    },
     login () {
       MASTER
         .post('login/', {
@@ -178,5 +167,17 @@ export default {
     letter-spacing: 0.25px;
     text-align: center;
     color: rgba(0, 0, 0, 0.6);
+  }
+  .collaborators {
+    width: 40vw;
+    height: 7vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-top: 3%;
+  }
+  .logo-unb {
+    height: auto;
+    width: 20%;
   }
 </style>

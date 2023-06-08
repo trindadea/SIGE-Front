@@ -89,6 +89,7 @@ And, that's it! You have SIGE up and running!
 |	Andre Filho	|	andre.filho001@outlook.com	|	18	-	20	|
 |	Andre Lucas de Sousa Pinto	|	andrelucax@gmail.com	|	20	-	20	|
 |	Arthur Assis	|	arthur120496@gmail.com	|	19	-	19	|
+|   Bruno Alves Félix   |   balvesfelix@gmail.com   |   22 - 23   |
 |	Caio Oliveira de Moraes	|	caiooliv97@gmail.com	|	21	-	21	|
 |	Clarissa Borges	|	clarissalimab08@gmail.com	|	20	-	20	|
 |	Elias Bernardo	|	ebmm01@gmail.com	|	21	-	21	|

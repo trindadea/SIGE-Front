@@ -1,7 +1,6 @@
 import TotalCostFilter from './TotalCostFilter.vue'
 import { createLocalVue, mount } from '@vue/test-utils'
 import Vuex from 'vuex'
-/* eslint import/namespace: ['error', { allowComputed: true }] */
 import Quasar, * as All from 'quasar'
 import * as totalCostStore from 'src/store/module-totalCost'
 

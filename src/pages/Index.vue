@@ -1,20 +1,19 @@
 <template>
-  <q-page class="flex flex-start row q-pa-md">
-    <div
-      class="col-md-3 col-sm-6 col-lg-3 q-pa-sm"
-      v-for="item in graphData"
-      :key="item.name"
-    >
-      <a :href="item.link" style="text-decoration: none">
-        <q-card>
-          <img :src="item.image">
-          <q-card-section>
+  <section>
+    <div class="home-options-div">
+      <q-card
+        v-for="item in graphData"
+        :key="item.name"
+        class="home-options-card"
+        @click="selectHomeOption(item.link)"
+      >
+        <img :src=item.image>
+        <q-card-section>
             <div class="card-text">{{ item.name }}</div>
-          </q-card-section>
-        </q-card>
-      </a>
+        </q-card-section>
+      </q-card>      
     </div>
-  </q-page>
+  </section>
 </template>
 
 <script>
@@ -26,22 +25,22 @@ export default {
     return {
       graphData: [
         {
-          image: 'statics/Medidores.png',
+          image: require('../statics/Medidores.png'),
           link: '/transductor_list',
           name: 'Medidores'
         },
         {
-          image: 'statics/CustoTotal.png',
+          image: require('../statics/CustoTotal.png'),
           link: '/total_cost',
           name: 'Custo Total'
         },
         {
-          image: 'statics/CurvaDeCarga.png',
+          image: require('../statics/CurvaDeCarga.png'),
           link: '/energy_consumption',
           name: 'Curva de Carga'
         },
         {
-          image: 'statics/Relatorios.png',
+          image: require('../statics/Relatorios.png'),
           link: '/reports',
           name: 'Relatórios'
         }
@@ -52,21 +51,43 @@ export default {
     this.changePage('Início')
   },
   methods: {
-    ...mapActions('userStore', ['changePage'])
-  }
+    ...mapActions('userStore', ['changePage']),
+    
+    selectHomeOption(link) {
+      this.$router.push(link)
+    },
+  },
 }
 </script>
 
 <style>
+
+.home-options-div {
+  width: 100%;
+  margin-top: 100px;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.home-options-card {
+  width: 300px;
+  margin: 20px;
+
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.home-options-card:hover {
+  background-color: #f2f2f2;
+}
+
 .card-text {
-  font-family: Roboto;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 300;
-  font-stretch: normal;
-  font-style: italic;
   line-height: normal;
-  letter-spacing: normal;
   text-align: center;
-  color: rgba(0, 0, 0, 0.87);
+  color: #000000;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <Header />
+    <HeaderPage />
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -8,12 +8,12 @@
 </template>
 
 <script>
-import Header from '../components/Header/Header.vue'
+import Header from '../components/Header.vue'
 
 export default {
   name: 'AuthLayout',
   components: {
-    Header: Header
+    HeaderPage: Header
   },
   data () {
     return {}

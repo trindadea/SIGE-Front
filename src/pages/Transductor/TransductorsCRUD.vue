@@ -432,7 +432,7 @@
       },
       getTransductor (id) {
         MASTER
-          .get('energy-transductors/' + id, {})
+          .get(`energy-transductors/${id}/`, {})
           .then(res => {
             this.transductor = res.data
             this.isSelectedTransductor = true
@@ -467,7 +467,7 @@
       },
       deleteTransductor (id) {
         MASTER
-          .delete('energy-transductors/' + id, {})
+          .delete(`energy-transductors/${id}/`, {})
           .then(function () {
             this.transductors = this.transductors.filter((transductor) => transductor.id !== id)
             this.$q.notify({

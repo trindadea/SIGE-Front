@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh Lpr lff" class="shadow-2 rounded-borders">
-    <Header />
+    <HeaderPage />
       <q-drawer
         v-model="drawer"
         show-if-above
@@ -34,7 +34,7 @@
           <a style="text-decoration: none" class="text-grey-10">
             <q-item clickable v-ripple @click="logout">
               <q-item-section avatar>
-                <q-icon class="icon" name="img:/statics/ic_sair.svg" />
+                <q-icon class="icon" name="mdi-exit-to-app" />
               </q-item-section>
               <q-item-section>Sair</q-item-section>
             </q-item>
@@ -49,14 +49,14 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Header from '../components/Header/Header.vue'
+import Header from '../components/Header.vue'
 import logoutHelper from '../mixins/logoutHelper.js'
 
 export default {
   name: 'MainLayout',
   mixins: [logoutHelper],
   components: {
-    Header: Header
+    HeaderPage: Header
   },
 
   data () {
@@ -105,7 +105,6 @@ export default {
       ]
 
       const user = this.getUser
-      console.log(user)
       if (user.is_superuser) {
         this.menuItems.push({
           name: 'Gerenciar',
@@ -118,7 +117,7 @@ export default {
       this.menuItems.push({
         name: 'Sobre o Projeto',
         link: '/about',
-        icon: 'img:statics/ic_sobre.svg',
+        icon: 'mdi-tooltip-text',
         separator: false
       })
     }

@@ -131,7 +131,6 @@ export default {
       await MASTER
         .get('groups/', {})
         .then(res => {
-          console.log(res.data)
           this.groups = res.data
         })
         .catch(err => {
@@ -141,9 +140,8 @@ export default {
     },
     getGroup (id) {
       MASTER
-        .get('groups/' + id, {})
+        .get(`groups/${id}/`, {})
         .then(res => {
-          console.log(res.data)
           this.group = res.data
           this.isSelectedGroups = true
         })
@@ -154,7 +152,7 @@ export default {
     putGroup () {
       const { id } = this.group
       MASTER
-        .put('groups/' + id + '/', this.group)
+        .put(`groups/${id}/${this.group}/`)
         .then(res => {
           this.group = res.data
           this.groups = this.groups.map((group) => {
@@ -176,7 +174,7 @@ export default {
     },
     deleteGroup (id) {
       MASTER
-        .delete('groups/' + id, {})
+        .delete(`groups/${id}/`, {})
         .then(res => {
           this.groups = this.groups.filter((group) => group.id !== id)
           this.$q.notify({
@@ -185,7 +183,6 @@ export default {
           })
           this.isSelectedGroup = false
           this.group = {}
-          console.log(res.data)
         })
         .catch(err => {
           console.log(err)
