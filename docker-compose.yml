@@ -6,17 +6,17 @@ services:
     build: .
     ports:
       - 8080:8080
-    entrypoint: ["sh", "./scripts/start.sh"]
+    entrypoint: ['sh', './scripts/start.sh']
     volumes:
       - .:/smi-front
       - yarn_cache:/smi-front/node_modules
     networks:
-      - smi-network
+      - sige-network
     environment:
       - MASTER_URL=http://0.0.0.0:8001
 
 networks:
-  smi-network:
+  sige-network:
     external: true
 
 volumes:
