@@ -20,8 +20,8 @@ export default {
   name: 'TransducerAlert',
   data () {
     return {
-      serious_icon: 'img:statics/header_ocorrencia_critica_vertical.png',
-      light_icon: 'img:statics/header_ocorrencia_precaria_vertical.png'
+      serious_icon: 'img:/statics/header_ocorrencia_critica_vertical.png',
+      light_icon: 'img:/statics/header_ocorrencia_precaria_vertical.png'
     }
   },
   props: {

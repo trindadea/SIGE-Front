@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <q-img
-      src="../statics/logo_smi_horizontal.svg"
+      src="/statics/logo_smi_horizontal.svg"
       class="img q-mb-sm"
     />
 
@@ -12,17 +12,17 @@
     <div class="body-2">Fornece informações de consumo, nível de tensão, fator de potência, demanda, dentre outros. </div>
 
     <div class="collaborators">
-      <img class="logo-unb" src="../statics/logo_unb.svg">
-      <img class="logo-unb" src="../statics/logo_ceb.svg">
-      <img class="logo-unb" src="../statics/logo_aneel.svg">
-      <img class="logo-unb" src="../statics/logo_finatec@4x.png">
+      <img class="logo-unb" src="/statics/logo_unb.svg">
+      <img class="logo-unb" src="/statics/logo_ceb.svg">
+      <img class="logo-unb" src="/statics/logo_aneel.svg">
+      <img class="logo-unb" src="/statics/logo_finatec@4x.png">
     </div>
 
     <div class="created">
       <p>
         Criação:
       </p>
-      <img class="lappis-logo" src="../statics/logo_lappis.svg">
+      <img class="lappis-logo" src="/statics/logo_lappis.svg">
     </div>
   </div>
 </template>

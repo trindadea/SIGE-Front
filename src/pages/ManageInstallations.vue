@@ -59,7 +59,7 @@ export default {
           icon: 'fa-weight'
         },
         {
-          image: 'statics/Relatorios.png',
+          image: '/statics/Relatorios.png',
           link: '/tariffs',
           name: 'Tarifas'
         }

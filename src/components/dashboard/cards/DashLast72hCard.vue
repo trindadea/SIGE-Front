@@ -21,7 +21,7 @@
         :class="countCriticalEvents(last72hEvents) === 0 ? 'inactive' : ''">
         <p class="counter q-mb-none">
           {{ countCriticalEvents(last72hEvents) }}
-          <q-icon :name="countCriticalEvents(last72hEvents) > 0 ? 'img:statics/ic_ocorrencia_critica_color.svg' : 'img:statics/ic_ocorrencia_critica_mono.svg'"/>
+          <q-icon :name="countCriticalEvents(last72hEvents) > 0 ? 'img:./statics/ic_ocorrencia_critica_color.svg' : 'img:/statics/ic_ocorrencia_critica_mono.svg'"/>
         </p>
         <small class="text-center">
           Graves
@@ -32,7 +32,7 @@
         :class="countWarningEvents(last72hEvents) === 0 ? 'inactive' : ''">
         <p class="counter q-mb-none">
           {{ countWarningEvents(last72hEvents) }}
-          <q-icon :name="countWarningEvents(last72hEvents) > 0 ? 'img:statics/ic_ocorrencia_precaria_color.svg' : 'img:statics/ic_ocorrencia_precaria_mono.svg'"/>
+          <q-icon :name="countWarningEvents(last72hEvents) > 0 ? 'img:/statics/ic_ocorrencia_precaria_color.svg' : 'img:/statics/ic_ocorrencia_precaria_mono.svg'"/>
         </p>
         <small class="text-center">
           Leves

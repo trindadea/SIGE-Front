@@ -3,7 +3,7 @@
     <q-toolbar class="text-white">
       <a href="/">
         <q-img
-          src="statics/logo_smi_horizontal_header.svg"
+          src="/statics/logo_smi_horizontal_header.svg"
           style="height: 30px; width: 140px"
         />
       </a>
