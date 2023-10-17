@@ -1,32 +1,17 @@
 <template>
   <div class="map-wrapper">
-    <l-map
-      class="rounded-borders cursor-not-allowed map-dimension"
-      :bounds="mapBounds"
-      :options="mapOptions"
+    <l-map class="rounded-borders cursor-not-allowed map-dimension" :bounds="mapBounds" :options="mapOptions"
       id="region-map">
 
-      <l-tile-layer
-        :url="url"
-        :attribution="attribution"
-      />
+      <l-tile-layer :url="url" :attribution="attribution" />
 
-      <l-marker
-        v-for="transductor in transductors_points"
-        :key="transductor.id"
-        :lat-lng="transductor.coordinates">
-        <l-icon
-          :icon-size="[16, 16]">
+      <l-marker v-for="transductor in transductors_points" :key="transductor.id" :lat-lng="transductor.coordinates">
+        <l-icon :icon-size="[16, 16]">
           <img :src="transductor.img_src">
         </l-icon>
       </l-marker>
 
-      <l-line
-        v-for="line in lines"
-        :key="line.id"
-        :lat-lngs="line.coordinates"
-        :color="line.color"
-      />
+      <l-line v-for="line in lines" :key="line.id" :lat-lngs="line.coordinates" :color="line.color" />
 
     </l-map>
   </div>
@@ -62,7 +47,7 @@ export default {
     selectedTransductor: Object
   },
 
-  data () {
+  data() {
     return {
       url1: process.env,
 
@@ -90,7 +75,7 @@ export default {
   },
 
   computed: {
-    transductors_points () {
+    transductors_points() {
       const arr = []
       if (this.transductors === 0) {
         return [[], []]
@@ -127,7 +112,7 @@ export default {
 
       return arr
     },
-    lines () {
+    lines() {
       let arr = []
       arr = []
       if (this.unifilarDiagram === 0) {
@@ -144,20 +129,27 @@ export default {
 
       return arr
     },
-    mapBounds () {
+    mapBounds() {
       const arr = []
-      this.transductors.forEach((point) => {
-        const latlng = []
-        latlng.push(point.geolocation_latitude)
-        latlng.push(point.geolocation_longitude)
-        arr.push(latlng)
-      })
+      if (this.transductors.length > 0) {
+        this.transductors.forEach((point) => {
+          const latlng = []
+          latlng.push(point.geolocation_latitude)
+          latlng.push(point.geolocation_longitude)
+          arr.push(latlng)
+        })
+      } else {
+        return [
+          [-16.124765, -48.235374],
+          [-15.499674, -47.413761]
+        ];
+      }
       return arr
     }
   },
 
   methods: {
-    getColorStatus (isBroken) {
+    getColorStatus(isBroken) {
       return isBroken ? 'text-red-9' : 'text-green-9'
     }
   }
@@ -166,35 +158,35 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.map-dimension {
+  height: 53.9vh;
+}
+
+.map-wrapper {
+  padding-right: 16px;
+}
+
+@media screen and (max-width: 1440px) {
   .map-dimension {
-    height: 53.9vh;
+    height: 100% !important;
   }
+}
 
+@media screen and (max-width: 800px) {
   .map-wrapper {
-    padding-right: 16px;
+    padding-right: 0 !important;
   }
 
-  @media screen and (max-width: 1440px) {
-    .map-dimension {
-      height: 100% !important;
-    }
+  .map-dimension {
+    height: 53.9vh !important;
   }
+}
 
-  @media screen and (max-width: 800px) {
-    .map-wrapper {
-      padding-right: 0 !important;
-    }
+::v-deep .leaflet-layer {
+  filter: invert(100%) hue-rotate(180deg) brightness(100%) contrast(85%);
+}
 
-    .map-dimension {
-      height: 53.9vh !important;
-    }
-  }
-
-  ::v-deep .leaflet-layer {
-    filter: invert(100%) hue-rotate(180deg) brightness(100%) contrast(85%);
-  }
-
-  .vue2leaflet-map {
-    background: #23201C;
-  }
+.vue2leaflet-map {
+  background: #23201C;
+}
 </style>
