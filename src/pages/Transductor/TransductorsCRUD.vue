@@ -20,10 +20,10 @@
             <q-tr :props="props">
               <q-td key="campus" :props="props">{{ props.row.campus }}</q-td>
               <q-td key="name" :props="props">{{ props.row.name }}</q-td>
-              <q-td key="group" :props="props">{{ props.row.grouping }}</q-td>
+              <q-td key="group" :props="props">{{ props.row.grouping[0] }}</q-td>
               <q-td key="active" :props="props">
-                <i v-if="props.row.active" class="fas fa-bolt icon icon-green"></i>
-                <i v-else class="fas fa-bolt icon icon-green"></i>
+                <q-icon v-if="props.row.active == true" name="flash_on" size="sm" class="text-green"></q-icon>
+                <q-icon v-else name="flash_off" size="sm" class="text-red"></q-icon>
               </q-td>
               <q-td key="model" :props="props">{{ props.row.model }}</q-td>
               <q-td key="edit" :props="props">
@@ -409,24 +409,14 @@
         }
         if (options[type]) options[type]()
       },
-      getTransductors () {
-        MASTER
-          .get('energy-transductors/', {})
-          .then(res => {
+      ...mapActions('userStore', ['changePage']),
+      async getTransductors () {
+        await MASTER
+          .get('energy-transductors-list/')
+          .then((res) => {
             this.transductors = res.data
-
-            this.transductors.forEach((transductor) => {
-              const campusId = transductor.campus.match(/campi\/(?<campusId>\d+)/).groups.campusId
-              const transductorCampus = this.campi.find(campus => campus.id === parseInt(campusId))
-
-              const groupId = transductor.grouping[0].match(/groups\/(?<groupId>\d+)/).groups.groupId
-              const transductorGroup = this.groups.find(group => group.id === parseInt(groupId))
-
-              transductor.campus = transductorCampus.name
-              transductor.grouping = transductorGroup.name
-            })
           })
-          .catch(err => {
+          .catch((err) => {
             console.log(err)
           })
       },
