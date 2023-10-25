@@ -44,4 +44,4 @@ code_quality:
       "registry.gitlab.com/gitlab-org/ci-cd/codequality:$SP_VERSION" /code
   artifacts:
     paths:
-      - gl-code-quality-report.json
+      - /code/gl-code-quality-report.json
