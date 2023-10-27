@@ -10,14 +10,8 @@ services:
     volumes:
       - .:/smi-front
       - yarn_cache:/smi-front/node_modules
-    networks:
-      - sige-network
     environment:
       - MASTER_URL=http://0.0.0.0:8001
-
-networks:
-  sige-network:
-    external: true
 
 volumes:
   yarn_cache:
