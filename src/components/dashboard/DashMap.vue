@@ -86,7 +86,7 @@ export default {
       // Mark occurences in mapTrans
       this.occurences.forEach(occ => {
         occ.forEach(o => {
-          mapTrans[o.transductor] = `statics/ic_ocorrencia_${i}.svg`
+          mapTrans[o.transductor] = `/statics/ic_ocorrencia_${i}.svg`
         })
         i -= 1
       })
@@ -104,7 +104,7 @@ export default {
             id: t.id,
             name: t.name,
             coordinates: [t.geolocation_latitude, t.geolocation_longitude],
-            img_src: 'statics/ic_sem_ocorrencia.svg'
+            img_src: '/statics/ic_sem_ocorrencia.svg'
 
           })
         }

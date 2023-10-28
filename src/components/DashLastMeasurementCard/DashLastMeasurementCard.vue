@@ -70,7 +70,7 @@ export default {
 
   data() {
     return {
-      IMAGE_PATH: 'img:statics/ic_ocorrencia_',
+      IMAGE_PATH: 'img:/statics/ic_ocorrencia_',
     }
   },
 

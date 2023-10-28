@@ -2,7 +2,7 @@
   <q-page class="flex flex-center">
       <div class="row justify-center q-pa-md">
     <div class="col-md-4 col-lg-5 q-pa-sm">
-      <img style="max-height: 300px; max-width: 100%; min-width: 100px" src="../statics/proj_trans_l.png" alt="Minha Figura">
+      <img style="max-height: 300px; max-width: 100%; min-width: 100px" src="/statics/proj_trans_l.png" alt="Minha Figura">
       <div class="driver-text q-mb-sm">
         Projeto de Eficiência Energética CEB/FUB/FINATEC
       </div>
@@ -22,10 +22,10 @@
       >
         <div class="row q-mb-lg q-pr-md" id="partners">
           <div class="collaborators">
-            <img class="logo-unb" src="../statics/logo_unb.svg" alt="Minha Figura">
-            <img class="logo-unb" src="../statics/logo_ceb.svg" alt="Minha Figura">
-            <img class="logo-unb" src="../statics/logo_aneel.svg" alt="Minha Figura">
-            <img class="logo-unb" src="../statics/logo_finatec@4x.png" alt="Minha Figura">
+            <img class="logo-unb" src="/statics/logo_unb.svg" alt="Minha Figura">
+            <img class="logo-unb" src="/statics/logo_ceb.svg" alt="Minha Figura">
+            <img class="logo-unb" src="/statics/logo_aneel.svg" alt="Minha Figura">
+            <img class="logo-unb" src="/statics/logo_finatec@4x.png" alt="Minha Figura">
           </div>
         </div>
       </span>

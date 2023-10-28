@@ -30,7 +30,7 @@ export default {
     return {
       IS_ACTIVE: this.campusEvents.length !== 0,
       MAX_LOCATION_POSSIBLE: 8,
-      ICON_PATH: 'img:statics/ic_ocorrencia_',
+      ICON_PATH: 'img:/statics/ic_ocorrencia_',
       ACCEPTED_VOLTAGES: /^voltage_[aAbBcC]/,
       LOCATION_NAME_MAX_CHAR: 15
     }

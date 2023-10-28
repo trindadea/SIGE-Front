@@ -25,22 +25,22 @@ export default {
     return {
       graphData: [
         {
-          image: require('../statics/Medidores.png'),
+          image: require('../../public/statics/Medidores.png'),
           link: '/transductor_list',
           name: 'Medidores'
         },
         {
-          image: require('../statics/CustoTotal.png'),
+          image: require('../../public/statics/CustoTotal.png'),
           link: '/total_cost',
           name: 'Custo Total'
         },
         {
-          image: require('../statics/CurvaDeCarga.png'),
+          image: require('../../public/statics/CurvaDeCarga.png'),
           link: '/energy_consumption',
           name: 'Curva de Carga'
         },
         {
-          image: require('../statics/Relatorios.png'),
+          image: require('../../public/statics/Relatorios.png'),
           link: '/reports',
           name: 'Relatórios'
         }

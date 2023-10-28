@@ -1,6 +1,6 @@
 <template>
   <q-bar class="dash-bottom-bar-container">
-      <img src="statics/logo_smi.svg" style="height: 28px;"/>
+      <img src="/statics/logo_smi.svg" style="height: 28px;"/>
     <div id="alerts" >
       {{ alerts }} ocorrências em andamento
     </div>

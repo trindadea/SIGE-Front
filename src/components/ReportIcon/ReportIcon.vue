@@ -30,7 +30,7 @@ export default {
       return (occurrences.precarious_tension.length + occurrences.transductor_connection_fail.length + occurrences.slave_connection_fail.length) || 0
     },
     selectIcon (reports) {
-      const path = 'img:statics/ic_ocorrencia_'
+      const path = 'img:/statics/ic_ocorrencia_'
       const iconName = this.critical ? 'critica' : 'precaria'
       return this.countReports(reports) > 0 ? `${path}${iconName}_color.svg` : `${path}${iconName}_mono.svg`
     }
