@@ -72,8 +72,9 @@
 
           <template v-slot:body-cell-active="props">
             <q-td :props="props">
-              <q-icon v-if="props.value == 1" name="flash_on" size="sm" class="text-green"></q-icon>
-              <q-icon v-else name="flash_off" size="sm" class="text-red"></q-icon>
+              <q-icon  v-if="props.row.broken" name="flash_off" size="sm" class="text-red"></q-icon>
+              <q-icon v-else-if="props.value == 1" name="flash_on" size="sm" class="text-green"></q-icon>
+              <q-icon v-else name="flash_off" size="sm" style="color: gray"></q-icon>
             </q-td>
           </template>
           <template v-slot:no-data="{ message }">

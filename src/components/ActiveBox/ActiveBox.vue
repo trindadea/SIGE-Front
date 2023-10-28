@@ -1,9 +1,9 @@
 <template>
   <q-card class="status-card">
-    <q-card-section :class="this.active ? 'active' : 'inactive'">
+    <q-card-section :class="getStatusHeader.class">
       <div class="status-title">
-        <q-icon :name="this.active ? 'flash_on' : 'flash_off'" />
-        {{ this.active ? 'Ativo' : 'Inativo' }}
+        <q-icon :name="getStatusHeader.icon" />
+        {{ getStatusHeader.label}}
       </div>
     </q-card-section>
     <div class="card-content">
@@ -55,9 +55,10 @@ export default {
       try {
         const response = await MASTER.get(`/energy-transductors/${this.id}/`)
         if (response) {
-          const { active, geolocation_latitude, geolocation_longitude, name } = response.data
+          const { active, broken, geolocation_latitude, geolocation_longitude, name } = response.data
           const campusId = response.data.campus //  response.data.campus ->  http://164.41.98.3:443/campi/1/
           this.active = active
+          this.broken = broken
           this.latitude = geolocation_latitude
           this.longitude = geolocation_longitude
           this.name = name
@@ -74,6 +75,13 @@ export default {
       } catch (error) {
         console.log(error)
       }
+    }
+  },
+  computed: {
+    getStatusHeader() {
+      if (this.broken) return { label: 'Quebrado', icon: 'flash_off', class: 'broken' }
+      if (this.active) return { label: 'Ativo', icon: 'flash_on', class: 'active' }
+      return  { label: 'Inativo', icon: 'flash_off', class: 'inactive' }
     }
   }
 }
